@@ -1,0 +1,43 @@
+{
+    "Component": {
+        "BoxCollision": {
+            "bTrigger": true,
+            "rad": {
+                "x": 32.0,
+                "y": 32.0,
+                "z": 1.0
+            }
+        },
+        "DrawTex": {
+            "Animation": [],
+            "matTag": "SRT",
+            "path": "chara/enemy.png",
+            "rect": {
+                "height": 64,
+                "width": 64,
+                "x": 0,
+                "y": 0
+            }
+        },
+        "Enemy": null,
+        "Transform": {
+            "position": {
+                "x": -329.072998046875,
+                "y": 48.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        }
+    },
+    "ID": 139,
+    "Tag": 6
+}

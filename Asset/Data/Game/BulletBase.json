@@ -1,0 +1,42 @@
+{
+    "Component": {
+        "BoxCollision": {
+            "bTrigger": true,
+            "rad": {
+                "x": 18.0,
+                "y": 6.0,
+                "z": 1.0
+            }
+        },
+        "DrawTex": {
+            "Animation": [],
+            "matTag": "SRT",
+            "path": "Attack/Bullet.png",
+            "rect": {
+                "height": 36,
+                "width": 12,
+                "x": 0,
+                "y": 0
+            }
+        },
+        "Transform": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 1.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        }
+    },
+	"ID": 11,
+	"Tag": 0
+}

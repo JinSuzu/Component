@@ -1,0 +1,34 @@
+{
+    "Component": {
+        "DrawTex": {
+            "Animation": [],
+            "matTag": "SRT",
+            "path": "Loading.png",
+            "rect": {
+                "height": 150,
+                "width": 800,
+                "x": 0,
+                "y": 0
+            }
+        },
+        "Transform": {
+            "position": {
+                "x": 158.0,
+                "y": -323.0,
+                "z": 1.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 0.5,
+                "y": 0.5,
+                "z": 1.0
+            }
+        }
+    },
+    "ID": 10,
+    "Tag": 0
+}

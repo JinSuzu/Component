@@ -1,0 +1,41 @@
+{
+    "Component": {
+        "AddRotation": {
+            "addPow": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 1.0
+            }
+        },
+        "DrawTex": {
+            "Animation": [],
+            "matTag": "RST",
+            "path": "MagicCircle.png",
+            "rect": {
+                "height": 1028,
+                "width": 1028,
+                "x": 0,
+                "y": 0
+            }
+        },
+        "Transform": {
+            "position": {
+                "x": 329.0,
+                "y": -265.0,
+                "z": 1.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 199.0
+            },
+            "scale": {
+                "x": 0.6499999761581421,
+                "y": 0.10000000149011612,
+                "z": 0.0
+            }
+        }
+    },
+    "ID": 26,
+    "Tag": 0
+}

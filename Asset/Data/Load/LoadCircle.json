@@ -1,0 +1,39 @@
+{
+    "Component": {
+        "AddRotation": {
+            "addPow": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -1.0
+            }
+        },
+        "DrawTex": {
+            "Animation": [],
+            "path": "MagicCircle.png",
+            "rect": {
+                "height": 1028,
+                "width": 1028,
+                "x": 0,
+                "y": 0
+            }
+        },
+        "Transform": {
+            "position": {
+                "x": 566.0,
+                "y": -285.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -129.0
+            },
+            "scale": {
+                "x": 0.15000000596046448,
+                "y": 0.15000000596046448,
+                "z": 0.0
+            }
+        }
+    },
+    "ID": 26
+}

@@ -1,0 +1,34 @@
+{
+    "Component": {
+        "DrawTex": {
+            "Animation": [],
+            "matTag": "SRT",
+            "path": "ArrowBord.png",
+            "rect": {
+                "height": 210,
+                "width": 775,
+                "x": 0,
+                "y": 0
+            }
+        },
+        "Transform": {
+            "position": {
+                "x": -330.0,
+                "y": -342.5,
+                "z": 1.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 0.18000000715255737,
+                "y": 0.17000000178813934,
+                "z": 1.0
+            }
+        }
+    },
+    "ID": 10,
+    "Tag": 0
+}
