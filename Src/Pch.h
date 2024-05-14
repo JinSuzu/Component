@@ -142,6 +142,8 @@ static std::string PickName(std::string str, const char separator = ' ')
 	return out[1];
 }
 
+static const char* JpText(const char8_t* _text) { return (const char*)_text; }
+
 Math::Vector3 JsonToVec3(nlohmann::json _value);
 Math::Vector2 JsonToVec2(nlohmann::json _value);
 Math::Rectangle JsonToRect(nlohmann::json _value);

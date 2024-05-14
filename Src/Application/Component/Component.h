@@ -21,11 +21,10 @@ class Component
 	:public std::enable_shared_from_this<Component>
 {
 public:
-	Component() 
-	{}
+	Component() {}
 	virtual	~Component() {}
 
-	virtual void Start() {};
+	virtual void Start() {}
 
 	virtual void Draw() {}
 
@@ -44,18 +43,22 @@ public:
 
 	virtual bool CheckTag(std::string _tag)	final	{return m_tag == _tag;}
 
-	//Josn係
+	//Json係
 	virtual void InitJson();
 	virtual nlohmann::json GetJson() { return nlohmann::json(); };
 
 protected:
 	std::weak_ptr<Object>					m_owner;
-	nlohmann::json							m_jsonData;
+
+	bool									m_bDestroy = false;
+	bool									m_bActive  = true;
 
 	std::shared_ptr<std::function<void()>>	m_spDraw2D;
 	std::shared_ptr<std::function<void()>>	m_spUpdate;
 
 	std::string m_tag;
+
+	nlohmann::json							m_jsonData;
 };			
 
 #define PRESET \
@@ -66,40 +69,6 @@ void PostUpdate()override;							\
 void ImGuiUpdate()override;							\
 void InitJson()override;							\
 nlohmann::json GetJson()override;
-
-/*
-#define GENCOMPONENTLIST(NAME)													\
-class NAME##List																\
-{																				\
-public:																			\
-	void Set(std::weak_ptr<Cp_##NAME> _add) { list.push_back(_add); }			\
-	std::list<std::weak_ptr<Cp_##NAME>>& Get() { return list; }					\
-private:																		\
-	std::list<std::weak_ptr<Cp_##NAME>>list;									\
-private:																		\
-	NAME##List() {}																\
-public:																			\
-	static NAME##List& Instance()												\
-	{																			\
-		static NAME##List inst;													\
-		return inst;															\
-	}\
-};
-
-#define FNTURN(_fnList,arg)				\
-auto fn = _fnList.begin();				\
-while (fn != _fnList.end())				\
-{										\
-	if ((*fn).lock().get() == nullptr)	\
-	{									\
-		fn = _fnList.erase(fn);			\
-		continue;						\
-	}									\
-										\
-	(*fn).lock()->operator()(arg);		\
-	fn++;								\
-}
-*/
 
 template<class T>
 class ComponentFactoryList {

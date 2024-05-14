@@ -409,9 +409,8 @@ void Application::ImGuiUpdate()
 	//ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiSetCond_Once);
 	//ImGui::SetNextWindowSize(ImVec2(500, 300), ImGuiSetCond_Once);
 	// デバッグウィンドウ
-
+	
 	ImGui::ShowDemoWindow(nullptr);
-
 	if (ImGui::Begin("Debug Window"))
 	{
 

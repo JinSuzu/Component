@@ -2,11 +2,21 @@
 #include "../../Component/AllComponentIncluder.h"
 #include "../Object.h"
 
-#define ITERATOR(x) for (auto&& it : x)if(it.get() != nullptr)it->
+#define ITERATOR(x)				\
+for (auto&& it : m_obList)		\
+{								\
+	if(it.get() != nullptr)		\
+	{							\
+		if (it->GetActive())	\
+		{						\
+			it->x();			\
+		}						\
+	}							\
+}
 
 void ObjectManager::Draw()
 {
-	ITERATOR(m_obList)Draw();
+	ITERATOR(Draw)
 }
 
 void ObjectManager::PreUpdate()
@@ -14,19 +24,19 @@ void ObjectManager::PreUpdate()
 	auto it = m_obList.begin();
 	for (; it != m_obList.end();)
 	{
-		if (it->get() == nullptr || !(*it)->GetActive())
+		if (it->get() == nullptr || (*it)->GetDestroy())
 		{
 			it = m_obList.erase(it);
 			continue;
 		}
-		(*it)->PreUpdate();
+		if ((*it)->GetActive())(*it)->PreUpdate();
 		it++;
 	}
 }
 
 void ObjectManager::Update() {
 
-	ITERATOR(m_obList)Update();
+	ITERATOR(Update);
 
 	auto it = COMPONENTLISTINSTANCE(BoxCollision).Get().begin();
 	while (it != COMPONENTLISTINSTANCE(BoxCollision).Get().end())
@@ -63,7 +73,7 @@ void ObjectManager::Update() {
 
 void ObjectManager::PostUpdate()
 {
-	ITERATOR(m_obList)PostUpdate();
+	ITERATOR(PostUpdate)
 }
 
 void ObjectManager::ImGuiUpdate()

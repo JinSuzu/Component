@@ -57,15 +57,18 @@ public:
 
 	std::list<std::shared_ptr<Component>>& GetComponentList() { return m_cpList; }
 
-	bool GetActive() const { return m_bActive; }
-	void SetActive(bool _active) { m_bActive = _active; }
+	bool GetActive() const			{ return m_bActive; }
+	void SetActive(bool _active)	{ m_bActive = _active; }
+
+	void Destroy()			{ m_bDestroy = true; }
+	bool GetDestroy() const	{ return m_bDestroy; }
 
 	std::string GetName() { return m_name; };
 	ObjectTag GetTag() const { return m_tag; };
 
 	std::weak_ptr<Cp_Transform>GetspTransform();
 
-	void Destroy()		{ m_bDestroy = false; }
+
 	void SetTag(ObjectTag _tag) { m_tag = _tag; };
 
 	//Fn(ComponentID::'ID')
