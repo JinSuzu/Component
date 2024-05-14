@@ -3,16 +3,20 @@
 
 #include "../Transform/Transform.h"
 
-void Cp_BoxCollision::Start(std::weak_ptr<Object> _owner)
+void Cp_BoxCollision::Start()
 {
-	Component::Start(_owner);
-	m_wpTransform = _owner.lock()->GetspTransform();
+	m_wpTransform = m_owner.lock()->GetspTransform();
 	COMPONENTLISTINSTANCE(BoxCollision).Set(std::static_pointer_cast<Cp_BoxCollision>(shared_from_this()));
 
-	if (Json.is_object())
+}
+
+void Cp_BoxCollision::InitJson()
+{
+	Component::InitJson();
+	if (m_jsonData.is_object())
 	{
-		m_rad = JsonToVec3(Json["rad"]);
-		m_bTrigger = Json["bTrigger"];
+		m_rad = JsonToVec3(m_jsonData["rad"]);
+		m_bTrigger = m_jsonData["bTrigger"];
 	}
 }
 
@@ -55,9 +59,9 @@ void Cp_BoxCollision::ImGuiUpdate()
 
 nlohmann::json Cp_BoxCollision::GetJson()
 {
-	Json["rad"] = Vec3ToJson(m_rad);
-	Json["bTrigger"] = m_bTrigger;
-	return Json;
+	m_jsonData["rad"] = Vec3ToJson(m_rad);
+	m_jsonData["bTrigger"] = m_bTrigger;
+	return m_jsonData;
 }
 
 

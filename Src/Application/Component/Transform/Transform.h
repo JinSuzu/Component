@@ -8,8 +8,8 @@ public:
 	Cp_Transform() {}
 	~Cp_Transform() {}
 
-	void Start(std::weak_ptr<Object> _owner)override;
-	void Update()override;
+	void InitJson()override;
+
 	void ImGuiUpdate()override;
 	nlohmann::json GetJson();
 

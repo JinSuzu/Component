@@ -7,19 +7,22 @@
 #include "../../Utility/Timer.h"
 
 
-void Cp_DrawTex::Start(std::weak_ptr<Object> _owner)
+void Cp_DrawTex::Start()
 {
-	Component::Start(_owner);
-	m_wpTrans = _owner.lock()->GetspTransform();
-	
-	if (Json.is_object())
+	m_wpTrans = m_owner.lock()->GetspTransform();
+}
+
+void Cp_DrawTex::InitJson()
+{
+	Component::InitJson();
+	if (m_jsonData.is_object())
 	{
-		m_path = Json["path"];
+		m_path = m_jsonData["path"];
 		m_tex = AssetManager::Instance().GetKdTexture(m_path);
-		m_rect = JsonToRect(Json["rect"]);
-		if (Json["Animation"].is_array())
+		m_rect = JsonToRect(m_jsonData["rect"]);
+		if (m_jsonData["Animation"].is_array())
 		{
-			for (auto&& it : Json["Animation"])
+			for (auto&& it : m_jsonData["Animation"])
 			{
 				m_animeMap[it["tag"]] = AnimeSet();
 				m_animeMap[it["tag"]].Init(it);
@@ -27,7 +30,7 @@ void Cp_DrawTex::Start(std::weak_ptr<Object> _owner)
 				m_nowAnime = it["tag"];
 			}
 		}
-		m_matTag = Json["matTag"];
+		m_matTag = m_jsonData["matTag"];
 	}
 }
 
@@ -89,12 +92,12 @@ void Cp_DrawTex::ImGuiUpdate()
 
 nlohmann::json Cp_DrawTex::GetJson()
 {
-	Json["path"] = m_path;
-	Json["rect"] = RectToJson(m_rect);
-	Json["Animation"] = nlohmann::json::array();
-	for (auto&& it : m_animeMap)Json["Animation"].push_back(GetAnimeJson(it.first, it.second));
-	Json["matTag"] = m_matTag;
-	return Json;
+	m_jsonData["path"] = m_path;
+	m_jsonData["rect"] = RectToJson(m_rect);
+	m_jsonData["Animation"] = nlohmann::json::array();
+	for (auto&& it : m_animeMap)m_jsonData["Animation"].push_back(GetAnimeJson(it.first, it.second));
+	m_jsonData["matTag"] = m_matTag;
+	return m_jsonData;
 }
 
 nlohmann::json Cp_DrawTex::GetAnimeJson(std::string _tag,AnimeSet _set)

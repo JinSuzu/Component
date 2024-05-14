@@ -106,15 +106,6 @@
     <Filter Include="Src\Application\Component\AddRotation">
       <UniqueIdentifier>{f4b531b4-6afa-4776-bf68-248e53527bfc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\Component\Bullet">
-      <UniqueIdentifier>{e7c97202-e53d-467e-a6de-a84e70e7cc8e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\Component\PlayerCircle">
-      <UniqueIdentifier>{3b9aa22c-85e1-4c2a-b9ca-1ad9ae152600}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\Component\Enemy">
-      <UniqueIdentifier>{418ef70a-f6e4-4534-b51d-a412e8f7d2e5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -444,15 +435,6 @@
     <ClInclude Include="Src\Application\Component\AddRotation\AddRotaion.h">
       <Filter>Src\Application\Component\AddRotation</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Component\PlayerCircle\PlayerCircle.h">
-      <Filter>Src\Application\Component\PlayerCircle</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\Component\Bullet\Bullet.h">
-      <Filter>Src\Application\Component\Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\Component\Enemy\Enemy.h">
-      <Filter>Src\Application\Component\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\Component\BoxCollision\BoxCollision.h">
       <Filter>Src\Application\Component\BoxCollision</Filter>
     </ClInclude>
@@ -619,15 +601,6 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Component\AddRotation\AddRotaion.cpp">
       <Filter>Src\Application\Component\AddRotation</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Component\PlayerCircle\PlayerCircle.cpp">
-      <Filter>Src\Application\Component\PlayerCircle</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Component\Bullet\Bullet.cpp">
-      <Filter>Src\Application\Component\Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Component\Enemy\Enemy.cpp">
-      <Filter>Src\Application\Component\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

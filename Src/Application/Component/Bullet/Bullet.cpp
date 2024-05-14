@@ -12,7 +12,7 @@ void Cp_Bullet::Start(std::weak_ptr<Object> _owner)
 	m_swTrans = _owner.lock()->GetspTransform();
 
 	auto Fn = [&](ObjectTag _it) {TriggerFn(_it); };
-	_owner.lock()->WorkComponent<Cp_BoxCollision>().lock()
+	_owner.lock()->GetComponent<Cp_BoxCollision>().lock()
 		//->PushTriggerFn(std::bind(&Cp_Bullet::TriggerFn, this, std::placeholders::_1));
 		->PushTriggerFn(Fn);
 }

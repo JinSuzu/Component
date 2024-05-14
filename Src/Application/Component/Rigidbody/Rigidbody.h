@@ -5,7 +5,9 @@ class Cp_Rigidbody
 	:public Component
 {
 public:
-	void Start(std::weak_ptr<Object> _owner)override; 
+	void Start()override; 
+	void InitJson()override;
+
 	void PreUpdate()override;
 	void Update()override;
 	//void PostUpdate()override;

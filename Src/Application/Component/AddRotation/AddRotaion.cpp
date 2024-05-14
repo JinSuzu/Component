@@ -2,14 +2,17 @@
 #include "../../Object/Object.h"
 #include "../Transform/Transform.h"
 
-void Cp_AddRotation::Start(std::weak_ptr<Object> _owner)
+void Cp_AddRotation::Start()
 {
-	Component::Start(_owner);
-	m_wpTans = _owner.lock()->GetspTransform();
+	m_wpTans = m_owner.lock()->GetspTransform();
+}
 
-	if (Json.is_object())
+void Cp_AddRotation::InitJson()
+{
+	Component::InitJson();
+	if (m_jsonData.is_object())
 	{
-		m_addPow = JsonToVec3(Json["addPow"]);
+		m_addPow = JsonToVec3(m_jsonData["addPow"]);
 	}
 }
 

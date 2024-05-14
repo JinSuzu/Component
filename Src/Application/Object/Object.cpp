@@ -40,7 +40,9 @@ void Object::Init(std::string _name)
 		file >> m_jsonData;
 	}
 
-	AddComponent(ComponentID::Transform);
+	m_trans = std::make_shared<Cp_Transform>();
+	m_trans->SetOwner(weak_from_this());
+	m_trans->InitJson();
 
 	if (file.is_open())
 	{
@@ -51,10 +53,16 @@ void Object::Init(std::string _name)
 
 void Object::ImGuiUpdate()
 {
-	if (!m_bActive)return;
-
+	//AddComponent追加予定
 	if (ImGui::TreeNode(m_name.c_str()))
 	{
+		ImGui::SetNextTreeNodeOpen(true, ImGuiSetCond_Once);
+		if (ImGui::TreeNode("Transform"))
+		{
+			m_trans->ImGuiUpdate();
+			ImGui::TreePop();
+		}
+
 		for (auto&& it : m_cpList)
 		{
 			ImGui::SetNextTreeNodeOpen(true, ImGuiSetCond_Once);
@@ -76,40 +84,27 @@ std::weak_ptr<Cp_Transform> Object::GetspTransform()
 
 void Object::AddComponent(unsigned int _id)
 {
-	if (m_compoID & _id)return;
-	m_compoID = m_compoID | _id;
-
 	auto addCp = ObjectManager::Instance().ToComponent(_id);
+
 	addCp->SetTag(ObjectManager::Instance().ToTag(_id));
+	addCp->SetOwner(weak_from_this());
+
 	m_cpList.push_back(std::shared_ptr<Component>(addCp));
-	addCp->Start(weak_from_this());
+
+	addCp->SetOwner(weak_from_this());
+	addCp->InitJson();
+	addCp->Start();
 }
 
 void Object::AddComponent(Component* _addCp)
 {
 	unsigned int id = ObjectManager::Instance().ToID(typeid(*_addCp).name());
-	if (m_compoID & id) 
-	{
-		delete _addCp;
-		return;
-	}
 
-
-	m_compoID = m_compoID | id;
-	_addCp->SetTag(ObjectManager::Instance().ToTag(id));
 	m_cpList.push_back(std::shared_ptr<Component>(_addCp));
-	_addCp->Start(weak_from_this());
-}
-
-bool Object::CheckID(unsigned int _id)const
-{
-	return m_compoID | _id;
-}
-
-bool Object::CheckIDs(unsigned int _id)const
-{
-	unsigned int search = m_compoID | _id;
-	return m_compoID == search;
+	_addCp->SetOwner(weak_from_this());
+	_addCp->InitJson();
+	_addCp->SetTag(ObjectManager::Instance().ToTag(id));
+	_addCp->Start();
 }
 
 void Object::AddComponents(unsigned int _id)
@@ -123,7 +118,17 @@ void Object::AddComponents(unsigned int _id)
 
 		AddComponent(search);
 	}
+}
 
+bool Object::CheckID(unsigned int _id)const
+{
+	return m_compoID | _id;
+}
+
+bool Object::CheckIDs(unsigned int _id)const
+{
+	unsigned int search = m_compoID | _id;
+	return m_compoID == search;
 }
 
 std::shared_ptr<Component> Object::SearchTag(std::string _tag)
@@ -132,6 +137,19 @@ std::shared_ptr<Component> Object::SearchTag(std::string _tag)
 	while (it != m_cpList.end() && !(*it)->CheckTag(PickName(_tag,'_'))) { it++; }
 
 	return  *it;
+}
+
+std::list<std::shared_ptr<Component>> Object::SearchTags(std::string _tag)
+{
+	auto&& it = m_cpList.begin();
+	std::list<std::shared_ptr<Component>> list;
+	while (it != m_cpList.end())
+	{
+		if((*it)->CheckTag(PickName(_tag, '_')))list.push_back(*it);
+		it++;
+	}
+
+	return list;
 }
 
 void Object::Release()

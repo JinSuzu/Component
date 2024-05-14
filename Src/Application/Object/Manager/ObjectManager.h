@@ -19,7 +19,7 @@ public:
 	void ImGuiUpdate();
 
 	void Init();
-	void Relese();
+	void Release();
 
 	std::shared_ptr<Component> ToComponent(unsigned int _id);
 	std::string ToTag(unsigned int _id);

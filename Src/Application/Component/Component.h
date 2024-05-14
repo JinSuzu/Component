@@ -13,11 +13,8 @@ enum ComponentID
 
 	//依存コンポ
 	AddRotation				= 1 << 4,
-	Bullet					= 1 << 5,
-	PlayerCircle 			= 1 << 6,
-	Enemy 					= 1 << 7,
 
-	MaxID					= 1 << 8,
+	MaxID					= 1 << 5,
 };
 
 class Component
@@ -28,7 +25,7 @@ public:
 	{}
 	virtual	~Component() {}
 
-	virtual void Start(std::weak_ptr<Object> _owner);
+	virtual void Start() {};
 
 	virtual void Draw() {}
 
@@ -38,19 +35,22 @@ public:
 
 	virtual void ImGuiUpdate() {}
 
-	virtual std::weak_ptr<Object>GetOwner() final	{ return m_owner; }
+	virtual std::weak_ptr<Object> GetOwner() final	{ return m_owner; }
+	virtual void SetOwner(std::weak_ptr<Object> _object) final	{ m_owner = _object; }
+
+
 	virtual std::string GetTag()final				{ return m_tag; }
 	virtual void SetTag(std::string _tag)   final	{ m_tag = _tag; }
-	virtual bool CheckTag(std::string _tag)	final
-	{
-		return m_tag == _tag;
-	}
 
-	virtual nlohmann::json GetJson() = 0;
+	virtual bool CheckTag(std::string _tag)	final	{return m_tag == _tag;}
+
+	//Josn係
+	virtual void InitJson();
+	virtual nlohmann::json GetJson() {};
 
 protected:
 	std::weak_ptr<Object>					m_owner;
-	nlohmann::json							Json;
+	nlohmann::json							m_jsonData;
 
 	std::shared_ptr<std::function<void()>>	m_spDraw2D;
 	std::shared_ptr<std::function<void()>>	m_spUpdate;
@@ -59,11 +59,12 @@ protected:
 };			
 
 #define PRESET \
-void Start(std::weak_ptr<Object> _owner)override;	\
+void Start()override;	\
 void PreUpdate()override;							\
 void Update()override;								\
 void PostUpdate()override;							\
 void ImGuiUpdate()override;							\
+void InitJson()override;							\
 nlohmann::json GetJson()override;
 
 /*

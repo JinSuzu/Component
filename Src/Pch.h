@@ -48,6 +48,8 @@
 #include <mutex>
 #include <future>
 #include <filesystem>
+#include <typeinfo>
+#include <typeindex>
 
 //===============================================
 //

@@ -12,8 +12,8 @@
             "matTag": "RST",
             "path": "MagicCircle.png",
             "rect": {
-                "height": 1028,
-                "width": 1028,
+                "height": 1120010240,
+                "width": 0,
                 "x": 0,
                 "y": 0
             }
@@ -36,6 +36,6 @@
             }
         }
     },
-    "ID": 26,
+    "ID": 0,
     "Tag": 0
 }

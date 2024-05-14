@@ -8,7 +8,7 @@ void Cp_Enemy::Start(std::weak_ptr<Object> _owner)
 	Component::Start(_owner);
 	_owner.lock()->SetTag(ObjectTag::Enemy);
 
-	_owner.lock()->WorkComponent<Cp_BoxCollision>().lock()
+	_owner.lock()->GetComponent<Cp_BoxCollision>().lock()
 		->PushTriggerFn([&](ObjectTag _tag) {TriggerFn(_tag); });
 }
 

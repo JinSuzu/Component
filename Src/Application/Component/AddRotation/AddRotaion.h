@@ -7,7 +7,9 @@ class Cp_AddRotation
 	:public Component
 {
 public:
-	void Start(std::weak_ptr<Object> _owner)override; 
+	void Start()override; 
+	void InitJson()override;
+
 	void Update()override;
 	void ImGuiUpdate()override;
 

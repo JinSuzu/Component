@@ -28,7 +28,8 @@ public:
 	{}
 	~Cp_DrawTex() {}
 
-	void Start(std::weak_ptr<Object> _owner)override;
+	void Start()override;
+	void InitJson()override;
 
 	void Draw()override;
 	void Update()override;

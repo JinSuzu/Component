@@ -1,19 +1,17 @@
 ﻿#include "Transform.h"
 #include "../../Object/Object.h"
 
-void Cp_Transform::Start(std::weak_ptr<Object> _owner)
+void Cp_Transform::InitJson()
 {
-	Component::Start(_owner);
-	if (Json.is_object())
+	Component::InitJson();
+	if (m_jsonData.is_object())
 	{
-		m_position = JsonToVec3(Json["position"]);
-		m_rotation = JsonToVec3(Json["rotation"]);
-		m_scale = JsonToVec3(Json["scale"]);
+		m_position = JsonToVec3(m_jsonData["position"]);
+		m_rotation = JsonToVec3(m_jsonData["rotation"]);
+		m_scale = JsonToVec3(m_jsonData["scale"]);
 	}
 }
-void Cp_Transform::Update()
-{
-}
+
 void Cp_Transform::ImGuiUpdate()
 {
 	float vol1[3]TOARRAY3(m_position);
@@ -31,11 +29,11 @@ void Cp_Transform::ImGuiUpdate()
 
 nlohmann::json Cp_Transform::GetJson()
 {
-	Json["position"]	= Vec3ToJson(m_position);
-	Json["rotation"]	= Vec3ToJson(m_rotation);
-	Json["scale"]		= Vec3ToJson(m_scale);
+	m_jsonData["position"]	= Vec3ToJson(m_position);
+	m_jsonData["rotation"]	= Vec3ToJson(m_rotation);
+	m_jsonData["scale"]		= Vec3ToJson(m_scale);
 
-	return Json;
+	return m_jsonData;
 }
 
 Math::Matrix Cp_Transform::GetMatrix(std::string _tag)

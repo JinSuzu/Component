@@ -2,13 +2,18 @@
 #include "../../Object/Object.h"
 #include "../Transform/Transform.h"
 
-void Cp_Rigidbody::Start(std::weak_ptr<Object> _owner)
+void Cp_Rigidbody::Start()
 {
-	Component::Start(_owner);
-	if (Json.is_object())
+
+}
+
+void Cp_Rigidbody::InitJson()
+{
+	Component::InitJson();
+	if (m_jsonData.is_object())
 	{
-		m_move = JsonToVec3(Json["move"]);
-		m_gravity = JsonToVec3(Json["gravity"]);
+		m_move = JsonToVec3(m_jsonData["move"]);
+		m_gravity = JsonToVec3(m_jsonData["gravity"]);
 	}
 }
 
@@ -36,7 +41,7 @@ void Cp_Rigidbody::ImGuiUpdate()
 
 nlohmann::json Cp_Rigidbody::GetJson()
 {
-	Json["move"]	= Vec3ToJson(m_move);
-	Json["gravity"] = Vec3ToJson(m_gravity);
-	return Json;
+	m_jsonData["move"]	= Vec3ToJson(m_move);
+	m_jsonData["gravity"] = Vec3ToJson(m_gravity);
+	return m_jsonData;
 }

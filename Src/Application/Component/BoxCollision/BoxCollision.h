@@ -10,7 +10,8 @@ public:
 	Cp_BoxCollision() {}
 	~Cp_BoxCollision() {}
 	
-	void Start(std::weak_ptr<Object> _owner)override;
+	void Start()override;
+	void InitJson()override;
 
 	void PreUpdate()override;
 	void Update()override;

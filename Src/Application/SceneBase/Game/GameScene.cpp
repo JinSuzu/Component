@@ -37,7 +37,4 @@ void C_GameScene::LoadContent()
 	ObjectManager::Instance().CreateObject("Game/PlayerCircle");
 	ObjectManager::Instance().CreateObject("Game/Recycle");
 	ObjectManager::Instance().CreateObject("Game/ArrowBord");
-
-	for (int i = 0; i < 50;i++)ObjectManager::Instance().CreateObject("Game/EnemyBase")
-		->AddComponent(ComponentID::Enemy);
 }
