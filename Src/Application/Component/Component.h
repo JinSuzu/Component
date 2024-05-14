@@ -46,7 +46,7 @@ public:
 
 	//Josn係
 	virtual void InitJson();
-	virtual nlohmann::json GetJson() {};
+	virtual nlohmann::json GetJson() { return nlohmann::json(); };
 
 protected:
 	std::weak_ptr<Object>					m_owner;

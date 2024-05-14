@@ -1,34 +1,5 @@
 {
-    "Component": {
-        "DrawTex": {
-            "Animation": [],
-            "matTag": "SRT",
-            "path": "HBack.png",
-            "rect": {
-                "height": 64,
-                "width": 64,
-                "x": 0,
-                "y": 0
-            }
-        },
-        "Transform": {
-            "position": {
-                "x": 0.0,
-                "y": 24.0,
-                "z": 1.0
-            },
-            "rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "scale": {
-                "x": 0.5,
-                "y": 11.0,
-                "z": 1.0
-            }
-        }
-    },
+    "Component": null,
     "ID": 0,
     "Tag": 0
 }

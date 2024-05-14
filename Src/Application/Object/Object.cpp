@@ -56,7 +56,7 @@ void Object::ImGuiUpdate()
 	//AddComponent追加予定
 	if (ImGui::TreeNode(m_name.c_str()))
 	{
-		ImGui::SetNextTreeNodeOpen(true, ImGuiSetCond_Once);
+		//ImGui::SetNextTreeNodeOpen(true, ImGuiSetCond_Once);
 		if (ImGui::TreeNode("Transform"))
 		{
 			m_trans->ImGuiUpdate();
@@ -65,7 +65,7 @@ void Object::ImGuiUpdate()
 
 		for (auto&& it : m_cpList)
 		{
-			ImGui::SetNextTreeNodeOpen(true, ImGuiSetCond_Once);
+			//ImGui::SetNextTreeNodeOpen(true, ImGuiSetCond_Once);
 			if (ImGui::TreeNode(it->GetTag().c_str()))
 			{
 				(*it).ImGuiUpdate();

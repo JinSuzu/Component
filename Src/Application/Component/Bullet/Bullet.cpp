@@ -23,7 +23,7 @@ void Cp_Bullet::PostUpdate()
 	bool flg = abs(pos.x) - 330 > 350;
 	flg |= abs(pos.y) > 400;
 
-	if (flg)m_owner.lock()->ToInactive();
+	if (flg)m_owner.lock()->Destroy();
 }
 
 void Cp_Bullet::Update()
@@ -47,5 +47,5 @@ nlohmann::json Cp_Bullet::GetJson()
 void Cp_Bullet::TriggerFn(ObjectTag _tag)
 {
 	if (m_owner.lock()->GetTag() == _tag) return;
-	m_owner.lock()->ToInactive();
+	m_owner.lock()->Destroy();
 }

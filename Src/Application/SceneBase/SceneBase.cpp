@@ -32,7 +32,7 @@ void SceneBase::Release()
 {
 	if (!m_bLoad)return;//リリース済みreturn
 	m_bLoad = false;
-	ObjectManager::Instance().Relese();
+	ObjectManager::Instance().Release();
 	ReleaseContent();
 }
 

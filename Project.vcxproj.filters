@@ -55,9 +55,6 @@
     <Filter Include="Src\Framework\Effekseer">
       <UniqueIdentifier>{c81b93e4-2f33-496a-985e-98658f1cec51}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\imGui">
-      <UniqueIdentifier>{a9bcfd7e-11f2-4c8f-ab0c-debf7fcb7ff1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Src\Application\Scene">
       <UniqueIdentifier>{b1d3b921-f223-49b5-b28e-1bc344b1563e}</UniqueIdentifier>
     </Filter>
@@ -105,6 +102,9 @@
     </Filter>
     <Filter Include="Src\Application\Component\AddRotation">
       <UniqueIdentifier>{f4b531b4-6afa-4776-bf68-248e53527bfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\imgui">
+      <UniqueIdentifier>{03fd35a2-efd5-4b27-ac44-da016c14216c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -227,33 +227,6 @@
     </ClInclude>
     <ClInclude Include="Src\Framework\Effekseer\KdEffekseerManager.h">
       <Filter>Src\Framework\Effekseer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Library\imgui\imconfig.h">
-      <Filter>Library\imGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Library\imgui\imgui.h">
-      <Filter>Library\imGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Library\imgui\imgui_impl_dx11.h">
-      <Filter>Library\imGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Library\imgui\imgui_impl_win32.h">
-      <Filter>Library\imGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Library\imgui\imgui_internal.h">
-      <Filter>Library\imGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Library\imgui\imstb_rectpack.h">
-      <Filter>Library\imGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Library\imgui\imstb_textedit.h">
-      <Filter>Library\imGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Library\imgui\imstb_truetype.h">
-      <Filter>Library\imGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Library\imgui\ja_glyph_ranges.h">
-      <Filter>Library\imGui</Filter>
     </ClInclude>
     <ClInclude Include="Src\Application\SceneBase\SceneBase.h">
       <Filter>Src\Application\Scene</Filter>
@@ -438,6 +411,36 @@
     <ClInclude Include="Src\Application\Component\BoxCollision\BoxCollision.h">
       <Filter>Src\Application\Component\BoxCollision</Filter>
     </ClInclude>
+    <ClInclude Include="..\Library\imgui\imconfig.h">
+      <Filter>Library\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\imgui\imgui.h">
+      <Filter>Library\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\imgui\imgui_impl_dx11.h">
+      <Filter>Library\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\imgui\imgui_impl_win32.h">
+      <Filter>Library\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\imgui\imgui_internal.h">
+      <Filter>Library\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\imgui\imgui_stdlib.h">
+      <Filter>Library\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\imgui\imstb_rectpack.h">
+      <Filter>Library\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\imgui\imstb_textedit.h">
+      <Filter>Library\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\imgui\imstb_truetype.h">
+      <Filter>Library\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\imgui\ja_glyph_ranges.h">
+      <Filter>Library\imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -542,24 +545,6 @@
     <ClCompile Include="Src\Framework\Effekseer\KdEffekseerManager.cpp">
       <Filter>Src\Framework\Effekseer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Library\imgui\imgui.cpp">
-      <Filter>Library\imGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Library\imgui\imgui_demo.cpp">
-      <Filter>Library\imGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Library\imgui\imgui_draw.cpp">
-      <Filter>Library\imGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Library\imgui\imgui_impl_dx11.cpp">
-      <Filter>Library\imGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Library\imgui\imgui_impl_win32.cpp">
-      <Filter>Library\imGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Library\imgui\imgui_widgets.cpp">
-      <Filter>Library\imGui</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\SceneBase\SceneBase.cpp">
       <Filter>Src\Application\Scene</Filter>
     </ClCompile>
@@ -601,6 +586,30 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Component\AddRotation\AddRotaion.cpp">
       <Filter>Src\Application\Component\AddRotation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\imgui\imgui.cpp">
+      <Filter>Library\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\imgui\imgui_demo.cpp">
+      <Filter>Library\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\imgui\imgui_draw.cpp">
+      <Filter>Library\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\imgui\imgui_impl_dx11.cpp">
+      <Filter>Library\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\imgui\imgui_impl_win32.cpp">
+      <Filter>Library\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\imgui\imgui_stdlib.cpp">
+      <Filter>Library\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\imgui\imgui_tables.cpp">
+      <Filter>Library\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Library\imgui\imgui_widgets.cpp">
+      <Filter>Library\imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

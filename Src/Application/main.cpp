@@ -89,7 +89,7 @@ void Application::KdBeginDraw(bool usePostProcess)
 {
 	KdDirect3D::Instance().ClearBackBuffer();
 
-	KdShaderManager::Instance().WorkAmbientController().Draw();
+	//KdShaderManager::Instance().WorkAmbientController().Draw();
 
 	if (!usePostProcess) return;
 	KdShaderManager::Instance().m_postProcessShader.Draw();
@@ -240,7 +240,6 @@ bool Application::Init(int w, int h)
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
 	// Setup Dear ImGui style
 	ImGui::StyleColorsClassic();
 	// Setup Platform/Renderer bindings
@@ -249,6 +248,7 @@ bool Application::Init(int w, int h)
 	{
 		// 日本語対応
 #include "imgui/ja_glyph_ranges.h"
+		ImGuiIO& io = ImGui::GetIO();
 		ImFontConfig config;
 		config.MergeMode = true;
 		io.Fonts->AddFontDefault();
@@ -406,11 +406,16 @@ void Application::Release()
 
 void Application::ImGuiUpdate()
 {
-	ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiSetCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(500, 300), ImGuiSetCond_Once);
+	//ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiSetCond_Once);
+	//ImGui::SetNextWindowSize(ImVec2(500, 300), ImGuiSetCond_Once);
 	// デバッグウィンドウ
+
+	ImGui::ShowDemoWindow(nullptr);
+
 	if (ImGui::Begin("Debug Window"))
 	{
+
+
 		static int mode = 0;
 
 		enum {

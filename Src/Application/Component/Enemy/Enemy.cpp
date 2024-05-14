@@ -31,5 +31,5 @@ nlohmann::json Cp_Enemy::GetJson()
 void Cp_Enemy::TriggerFn(ObjectTag _tag)
 {
 	if (m_owner.lock()->GetTag() == _tag)return;
-	m_owner.lock()->ToInactive();
+	m_owner.lock()->Destroy();
 }
