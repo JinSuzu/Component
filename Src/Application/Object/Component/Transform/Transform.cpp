@@ -1,5 +1,5 @@
 ﻿#include "Transform.h"
-#include "../../Object/GameObject.h"
+#include "../../Game/GameObject.h"
 
 void Cp_Transform::InitJson()
 {

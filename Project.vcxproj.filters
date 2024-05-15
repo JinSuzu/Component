@@ -444,6 +444,9 @@
     <ClInclude Include="Src\Application\Object\Component\Transform\Transform.h">
       <Filter>Src\Application\Object\Component\Transform</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Object\Object.h">
+      <Filter>Src\Application\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -613,6 +616,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\Transform\Transform.cpp">
       <Filter>Src\Application\Object\Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Object.cpp">
+      <Filter>Src\Application\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

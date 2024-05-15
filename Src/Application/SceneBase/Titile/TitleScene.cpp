@@ -1,7 +1,7 @@
 ﻿#include "TitleScene.h"
 #include "../../Object/Game/GameObject.h"
 #include "../../Object/Game/Manager/GameObjectManager.h"
-#include "../../Component/Component.h"
+#include "../../Object/Component/Component.h"
 
 void C_TitleScene::Draw2D()
 {

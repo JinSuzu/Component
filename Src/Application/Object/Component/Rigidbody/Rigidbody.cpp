@@ -1,5 +1,5 @@
 ﻿#include "Rigidbody.h"
-#include "../../Object/GameObject.h"
+#include "../../Game/GameObject.h"
 #include "../Transform/Transform.h"
 
 void Cp_Rigidbody::Start()
@@ -17,7 +17,7 @@ void Cp_Rigidbody::InitJson()
 	}
 }
 
-void Cp_Rigidbody::PreUpdate()
+void Cp_Rigidbody::PreUpdateContents()
 {
 	m_move -= m_gravity;
 }

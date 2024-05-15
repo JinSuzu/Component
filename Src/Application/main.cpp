@@ -1,7 +1,7 @@
 ﻿#include "main.h"
 #include"SceneBase/Manager/SceneManager.h"
 #include"SceneBase/SceneBase.h"
-#include"Object/Manager/ObjectManager.h"
+#include"Object/Game/Manager/GameObjectManager.h"
 #include"Utility/Timer.h"
 
 

@@ -1,5 +1,5 @@
 ﻿#include "AddRotaion.h"
-#include "../../Object/GameObject.h"
+#include "../../Game/GameObject.h"
 #include "../Transform/Transform.h"
 
 void Cp_AddRotation::Start()

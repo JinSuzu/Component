@@ -1,5 +1,5 @@
 ﻿#include "BoxCollision.h"
-#include "../../Object/GameObject.h"
+#include "../../Game/GameObject.h"
 
 #include "../Transform/Transform.h"
 
@@ -20,7 +20,7 @@ void Cp_BoxCollision::InitJson()
 	}
 }
 
-void Cp_BoxCollision::PreUpdate()
+void Cp_BoxCollision::PreUpdateContents()
 {
 	m_postPos = m_wpTransform.lock()->GetPosition();
 	m_colliList.clear();

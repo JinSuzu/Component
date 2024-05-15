@@ -12,22 +12,26 @@ GameObject::GameObject()
 
 void GameObject::Draw()
 {
-	if (m_bActive)ITERATOR(m_cpList)Draw();
+	if (!m_bActive)return;
+	ITERATOR(m_cpList)Draw();
 }
 
 void GameObject::PreUpdate()
 {
-	if (m_bActive)ITERATOR(m_cpList)PreUpdate();
+	if (!m_bActive)return;
+	ITERATOR(m_cpList)PreUpdate();
 }
 
 void GameObject::Update()
 {
-	if (m_bActive)ITERATOR(m_cpList)Update();
+	if (!m_bActive)return;
+	ITERATOR(m_cpList)Update();
 }
 
 void GameObject::PostUpdate()
 {
-	if (m_bActive)ITERATOR(m_cpList)PostUpdate();
+	if (!m_bActive)return;
+	ITERATOR(m_cpList)PostUpdate();
 }
 
 void GameObject::Init(std::string _name)

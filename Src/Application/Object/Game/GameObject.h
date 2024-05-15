@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "../Object.h"
 
 class Component;
 class Cp_Transform;
@@ -19,6 +20,7 @@ enum class ObjectTag
 
 class GameObject
 	:public std::enable_shared_from_this<GameObject>
+	,public Object
 {
 public:
 	GameObject();
@@ -57,12 +59,6 @@ public:
 
 	std::list<std::shared_ptr<Component>>& GetComponentList() { return m_cpList; }
 
-	bool GetActive() const			{ return m_bActive; }
-	void SetActive(bool _active)	{ m_bActive = _active; }
-
-	void Destroy()			{ m_bDestroy = true; }
-	bool GetDestroy() const	{ return m_bDestroy; }
-
 	std::string GetName() { return m_name; };
 	ObjectTag GetTag() const { return m_tag; };
 
@@ -87,9 +83,6 @@ public:
 	nlohmann::json& GetJson() { return m_jsonData; };
 
 private:
-	bool												m_bDestroy = false;
-	bool												m_bActive = true;
-
 	std::string											m_name;
 	ObjectTag											m_tag = ObjectTag::Untagged;
 

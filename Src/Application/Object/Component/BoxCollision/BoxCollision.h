@@ -13,7 +13,7 @@ public:
 	void Start()override;
 	void InitJson()override;
 
-	void PreUpdate()override;
+	void PreUpdateContents()override;
 	void Update()override;
 	void PostUpdate()override;
 

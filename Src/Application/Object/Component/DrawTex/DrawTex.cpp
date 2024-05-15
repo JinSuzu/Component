@@ -1,10 +1,10 @@
 ﻿#include "DrawTex.h"
 #include "../Transform/Transform.h"
 
-#include "../../Object/GameObject.h"
-#include "../../AssetManager/AssetManager.h"
+#include "../../Game/GameObject.h"
+#include "../../../AssetManager/AssetManager.h"
 
-#include "../../Utility/Timer.h"
+#include "../../../Utility/Timer.h"
 
 
 void Cp_DrawTex::Start()

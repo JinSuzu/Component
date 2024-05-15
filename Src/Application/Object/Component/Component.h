@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "../Object.h"
 
 class GameObject;
 enum class ObjectTag;
@@ -19,7 +20,9 @@ enum ComponentID
 
 class Component
 	:public std::enable_shared_from_this<Component>
+	,public Object
 {
+
 public:
 	Component() {}
 	virtual	~Component() {}
@@ -28,17 +31,18 @@ public:
 
 	virtual void Draw() {}
 
-	virtual void PreUpdate() {}
-	virtual void Update() {}
-	virtual void PostUpdate() {}
+	virtual void PreUpdate()	final { if(m_bActive)PreUpdateContents(); }
+	virtual void Update()		final { if(m_bActive)UpdateContents(); }
+	virtual void PostUpdate()	final { if(m_bActive)PostUpdateContents(); }
+
 
 	virtual void ImGuiUpdate() {}
 
-	virtual std::weak_ptr<GameObject> GetOwner() final	{ return m_owner; }
-	virtual void SetOwner(std::weak_ptr<GameObject> _object) final	{ m_owner = _object; }
+	virtual std::weak_ptr<GameObject> GetOwner()				final	{ return m_owner; }
+	virtual void SetOwner(std::weak_ptr<GameObject> _object)	final	{ m_owner = _object; }
 
 
-	virtual std::string GetTag()final				{ return m_tag; }
+	virtual std::string GetTag()			final	{ return m_tag; }
 	virtual void SetTag(std::string _tag)   final	{ m_tag = _tag; }
 
 	virtual bool CheckTag(std::string _tag)	final	{return m_tag == _tag;}
@@ -48,10 +52,7 @@ public:
 	virtual nlohmann::json GetJson() { return nlohmann::json(); };
 
 protected:
-	std::weak_ptr<GameObject>					m_owner;
-
-	bool									m_bDestroy = false;
-	bool									m_bActive  = true;
+	std::weak_ptr<GameObject>				m_owner;
 
 	std::shared_ptr<std::function<void()>>	m_spDraw2D;
 	std::shared_ptr<std::function<void()>>	m_spUpdate;
@@ -59,13 +60,18 @@ protected:
 	std::string m_tag;
 
 	nlohmann::json							m_jsonData;
+
+protected:
+	virtual void PreUpdateContents() {}
+	virtual void UpdateContents() {}
+	virtual void PostUpdateContents() {}
 };			
 
 #define PRESET \
-void Start()override;	\
-void PreUpdate()override;							\
-void Update()override;								\
-void PostUpdate()override;							\
+void Start()override;								\
+void PreUpdateContents()override;					\
+void UpdateContents()override;						\
+void PostUpdateContents()override;					\
 void ImGuiUpdate()override;							\
 void InitJson()override;							\
 nlohmann::json GetJson()override;
