@@ -54,7 +54,12 @@ Math::Rectangle JsonToRect(nlohmann::json _other)
 
 nlohmann::json Vec3ToJson(Math::Vector3 _value)
 {
-	return nlohmann::json{ {"x",_value.x}, {"y",_value.y}, {"z",_value.z} };
+	return nlohmann::json
+	{
+		{"x",_value.x},
+		{"y",_value.y},
+		{"z",_value.z}
+	};
 }
 
 nlohmann::json RectToJson(Math::Rectangle _value)

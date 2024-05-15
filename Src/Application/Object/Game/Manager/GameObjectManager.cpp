@@ -107,9 +107,15 @@ void ObjectManager::ImGuiUpdate()
 	{
 		ImGui::Text("ObjNum : %d", m_obList.size());
 		ImGui::BeginChild(ImGui::GetID((void*)0), ImVec2(500, 300), ImGuiWindowFlags_NoTitleBar);
+		int obNum = 0;
 		for (auto&& it : m_obList)
 		{
-			it->ImGuiUpdate();
+			ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+			if (ImGui::TreeNode(std::to_string(obNum++).c_str()))
+			{
+				it->ImGuiUpdate();
+				ImGui::TreePop();
+			}
 		}
 		ImGui::EndChild();
 	}

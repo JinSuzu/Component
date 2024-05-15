@@ -84,7 +84,7 @@ public:
 	nlohmann::json& GetJson() { return m_jsonData; };
 
 private:
-	std::string											m_name = "name";
+	std::string											m_name;
 	ObjectTag											m_tag = ObjectTag::Untagged;
 
 	std::shared_ptr<Cp_Transform>						m_trans;
@@ -94,7 +94,6 @@ private:
 
 	//Json係
 	bool												m_bSave = true;
-	std::string											m_filePath;
 	nlohmann::json										m_jsonData;
 
 	//便利関数

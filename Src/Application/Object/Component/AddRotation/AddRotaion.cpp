@@ -32,12 +32,10 @@ void Cp_AddRotation::ImGuiUpdate()
 	float value[3]TOARRAY3(m_addPow);
 	ImGui::DragFloat3("addPow",value);
 	m_addPow = Math::Vector3(value);
-	
 }
 
 nlohmann::json Cp_AddRotation::GetJson()
 {
-	nlohmann::json json;
-	json["addPow"] = Vec3ToJson(m_addPow);
-	return json;
+	m_jsonData["addPow"] = Vec3ToJson(m_addPow);
+	return m_jsonData;
 }

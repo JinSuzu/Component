@@ -102,12 +102,11 @@ nlohmann::json Cp_DrawTex::GetJson()
 
 nlohmann::json Cp_DrawTex::GetAnimeJson(std::string _tag,AnimeSet _set)
 {
-	nlohmann::json json;
-	json["tag"] = _tag;
-	json["h"] = _set.h;
-	json["w"] = _set.w;
-	json["interval"] = _set.interval;
-	return json;
+	m_jsonData["tag"] = _tag;
+	m_jsonData["h"] = _set.h;
+	m_jsonData["w"] = _set.w;
+	m_jsonData["interval"] = _set.interval;
+	return m_jsonData;
 }
 
 void AnimeSet::Init(nlohmann::json _json)

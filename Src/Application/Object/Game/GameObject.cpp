@@ -37,9 +37,8 @@ void GameObject::PostUpdate()
 void GameObject::Init(std::string _name)
 {
 	m_name = _name;
-	m_filePath = "Asset/Data/" + m_name + ".json";
 
-	std::ifstream file(m_filePath);
+	std::ifstream file("Asset/Data/" + m_name + ".json");
 	if (file.is_open()){
 		file >> m_jsonData;
 	}
@@ -60,25 +59,25 @@ void GameObject::Init(std::string _name)
 void GameObject::ImGuiUpdate()
 {
 	//AddComponent追加予定
-	if (ImGui::TreeNode(m_name.c_str()))
+	ImGui::SameLine();ImGui::InputText("ObjectName", &m_name);
+
+	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+	if (ImGui::TreeNode("Transform"))
 	{
-		//ImGui::SetNextTreeNodeOpen(true, ImGuiSetCond_Once);
-		if (ImGui::TreeNode("Transform"))
+		m_trans->ImGuiUpdate();
+		ImGui::TreePop();
+	}
+
+	int num = 0;
+	for (auto&& it : m_cpList)
+	{
+		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+		if (ImGui::TreeNode(std::to_string(num++).c_str()))
 		{
-			m_trans->ImGuiUpdate();
+			ImGui::SameLine();ImGui::Text((*it).GetIDName().c_str());
+			(*it).ImGuiUpdate();
 			ImGui::TreePop();
 		}
-
-		for (auto&& it : m_cpList)
-		{
-			//ImGui::SetNextTreeNodeOpen(true, ImGuiSetCond_Once);
-			if (ImGui::TreeNode(it->GetIDName().c_str()))
-			{
-				(*it).ImGuiUpdate();
-				ImGui::TreePop();
-			}
-		}
-		ImGui::TreePop();
 	}
 }
 
@@ -202,8 +201,6 @@ void GameObject::Release()
 {
 	if (!m_bSave)return;
 	nlohmann::json component;
-
-
 	component.push_back(m_trans->GetJson());
 
 	for (auto&& it : m_cpList) 
@@ -215,11 +212,13 @@ void GameObject::Release()
 	
 	nlohmann::json finalJson;
 	finalJson["Component"] = component;
-	std::ofstream file(m_filePath);
+	std::ofstream file("Asset/Data/" + m_name + ".json");
 
 	finalJson["Tag"] = m_tag;
+
+	m_jsonData["Tag"] = m_tag;
 	if (file.is_open()) {
-		file << finalJson.dump(4);  // 読みやすい形式でファイルに書き出す
+		file << m_jsonData.dump(4);  // 読みやすい形式でファイルに書き出す
 		file.close();
 	}
 }
