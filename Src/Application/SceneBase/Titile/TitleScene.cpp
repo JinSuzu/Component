@@ -1,6 +1,6 @@
 ﻿#include "TitleScene.h"
-#include "../../Object/Object.h"
-#include "../../Object/Manager/ObjectManager.h"
+#include "../../Object/Game/GameObject.h"
+#include "../../Object/Game/Manager/GameObjectManager.h"
 #include "../../Component/Component.h"
 
 void C_TitleScene::Draw2D()

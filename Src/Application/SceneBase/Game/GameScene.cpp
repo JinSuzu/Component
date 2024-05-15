@@ -1,7 +1,7 @@
 ﻿#include "GameScene.h"
-#include "../../Object/Object.h"
-#include "../../Object/Manager/ObjectManager.h"
-#include "../../Component/Component.h"
+#include "../../Object/Game/GameObject.h"
+#include "../../Object/Game/Manager/GameObjectManager.h"
+#include "../../Object/Component/Component.h"
 
 void C_GameScene::Draw2D()
 {

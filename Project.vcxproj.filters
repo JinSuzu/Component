@@ -73,38 +73,41 @@
     <Filter Include="Src\Application\AssetMgr">
       <UniqueIdentifier>{7e65a2c4-6790-4d06-907d-b662790c872f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\Object">
-      <UniqueIdentifier>{e6438e42-55eb-4282-9d26-ff3997c767a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\Object\Mgr">
-      <UniqueIdentifier>{2b4ff586-1859-4b20-9665-b071b5ac5e69}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\Component">
-      <UniqueIdentifier>{d37ae0ee-c8ec-4d2b-b981-b9379de5e021}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\Component\Transform">
-      <UniqueIdentifier>{4a1eaf56-7b65-4f51-b9eb-76d9fc4ea017}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\Component\Rigidbody">
-      <UniqueIdentifier>{f0e8c43c-f5a1-4540-9d01-7a987261b533}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\Component\BoxCollision">
-      <UniqueIdentifier>{7115424b-4b14-4ba0-88a5-6d00a7681eb5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\Component\DrawTex">
-      <UniqueIdentifier>{21c74da3-c1d9-43ee-9426-dbeaea09b8e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\tinygltf\nlohmann">
       <UniqueIdentifier>{9542c387-132f-4acb-9adf-a7c72476051e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Src\Application\Utility">
       <UniqueIdentifier>{76ab77fd-bf88-4b67-9da3-12d8b935a2e6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\Component\AddRotation">
-      <UniqueIdentifier>{f4b531b4-6afa-4776-bf68-248e53527bfc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\imgui">
       <UniqueIdentifier>{03fd35a2-efd5-4b27-ac44-da016c14216c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object">
+      <UniqueIdentifier>{7dd63580-55dd-470e-96b2-0563fd4b6a46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Game">
+      <UniqueIdentifier>{f5f1a014-9946-4e23-bf94-6d5b0acd647e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Game\Manager">
+      <UniqueIdentifier>{e22aa39f-a6d5-474f-af89-f0af3e27e8f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component">
+      <UniqueIdentifier>{6feb6d23-1ebf-42b6-9d25-55a704847802}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\AddRotation">
+      <UniqueIdentifier>{c6f84503-13bd-4f73-91cf-0ea6a01af1e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\BoxCollidion">
+      <UniqueIdentifier>{a457cb12-843b-4c59-a7d2-082068244346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\DrawTex">
+      <UniqueIdentifier>{2e514ec8-cac4-4146-a3f8-be1e3e80a1e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\Rigidbody">
+      <UniqueIdentifier>{7ec9ec56-9144-4c04-a038-ee9ec295ce45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\Transform">
+      <UniqueIdentifier>{68c26de7-b3c1-4843-8301-bcd3108c5407}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -246,27 +249,6 @@
     <ClInclude Include="Src\Application\AssetManager\AssetManager.h">
       <Filter>Src\Application\AssetMgr</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Object\Object.h">
-      <Filter>Src\Application\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\Object\Manager\ObjectManager.h">
-      <Filter>Src\Application\Object\Mgr</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\Component\AllComponentIncluder.h">
-      <Filter>Src\Application\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\Component\Component.h">
-      <Filter>Src\Application\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\Component\Transform\Transform.h">
-      <Filter>Src\Application\Component\Transform</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\Component\Rigidbody\Rigidbody.h">
-      <Filter>Src\Application\Component\Rigidbody</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\Component\DrawTex\DrawTex.h">
-      <Filter>Src\Application\Component\DrawTex</Filter>
-    </ClInclude>
     <ClInclude Include="..\Library\tinygltf\nlohmann\adl_serializer.hpp">
       <Filter>Library\tinygltf\nlohmann</Filter>
     </ClInclude>
@@ -405,12 +387,6 @@
     <ClInclude Include="Src\Application\Utility\Timer.h">
       <Filter>Src\Application\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Component\AddRotation\AddRotaion.h">
-      <Filter>Src\Application\Component\AddRotation</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\Component\BoxCollision\BoxCollision.h">
-      <Filter>Src\Application\Component\BoxCollision</Filter>
-    </ClInclude>
     <ClInclude Include="..\Library\imgui\imconfig.h">
       <Filter>Library\imgui</Filter>
     </ClInclude>
@@ -440,6 +416,33 @@
     </ClInclude>
     <ClInclude Include="..\Library\imgui\ja_glyph_ranges.h">
       <Filter>Library\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Game\Manager\GameObjectManager.h">
+      <Filter>Src\Application\Object\Game\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Game\GameObject.h">
+      <Filter>Src\Application\Object\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\AllComponentIncluder.h">
+      <Filter>Src\Application\Object\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\Component.h">
+      <Filter>Src\Application\Object\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\AddRotation\AddRotaion.h">
+      <Filter>Src\Application\Object\Component\AddRotation</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\BoxCollision\BoxCollision.h">
+      <Filter>Src\Application\Object\Component\BoxCollidion</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\DrawTex\DrawTex.h">
+      <Filter>Src\Application\Object\Component\DrawTex</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\Rigidbody\Rigidbody.h">
+      <Filter>Src\Application\Object\Component\Rigidbody</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\Transform\Transform.h">
+      <Filter>Src\Application\Object\Component\Transform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -563,30 +566,6 @@
     <ClCompile Include="Src\Application\AssetManager\AssetManager.cpp">
       <Filter>Src\Application\AssetMgr</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Object\Object.cpp">
-      <Filter>Src\Application\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Object\Manager\ObjectManager.cpp">
-      <Filter>Src\Application\Object\Mgr</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Component\Component.cpp">
-      <Filter>Src\Application\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Component\Transform\Transform.cpp">
-      <Filter>Src\Application\Component\Transform</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Component\BoxCollision\BoxCollision.cpp">
-      <Filter>Src\Application\Component\BoxCollision</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Component\DrawTex\DrawTex.cpp">
-      <Filter>Src\Application\Component\DrawTex</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Component\Rigidbody\Rigidbody.cpp">
-      <Filter>Src\Application\Component\Rigidbody</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Component\AddRotation\AddRotaion.cpp">
-      <Filter>Src\Application\Component\AddRotation</Filter>
-    </ClCompile>
     <ClCompile Include="..\Library\imgui\imgui.cpp">
       <Filter>Library\imgui</Filter>
     </ClCompile>
@@ -610,6 +589,30 @@
     </ClCompile>
     <ClCompile Include="..\Library\imgui\imgui_widgets.cpp">
       <Filter>Library\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Game\Manager\GameObjectManager.cpp">
+      <Filter>Src\Application\Object\Game\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Game\GameObject.cpp">
+      <Filter>Src\Application\Object\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\Component.cpp">
+      <Filter>Src\Application\Object\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\AddRotation\AddRotaion.cpp">
+      <Filter>Src\Application\Object\Component\AddRotation</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\BoxCollision\BoxCollision.cpp">
+      <Filter>Src\Application\Object\Component\BoxCollidion</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\DrawTex\DrawTex.cpp">
+      <Filter>Src\Application\Object\Component\DrawTex</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\Rigidbody\Rigidbody.cpp">
+      <Filter>Src\Application\Object\Component\Rigidbody</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\Transform\Transform.cpp">
+      <Filter>Src\Application\Object\Component\Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿#include "Component.h"
-#include "../Object/Object.h"
+#include "../Object/GameObject.h"
 
 void Component::InitJson()
 {

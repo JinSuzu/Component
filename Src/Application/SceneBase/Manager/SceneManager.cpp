@@ -3,7 +3,7 @@
 #include "../Titile/TitleScene.h"
 #include "../Game/GameScene.h"
 #include "../Result/ResultScene.h"
-#include "../../Object/Object.h"
+#include "../../Object/GameObject.h"
 #include "../../Object/Manager/ObjectManager.h"
 
 #include "../../main.h"

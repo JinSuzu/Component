@@ -1,6 +1,6 @@
-﻿#include "ObjectManager.h"
+﻿#include "GameObjectManager.h"
 #include "../../Component/AllComponentIncluder.h"
-#include "../Object.h"
+#include "../GameObject.h"
 
 #define ITERATOR(x)				\
 for (auto&& it : m_obList)		\
@@ -141,15 +141,15 @@ unsigned int ObjectManager::ToID(std::string _tag)
 }
 
 
-std::shared_ptr<Object> ObjectManager::CreateObject(std::string _tag,bool flg)
+std::shared_ptr<GameObject> ObjectManager::CreateObject(std::string _tag,bool flg)
 {
-	auto object = std::make_shared<Object>();
+	auto object = std::make_shared<GameObject>();
 	object->Init(_tag);
 	if(flg)m_obList.push_back(object);
 	return object;
 }
 
-void ObjectManager::UpdateRange(std::list<std::shared_ptr<Object>>::iterator start, std::list<std::shared_ptr<Object>>::iterator end)
+void ObjectManager::UpdateRange(std::list<std::shared_ptr<GameObject>>::iterator start, std::list<std::shared_ptr<GameObject>>::iterator end)
 {
 	for (auto&& it = start; it != end; ++it) {
 		if ((*it) && (*it)->GetActive()) {

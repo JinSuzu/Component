@@ -1,7 +1,7 @@
 ﻿#include "DrawTex.h"
 #include "../Transform/Transform.h"
 
-#include "../../Object/Object.h"
+#include "../../Object/GameObject.h"
 #include "../../AssetManager/AssetManager.h"
 
 #include "../../Utility/Timer.h"

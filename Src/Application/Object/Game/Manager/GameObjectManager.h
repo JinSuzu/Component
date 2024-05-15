@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class Object;
+class GameObject;
 class Component;
 enum  ComponentID;
 
@@ -25,11 +25,11 @@ public:
 	std::string ToTag(unsigned int _id);
 	unsigned int ToID(std::string _tag);
 
-	std::shared_ptr<Object> CreateObject(std::string _tag,bool flg = true);
+	std::shared_ptr<GameObject> CreateObject(std::string _tag,bool flg = true);
 
-	void UpdateRange(std::list<std::shared_ptr<Object>>::iterator start, std::list<std::shared_ptr<Object>>::iterator end);
+	void UpdateRange(std::list<std::shared_ptr<GameObject>>::iterator start, std::list<std::shared_ptr<GameObject>>::iterator end);
 private:
-	std::list<std::shared_ptr<Object>>	m_obList;
+	std::list<std::shared_ptr<GameObject>>	m_obList;
 
 	ObjectManager() { Init(); };
 public:

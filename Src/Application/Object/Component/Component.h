@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class Object;
+class GameObject;
 enum class ObjectTag;
 
 enum ComponentID
@@ -34,8 +34,8 @@ public:
 
 	virtual void ImGuiUpdate() {}
 
-	virtual std::weak_ptr<Object> GetOwner() final	{ return m_owner; }
-	virtual void SetOwner(std::weak_ptr<Object> _object) final	{ m_owner = _object; }
+	virtual std::weak_ptr<GameObject> GetOwner() final	{ return m_owner; }
+	virtual void SetOwner(std::weak_ptr<GameObject> _object) final	{ m_owner = _object; }
 
 
 	virtual std::string GetTag()final				{ return m_tag; }
@@ -48,7 +48,7 @@ public:
 	virtual nlohmann::json GetJson() { return nlohmann::json(); };
 
 protected:
-	std::weak_ptr<Object>					m_owner;
+	std::weak_ptr<GameObject>					m_owner;
 
 	bool									m_bDestroy = false;
 	bool									m_bActive  = true;
