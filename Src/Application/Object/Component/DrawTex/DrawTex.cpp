@@ -9,7 +9,8 @@
 
 void Cp_DrawTex::Start()
 {
-	m_wpTrans = m_owner.lock()->GetspTransform();
+	m_wpTrans = m_owner.lock()->GetTransform();
+	m_tex = AssetManager::Instance().GetKdTexture("chara/block.png");
 }
 
 void Cp_DrawTex::InitJson()

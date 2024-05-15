@@ -5,7 +5,7 @@
 
 void Cp_BoxCollision::Start()
 {
-	m_wpTransform = m_owner.lock()->GetspTransform();
+	m_wpTransform = m_owner.lock()->GetTransform();
 	COMPONENTLISTINSTANCE(BoxCollision).Set(std::static_pointer_cast<Cp_BoxCollision>(shared_from_this()));
 
 }
@@ -107,10 +107,10 @@ void Cp_BoxCollision::TurnPostPos(std::weak_ptr<Cp_BoxCollision> _other)
 {
 	if (m_bTrigger)return;
 	int count = 5;
-	Math::Vector3 pos = _other.lock()->GetOwner().lock()->GetspTransform().lock()->GetPosition();
+	Math::Vector3 pos = _other.lock()->GetOwner().lock()->GetTransform().lock()->GetPosition();
 	while (WithPoint(_other) && count > 0)
 	{
-		if (m_owner.lock()->GetspTransform().lock()->GetPosition() == pos)break;
+		if (m_owner.lock()->GetTransform().lock()->GetPosition() == pos)break;
 		m_wpTransform.lock()->SetPosition(pos + (m_postPos * (float)count));
 		count--;
 	}

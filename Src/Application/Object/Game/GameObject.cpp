@@ -82,22 +82,19 @@ void GameObject::ImGuiUpdate()
 	}
 }
 
-std::weak_ptr<Cp_Transform> GameObject::GetspTransform()
-{
-	std::shared_ptr<Component> trans = *m_cpList.begin();
-	return std::static_pointer_cast<Cp_Transform>(trans);
-}
+#pragma region AddComponent
 
-void GameObject::AddComponent(unsigned int _id)
+std::shared_ptr<Component> GameObject::AddComponent(unsigned int _id)
 {
 	auto addCp = ObjectManager::Instance().ToComponent(_id);
 	addCp->SetIDName(ObjectManager::Instance().ToTag(_id));
 	addCp->SetID(_id);
 
 	ComponentInit(addCp);
+	return addCp;
 }
 
-void GameObject::AddComponent(Component* _addCp)
+std::shared_ptr<Component> GameObject::AddComponent(Component* _addCp)
 {
 	std::shared_ptr<Component> addCp(_addCp);
 	unsigned int id = ObjectManager::Instance().ToID(typeid(*addCp).name());
@@ -105,33 +102,49 @@ void GameObject::AddComponent(Component* _addCp)
 	addCp->SetID(id);
 
 	ComponentInit(addCp);
+	return addCp;
 }
 
-void GameObject::AddComponents(unsigned int _id)
+std::list<std::shared_ptr<Component>> GameObject::AddComponents(unsigned int _id)
 {
+	std::list<std::shared_ptr<Component>>list;
+
 	int Max = std::log2((double)ComponentID::MaxID);
-	//for (unsigned int i = 1; i < ComponentID::MaxID; i = i << 1);
 	for (int i = 0; i < Max; i++)
 	{
 		unsigned int search = 1 << i;
 		if (!(_id & search))continue;
 
-		AddComponent(search);
+		auto addCp = AddComponent(search);
+		list.push_back(addCp);
 	}
+
+	return list;
 }
 
-void GameObject::AddComponents()
+std::list<std::shared_ptr<Component>> GameObject::AddComponents()
 {
+	std::list<std::shared_ptr<Component>>list;
+
 	for (auto& json : m_jsonData["Component"])
-	for (auto& key : json)
 	{
-		if (key == "ID") 
+		auto Key = json.begin();
+		while (Key != json.end())
 		{
-			AddComponent(json["ID"]);
-			break;
+			if (Key.key() == "ID")
+			{
+				auto addCp = AddComponent(json["ID"]);
+				list.push_back(addCp);
+				break;
+			}
+			Key++;
 		}
 	}
+	ComponentJsonInit(list);
+	return list;
 }
+
+#pragma endregion
 
 bool GameObject::CheckID(unsigned int _id)const
 {
@@ -165,16 +178,24 @@ std::list<std::shared_ptr<Component>> GameObject::SearchTags(std::string _tag)
 	return list;
 }
 
-void GameObject::ComponentInit(std::shared_ptr<Component> _addCp)
+void GameObject::ComponentInit(std::shared_ptr<Component>& _addCp)
 {
 	m_cpList.push_back(std::shared_ptr<Component>(_addCp));
-
 	_addCp->SetOwner(weak_from_this());
-
-	nlohmann::json json = SearchJson(m_jsonData, "ID", _addCp->GetID());
-	if(!json.is_null())_addCp->SetJson(json);
-	_addCp->InitJson();
 	_addCp->Start();
+}
+
+void GameObject::ComponentJsonInit(std::list<std::shared_ptr<Component>>& _addCps)
+{
+	int num = 0;
+	for (auto& addCp : _addCps)
+	{
+		if (!m_jsonData["Component"][++num].is_null())
+		{
+			addCp->SetJson(m_jsonData["Component"][num]);
+			addCp->InitJson();
+		}
+	}
 }
 
 void GameObject::Release()

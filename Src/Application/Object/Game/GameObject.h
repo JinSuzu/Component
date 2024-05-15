@@ -62,17 +62,17 @@ public:
 	std::string GetName() { return m_name; };
 	ObjectTag GetTag() const { return m_tag; };
 
-	std::weak_ptr<Cp_Transform>GetspTransform();
+	std::weak_ptr<Cp_Transform>GetTransform() { return m_trans; }
 
 
 	void SetTag(ObjectTag _tag) { m_tag = _tag; };
 
 	//Fn(ComponentID::'ID')
-	void AddComponent(unsigned int _id);
-	void AddComponent(Component* _add);
+	std::shared_ptr<Component> AddComponent(unsigned int _id);
+	std::shared_ptr<Component> AddComponent(Component* _add);
 
-	void AddComponents(unsigned int _id);
-	void AddComponents();
+	std::list<std::shared_ptr<Component>> AddComponents(unsigned int _id);
+	std::list<std::shared_ptr<Component>> AddComponents();
 
 
 
@@ -84,7 +84,7 @@ public:
 	nlohmann::json& GetJson() { return m_jsonData; };
 
 private:
-	std::string											m_name;
+	std::string											m_name = "name";
 	ObjectTag											m_tag = ObjectTag::Untagged;
 
 	std::shared_ptr<Cp_Transform>						m_trans;
@@ -101,7 +101,8 @@ private:
 	std::shared_ptr<Component> SearchTag(std::string _tag);
 	std::list<std::shared_ptr<Component>> SearchTags(std::string _tag);
 
-	void ComponentInit(std::shared_ptr<Component> _addCp);
+	void ComponentInit(std::shared_ptr<Component>& _addCp);
+	void ComponentJsonInit(std::list<std::shared_ptr<Component>>& _addCps);
 private:
 	void Release();
 };

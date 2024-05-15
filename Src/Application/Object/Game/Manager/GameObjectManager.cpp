@@ -97,7 +97,11 @@ void ObjectManager::ImGuiUpdate()
 			if (!flg)state &= ~(1 << i);
 		}
 
-		if (ImGui::Button("Add"))CreateObject(path)->AddComponents(state);
+		if (ImGui::Button("Add")) 
+		{
+			CreateObject(path)->AddComponents(state);
+		
+		}
 	}
 	if (num == 1) 
 	{
@@ -136,7 +140,7 @@ std::string ObjectManager::ToTag(unsigned int _id)
 unsigned int ObjectManager::ToID(std::string _tag)
 {
 	auto ID = ComponentMap::Instance().bitFind(_tag);
-	if (ID == ComponentMap::Instance().bitEnd())assert(false && "コンポIDlistにないよ！！");
+	if (ID == ComponentMap::Instance().bitEnd())assert(false && "コンポIDListにないよ！！");
 	return ID->second;
 }
 

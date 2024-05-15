@@ -63,14 +63,14 @@ void SceneManager::ShiftScene(SceneID a_toSceneNum)
 	bool flg = true;
 	auto Fn = [temp]() {temp->Load(); };
 
-	//std::thread mask(&SceneManager::DrawLoad, this, std::ref(flg));
-	//std::thread load(Fn);
+	std::thread mask(&SceneManager::DrawLoad, this, std::ref(flg));
+	std::thread load(Fn);
 
 
 
-	//load.join();
+	load.join();
 	flg = false;
-	//mask.join();
+	mask.join();
 
 	m_scene = temp;
 
@@ -81,6 +81,7 @@ void SceneManager::DrawLoad(bool& flg)
 {
 	while (flg)
 	{
+		continue;
 		static auto load =
 		{
 			ObjectManager::Instance().CreateObject("Back",false) ,

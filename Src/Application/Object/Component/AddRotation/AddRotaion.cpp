@@ -4,7 +4,7 @@
 
 void Cp_AddRotation::Start()
 {
-	m_wpTans = m_owner.lock()->GetspTransform();
+	m_wpTans = m_owner.lock()->GetTransform();
 }
 
 void Cp_AddRotation::InitJson()
