@@ -72,6 +72,7 @@ public:
 	void AddComponent(Component* _add);
 
 	void AddComponents(unsigned int _id);
+	void AddComponents();
 
 
 
@@ -99,6 +100,8 @@ private:
 	//便利関数
 	std::shared_ptr<Component> SearchTag(std::string _tag);
 	std::list<std::shared_ptr<Component>> SearchTags(std::string _tag);
+
+	void ComponentInit(std::shared_ptr<Component> _addCp);
 private:
 	void Release();
 };

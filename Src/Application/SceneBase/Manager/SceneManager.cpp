@@ -3,8 +3,8 @@
 #include "../Titile/TitleScene.h"
 #include "../Game/GameScene.h"
 #include "../Result/ResultScene.h"
-#include "../../Object/GameObject.h"
-#include "../../Object/Manager/ObjectManager.h"
+#include "../../Object/Game/GameObject.h"
+#include "../../Object/Game/Manager/GameObjectManager.h"
 
 #include "../../main.h"
 
@@ -45,7 +45,7 @@ void SceneManager::Init()
 
 void SceneManager::ImGuiUpdate()
 {
-	if (m_scene.get() == nullptr)return;
+	if (m_scene == nullptr)return;
 	m_scene->ImGuiUpdate();
 }
 
@@ -63,14 +63,14 @@ void SceneManager::ShiftScene(SceneID a_toSceneNum)
 	bool flg = true;
 	auto Fn = [temp]() {temp->Load(); };
 
-	std::thread mask(&SceneManager::DrawLoad, this, std::ref(flg));
-	std::thread load(Fn);
+	//std::thread mask(&SceneManager::DrawLoad, this, std::ref(flg));
+	//std::thread load(Fn);
 
 
 
-	load.join();
+	//load.join();
 	flg = false;
-	mask.join();
+	//mask.join();
 
 	m_scene = temp;
 

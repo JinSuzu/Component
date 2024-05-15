@@ -30,11 +30,5 @@ void C_GameScene::Init()
 
 void C_GameScene::LoadContent()
 {
-	ObjectManager::Instance().CreateObject("Game/Home");
-	ObjectManager::Instance().CreateObject("Game/Field");
-	ObjectManager::Instance().CreateObject("Game/Line01");
-	ObjectManager::Instance().CreateObject("Game/Line02");
-	ObjectManager::Instance().CreateObject("Game/PlayerCircle");
-	ObjectManager::Instance().CreateObject("Game/Recycle");
-	ObjectManager::Instance().CreateObject("Game/ArrowBord");
+
 }

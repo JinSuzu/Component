@@ -3,7 +3,6 @@
 #include "Component.h"
 #include "BoxCollision/BoxCollision.h"
 #include "DrawTex/DrawTex.h"
-#include "Transform/Transform.h"
 #include "Rigidbody/Rigidbody.h"
 #include "AddRotation/AddRotaion.h"
 
@@ -32,7 +31,6 @@ class ComponentMap
 		{ComponentID::BoxCollision		,FNCOMPONENT(BoxCollision)},
 		{ComponentID::DrawTex			,FNCOMPONENT(DrawTex)},
 		{ComponentID::Rigidbody			,FNCOMPONENT(Rigidbody)},
-		{ComponentID::Transform			,FNCOMPONENT(Transform)},
 
 		//依存コンポ
 		{ComponentID::AddRotation		,FNCOMPONENT(AddRotation)},

@@ -15,8 +15,7 @@ void Cp_DrawTex::Start()
 void Cp_DrawTex::InitJson()
 {
 	Component::InitJson();
-	if (m_jsonData.is_object())
-	{
+	if (!m_jsonData.is_null()){
 		m_path = m_jsonData["path"];
 		m_tex = AssetManager::Instance().GetKdTexture(m_path);
 		m_rect = JsonToRect(m_jsonData["rect"]);

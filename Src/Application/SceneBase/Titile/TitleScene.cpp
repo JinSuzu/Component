@@ -30,8 +30,4 @@ void C_TitleScene::Init()
 
 void C_TitleScene::LoadContent()
 {
-	ObjectManager::Instance().CreateObject("Title/Back");
-	ObjectManager::Instance().CreateObject("Title/BackCircle");
-	ObjectManager::Instance().CreateObject("Title/Title");
-	ObjectManager::Instance().CreateObject("Title/Enter");
 }

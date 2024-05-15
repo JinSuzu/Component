@@ -150,3 +150,22 @@ Math::Rectangle JsonToRect(nlohmann::json _value);
 
 nlohmann::json Vec3ToJson(Math::Vector3 _value);
 nlohmann::json RectToJson(Math::Rectangle _value);
+
+template<class T>
+static nlohmann::json SearchJson(nlohmann::json& _json,std::string _key,T _data)
+{
+	nlohmann::json json;
+	if (_json.is_null())return json;
+
+	for (auto& it : _json) 
+	for (auto& Key : it) 
+	{
+		if (Key == _key) 
+		if (it[_key] == _data) 
+		{
+			json = it;
+			break;
+		}
+	}
+	return json;
+}

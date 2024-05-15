@@ -429,7 +429,7 @@ void Application::ImGuiUpdate()
 		ImGui::RadioButton("Other", &mode, OtherMode);
 
 		if (mode == SceneMode) {
-			static int SceneNum = 0;
+			static int SceneNum = SceneManager::Instance().GetNowSceneNum();
 			ImGui::SliderInt("SceneNum", &SceneNum, 0, SceneID::Max - 1); SceneManager::Instance().ShiftScene((SceneID)SceneNum);
 			SceneManager::Instance().ImGuiUpdate();
 		}

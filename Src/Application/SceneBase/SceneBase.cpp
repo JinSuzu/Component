@@ -1,5 +1,5 @@
 ﻿#include "SceneBase.h"
-#include "../Object/Manager/ObjectManager.h"
+#include "../Object/Game/Manager/GameObjectManager.h"
 
 void SceneBase::Draw2D()
 {

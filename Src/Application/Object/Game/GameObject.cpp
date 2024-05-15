@@ -46,12 +46,14 @@ void GameObject::Init(std::string _name)
 
 	m_trans = std::make_shared<Cp_Transform>();
 	m_trans->SetOwner(weak_from_this());
+	m_trans->SetIDName("Transform");
+	m_trans->SetJson(m_jsonData["Component"][0]);
 	m_trans->InitJson();
 
 	if (file.is_open())
 	{
 		m_tag = m_jsonData["Tag"];
-		AddComponents(m_jsonData["ID"]);
+		AddComponents();
 	}
 }
 
@@ -70,7 +72,7 @@ void GameObject::ImGuiUpdate()
 		for (auto&& it : m_cpList)
 		{
 			//ImGui::SetNextTreeNodeOpen(true, ImGuiSetCond_Once);
-			if (ImGui::TreeNode(it->GetTag().c_str()))
+			if (ImGui::TreeNode(it->GetIDName().c_str()))
 			{
 				(*it).ImGuiUpdate();
 				ImGui::TreePop();
@@ -89,26 +91,20 @@ std::weak_ptr<Cp_Transform> GameObject::GetspTransform()
 void GameObject::AddComponent(unsigned int _id)
 {
 	auto addCp = ObjectManager::Instance().ToComponent(_id);
+	addCp->SetIDName(ObjectManager::Instance().ToTag(_id));
+	addCp->SetID(_id);
 
-	addCp->SetTag(ObjectManager::Instance().ToTag(_id));
-	addCp->SetOwner(weak_from_this());
-
-	m_cpList.push_back(std::shared_ptr<Component>(addCp));
-
-	addCp->SetOwner(weak_from_this());
-	addCp->InitJson();
-	addCp->Start();
+	ComponentInit(addCp);
 }
 
 void GameObject::AddComponent(Component* _addCp)
 {
-	unsigned int id = ObjectManager::Instance().ToID(typeid(*_addCp).name());
+	std::shared_ptr<Component> addCp(_addCp);
+	unsigned int id = ObjectManager::Instance().ToID(typeid(*addCp).name());
+	addCp->SetIDName(ObjectManager::Instance().ToTag(id));
+	addCp->SetID(id);
 
-	m_cpList.push_back(std::shared_ptr<Component>(_addCp));
-	_addCp->SetOwner(weak_from_this());
-	_addCp->InitJson();
-	_addCp->SetTag(ObjectManager::Instance().ToTag(id));
-	_addCp->Start();
+	ComponentInit(addCp);
 }
 
 void GameObject::AddComponents(unsigned int _id)
@@ -121,6 +117,19 @@ void GameObject::AddComponents(unsigned int _id)
 		if (!(_id & search))continue;
 
 		AddComponent(search);
+	}
+}
+
+void GameObject::AddComponents()
+{
+	for (auto& json : m_jsonData["Component"])
+	for (auto& key : json)
+	{
+		if (key == "ID") 
+		{
+			AddComponent(json["ID"]);
+			break;
+		}
 	}
 }
 
@@ -138,7 +147,7 @@ bool GameObject::CheckIDs(unsigned int _id)const
 std::shared_ptr<Component> GameObject::SearchTag(std::string _tag)
 {
 	auto&& it = m_cpList.begin();
-	while (it != m_cpList.end() && !(*it)->CheckTag(PickName(_tag,'_'))) { it++; }
+	while (it != m_cpList.end() && !(*it)->CheckIDName(PickName(_tag,'_'))) { it++; }
 
 	return  *it;
 }
@@ -149,23 +158,44 @@ std::list<std::shared_ptr<Component>> GameObject::SearchTags(std::string _tag)
 	std::list<std::shared_ptr<Component>> list;
 	while (it != m_cpList.end())
 	{
-		if((*it)->CheckTag(PickName(_tag, '_')))list.push_back(*it);
+		if((*it)->CheckIDName(PickName(_tag, '_')))list.push_back(*it);
 		it++;
 	}
 
 	return list;
 }
 
+void GameObject::ComponentInit(std::shared_ptr<Component> _addCp)
+{
+	m_cpList.push_back(std::shared_ptr<Component>(_addCp));
+
+	_addCp->SetOwner(weak_from_this());
+
+	nlohmann::json json = SearchJson(m_jsonData, "ID", _addCp->GetID());
+	if(!json.is_null())_addCp->SetJson(json);
+	_addCp->InitJson();
+	_addCp->Start();
+}
+
 void GameObject::Release()
 {
 	if (!m_bSave)return;
 	nlohmann::json component;
-	for (auto&& it : m_cpList)component[it->GetTag()] = it->GetJson();
+
+
+	component.push_back(m_trans->GetJson());
+
+	for (auto&& it : m_cpList) 
+	{
+		nlohmann::json json = it->GetJson();
+		json["ID"] = it->GetID();
+		component.push_back(json);
+	}
+	
 	nlohmann::json finalJson;
 	finalJson["Component"] = component;
 	std::ofstream file(m_filePath);
 
-	finalJson["ID"] = m_compoID;
 	finalJson["Tag"] = m_tag;
 	if (file.is_open()) {
 		file << finalJson.dump(4);  // 読みやすい形式でファイルに書き出す

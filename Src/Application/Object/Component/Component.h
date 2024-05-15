@@ -10,12 +10,11 @@ enum ComponentID
 	BoxCollision			= 1 << 0,
 	DrawTex					= 1 << 1,
 	Rigidbody				= 1 << 2,
-	Transform				= 1 << 3,
 
 	//依存コンポ
-	AddRotation				= 1 << 4,
+	AddRotation				= 1 << 3,
 
-	MaxID					= 1 << 5,
+	MaxID					= 1 << 4,
 };
 
 class Component
@@ -42,14 +41,18 @@ public:
 	virtual void SetOwner(std::weak_ptr<GameObject> _object)	final	{ m_owner = _object; }
 
 
-	virtual std::string GetTag()			final	{ return m_tag; }
-	virtual void SetTag(std::string _tag)   final	{ m_tag = _tag; }
+	virtual std::string GetIDName()			final	{ return m_IDName; }
+	virtual void SetIDName(std::string _tag)   final	{ m_IDName = _tag; }
 
-	virtual bool CheckTag(std::string _tag)	final	{return m_tag == _tag;}
+	virtual ComponentID GetID() { return m_id; };
+	virtual void SetID(unsigned int _id) { m_id = (ComponentID)_id; };
+
+	virtual bool CheckIDName(std::string _tag)	final	{return m_IDName == _tag;}
 
 	//Json係
-	virtual void InitJson();
-	virtual nlohmann::json GetJson() { return nlohmann::json(); };
+	virtual void InitJson() {};
+	virtual nlohmann::json GetJson();
+	virtual void SetJson(nlohmann::json _json) { m_jsonData = _json; }
 
 protected:
 	std::weak_ptr<GameObject>				m_owner;
@@ -57,7 +60,10 @@ protected:
 	std::shared_ptr<std::function<void()>>	m_spDraw2D;
 	std::shared_ptr<std::function<void()>>	m_spUpdate;
 
-	std::string m_tag;
+	std::string								m_name;
+
+	std::string								m_IDName;
+	ComponentID                             m_id;
 
 	nlohmann::json							m_jsonData;
 

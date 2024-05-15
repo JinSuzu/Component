@@ -4,7 +4,7 @@
 void Cp_Transform::InitJson()
 {
 	Component::InitJson();
-	if (m_jsonData.is_object())
+	if (!m_jsonData.is_null())
 	{
 		m_position = JsonToVec3(m_jsonData["position"]);
 		m_rotation = JsonToVec3(m_jsonData["rotation"]);

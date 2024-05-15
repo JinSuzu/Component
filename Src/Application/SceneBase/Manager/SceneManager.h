@@ -20,6 +20,8 @@ public:
 	void ShiftScene(SceneID a_toSceneNum);
 
 	void DrawLoad(bool& flg);
+
+	int GetNowSceneNum() { return m_nowSceneNum;}
 private:
 
 	std::shared_ptr<SceneBase> m_scene;

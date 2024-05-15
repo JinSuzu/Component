@@ -1,9 +1,9 @@
 ﻿#include "Component.h"
 #include "../Game/GameObject.h"
 
-void Component::InitJson()
+nlohmann::json Component::GetJson()
 {
-	nlohmann::json json = m_owner.lock()->GetJson();
-	if (json.is_null())return;
-	m_jsonData = m_owner.lock()->GetJson()["Component"][m_tag];
+	m_jsonData["ID"] = m_id;
+	m_jsonData["Name"] = m_name;
+	return m_jsonData;
 }
