@@ -32,7 +32,7 @@ public:
 	void InitJson()override;
 
 	void Draw()override;
-	void Update()override;
+	void UpdateContents()override;
 	void ImGuiUpdate()override;
 	nlohmann::json GetJson()override;
 	nlohmann::json GetAnimeJson(std::string _tag,AnimeSet _set);

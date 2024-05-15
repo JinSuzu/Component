@@ -43,7 +43,7 @@ void Cp_DrawTex::Draw()
 	KdShaderManager::Instance().m_spriteShader.SetMatrix(Math::Matrix::Identity);
 }
 
-void Cp_DrawTex::Update()
+void Cp_DrawTex::UpdateContents()
 {
 	if (m_bAnime && Timer::Instance().GetAlarm(m_animeMap[m_nowAnime].interval)) {
 		if (m_animeMap.find(m_nowAnime) == m_animeMap.end())return;

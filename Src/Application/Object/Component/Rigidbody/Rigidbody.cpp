@@ -22,7 +22,7 @@ void Cp_Rigidbody::PreUpdateContents()
 	m_move -= m_gravity;
 }
 
-void Cp_Rigidbody::Update()
+void Cp_Rigidbody::UpdateContents()
 {
 	std::weak_ptr<Cp_Transform>tans =  m_owner.lock()->GetspTransform();
 	tans.lock()->SetPosition(tans.lock()->GetPosition() + m_move);

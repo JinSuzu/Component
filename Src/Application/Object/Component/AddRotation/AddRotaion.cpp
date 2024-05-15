@@ -16,7 +16,7 @@ void Cp_AddRotation::InitJson()
 	}
 }
 
-void Cp_AddRotation::Update()
+void Cp_AddRotation::UpdateContents()
 {
 	Math::Vector3  rota = m_wpTans.lock()->GetRotation() + m_addPow;
 	

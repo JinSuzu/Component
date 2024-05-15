@@ -9,7 +9,7 @@ public:
 	void InitJson()override;
 
 	void PreUpdateContents()override;
-	void Update()override;
+	void UpdateContents()override;
 	//void PostUpdate()override;
 	void ImGuiUpdate()override;
 

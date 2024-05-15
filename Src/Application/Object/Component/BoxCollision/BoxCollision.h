@@ -14,8 +14,8 @@ public:
 	void InitJson()override;
 
 	void PreUpdateContents()override;
-	void Update()override;
-	void PostUpdate()override;
+	void UpdateContents()override;
+	void PostUpdateContents()override;
 
 	void ImGuiUpdate()override;
 

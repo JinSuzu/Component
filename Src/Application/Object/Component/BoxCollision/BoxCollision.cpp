@@ -26,11 +26,11 @@ void Cp_BoxCollision::PreUpdateContents()
 	m_colliList.clear();
 }
 
-void Cp_BoxCollision::Update()
+void Cp_BoxCollision::UpdateContents()
 {
 }
 
-void Cp_BoxCollision::PostUpdate()
+void Cp_BoxCollision::PostUpdateContents()
 {
 	if (m_bHit && m_bTrigger)
 	{

@@ -10,7 +10,7 @@ public:
 	void Start()override; 
 	void InitJson()override;
 
-	void Update()override;
+	void UpdateContents()override;
 	void ImGuiUpdate()override;
 
 	nlohmann::json GetJson()override;
