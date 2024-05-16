@@ -84,9 +84,9 @@ void SceneManager::DrawLoad(bool& flg)
 		continue;
 		static auto load =
 		{
-			ObjectManager::Instance().CreateObject("Back",false) ,
-			ObjectManager::Instance().CreateObject("Load",false) ,
-			ObjectManager::Instance().CreateObject("Loading",false)
+			GameObjectManager::Instance().CreateObject("Back",false) ,
+			GameObjectManager::Instance().CreateObject("Load",false) ,
+			GameObjectManager::Instance().CreateObject("Loading",false)
 		};
 
 

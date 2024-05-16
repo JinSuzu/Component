@@ -21,7 +21,7 @@ public:
 	virtual void PreUpdate();
 	virtual void Update();
 	virtual void PostUpdate();
-	virtual void Init() { id = typeid(*this).name(); };
+	virtual void Init() { id = PickName(typeid(*this).name()); };
 	virtual void Load()final;
 	virtual void Release() final;
 	virtual void ImGuiUpdate();
@@ -32,4 +32,6 @@ protected:
 	bool m_bLoad;
 	virtual void ReleaseContent() {};
 	virtual void LoadContent() {};
+private:
+	nlohmann::json m_jsonData;
 };

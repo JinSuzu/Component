@@ -47,12 +47,12 @@ public:
 		auto temp = m_createList.find(_id);
 		assert(temp != m_createList.end() && "Mapに入ってないよ");
 		return temp->second();
-
 	}
 
 	auto bitFind(std::string _tag)			{ return m_bitMap.find(PickName(_tag,'_')); }
 	auto bitBegin()							{ return m_bitMap.begin(); }
 	auto bitEnd()							{ return m_bitMap.end(); }
+	auto GetBitMap()							{ return m_bitMap; }
 	std::string GetTag(unsigned int _id)	{ return m_tagMap.find(_id)->second; }
 	int GetCompoNum()						{ return std::log2((double)ComponentID::MaxID); }
 

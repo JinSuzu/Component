@@ -445,7 +445,7 @@ void Application::ImGuiUpdate()
 			SceneManager::Instance().ImGuiUpdate();
 		}
 		else if (mode == ObjectMode) {
-			ObjectManager::Instance().ImGuiUpdate();
+			GameObjectManager::Instance().ImGuiUpdate();
 		}
 		else if (mode == OtherMode) {
 			ImGui::Text("FPS : %d",m_fpsController.m_nowfps);

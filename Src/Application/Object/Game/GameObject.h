@@ -31,6 +31,7 @@ public:
 	void Update();
 	void PostUpdate();
 	void Init(std::string _name);
+
 	void ImGuiUpdate();
 
 	std::string GetName() { return m_name; };
@@ -40,7 +41,7 @@ public:
 	std::weak_ptr<Cp_Transform>GetTransform() { return m_trans; }
 	#pragma region ComponentFns
 public:
-	std::shared_ptr<Component> AddComponent(unsigned int _id);
+	std::shared_ptr<Component> AddComponent(unsigned int _id, nlohmann::json _json = nlohmann::json());
 	std::shared_ptr<Component> AddComponent(Component* _add);
 	std::list<std::shared_ptr<Component>> AddComponents(unsigned int _id);
 	std::list<std::shared_ptr<Component>> AddComponents();
@@ -96,6 +97,7 @@ private:
 	//便利関数
 	std::shared_ptr<Component> SearchTag(std::string _tag);
 	std::list<std::shared_ptr<Component>> SearchTags(std::string _tag);
+	void ImGuiComponents();
 
 	void Release();
 };

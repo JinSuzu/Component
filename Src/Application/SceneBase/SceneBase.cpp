@@ -3,22 +3,22 @@
 
 void SceneBase::Draw2D()
 {
-	ObjectManager::Instance().Draw();
+	GameObjectManager::Instance().Draw();
 }
 
 void SceneBase::PreUpdate()
 {
-	ObjectManager::Instance().PreUpdate();
+	GameObjectManager::Instance().PreUpdate();
 }
 
 void SceneBase::Update()
 {
-	ObjectManager::Instance().Update();
+	GameObjectManager::Instance().Update();
 }
 
 void SceneBase::PostUpdate()
 {
-	ObjectManager::Instance().PostUpdate();
+	GameObjectManager::Instance().PostUpdate();
 }
 
 void SceneBase::Load()
@@ -26,13 +26,17 @@ void SceneBase::Load()
 	if (m_bLoad)return;//ロード済みreturn
 	m_bLoad = true;
 	LoadContent();
+	std::ifstream file(id);
+	if (file.is_open()) {
+		file >> m_jsonData;
+	}
 }
 
 void SceneBase::Release()
 {
 	if (!m_bLoad)return;//リリース済みreturn
 	m_bLoad = false;
-	ObjectManager::Instance().Release();
+	GameObjectManager::Instance().Release();
 	ReleaseContent();
 }
 
