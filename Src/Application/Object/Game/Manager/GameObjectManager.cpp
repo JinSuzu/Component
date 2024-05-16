@@ -78,28 +78,33 @@ void GameObjectManager::ImGuiUpdate()
 	ImGuiCreateObject();
 
 	ImGui::Text("ObjNum : %d", m_obList.size());
+
+	int obNum = 0; static std::weak_ptr<GameObject> pickObject = std::weak_ptr<GameObject>();
 	ImGui::BeginChild(ImGuiCond_Always, ImVec2(500, 300), ImGuiWindowFlags_NoTitleBar);
-	int obNum = 0;
 	for (auto&& it : m_obList)
 	{
-		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-
-		auto TreeNode = [&]()
-			{
-				bool flg = ImGui::TreeNode(std::to_string(obNum++).c_str());
-				ImGui::SameLine(); ImGui::Text((" : " + it->GetName()).c_str());
-				return flg;
-			};
-
-		if (TreeNode())
+		if (obNum % 2)ImGui::SameLine();
+		if (ImGui::Button((std::to_string(obNum++) + " : " + it->GetName()).c_str())) 
 		{
-			it->ImGuiUpdate();
-			ImGui::TreePop();
+			pickObject = it;
 		}
-
 	}
-	
 	ImGui::EndChild();
+
+	if (pickObject.expired())return;
+
+	auto TreeNode = [&]()
+		{
+			bool flg = ImGui::TreeNode(std::to_string(obNum++).c_str());
+			ImGui::SameLine(); ImGui::Text((" : " + pickObject.lock()->GetName()).c_str());
+			return flg;
+		};
+
+	if (TreeNode())
+	{
+		pickObject.lock()->ImGuiUpdate();
+		ImGui::TreePop();
+	}
 }
 
 void GameObjectManager::ImGuiCreateObject(std::weak_ptr<GameObject> _parent)
