@@ -23,19 +23,27 @@ class GameObject
 	,public Object
 {
 public:
-	GameObject();
-	~GameObject()
-	{
-		Release();
-	}
+	GameObject() {}
+	~GameObject() { Release(); }
 
 	void Draw();
 	void PreUpdate();
 	void Update();
 	void PostUpdate();
 	void Init(std::string _name);
-
 	void ImGuiUpdate();
+
+	std::string GetName() { return m_name; };
+	ObjectTag GetTag() const { return m_tag; };
+	void SetTag(ObjectTag _tag) { m_tag = _tag; };
+
+	std::weak_ptr<Cp_Transform>GetTransform() { return m_trans; }
+	#pragma region ComponentFns
+public:
+	std::shared_ptr<Component> AddComponent(unsigned int _id);
+	std::shared_ptr<Component> AddComponent(Component* _add);
+	std::list<std::shared_ptr<Component>> AddComponents(unsigned int _id);
+	std::list<std::shared_ptr<Component>> AddComponents();
 
 	template<class T>
 	std::weak_ptr<T> GetComponent() 
@@ -57,51 +65,37 @@ public:
 		return list;
 	}
 
-	std::list<std::shared_ptr<Component>>& GetComponentList() { return m_cpList; }
+private:
+	void ComponentInit(std::shared_ptr<Component>& _addCp);
+	void ComponentInit(std::shared_ptr<Component>& _addCp,nlohmann::json& _json);
+public:
+#pragma endregion
 
-	std::string GetName() { return m_name; };
-	ObjectTag GetTag() const { return m_tag; };
-
-	std::weak_ptr<Cp_Transform>GetTransform() { return m_trans; }
-
-
-	void SetTag(ObjectTag _tag) { m_tag = _tag; };
-
-	//Fn(ComponentID::'ID')
-	std::shared_ptr<Component> AddComponent(unsigned int _id);
-	std::shared_ptr<Component> AddComponent(Component* _add);
-
-	std::list<std::shared_ptr<Component>> AddComponents(unsigned int _id);
-	std::list<std::shared_ptr<Component>> AddComponents();
+	std::weak_ptr<GameObject> GetParent() { return m_parent; }
+	void SetParent(std::weak_ptr<GameObject> _parent);
 
 
-
-	bool CheckID(unsigned int _id) const;
-	bool CheckIDs(unsigned int _id)const;
 
 	//Json係
 	void DotSave() { m_bSave = false; }
 	nlohmann::json& GetJson() { return m_jsonData; };
 
 private:
-	std::string											m_name;
-	ObjectTag											m_tag = ObjectTag::Untagged;
+	std::string								m_name;
+	ObjectTag								m_tag = ObjectTag::Untagged;
 
-	std::shared_ptr<Cp_Transform>						m_trans;
-	std::list<std::string>								m_setCompoIDs;
-	unsigned int										m_compoID = 0;
-	std::list<std::shared_ptr<Component>>				m_cpList;
+	std::shared_ptr<Cp_Transform>			m_trans;
+	std::list<std::shared_ptr<Component>>	m_cpList;
+
+	std::weak_ptr<GameObject>				m_parent;
 
 	//Json係
-	bool												m_bSave = true;
-	nlohmann::json										m_jsonData;
-
+	bool									m_bSave = true;
+	nlohmann::json							m_jsonData;
+private:
 	//便利関数
 	std::shared_ptr<Component> SearchTag(std::string _tag);
 	std::list<std::shared_ptr<Component>> SearchTags(std::string _tag);
 
-	void ComponentInit(std::shared_ptr<Component>& _addCp);
-	void ComponentJsonInit(std::list<std::shared_ptr<Component>>& _addCps);
-private:
 	void Release();
 };

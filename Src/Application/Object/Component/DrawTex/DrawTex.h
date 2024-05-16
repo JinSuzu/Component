@@ -41,14 +41,13 @@ public:
 	void SetTex(std::shared_ptr<KdTexture> _tex) {m_tex = _tex;}
 
 private:
-	std::shared_ptr<KdTexture>		m_tex;
-	Math::Rectangle					m_rect;
-	std::string						m_path;
+	std::shared_ptr<KdTexture>		m_tex		= nullptr;
+	Math::Rectangle					m_rect		= { 0,0,64,64 };
+	std::string						m_path		= "chara/block.png";
 	
-	bool							m_bAnime = false;
-	std::string						m_nowAnime = "default";
+	bool							m_bAnime	= false;
+	std::string						m_nowAnime	= "default";
 	std::map<std::string, AnimeSet>	m_animeMap;
 
-	std::string						m_matTag = "SRT";
 	std::weak_ptr<Cp_Transform>		m_wpTrans;
 };

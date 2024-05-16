@@ -56,6 +56,8 @@ private:
 	bool		m_endFlag = false;
 
 	Math::Vector2 m_windowSize;
+
+	void ImGuiProcess();
 	void ImGuiUpdate();
 //=====================================================
 // シングルトンパターン

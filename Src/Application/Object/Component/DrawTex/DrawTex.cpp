@@ -10,8 +10,10 @@
 void Cp_DrawTex::Start()
 {
 	m_wpTrans = m_owner.lock()->GetTransform();
-	m_tex = AssetManager::Instance().GetKdTexture("chara/block.png");
+	m_tex = AssetManager::Instance().GetKdTexture(m_path);
+	m_rect = { 0,0,(LONG)m_tex->GetInfo().Width,(LONG)m_tex->GetInfo().Height };
 }
+
 
 void Cp_DrawTex::InitJson()
 {
@@ -30,13 +32,12 @@ void Cp_DrawTex::InitJson()
 				m_nowAnime = it["tag"];
 			}
 		}
-		m_matTag = m_jsonData["matTag"];
 	}
 }
 
 void Cp_DrawTex::Draw()
 {
-	KdShaderManager::Instance().m_spriteShader.SetMatrix(m_wpTrans.lock()->GetMatrix(m_matTag));
+	KdShaderManager::Instance().m_spriteShader.SetMatrix(m_wpTrans.lock()->GetMatrix());
 
 	KdShaderManager::Instance().m_spriteShader.DrawTex(m_tex.get(), 0, 0, m_rect.width, m_rect.height, &m_rect);
 	
@@ -49,7 +50,6 @@ void Cp_DrawTex::UpdateContents()
 		if (m_animeMap.find(m_nowAnime) == m_animeMap.end())return;
 		m_animeMap[m_nowAnime].Update(m_rect);
 	}
-
 }
 
 void Cp_DrawTex::ImGuiUpdate()
@@ -61,18 +61,18 @@ void Cp_DrawTex::ImGuiUpdate()
 	{
 		m_path = path;
 		m_tex = AssetManager::Instance().GetKdTexture(std::string(path));
+		m_rect = { 0,0,(LONG)m_tex->GetInfo().Width,(LONG)m_tex->GetInfo().Height };
 	}
 
 	float value[4] = { (float)m_rect.x,(float)m_rect.y ,(float)m_rect.width ,(float)m_rect.height };
 	ImGui::DragFloat4("Rect", value);
 	m_rect = Math::Rectangle((long)value[0], (long)value[1], (long)value[2], (long)value[3]);
 
-
 	if (ImGui::TreeNode("Animation"))
 	{
 		ImGui::Checkbox("Active", &m_bAnime);
 		static char nowTag[50] = "";
-		ImGui::InputText("nowAnimaion", nowTag, sizeof(path));
+		ImGui::InputText("nowAnimation", nowTag, sizeof(path));
 		ImGui::SameLine(); if (ImGui::Button("Set"))m_nowAnime = nowTag;
 
 		static char animeTag[50] = "";
@@ -85,9 +85,6 @@ void Cp_DrawTex::ImGuiUpdate()
 		}
 		ImGui::TreePop();
 	}
-	static char matTag[50] = "";
-	ImGui::InputText("matTag", matTag, sizeof(path));
-	ImGui::SameLine(); if (ImGui::Button("Set"))m_matTag = matTag;
 }
 
 nlohmann::json Cp_DrawTex::GetJson()
@@ -96,7 +93,6 @@ nlohmann::json Cp_DrawTex::GetJson()
 	m_jsonData["rect"] = RectToJson(m_rect);
 	m_jsonData["Animation"] = nlohmann::json::array();
 	for (auto&& it : m_animeMap)m_jsonData["Animation"].push_back(GetAnimeJson(it.first, it.second));
-	m_jsonData["matTag"] = m_matTag;
 	return m_jsonData;
 }
 

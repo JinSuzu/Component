@@ -33,7 +33,6 @@ void ObjectManager::PreUpdate()
 		it++;
 	}
 }
-
 void ObjectManager::Update() {
 
 	ITERATOR(Update);
@@ -69,8 +68,6 @@ void ObjectManager::Update() {
 		it++;
 	}
 }
-
-
 void ObjectManager::PostUpdate()
 {
 	ITERATOR(PostUpdate)
@@ -106,12 +103,20 @@ void ObjectManager::ImGuiUpdate()
 	if (num == 1) 
 	{
 		ImGui::Text("ObjNum : %d", m_obList.size());
-		ImGui::BeginChild(ImGui::GetID((void*)0), ImVec2(500, 300), ImGuiWindowFlags_NoTitleBar);
+		ImGui::BeginChild(ImGuiCond_Always, ImVec2(500, 300), ImGuiWindowFlags_NoTitleBar);
 		int obNum = 0;
 		for (auto&& it : m_obList)
 		{
 			ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-			if (ImGui::TreeNode(std::to_string(obNum++).c_str()))
+
+			auto TreeNode = [&]()
+				{
+					bool flg = ImGui::TreeNode(std::to_string(obNum++).c_str());
+					ImGui::SameLine();ImGui::Text((" : " + it->GetName()).c_str());
+					return flg;
+				};
+
+			if (TreeNode())
 			{
 				it->ImGuiUpdate();
 				ImGui::TreePop();
@@ -126,7 +131,6 @@ void ObjectManager::ImGuiUpdate()
 void ObjectManager::Init()
 {
 }
-
 void ObjectManager::Release()
 {
 	auto it = m_obList.begin();
@@ -137,12 +141,10 @@ std::shared_ptr<Component> ObjectManager::ToComponent(unsigned int _id)
 {
 	return ComponentMap::Instance().createFind(_id);
 }
-
 std::string ObjectManager::ToTag(unsigned int _id)
 {
 	return ComponentMap::Instance().GetTag(_id);
 }
-
 unsigned int ObjectManager::ToID(std::string _tag)
 {
 	auto ID = ComponentMap::Instance().bitFind(_tag);
@@ -158,14 +160,3 @@ std::shared_ptr<GameObject> ObjectManager::CreateObject(std::string _tag,bool fl
 	if(flg)m_obList.push_back(object);
 	return object;
 }
-
-void ObjectManager::UpdateRange(std::list<std::shared_ptr<GameObject>>::iterator start, std::list<std::shared_ptr<GameObject>>::iterator end)
-{
-	for (auto&& it = start; it != end; ++it) {
-		if ((*it) && (*it)->GetActive()) {
-			(*it)->Update();
-		}
-	}
-
-}
-

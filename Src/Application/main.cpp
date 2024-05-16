@@ -353,16 +353,7 @@ void Application::Execute()
 
 			DrawSprite();
 
-			// GUI描画実行
-			// ImGui開始
-			ImGui_ImplDX11_NewFrame();
-			ImGui_ImplWin32_NewFrame();
-			ImGui::NewFrame();
-			// ImGui処理
-			ImGuiUpdate();
-			//リリース時はImGuiの部分は通らないようにする
-			ImGui::Render();
-			ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+			ImGuiProcess();
 
 		}
 		KdPostDraw();
@@ -387,7 +378,7 @@ void Application::Execute()
 // アプリケーション終了
 void Application::Release()
 {
-	// imgui解放
+	//imgui解放
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
@@ -402,6 +393,26 @@ void Application::Release()
 
 	// ウィンドウ削除
 	m_window.Release();
+}
+
+void Application::ImGuiProcess()
+{
+	static bool flg = true;
+
+	if (GetAsyncKeyState(VK_UP) & 0x8000)flg = true;
+	else if (GetAsyncKeyState(VK_DOWN) & 0x8000)flg = false;
+
+	if (!flg)return;
+	
+	// ImGui開始
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+	// ImGui処理
+	ImGuiUpdate();
+	//リリース時はImGuiの部分は通らないようにする
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
 void Application::ImGuiUpdate()
@@ -440,7 +451,6 @@ void Application::ImGuiUpdate()
 			ImGui::Text("FPS : %d",m_fpsController.m_nowfps);
 			ImGui::Text("TherdMax : %d",std::hardware_constructive_interference_size);
 		}
-
 	}
 	ImGui::End();
 }

@@ -30,13 +30,8 @@ void Cp_Rigidbody::UpdateContents()
 
 void Cp_Rigidbody::ImGuiUpdate()
 {
-	float vol1[3]TOARRAY3(m_move);
-	ImGui::DragFloat3("move",vol1);
-	m_move = Math::Vector3(vol1);
-
-	float vol2[3]TOARRAY3(m_gravity);
-	ImGui::DragFloat3("gravity",vol2);
-	m_gravity = Math::Vector3(vol2);
+	ImGui::DragFloat3("move",&m_move.x);
+	ImGui::DragFloat3("gravity",&m_gravity.x);
 }
 
 nlohmann::json Cp_Rigidbody::GetJson()

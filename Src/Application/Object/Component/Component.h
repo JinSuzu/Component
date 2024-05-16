@@ -34,7 +34,6 @@ public:
 	virtual void Update()		final { if(m_bActive)UpdateContents(); }
 	virtual void PostUpdate()	final { if(m_bActive)PostUpdateContents(); }
 
-
 	virtual void ImGuiUpdate() {}
 
 	virtual std::weak_ptr<GameObject> GetOwner()				final	{ return m_owner; }
@@ -136,6 +135,4 @@ while (fn != _fnList.end())				\
 
 #define COMPONENTLISTINSTANCE(NAME)\
 ComponentFactoryList<Cp_##NAME>::Instance()
-
-#define TOARRAY3(v) {v.x,v.y,v.z}
 

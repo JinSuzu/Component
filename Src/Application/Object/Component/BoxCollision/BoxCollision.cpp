@@ -50,10 +50,7 @@ void Cp_BoxCollision::PostUpdateContents()
 
 void Cp_BoxCollision::ImGuiUpdate()
 {
-	float value[3] = TOARRAY3(m_rad);
-	ImGui::DragFloat3("rad", value);
-	m_rad = Math::Vector3(value);
-
+	ImGui::DragFloat3("rad", &m_rad.x);
 	ImGui::Checkbox("trigger", &m_bTrigger);
 }
 

@@ -9,22 +9,20 @@ void Cp_Transform::InitJson()
 		m_position = JsonToVec3(m_jsonData["position"]);
 		m_rotation = JsonToVec3(m_jsonData["rotation"]);
 		m_scale = JsonToVec3(m_jsonData["scale"]);
+
+		m_matTag = m_jsonData["matTag"];
 	}
 }
 
 void Cp_Transform::ImGuiUpdate()
 {
-	float vol1[3]TOARRAY3(m_position);
-	ImGui::DragFloat3("Position", vol1);
-	m_position = Math::Vector3(vol1);
+	ImGui::DragFloat3("Position", &m_position.x);
+	ImGui::DragFloat3("Rotation", &m_rotation.x);	
+	ImGui::DragFloat3("Scale"	, &m_scale.x);
 
-	float vol2[3]TOARRAY3(m_rotation);
-	ImGui::DragFloat3("Rotation", vol2);
-	m_rotation = Math::Vector3(vol2);
-	
-	float vol3[3]TOARRAY3(m_scale);
-	ImGui::DragFloat3("Scale", vol3);
-	m_scale = Math::Vector3(vol3);
+	static char matTag[50] = "";
+	ImGui::InputText("matTag", matTag, sizeof(matTag));
+	ImGui::SameLine(); if (ImGui::Button("Set"))m_matTag = matTag;
 }
 
 nlohmann::json Cp_Transform::GetJson()
@@ -33,24 +31,24 @@ nlohmann::json Cp_Transform::GetJson()
 	m_jsonData["rotation"]	= Vec3ToJson(m_rotation);
 	m_jsonData["scale"]		= Vec3ToJson(m_scale);
 
+	m_jsonData["matTag"]	= m_matTag;
 	return m_jsonData;
 }
 
-Math::Matrix Cp_Transform::GetMatrix(std::string _tag)
+Math::Matrix Cp_Transform::GetMatrix()
 {
-	Math::Matrix mat;
-	auto it = _tag.begin();
+	auto it = m_matTag.begin();
 
 	switch (*it)
 	{
 	case 'T':
-		mat = GetTMat();
+		m_mWorld = GetTMat();
 		break;
 	case 'R':
-		mat = GetRMat();
+		m_mWorld = GetRMat();
 		break;
 	case 'S':
-		mat = GetSMat();
+		m_mWorld = GetSMat();
 		break;
 	default:
 		return GetMatrix();
@@ -58,44 +56,32 @@ Math::Matrix Cp_Transform::GetMatrix(std::string _tag)
 
 	it++;
 
-	while (it != _tag.end())
+	while (it != m_matTag.end())
 	{
 		switch (*it)
 		{
 		case 'T':
-			mat *= GetTMat();
+			m_mWorld *= GetTMat();
 			break;
 		case 'R':
-			mat *= GetRMat();
+			m_mWorld *= GetRMat();
 			break;
 		case 'S':
-			mat *= GetSMat();
+			m_mWorld *= GetSMat();
 			break;
 		default:
 			return GetMatrix();
 		}
 		it++;
 	}
-	return mat;
-}
 
-Math::Matrix Cp_Transform::GetMatrix()
-{
-	Math::Matrix mat(
-		Math::Matrix::CreateScale(m_scale)
-		*Math::Matrix::CreateRotationX(DirectX::XMConvertToRadians(m_rotation.x))
-		* Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_rotation.y))
-		* Math::Matrix::CreateRotationZ(DirectX::XMConvertToRadians(m_rotation.z))
-		* Math::Matrix::CreateTranslation(m_position)
-	);
-	mat._43 = 0;
-	return mat;
+	if(m_parent.expired())return m_mWorld;
+	return m_mWorld * m_parent.lock()->GetMatrix();
 }
 
 Math::Matrix Cp_Transform::GetTMat()
 {
 	Math::Matrix mat(Math::Matrix::CreateTranslation(m_position));
-	mat._43 = 0;
 	return mat;
 }
 

@@ -29,9 +29,7 @@ void Cp_AddRotation::UpdateContents()
 
 void Cp_AddRotation::ImGuiUpdate()
 {
-	float value[3]TOARRAY3(m_addPow);
-	ImGui::DragFloat3("addPow",value);
-	m_addPow = Math::Vector3(value);
+	ImGui::DragFloat3("addPow",&m_addPow.x);
 }
 
 nlohmann::json Cp_AddRotation::GetJson()
