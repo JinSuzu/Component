@@ -6,7 +6,6 @@
 
 #include "../../../Utility/Timer.h"
 
-
 void Cp_DrawTex::Start()
 {
 	m_wpTrans = m_owner.lock()->GetTransform();
@@ -79,10 +78,10 @@ void Cp_DrawTex::ImGuiUpdate()
 		ImGui::InputText("AddAnime", animeTag, sizeof(path));
 		ImGui::SameLine(); if (ImGui::Button("Add"))m_animeMap[animeTag] = AnimeSet();
 
-
 		for (auto&& it : m_animeMap) {
 			it.second.ImGuiUpdate(it.first);
 		}
+
 		ImGui::TreePop();
 	}
 }
@@ -115,9 +114,9 @@ void AnimeSet::Init(nlohmann::json _json)
 nlohmann::json AnimeSet::GetJson()
 {
 	nlohmann::json json;
-	json["h"] = h;
-	json["w"] = w;
-	json["interval"] = interval;
+	json["h"]			= h;
+	json["w"]			= w;
+	json["interval"]	= interval;
 	return json;
 }
 
@@ -125,7 +124,7 @@ void AnimeSet::Update(Math::Rectangle& _rect)
 {
 	_rect.x += _rect.width;
 	_rect.x *= _rect.x < (_rect.width * w);
-	_rect.y = h * _rect.height;
+	_rect.y	 = h * _rect.height;
 }
 
 void AnimeSet::ImGuiUpdate(std::string _tag)

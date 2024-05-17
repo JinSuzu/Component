@@ -30,7 +30,7 @@ void C_GameScene::Init()
 
 void C_GameScene::LoadContent()
 {
-	auto obj1 = GameObjectManager::Instance().CreateObject("Test");
+	/*auto obj1 = GameObjectManager::Instance().CreateObject("Test");
 	GameObjectManager::Instance().CreateObject("TestC")
-		->SetParent(obj1);
+		->SetParent(obj1);*/
 }

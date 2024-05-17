@@ -8,21 +8,25 @@
 void GameObject::Draw()
 {
 	if (!m_bActive)return;
+	if (m_bDestroy)return;
 	ITERATOR(m_cpList)Draw();
 }
 void GameObject::PreUpdate()
 {
 	if (!m_bActive)return;
+	if (m_bDestroy)return;
 	ITERATOR(m_cpList)PreUpdate();
 }
 void GameObject::Update()
 {
 	if (!m_bActive)return;
+	if (m_bDestroy)return;
 	ITERATOR(m_cpList)Update();
 }
 void GameObject::PostUpdate()
 {
 	if (!m_bActive)return;
+	if (m_bDestroy)return;
 	ITERATOR(m_cpList)PostUpdate();
 }
 
@@ -53,7 +57,6 @@ void GameObject::ImGuiUpdate()
 	ImGuiComponents();
 
 	GameObjectManager::Instance().ImGuiAddComponent(weak_from_this());
-	GameObjectManager::Instance().ImGuiCreateObject(weak_from_this());
 }
 
 #pragma region ComponentFns
@@ -96,6 +99,7 @@ std::list<std::shared_ptr<Component>> GameObject::AddComponents()
 {
 	std::list<std::shared_ptr<Component>>list;
 
+	if (m_jsonData.is_null())return list;
 	for (auto& json : m_jsonData["Component"])
 	{
 		auto Key = json.begin();

@@ -39,6 +39,7 @@ void SceneManager::Init()
 	m_nowSceneNum = SceneID::Game;
 	auto newScene = m_geneSceneList[m_nowSceneNum]();
 	newScene->Init();
+	GameObjectManager::Instance().Init();
 	newScene->Load();
 	m_scene = newScene;
 }
@@ -49,32 +50,30 @@ void SceneManager::ImGuiUpdate()
 	m_scene->ImGuiUpdate();
 }
 
-void SceneManager::ShiftScene(SceneID a_toSceneNum)
+void SceneManager::ShiftScene(SceneID _toSceneNum)
 {
-	if (m_nowSceneNum == a_toSceneNum)return;
-	m_nowSceneNum = a_toSceneNum;
+	if (m_nowSceneNum == _toSceneNum)return;
 
+	//Release前処理
 	auto temp = m_geneSceneList[m_nowSceneNum]();
-	//前任者からデータ取るよう
 	temp->Init();
-
 	m_scene->Release();
 
+	//Release後処理
+	m_nowSceneNum = _toSceneNum;
+	
+	GameObjectManager::Instance().Init();
 	bool flg = true;
 	auto Fn = [temp]() {temp->Load(); };
 
 	std::thread mask(&SceneManager::DrawLoad, this, std::ref(flg));
 	std::thread load(Fn);
 
-
-
 	load.join();
 	flg = false;
 	mask.join();
 
 	m_scene = temp;
-
-
 }
 
 void SceneManager::DrawLoad(bool& flg)

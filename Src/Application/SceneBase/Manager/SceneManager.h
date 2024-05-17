@@ -17,7 +17,7 @@ public:
 	void Init();
 	void ImGuiUpdate();
 
-	void ShiftScene(SceneID a_toSceneNum);
+	void ShiftScene(SceneID _toSceneNum);
 
 	void DrawLoad(bool& flg);
 
