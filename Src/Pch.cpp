@@ -72,3 +72,39 @@ nlohmann::json RectToJson(Math::Rectangle _value)
 		{"height",_value.height}
 	};
 }
+
+bool ImGuiWindowCenterButton(std::string label)
+{
+	// ボタンの幅と高さを取得
+	ImVec2 button_size = ImGui::CalcTextSize(label.c_str());
+	button_size.x += ImGui::GetStyle().FramePadding.x * 2.0f;
+	button_size.y += ImGui::GetStyle().FramePadding.y * 2.0f;
+
+	// ウィンドウの幅を取得
+	float window_width = ImGui::GetWindowSize().x;
+
+	// ボタンを中央揃えにするためのx位置を計算
+	float x_pos = (window_width - button_size.x) / 2.0f;
+
+	// 位置を設定してボタンを描画
+	ImGui::SetCursorPosX(x_pos);
+	return ImGui::Button(label.c_str());
+}
+
+bool ImGuiTreeCenterButton(std::string label)
+{
+	//ボタンのサイズを取得
+	ImVec2 button_size = ImGui::CalcTextSize(label.c_str());
+	button_size.x += ImGui::GetStyle().FramePadding.x * 2.0f;
+	button_size.y += ImGui::GetStyle().FramePadding.y * 2.0f;
+
+	// ツリーノードの幅を取得
+	float tree_node_width = ImGui::GetContentRegionAvail().x;
+
+	// ボタンを中央揃えにするためのx位置を計算
+	float x_pos = (tree_node_width - button_size.x) / 2.0f;
+
+	// 位置を設定してボタンを描画
+	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + x_pos);
+	return ImGui::Button(label.c_str());
+}

@@ -77,29 +77,39 @@ void GameObjectManager::ImGuiUpdate()
 {
 	ImGuiCreateObject();
 
-	ImGui::Text("ObjNum : %d", m_obList.size());
 
-	int obNum = 0; static std::weak_ptr<GameObject> pickObject = std::weak_ptr<GameObject>();
-	ImGui::BeginChild(ImGuiCond_Always, ImVec2(500, 300), ImGuiWindowFlags_NoTitleBar);
-	for (auto&& it : m_obList)
-	{
-		if (obNum % 2)ImGui::SameLine();
-		if (ImGui::Button((std::to_string(obNum++) + " : " + it->GetName()).c_str())) 
-		{
-			pickObject = it;
+	ImGui::SeparatorText(("ObjectList :" + std::to_string(m_obList.size())).c_str());
+	ImGui::BeginChild("##ObjectChild", ImVec2(350, 100), ImGuiChildFlags_None);
+
+	int obNum = 0; static std::weak_ptr<GameObject> pickObject = std::weak_ptr<GameObject>(); static int pickNum = 0;
+	if (ImGui::BeginTable("##ObjectTable", 3)) {
+		for (auto&& it : m_obList) {
+			if (obNum % 3 == 0) ImGui::TableNextRow();
+			ImGui::TableSetColumnIndex(obNum % 3);
+			ImGui::PushID(obNum);
+			if (ImGui::Button((std::to_string(obNum) + " : " + it->GetName()).c_str())) {
+				pickNum = obNum;
+				pickObject = it;
+			}
+			ImGui::PopID();
+			obNum++;
 		}
+		ImGui::EndTable();
 	}
+
 	ImGui::EndChild();
 
-	if (pickObject.expired())return;
 
+	ImGui::SeparatorText("EditObject");
+	if (pickObject.expired())return;
 	auto TreeNode = [&]()
 		{
-			bool flg = ImGui::TreeNode(std::to_string(obNum++).c_str());
+			bool flg = ImGui::TreeNode(std::to_string(pickNum).c_str());
 			ImGui::SameLine(); ImGui::Text((" : " + pickObject.lock()->GetName()).c_str());
 			return flg;
 		};
 
+	ImGui::SetNextItemOpen(true);
 	if (TreeNode())
 	{
 		pickObject.lock()->ImGuiUpdate();
@@ -110,14 +120,12 @@ void GameObjectManager::ImGuiUpdate()
 void GameObjectManager::ImGuiCreateObject(std::weak_ptr<GameObject> _parent)
 {
 	if (!ImGui::TreeNode("CreateObject"))return;
+	ImGui::SeparatorText("ComponentSet");
 
-	static char path[50] = "";
-	ImGui::InputText("JsonPath", path, sizeof(path));
+	static char path[50] = ""; ImGui::InputText("JsonPath", path, sizeof(path));
+	static unsigned int state; int Max = ComponentMap::Instance().GetCompoNum();
 
-
-	ImGui::BeginChild("ComponentSet", ImVec2(350, 100), ImGuiWindowFlags_NoTitleBar);
-	static unsigned int state;
-	int Max = ComponentMap::Instance().GetCompoNum();
+	ImGui::BeginChild("##ComponentSet", ImVec2(350, 100),  ImGuiChildFlags_Border);
 	for (int i = 0; i < Max; i++)
 	{
 		bool flg = state & (1 << i);
@@ -129,12 +137,12 @@ void GameObjectManager::ImGuiCreateObject(std::weak_ptr<GameObject> _parent)
 	}
 	ImGui::EndChild();
 
+	ImGui::SameLine();
 	if (ImGui::Button("Add"))
 	{
 		auto obj = CreateObject(path);
 		if(!_parent.expired())obj->SetParent(_parent);
 		obj->AddComponents(state);
-
 	}
 
 	ImGui::TreePop();
@@ -142,7 +150,7 @@ void GameObjectManager::ImGuiCreateObject(std::weak_ptr<GameObject> _parent)
 
 void GameObjectManager::ImGuiAddComponent(std::weak_ptr<GameObject> _object)
 {
-	if (ImGui::Button("AddComponent"))ImGui::OpenPopup("Components");
+	if (ImGuiTreeCenterButton("AddComponent"))ImGui::OpenPopup("Components");
 	if (!ImGui::BeginPopup("Components"))return;
 
 	auto it = ComponentMap::Instance().bitBegin();

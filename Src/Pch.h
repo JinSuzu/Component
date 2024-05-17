@@ -153,6 +153,8 @@ nlohmann::json RectToJson(Math::Rectangle _value);
 
 static std::string JsonDataPath(std::string _path) { return "Asset/Data/" + _path + ".json"; }
 
+bool ImGuiWindowCenterButton(std::string label);
+bool ImGuiTreeCenterButton(std::string label);
 /*
 template<class T>
 static nlohmann::json SearchJson(nlohmann::json& _json,std::string _key,T _data)
