@@ -30,7 +30,7 @@ public:
 private:
 	Math::Matrix	m_mWorld		= Math::Matrix::Identity;
 
-	Math::Vector3	m_position		= {0,0,1};
+	Math::Vector3	m_position		= { 0,0,0 };
 	Math::Vector3	m_rotation		= { 0,0,0 };
 	Math::Vector3	m_scale			= { 1,1,1 };
 

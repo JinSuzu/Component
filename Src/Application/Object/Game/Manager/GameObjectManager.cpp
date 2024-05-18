@@ -56,9 +56,8 @@ void GameObjectManager::ImGuiUpdate()
 {
 	ImGuiCreateObject(true);
 
-
 	ImGui::SeparatorText(("ObjectList :" + std::to_string(m_obList.size())).c_str());
-	ImGui::BeginChild("##ObjectChild", ImVec2(350, 500), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeY);
+	ImGui::BeginChild("##ObjectChild", ImVec2(350, 500), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY);
 
 	int obNum = 0;
 	for (auto& family : m_obList)
@@ -82,27 +81,19 @@ void GameObjectManager::ImGuiUpdate()
 }
 void GameObjectManager::ImGuiCreateObject(bool _bOrigin)
 {
-	static std::string path = ""; ImGui::InputText("JsonPath", &path);
-	static unsigned int state; int Max = ComponentMap::Instance().GetCompoNum();
+	ImGui::SeparatorText("CreateObject");
+
+
 	if (ImGui::BeginTabBar("CreateObject"))
 	{
+		static std::string path = "";
 		if (ImGui::BeginTabItem("Custom"))
 		{
-			ImGui::BeginChild("##ComponentSet", ImVec2(350, 100), ImGuiChildFlags_Border);
-			ImGui::SeparatorText("ComponentSet");
-			for (int i = 0; i < Max; i++)
-			{
-				bool flg = state & (1 << i);
-				if (i % 3)ImGui::SameLine();
-				ImGui::Checkbox(ComponentMap::Instance().GetTag(1 << i).c_str(), &flg);
+			ImGui::InputText("Name", &path);
 
-				if (flg)state |= (1 << i);
-				if (!flg)state &= ~(1 << i);
-			}
-			ImGui::EndChild();
+			unsigned int state = ComponentMap::Instance().ImGuiComponentSet();
 
-			//ImGui::SameLine();
-			if (ImGui::Button("Add"))
+			if (ImGui::Button("Create"))
 			{
 				CreateObject(path, _bOrigin ? nullptr : m_editObject)
 					->AddComponents(state);
@@ -111,14 +102,15 @@ void GameObjectManager::ImGuiCreateObject(bool _bOrigin)
 		}
 		if (ImGui::BeginTabItem("ImportPreSet"))
 		{
-			if (ImGui::Button("Add"))
+			ImGui::InputText("PreSetPath", &path);
+			if (ImGui::Button("Create"))
 			{
 				nlohmann::json json = InPutJson("GameObjectSet/" + path);
 
 				auto name = json.begin();
 				while (name != json.end())
 				{
-					(_bOrigin ? m_obList : m_editObject->childs).push_back(GameObjectFamily(name));
+					(_bOrigin ? m_obList : m_editObject->childs).push_back(GameObjectFamily(name,m_editObject));
 					name++;
 				}
 			}
@@ -126,6 +118,7 @@ void GameObjectManager::ImGuiCreateObject(bool _bOrigin)
 		}
 		ImGui::EndTabBar();
 	}
+
 }
 void GameObjectManager::ImGuiAddComponent(std::weak_ptr<GameObject> _object)
 {

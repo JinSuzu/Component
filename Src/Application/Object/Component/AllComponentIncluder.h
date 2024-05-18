@@ -54,6 +54,24 @@ public:
 	auto bitEnd()							{ return m_bitMap.end(); }
 	std::string GetTag(unsigned int _id)	{ return m_tagMap.find(_id)->second; }
 	int GetCompoNum()						{ return std::log2((double)ComponentID::MaxID); }
+	unsigned int ImGuiComponentSet()
+	{
+		ImGui::SeparatorText("ComponentSet");
+		ImGui::BeginChild("##ComponentSet", ImVec2(350, 100), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY);
+
+		static unsigned int state;
+		for (int i = 0; i < ComponentMap::Instance().GetCompoNum(); i++)
+		{
+			bool flg = state & (1 << i);
+			if (i % 3)ImGui::SameLine();
+			ImGui::Checkbox(ComponentMap::Instance().GetTag(1 << i).c_str(), &flg);
+
+			if (flg)state |= (1 << i);
+			if (!flg)state &= ~(1 << i);
+		}
+		ImGui::EndChild();
+		return state;
+	}
 
 	static ComponentMap& Instance()
 	{
