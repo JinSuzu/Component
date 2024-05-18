@@ -41,13 +41,30 @@ void GameObject::Init(std::string _name)
 	std::ifstream file(JsonDataPath(m_name));
 	if (file.is_open()) {
 		file >> m_jsonData;
-
-		m_trans->SetJson(m_jsonData["Component"][0]);
-		m_trans->InitJson();
-
-		m_tag = m_jsonData["Tag"];
-		AddComponents();
+		LoadJson(m_jsonData);
 	}
+}
+
+void GameObject::Init(nlohmann::json _json)
+{
+	m_trans = std::make_shared<Cp_Transform>();
+	m_trans->SetOwner(weak_from_this());
+	m_trans->SetIDName("Transform");
+
+	m_jsonData = _json;
+	LoadJson(_json);
+}
+
+void GameObject::LoadJson(nlohmann::json _json)
+{
+	m_jsonData = _json;
+
+	m_trans->SetJson(m_jsonData["Component"][0]);
+	m_trans->InitJson();
+
+	m_tag = m_jsonData["Tag"];
+	m_name = _json["Name"];
+	AddComponents();
 }
 
 void GameObject::ImGuiUpdate()
@@ -134,8 +151,29 @@ void GameObject::ComponentInit(std::shared_ptr<Component>& _addCp, nlohmann::jso
 
 void GameObject::SetParent(std::weak_ptr<GameObject> _parent)
 {
-	m_trans->SetParent(_parent.lock()->GetTransform());
+	if(_parent.lock())m_trans->SetParent(_parent.lock()->GetTransform());
 	m_parent = _parent;
+}
+
+nlohmann::json& GameObject::GetJson()
+{
+	if (!m_bSave)return m_jsonData;
+	nlohmann::json component;
+	component.push_back(m_trans->GetJson());
+
+	for (auto&& it : m_cpList)
+	{
+		nlohmann::json json = it->GetJson();
+		json["ID"] = it->GetID();
+		component.push_back(json);
+	}
+
+	m_jsonData["Name"] = m_name;
+	m_jsonData["Tag"] = m_tag;
+	m_jsonData["Component"] = component;
+
+	return m_jsonData;
+
 }
 
 std::shared_ptr<Component> GameObject::SearchTag(std::string _tag)
@@ -162,19 +200,7 @@ std::list<std::shared_ptr<Component>> GameObject::SearchTags(std::string _tag)
 void GameObject::Release()
 {
 	if (!m_bSave)return;
-	nlohmann::json component;
-	component.push_back(m_trans->GetJson());
-
-	for (auto&& it : m_cpList) 
-	{
-		nlohmann::json json = it->GetJson();
-		json["ID"]			= it->GetID();
-		component.push_back(json);
-	}
-	
-	m_jsonData["Component"] = component;
-	m_jsonData["Tag"]		= m_tag;
-
+	GetJson();
 	std::ofstream file(JsonDataPath(m_name));
 
 	if (file.is_open()) {

@@ -1,0 +1,48 @@
+[
+    {
+        "Childs": [],
+        "parent": {
+            "Component": [
+                {
+                    "matTag": "STR",
+                    "position": {
+                        "x": -100.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "Animation": [],
+                    "ID": 2,
+                    "path": "chara/block.png",
+                    "rect": {
+                        "height": 64,
+                        "width": 64,
+                        "x": 0,
+                        "y": 0
+                    }
+                },
+                {
+                    "ID": 8,
+                    "addPow": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 5.0
+                    }
+                }
+            ],
+            "Name": "unit",
+            "Tag": 0
+        }
+    }
+]

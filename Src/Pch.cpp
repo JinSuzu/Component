@@ -73,6 +73,24 @@ nlohmann::json RectToJson(Math::Rectangle _value)
 	};
 }
 
+void OutPutJson(nlohmann::json _json, std::string _path)
+{
+	std::ofstream file(JsonDataPath(_path));
+	if (file.is_open()) {
+		file << _json.dump(4);  // 読みやすい形式でファイルに書き出す
+		file.close();
+	};
+}
+
+nlohmann::json InPutJson(std::string _path)
+{
+	std::ifstream file(JsonDataPath(_path));
+	if (!file.is_open())return nlohmann::json();
+	nlohmann::json json;
+	file >> json;
+	return json;
+}
+
 bool ImGuiWindowCenterButton(std::string label)
 {
 	// ボタンの幅と高さを取得

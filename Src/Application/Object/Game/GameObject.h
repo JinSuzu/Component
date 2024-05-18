@@ -30,7 +30,9 @@ public:
 	void PreUpdate();
 	void Update();
 	void PostUpdate();
+
 	void Init(std::string _name);
+	void Init(nlohmann::json _json);
 
 	void ImGuiUpdate();
 
@@ -78,8 +80,9 @@ public:
 
 
 	//Json係
+	void LoadJson(nlohmann::json _json);
 	void DotSave() { m_bSave = false; }
-	nlohmann::json& GetJson() { return m_jsonData; };
+	nlohmann::json& GetJson();
 
 private:
 	std::string								m_name;

@@ -152,6 +152,10 @@ nlohmann::json Vec3ToJson(Math::Vector3 _value);
 nlohmann::json RectToJson(Math::Rectangle _value);
 
 static std::string JsonDataPath(std::string _path) { return "Asset/Data/" + _path + ".json"; }
+static std::string JsonDirectoryPath(std::string _path) { return "Asset/Data/" + _path; }
+
+void OutPutJson(nlohmann::json _json, std::string _path);
+nlohmann::json InPutJson(std::string _path);
 
 bool ImGuiWindowCenterButton(std::string label);
 bool ImGuiTreeCenterButton(std::string label);

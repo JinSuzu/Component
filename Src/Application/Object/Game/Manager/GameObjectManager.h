@@ -31,23 +31,24 @@ public:
 private:
 	struct GameObjectFamily
 	{
+		operator bool() { return this != nullptr; }
+
 		GameObjectFamily(std::shared_ptr<GameObject> _obj)
 			:parent(_obj)
 		{}
 
-		GameObjectFamily(nlohmann::json::iterator json) 
-			:parent(GameObjectManager::Instance().CreateObject(json.key()))
+		GameObjectFamily(nlohmann::json::iterator json, GameObjectFamily* _parent = nullptr)
+			:parent(GameObjectManager::Instance().CreateObject((*json)["parent"], _parent, false))
 		{
-			auto name = json->begin();
-			while (name != json->end())
+			auto name = (*json)["Childs"].begin();
+			while (name != (*json)["Childs"].end())
 			{
-				childs.push_back(GameObjectFamily(name->begin(), this));
+				childs.push_back(GameObjectFamily(name, this));
 				name++;
 			}
 		}
-		
-		GameObjectFamily(nlohmann::json::iterator json, GameObjectFamily* _parent);
 
+		~GameObjectFamily() { if(GameObjectManager::Instance().m_editObject == this)GameObjectManager::Instance().m_editObject = nullptr; }
 
 
 		void Draw();
@@ -57,6 +58,7 @@ private:
 		void PostUpdate();
 
 		void ImGuiUpdate(int num);
+		void ImGuiOpenOption(int num);
 
 		nlohmann::json GetJson();
 
@@ -66,7 +68,8 @@ private:
 	};
 
 	std::list<GameObjectFamily>		m_obList;
-	std::shared_ptr<GameObject> CreateObject(std::string _tag, GameObjectFamily* _family);
+	std::shared_ptr<GameObject> CreateObject(std::string _tag, GameObjectFamily* _family,bool bPush = true);
+	std::shared_ptr<GameObject> CreateObject(nlohmann::json _json, GameObjectFamily* _family,bool bPush = true);
 	
 	GameObjectManager() { };
 public:

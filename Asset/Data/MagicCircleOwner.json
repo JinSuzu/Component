@@ -10,7 +10,7 @@
             "rotation": {
                 "x": 0.0,
                 "y": 0.0,
-                "z": 348.0
+                "z": 106.0
             },
             "scale": {
                 "x": 0.25,
@@ -38,5 +38,6 @@
             }
         }
     ],
+    "Name": "MagicCircleOwner",
     "Tag": 0
 }
