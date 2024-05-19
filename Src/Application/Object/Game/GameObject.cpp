@@ -15,7 +15,19 @@ void GameObject::PreUpdate()
 {
 	if (!m_bActive)return;
 	if (m_bDestroy)return;
-	ITERATOR(m_cpList)PreUpdate();
+
+	auto it = m_cpList.begin();
+	while (it != m_cpList.end())
+	{
+		if ((*it)->GetDestroy())
+		{
+			it = m_cpList.erase(it);
+			continue;
+		}
+
+		(*it)->PreUpdate();
+		it++;
+	}
 }
 void GameObject::Update()
 {
@@ -30,21 +42,6 @@ void GameObject::PostUpdate()
 	ITERATOR(m_cpList)PostUpdate();
 }
 
-void GameObject::Init(std::string _name)
-{
-	m_name = _name;
-
-	m_trans = std::make_shared<Cp_Transform>();
-	m_trans->SetOwner(weak_from_this());
-	m_trans->SetIDName("Transform");
-
-	std::ifstream file(JsonDataPath(m_name));
-	if (file.is_open()) {
-		file >> m_jsonData;
-		LoadJson(m_jsonData);
-	}
-}
-
 void GameObject::Init(nlohmann::json _json)
 {
 	m_trans = std::make_shared<Cp_Transform>();
@@ -52,12 +49,7 @@ void GameObject::Init(nlohmann::json _json)
 	m_trans->SetIDName("Transform");
 
 	m_jsonData = _json;
-	LoadJson(_json);
-}
-
-void GameObject::LoadJson(nlohmann::json _json)
-{
-	m_jsonData = _json;
+	if (m_jsonData.is_null())return;
 
 	m_trans->SetJson(m_jsonData["Component"][0]);
 	m_trans->InitJson();
@@ -73,14 +65,14 @@ void GameObject::ImGuiUpdate()
 
 	ImGuiComponents();
 
-	GameObjectManager::Instance().ImGuiAddComponent(weak_from_this());
+	GameObjectManager::ImGuiAddComponent(weak_from_this());
 }
 
 #pragma region ComponentFns
 std::shared_ptr<Component> GameObject::AddComponent(unsigned int _id, nlohmann::json _json)
 {
-	auto addCp = GameObjectManager::Instance().ToComponent(_id);
-	addCp->SetIDName(GameObjectManager::Instance().ToTag(_id));
+	auto addCp = GameObjectManager::ToComponent(_id);
+	addCp->SetIDName(GameObjectManager::ToTag(_id));
 	addCp->SetID(_id);
 	_json.is_null() ? ComponentInit(addCp) : ComponentInit(addCp, _json);
 	return addCp;
@@ -88,8 +80,8 @@ std::shared_ptr<Component> GameObject::AddComponent(unsigned int _id, nlohmann::
 std::shared_ptr<Component> GameObject::AddComponent(Component* _addCp)
 {
 	std::shared_ptr<Component> addCp(_addCp);
-	unsigned int id = GameObjectManager::Instance().ToID(typeid(*addCp).name());
-	addCp->SetIDName(GameObjectManager::Instance().ToTag(id));
+	unsigned int id = GameObjectManager::ToID(typeid(*addCp).name());
+	addCp->SetIDName(GameObjectManager::ToTag(id));
 	addCp->SetID(id);
 	ComponentInit(addCp);
 	return addCp;
@@ -151,7 +143,7 @@ void GameObject::ComponentInit(std::shared_ptr<Component>& _addCp, nlohmann::jso
 
 void GameObject::SetParent(std::weak_ptr<GameObject> _parent)
 {
-	if(_parent.lock())m_trans->SetParent(_parent.lock()->GetTransform());
+	if (_parent.lock())m_trans->SetParent(_parent.lock()->GetTransform());
 	m_parent = _parent;
 }
 
@@ -183,7 +175,6 @@ std::shared_ptr<Component> GameObject::SearchTag(std::string _tag)
 
 	return  *it;
 }
-
 std::list<std::shared_ptr<Component>> GameObject::SearchTags(std::string _tag)
 {
 	auto&& it = m_cpList.begin();
@@ -197,35 +188,32 @@ std::list<std::shared_ptr<Component>> GameObject::SearchTags(std::string _tag)
 	return list;
 }
 
-void GameObject::Release()
-{
-	if (!m_bSave)return;
-	GetJson();
-	std::ofstream file(JsonDataPath(m_name));
-
-	if (file.is_open()) {
-		file << m_jsonData.dump(4);  // 読みやすい形式でファイルに書き出す
-		file.close();
-	}
-}
-
 void GameObject::ImGuiComponents()
 {
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (!ImGui::TreeNode("Component"))return;
 
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+
 	if (ImGui::TreeNode(m_trans->GetIDName().c_str()))
 	{
 		m_trans->ImGuiUpdate();
 		ImGui::TreePop();
 	}
 
+	auto Tree = [&](int _num,std::shared_ptr<Component> _component)
+		{
+			std::string ImGui = std::to_string(_num) + " : " + _component->GetIDName();
+			bool flg = ImGui::TreeNode(ImGui.c_str());
+			ImGui::SameLine(); if (ImGui::SmallButton(("Remove##" + ImGui).c_str()))_component->Destroy();
+			return flg;
+		};
+
 	int num = 0;
 	for (auto&& it : m_cpList)
 	{
 		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-		if (ImGui::TreeNode((std::to_string(num++) + " : " + (*it).GetIDName()).c_str()))
+		if (Tree(num++,it))
 		{
 			ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 			(*it).ImGuiUpdate();
@@ -234,4 +222,10 @@ void GameObject::ImGuiComponents()
 	}
 
 	ImGui::TreePop();
+}
+
+void GameObject::Release()
+{
+	if (!m_bSave)return;
+	OutPutJson(GetJson(), GameObjectManager::GetGameObjectPath() + m_name);
 }

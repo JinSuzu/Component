@@ -3,22 +3,22 @@
 
 void SceneBase::Draw2D()
 {
-	GameObjectManager::Instance().Draw();
+	m_objectMgr.Draw();
 }
 
 void SceneBase::PreUpdate()
 {
-	GameObjectManager::Instance().PreUpdate();
+	m_objectMgr.PreUpdate();
 }
 
 void SceneBase::Update()
 {
-	GameObjectManager::Instance().Update();
+	m_objectMgr.Update();
 }
 
 void SceneBase::PostUpdate()
 {
-	GameObjectManager::Instance().PostUpdate();
+	m_objectMgr.PostUpdate();
 }
 
 void SceneBase::Load()
@@ -36,7 +36,7 @@ void SceneBase::Release()
 {
 	if (!m_bLoad)return;//リリース済みreturn
 	m_bLoad = false;
-	GameObjectManager::Instance().Release();
+	m_objectMgr.Release();
 	ReleaseContent();
 }
 

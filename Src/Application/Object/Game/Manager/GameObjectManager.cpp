@@ -27,7 +27,7 @@ void GameObjectManager::PreUpdate()
 	auto family = m_obList.begin();
 	while (family != m_obList.end())
 	{
-		if (!family->parent || family->parent->GetDestroy())
+		if (family->parent->GetDestroy())
 		{
 			family = m_obList.erase(family);
 			break;
@@ -69,87 +69,20 @@ void GameObjectManager::ImGuiUpdate()
 
 
 	ImGui::SeparatorText("EditObject");
-	if (!m_editObject)return;
+	if (!EditObject())return;
 
 	ImGui::SetNextItemOpen(true);
-	if (ImGui::TreeNode(m_editObject->parent->GetName().c_str()))
+	if (ImGui::TreeNode(EditObject()->parent->GetName().c_str()))
 	{
-		m_editObject->parent->ImGuiUpdate();
+		EditObject()->parent->ImGuiUpdate();
 		ImGuiCreateObject();
 		ImGui::TreePop();
 	}
 }
-void GameObjectManager::ImGuiCreateObject(bool _bOrigin)
-{
-	ImGui::SeparatorText("CreateObject");
-
-
-	if (ImGui::BeginTabBar("CreateObject"))
-	{
-		static std::string path = "";
-		if (ImGui::BeginTabItem("Custom"))
-		{
-			ImGui::InputText("Name", &path);
-
-			unsigned int state = ComponentMap::Instance().ImGuiComponentSet();
-
-			if (ImGui::Button("Create"))
-			{
-				CreateObject(path, _bOrigin ? nullptr : m_editObject)
-					->AddComponents(state);
-			}
-			ImGui::EndTabItem();
-		}
-		if (ImGui::BeginTabItem("ImportPreSet"))
-		{
-			ImGui::InputText("PreSetPath", &path);
-			if (ImGui::Button("Create"))
-			{
-				nlohmann::json json = InPutJson("GameObjectSet/" + path);
-
-				auto name = json.begin();
-				while (name != json.end())
-				{
-					(_bOrigin ? m_obList : m_editObject->childs).push_back(GameObjectFamily(name,m_editObject));
-					name++;
-				}
-			}
-			ImGui::EndTabItem();
-		}
-		ImGui::EndTabBar();
-	}
-
-}
-void GameObjectManager::ImGuiAddComponent(std::weak_ptr<GameObject> _object)
-{
-	if (ImGuiTreeCenterButton("AddComponent"))ImGui::OpenPopup("Components");
-	if (!ImGui::BeginPopup("Components"))return;
-	ImGui::SeparatorText("Component");
-	auto it = ComponentMap::Instance().bitBegin();
-	while (it != ComponentMap::Instance().bitEnd())
-	{
-		if (ImGui::MenuItem(it->first.c_str()))
-		{
-			if (auto obj = _object.lock()) {
-				obj->AddComponent(it->second);
-			}
-			break;
-		}
-		++it;
-	}
-	ImGui::EndPopup();
-
-}
 
 void GameObjectManager::Init()
 {
-	nlohmann::json json = InPutJson("Scene/Test");
-
-	auto name = json.begin();
-	while (name != json.end())
-	{
-		m_obList.push_back(GameObjectFamily(name++));
-	}
+	LoadJson("Scene/Test");
 }
 
 void GameObjectManager::Release()
@@ -180,20 +113,11 @@ unsigned int GameObjectManager::ToID(std::string _tag)
 	return ID->second;
 }
 
-//根っこに追加/帰属しないObject生成用
-std::shared_ptr<GameObject> GameObjectManager::CreateObject(std::string _tag, bool flg)
-{
-	auto object = std::make_shared<GameObject>();
-	object->Init(_tag);
-	if (flg)m_obList.push_back(GameObjectFamily(object));
-	return object;
-}
-
 //GameObjectFamily用
-std::shared_ptr<GameObject> GameObjectManager::CreateObject(std::string _tag, GameObjectFamily* _family,bool bPush)
+std::shared_ptr<GameObject> GameObjectManager::CreateObject(std::string _tag,GameObjectFamily* _family,bool bPush)
 {
 	auto object = std::make_shared<GameObject>();
-	object->Init(_tag);
+	object->Init(InPutJson(_tag));
 	object->SetParent(_family ? _family->parent : nullptr);
 
 	if (!bPush) return object;
@@ -203,19 +127,17 @@ std::shared_ptr<GameObject> GameObjectManager::CreateObject(std::string _tag, Ga
 
 	return object;
 }
-std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json, GameObjectFamily* _family, bool bPush)
+std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json,GameObjectFamily* _family)
 {
 	auto object = std::make_shared<GameObject>();
 	object->Init(_json);
 	object->SetParent(_family ? _family->parent : nullptr);
 
-	if (!bPush) return object;
-
 	if (_family)_family->childs.push_back(GameObjectFamily(object));
-	else m_obList.push_back(GameObjectFamily(object));
 
 	return object;
 }
+
 
 #pragma region GameObjectFamily
 void GameObjectManager::GameObjectFamily::Draw() {
@@ -225,7 +147,7 @@ void GameObjectManager::GameObjectFamily::Draw() {
 	}
 }
 void GameObjectManager::GameObjectFamily::PreUpdate() {
-	if (parent) parent->Update();
+	if (parent) parent->PreUpdate();
 	auto child = childs.begin();
 	while (child != childs.end())
 	{
@@ -275,14 +197,17 @@ void GameObjectManager::GameObjectFamily::ImGuiUpdate(int num) {
 
 	ImGui::TreePop();
 }
-
 void GameObjectManager::GameObjectFamily::ImGuiOpenOption(int num)
 {
 	std::string ImGuiID = parent->GetName() + std::to_string(num);
 	if (ImGui::SmallButton((parent->GetName() + "##" + std::to_string(num)).c_str()))ImGui::OpenPopup(("Option##" + ImGuiID).c_str());
 	if (!ImGui::BeginPopup(("Option##" + ImGuiID).c_str())) return;
 
-	if (ImGui::MenuItem("Edit"))GameObjectManager::Instance().m_editObject = this;
+	if (ImGui::MenuItem("Edit")) 
+	{
+		GameObjectManager::EditObject(this);
+		
+	}
 
 	static std::string path;
 	ImGui::InputText("##Path", &path);ImGui::SameLine();
@@ -290,7 +215,7 @@ void GameObjectManager::GameObjectFamily::ImGuiOpenOption(int num)
 	{
 		nlohmann::json json = nlohmann::json::array();
 		json.push_back(GetJson());
-		OutPutJson(json,"GameObjectSet/" + path);
+		OutPutJson(json,"GameObject/Set/" + path);
 		ImGui::CloseCurrentPopup();
 	}
 
@@ -303,7 +228,7 @@ void GameObjectManager::GameObjectFamily::ImGuiOpenOption(int num)
 nlohmann::json GameObjectManager::GameObjectFamily::GetJson()
 {
 	nlohmann::json json;
-	json["parent"] = parent->GetJson();
+	json["Parent"] = parent->GetJson();
 
 	json["Childs"] = nlohmann::json::array();
 	for (auto& child : childs) {
@@ -322,3 +247,65 @@ nlohmann::json GameObjectManager::GameObjectFamily::GetJson()
 	*/
 }
 #pragma endregion
+void GameObjectManager::ImGuiCreateObject(bool _bOrigin)
+{
+	ImGui::SeparatorText("CreateObject");
+
+	if (ImGui::BeginTabBar("CreateObject"))
+	{
+		static std::string path = "";
+		if (ImGui::BeginTabItem("Custom"))
+		{
+			ImGui::InputText("Name", &path);
+
+			unsigned int state = ComponentMap::Instance().ImGuiComponentSet();
+			if (ImGui::Button("Create"))CreateObject(GameObjectManager::GetGameObjectPath() + path, _bOrigin ? nullptr : EditObject())
+				->AddComponents(state);
+			
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("ImportPreSet"))
+		{
+			ImGui::InputText("PreSetPath", &path);
+
+			if (ImGui::Button("Create"))LoadJson(GameObjectManager::GetGameObjectSetPath() + path,_bOrigin);
+			
+			ImGui::EndTabItem();
+		}
+		ImGui::EndTabBar();
+	}
+
+}
+void GameObjectManager::LoadJson(std::string _path, bool _bOrigin)
+{
+	nlohmann::json json = InPutJson(_path);
+	auto name = json.begin();
+	while (name != json.end())
+	{
+		(_bOrigin ? m_obList : EditObject()->childs).push_back(GameObjectFamily(name, EditObject()));
+		name++;
+	}
+}
+void GameObjectManager::ImGuiAddComponent(std::weak_ptr<GameObject> _object)
+{
+	if (ImGuiTreeCenterButton("AddComponent"))ImGui::OpenPopup("Components");
+
+	if (!ImGui::BeginPopup("Components"))return;
+
+	ImGui::SeparatorText("Component");
+	auto it = ComponentMap::Instance().bitBegin();
+	while (it != ComponentMap::Instance().bitEnd())
+	{
+		if (ImGui::MenuItem(it->first.c_str()))
+		{
+			if (auto obj = _object.lock()) {
+				obj->AddComponent(it->second);
+			}
+			break;
+		}
+		++it;
+	}
+	ImGui::EndPopup();
+
+}

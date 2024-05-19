@@ -39,7 +39,6 @@ void SceneManager::Init()
 	m_nowSceneNum = SceneID::Game;
 	auto newScene = m_geneSceneList[m_nowSceneNum]();
 	newScene->Init();
-	GameObjectManager::Instance().Init();
 	newScene->Load();
 	m_scene = newScene;
 }
@@ -62,7 +61,6 @@ void SceneManager::ShiftScene(SceneID _toSceneNum)
 	//Release後処理
 	m_nowSceneNum = _toSceneNum;
 	
-	GameObjectManager::Instance().Init();
 	bool flg = true;
 	auto Fn = [temp]() {temp->Load(); };
 
@@ -80,6 +78,7 @@ void SceneManager::DrawLoad(bool& flg)
 {
 	while (flg)
 	{
+		/*
 		continue;
 		static auto load =
 		{
@@ -100,5 +99,6 @@ void SceneManager::DrawLoad(bool& flg)
 		}
 		Application::Instance().KdPostDraw();
 		std::this_thread::sleep_for(std::chrono::milliseconds(16));
+		*/
 	}
 }

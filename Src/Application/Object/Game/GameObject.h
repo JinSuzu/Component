@@ -5,6 +5,7 @@ class Component;
 class Cp_Transform;
 enum ComponentID;
 
+
 enum class ObjectTag 
 {
 	Untagged,
@@ -31,7 +32,6 @@ public:
 	void Update();
 	void PostUpdate();
 
-	void Init(std::string _name);
 	void Init(nlohmann::json _json);
 
 	void ImGuiUpdate();
@@ -40,9 +40,8 @@ public:
 	ObjectTag GetTag() const { return m_tag; };
 	void SetTag(ObjectTag _tag) { m_tag = _tag; };
 
-	std::weak_ptr<Cp_Transform>GetTransform() { return m_trans; }
 	#pragma region ComponentFns
-public:
+	std::weak_ptr<Cp_Transform>GetTransform() { return m_trans; }
 	std::shared_ptr<Component> AddComponent(unsigned int _id, nlohmann::json _json = nlohmann::json());
 	std::shared_ptr<Component> AddComponent(Component* _add);
 	std::list<std::shared_ptr<Component>> AddComponents(unsigned int _id);
@@ -77,10 +76,7 @@ public:
 	std::weak_ptr<GameObject> GetParent() { return m_parent; }
 	void SetParent(std::weak_ptr<GameObject> _parent);
 
-
-
-	//Json係
-	void LoadJson(nlohmann::json _json);
+	//Json係	
 	void DotSave() { m_bSave = false; }
 	nlohmann::json& GetJson();
 
@@ -100,6 +96,7 @@ private:
 	//便利関数
 	std::shared_ptr<Component> SearchTag(std::string _tag);
 	std::list<std::shared_ptr<Component>> SearchTags(std::string _tag);
+
 	void ImGuiComponents();
 
 	void Release();

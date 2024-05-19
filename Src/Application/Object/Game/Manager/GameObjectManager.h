@@ -7,7 +7,9 @@ enum  ComponentID;
 
 class GameObjectManager
 {
+private:
 public:
+	GameObjectManager() {}
 	~GameObjectManager() {}
 
 	void Draw();
@@ -17,17 +19,16 @@ public:
 	void PostUpdate();
 
 	void ImGuiUpdate();
-	void ImGuiCreateObject(bool bOrigin = false);
-	void ImGuiAddComponent(std::weak_ptr<GameObject> _object);
-
 	void Init();
 	void Release();
 
-	std::shared_ptr<Component> ToComponent(unsigned int _id);
-	std::string ToTag(unsigned int _id);
-	unsigned int ToID(std::string _tag);
+	static std::shared_ptr<Component> ToComponent(unsigned int _id);
+	static std::string ToTag(unsigned int _id);
+	static unsigned int ToID(std::string _tag);
 
-	std::shared_ptr<GameObject> CreateObject(std::string _tag, bool flg = false);
+	static std::string GetGameObjectPath() { return "GameObject/"; };
+	static std::string GetGameObjectSetPath() { return "GameObject/Set/"; }
+
 private:
 	struct GameObjectFamily
 	{
@@ -38,7 +39,7 @@ private:
 		{}
 
 		GameObjectFamily(nlohmann::json::iterator json, GameObjectFamily* _parent = nullptr)
-			:parent(GameObjectManager::Instance().CreateObject((*json)["parent"], _parent, false))
+			:parent(GameObjectManager::CreateObject((*json)["Parent"], _parent))
 		{
 			auto name = (*json)["Childs"].begin();
 			while (name != (*json)["Childs"].end())
@@ -48,7 +49,7 @@ private:
 			}
 		}
 
-		~GameObjectFamily() { if(GameObjectManager::Instance().m_editObject == this)GameObjectManager::Instance().m_editObject = nullptr; }
+		~GameObjectFamily() { if (GameObjectManager::EditObject() == this)delete GameObjectManager::EditObject(); }
 
 
 		void Draw();
@@ -66,18 +67,23 @@ private:
 
 		std::list<GameObjectFamily>	childs = std::list<GameObjectFamily>();
 	};
-
 	std::list<GameObjectFamily>		m_obList;
+
+	//単品GameObject用Json専
 	std::shared_ptr<GameObject> CreateObject(std::string _tag, GameObjectFamily* _family,bool bPush = true);
-	std::shared_ptr<GameObject> CreateObject(nlohmann::json _json, GameObjectFamily* _family,bool bPush = true);
+	//階層構造のあるGameObject用Json専
+	static std::shared_ptr<GameObject> CreateObject(nlohmann::json _json, GameObjectFamily* _family);
+
 	
-	GameObjectManager() { };
+	void ImGuiCreateObject(bool bOrigin = false);
+
+	void LoadJson(std::string _path,bool _bOrigin = true);
 public:
-	GameObjectFamily* m_editObject = nullptr;
-
-	static GameObjectManager& Instance() {
-		static GameObjectManager inst;
+	static void ImGuiAddComponent(std::weak_ptr<GameObject> _object);
+	static GameObjectFamily* EditObject(GameObjectFamily* _edit = nullptr)
+	{
+		static GameObjectFamily* inst;
+		if(_edit)inst = _edit;
 		return inst;
-	}
-
+	};
 };

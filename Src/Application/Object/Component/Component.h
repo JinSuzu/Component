@@ -30,9 +30,9 @@ public:
 
 	virtual void Draw() {}
 
-	virtual void PreUpdate()	final { if(m_bActive)PreUpdateContents(); }
-	virtual void Update()		final { if(m_bActive)UpdateContents(); }
-	virtual void PostUpdate()	final { if(m_bActive)PostUpdateContents(); }
+	virtual void PreUpdate()	final { if (m_bActive && !m_bDestroy)PreUpdateContents(); }
+	virtual void Update()		final { if (m_bActive && !m_bDestroy)UpdateContents(); }
+	virtual void PostUpdate()	final { if (m_bActive && !m_bDestroy)PostUpdateContents(); }
 
 	virtual void ImGuiUpdate() {}
 

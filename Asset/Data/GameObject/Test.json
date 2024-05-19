@@ -3,8 +3,8 @@
         {
             "matTag": "SRT",
             "position": {
-                "x": -66.0,
-                "y": -24.0,
+                "x": -103.0,
+                "y": -41.0,
                 "z": 0.0
             },
             "rotation": {
@@ -30,6 +30,6 @@
             }
         }
     ],
-    "Name": "owner",
+    "Name": "Test",
     "Tag": 0
 }

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "../Object/Game/Manager/GameObjectManager.h"
 
 enum SceneID
 {
@@ -21,13 +22,18 @@ public:
 	virtual void PreUpdate();
 	virtual void Update();
 	virtual void PostUpdate();
-	virtual void Init() { id = PickName(typeid(*this).name()); };
+	virtual void Init() 
+	{
+		id = PickName(typeid(*this).name());
+		m_objectMgr.Init();
+	};
 	virtual void Load()final;
 	virtual void Release() final;
 	virtual void ImGuiUpdate();
 
 protected:
 	std::string id;
+	GameObjectManager m_objectMgr;
 
 	bool m_bLoad;
 	virtual void ReleaseContent() {};
