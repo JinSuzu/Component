@@ -3,6 +3,7 @@
 #include "Manager/GameObjectManager.h"
 #include "../../Object/Component/Transform/Transform.h"
 #include "../../Object/Component/Draw/Draw.h"
+#include "../../Object/Component/Camera/Camera.h"
 	
 #define ITERATOR(x) for (auto&& it : m_cpList)if(it.get() != nullptr)it->
 
@@ -41,6 +42,7 @@ void GameObject::PostUpdate()
 #pragma region void Draw
 void GameObject::PreDraw()
 {
+	if(!m_camera.expired())m_camera.lock()->PreDraw();
 	auto draw = m_draws.begin();
 	while (draw != m_draws.end())
 	{
@@ -159,6 +161,9 @@ void GameObject::ComponentInit(std::shared_ptr<Component>& _addCp)
 	{
 	case ComponentID::Draw:
 		m_draws.push_back(static_pointer_cast<Cp_Draw>(_addCp));
+		break;
+	case ComponentID::Camera:
+		m_camera = static_pointer_cast<Cp_Camera>(_addCp);
 		break;
 	}
 	m_cpList.push_back(_addCp);

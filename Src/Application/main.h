@@ -24,7 +24,7 @@ public:
 	void UpdateFPS() { m_fpsController.UpdateStartTime(); }
 
 	Math::Vector2 GetWindowSize() const { return m_windowSize; }
-
+	Math::Vector2 GetMouse();
 
 	void KdBeginUpdate();
 	void PreUpdate();

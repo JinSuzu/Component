@@ -146,7 +146,7 @@ void GameObjectManager::GameObjectFamily::PostUpdate() {
 #pragma region	void Draw
 void GameObjectManager::GameObjectFamily::PreDraw()
 {
-	if (parent) parent->PreDraw();
+	if (parent)parent->PreDraw();
 	for (auto& child : childs) child.PreDraw();
 }
 void GameObjectManager::GameObjectFamily::GenerateDepthMapFromLight()

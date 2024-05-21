@@ -6,6 +6,7 @@ enum class ObjectTag;
 
 enum ComponentID
 {
+	Null					= 0,
 	//独立コンポ
 	BoxCollision			= 1 << 0,
 	Draw					= 1 << 1,
@@ -13,8 +14,10 @@ enum ComponentID
 
 	//依存コンポ
 	AddRotation				= 1 << 3,
+	Controller				= 1 << 4,
+	Camera					= 1 << 5,
 
-	MaxID					= 1 << 4,
+	MaxID					= 1 << 6,
 };
 
 class Component
@@ -60,7 +63,7 @@ protected:
 	std::string								m_name;
 
 	std::string								m_IDName;
-	ComponentID                             m_id;
+	ComponentID                             m_id = ComponentID::Null;
 
 	nlohmann::json							m_jsonData;
 

@@ -5,6 +5,8 @@
 #include "Draw/Draw.h"
 #include "Rigidbody/Rigidbody.h"
 #include "AddRotation/AddRotaion.h"
+#include "Controller/Controller.h"
+#include "Camera/Camera.h"
 
 
 #define FNCOMPONENT(Tag)											\
@@ -34,6 +36,8 @@ class ComponentMap
 
 		//依存コンポ
 		{ComponentID::AddRotation		,FNCOMPONENT(AddRotation)},
+		{ComponentID::Controller		,FNCOMPONENT(Controller)},
+		{ComponentID::Camera			,FNCOMPONENT(Camera)},
 	};
 
 
@@ -60,14 +64,18 @@ public:
 		ImGui::BeginChild("##ComponentSet", ImVec2(350, 100), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY);
 
 		static unsigned int state;
-		for (int i = 0; i < ComponentMap::Instance().GetCompoNum(); i++)
+		if (ImGui::BeginTable("##ComponentSet", 2, ImGuiTableFlags_BordersInnerV |ImGuiTableFlags_NoSavedSettings))
 		{
-			bool flg = state & (1 << i);
-			if (i % 3)ImGui::SameLine();
-			ImGui::Checkbox(ComponentMap::Instance().GetTag(1 << i).c_str(), &flg);
+			for (int i = 0; i < GetCompoNum(); i++)
+			{
+				bool flg = state & (1 << i);
+				ImGui::TableNextColumn();
+				ImGui::Checkbox(GetTag(1 << i).c_str(), &flg);
 
-			if (flg)state |= (1 << i);
-			if (!flg)state &= ~(1 << i);
+				if (flg)state |= (1 << i);
+				if (!flg)state &= ~(1 << i);
+			}
+			ImGui::EndTable();
 		}
 		ImGui::EndChild();
 		return state;

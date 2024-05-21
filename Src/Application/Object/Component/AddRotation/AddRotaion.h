@@ -1,21 +1,26 @@
 ﻿#pragma once
 #include "../Component.h"
 
-class Cp_Transform;
-
 class Cp_AddRotation
 	:public Component
 {
 public:
 	void Start()override; 
-	void InitJson()override;
 
 	void UpdateContents()override;
 	void ImGuiUpdate()override;
 
+	void InitJson()override;
 	nlohmann::json GetJson()override;
 private:
-	Math::Vector3 m_addPow;
+	enum AddType
+	{
+		Normal = 1 << 0,
+		FollowMouse = 1 << 1
+	};
 
-	std::weak_ptr<Cp_Transform> m_wpTans;
+	Math::Vector3 m_addPow;
+	AddType m_addType;
+
+	Math::Vector2 m_mouseMove;
 };

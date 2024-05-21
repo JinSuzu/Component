@@ -3,7 +3,6 @@
 
 class Component;
 class Cp_Transform;
-class Cp_Draw;
 enum ComponentID;
 
 
@@ -60,7 +59,7 @@ public:
 	std::weak_ptr<T> GetComponent()
 	{
 		std::shared_ptr<Component> tag = SearchTag(typeid(T).name());
-		if (tag.get() == nullptr) return std::weak_ptr<T>();//ケツまで回ってたらナシ
+		if (tag == nullptr) return std::weak_ptr<T>();//ケツまで回ってたらナシ
 		return std::weak_ptr<T>(std::dynamic_pointer_cast<T>(tag));
 	}
 
@@ -94,11 +93,13 @@ private:
 	std::string									m_name;
 	ObjectTag									m_tag = ObjectTag::Untagged;
 
+	std::weak_ptr<GameObject>					m_parent;
+
 	std::shared_ptr<Cp_Transform>				m_trans;
-	std::list<std::weak_ptr<Cp_Draw>>			m_draws;
+	std::list<std::weak_ptr<class Cp_Draw>>		m_draws;
+	std::weak_ptr<class Cp_Camera>				m_camera;
 	std::list<std::shared_ptr<Component>>		m_cpList;
 
-	std::weak_ptr<GameObject>					m_parent;
 
 	//Json係
 	bool										m_bSave = true;

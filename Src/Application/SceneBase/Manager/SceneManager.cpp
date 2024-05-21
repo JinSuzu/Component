@@ -10,33 +10,33 @@
 
 void SceneManager::PreDraw()
 {
-	if (m_scene.get() == nullptr)return;
+	if (m_scene == nullptr)return;
 	m_scene->PreDraw();
 }
 void SceneManager::Draw()
 {
-	if (m_scene.get() == nullptr)return;
+	if (m_scene == nullptr)return;
 	m_scene->Draw();
 }
 void SceneManager::DrawSprite()
 {
-	if (m_scene.get() == nullptr)return;
+	if (m_scene == nullptr)return;
 	m_scene->DrawSprite();
 }
 void SceneManager::PreUpdate()
 {
-	if (m_scene.get() == nullptr)return;
+	if (m_scene == nullptr)return;
 	m_scene->PreUpdate();
 }
 void SceneManager::Update()
 {
-	if (m_scene.get() == nullptr)return;
+	if (m_scene == nullptr)return;
 	m_scene->Update();
 }
 
 void SceneManager::PostUpdate()
 {
-	if (m_scene.get() == nullptr)return;
+	if (m_scene == nullptr)return;
 	m_scene->PostUpdate();
 }
 

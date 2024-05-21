@@ -10,7 +10,7 @@ public:
 
 	void PreUpdateContents()override;
 	void UpdateContents()override;
-	void PostUpdate()override;
+	void PostUpdateContents()override;
 	void ImGuiUpdate()override;
 
 	nlohmann::json GetJson()override;
@@ -18,6 +18,6 @@ public:
 	void SetMove(Math::Vector3 _move) { m_move = _move; }
 	void SetGravity(Math::Vector3 _gravity) { m_gravity = _gravity; }
 private:
-	Math::Vector3 m_move;
-	Math::Vector3 m_gravity;
+	Math::Vector3 m_move	= {0,0,0};
+	Math::Vector3 m_gravity = {0,0,0};
 };

@@ -6,7 +6,7 @@ class Cp_Transform
 {
 public:
 	Cp_Transform() {}
-	~Cp_Transform() {}
+	~Cp_Transform()override {}
 
 	void InitJson()override;
 

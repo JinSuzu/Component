@@ -109,6 +109,12 @@
     <Filter Include="Src\Application\Object\Component\Draw">
       <UniqueIdentifier>{8fa7ea95-a32f-4bbc-900a-5fae094c4ea7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Object\Component\Controller">
+      <UniqueIdentifier>{5bdbc1ed-30e6-46c4-9270-b372dd97158e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\Camera">
+      <UniqueIdentifier>{2cb4ebd9-75a6-4315-9fcb-9949b4408180}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -447,6 +453,12 @@
     <ClInclude Include="Src\Application\Object\Component\Draw\Draw.h">
       <Filter>Src\Application\Object\Component\Draw</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\Controller\Controller.h">
+      <Filter>Src\Application\Object\Component\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\Camera\Camera.h">
+      <Filter>Src\Application\Object\Component\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -619,6 +631,12 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\Draw\Draw.cpp">
       <Filter>Src\Application\Object\Component\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\Controller\Controller.cpp">
+      <Filter>Src\Application\Object\Component\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\Camera\Camera.cpp">
+      <Filter>Src\Application\Object\Component\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -10,8 +10,6 @@ public:
 	}
     ~C_GameScene() {}
 
-    void PreDraw()override;
-
 	void PreUpdate()override;
 	void Update()override;
 	void PostUpdate()override;

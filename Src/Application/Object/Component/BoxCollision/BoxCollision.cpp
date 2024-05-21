@@ -6,7 +6,7 @@
 void Cp_BoxCollision::Start()
 {
 	m_wpTransform = m_owner.lock()->GetTransform();
-	COMPONENTLISTINSTANCE(BoxCollision).Set(std::static_pointer_cast<Cp_BoxCollision>(shared_from_this()));
+	//COMPONENTLISTINSTANCE(BoxCollision).Set(std::static_pointer_cast<Cp_BoxCollision>(shared_from_this()));
 
 }
 

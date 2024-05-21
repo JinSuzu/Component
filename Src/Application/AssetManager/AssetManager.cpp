@@ -26,7 +26,7 @@ std::shared_ptr<KdModelData> AssetManager::GetModelData(std::string _assetPath)
 	if (m_modelDataList[_assetPath].expired())
 	{
 		std::shared_ptr<KdModelData> modelData = std::make_shared<KdModelData>();
-		static std::string path = "Asset/Textures/";
+		static std::string path = "Asset/Data/";
 		bool flg = modelData->Load(path + _assetPath + "/" + _assetPath + ".gltf");
 
 		assert(flg && "Pathミス！！");

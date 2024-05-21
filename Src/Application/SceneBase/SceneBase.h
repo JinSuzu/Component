@@ -32,8 +32,6 @@ public:
 
 protected:
 	std::string id;
-
-	std::unique_ptr<KdCamera>	m_camera;
 	Math::Matrix				m_world;
 
 	GameObjectManager m_objectMgr;

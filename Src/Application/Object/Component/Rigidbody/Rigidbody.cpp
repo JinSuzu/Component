@@ -30,8 +30,6 @@ void Cp_Rigidbody::UpdateContents()
 
 void Cp_Rigidbody::PostUpdateContents()
 {
-	Math::Vector3 pos = m_owner.lock()->GetTransform().lock()->GetPosition();
-	m_owner.lock()->GetTransform().lock()->SetPosition(pos + m_move);
 }
 
 void Cp_Rigidbody::ImGuiUpdate()

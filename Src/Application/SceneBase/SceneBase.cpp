@@ -3,9 +3,6 @@
 
 void SceneBase::PreDraw()
 {
-	// カメラ情報が無い場合は早期リターン
-	if (m_camera)m_camera->SetToShader();
-
 	m_objectMgr.PreDraw();
 }
 

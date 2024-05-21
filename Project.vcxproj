@@ -205,7 +205,9 @@
     <ClInclude Include="Src\Application\Object\Component\AddRotation\AddRotaion.h" />
     <ClInclude Include="Src\Application\Object\Component\AllComponentIncluder.h" />
     <ClInclude Include="Src\Application\Object\Component\BoxCollision\BoxCollision.h" />
+    <ClInclude Include="Src\Application\Object\Component\Camera\Camera.h" />
     <ClInclude Include="Src\Application\Object\Component\Component.h" />
+    <ClInclude Include="Src\Application\Object\Component\Controller\Controller.h" />
     <ClInclude Include="Src\Application\Object\Component\Draw\Draw.h" />
     <ClInclude Include="Src\Application\Object\Component\Rigidbody\Rigidbody.h" />
     <ClInclude Include="Src\Application\Object\Component\Transform\Transform.h" />
@@ -267,7 +269,9 @@
     <ClCompile Include="Src\Application\main.cpp" />
     <ClCompile Include="Src\Application\Object\Component\AddRotation\AddRotaion.cpp" />
     <ClCompile Include="Src\Application\Object\Component\BoxCollision\BoxCollision.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\Camera\Camera.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Component.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\Controller\Controller.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Draw\Draw.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Rigidbody\Rigidbody.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Transform\Transform.cpp" />

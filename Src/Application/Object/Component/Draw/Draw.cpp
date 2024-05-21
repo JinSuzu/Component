@@ -123,17 +123,11 @@ void Cp_Draw::ImGuiUpdate()
 	if (ImGui::Button("DrawType"))ImGui::OpenPopup("Types");
 	if (ImGui::BeginPopup("Types"))
 	{
-#define CHECKBOX(type)\
-		bool b##type = m_drawType & DrawType::##type;\
-		ImGui::Checkbox(#type,&b##type);\
-		if (b##type) m_drawType |= DrawType::##type;\
-		else	     m_drawType &= (~DrawType::##type);
-
-		CHECKBOX(Lit)
-		CHECKBOX(UnLit)
-		CHECKBOX(Bright)
-		CHECKBOX(UI)
-		CHECKBOX(DepthOfShadow)
+		ImGuiCheckBoxBit("Lit"	 , m_drawType, DrawType::Lit);
+		ImGuiCheckBoxBit("UnLit" , m_drawType, DrawType::UnLit);
+		ImGuiCheckBoxBit("Bright", m_drawType, DrawType::Bright);
+		ImGuiCheckBoxBit("UI"	 , m_drawType, DrawType::UI);
+		ImGuiCheckBoxBit("DepthOfShadow", m_drawType, DrawType::DepthOfShadow);
 
 		ImGui::EndPopup();
 	}

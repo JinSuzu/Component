@@ -36,6 +36,21 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_  HINSTANCE, _In_ LPSTR , _In_ int)
 	return 0;
 }
 
+Math::Vector2 Application::GetMouse()
+{
+	POINT mouse;
+	//ディスプレイの左上が(0,0)
+	GetCursorPos(&mouse);
+
+	ScreenToClient(m_window.GetWndHandle(), &mouse);
+
+	mouse.x -= (long)(m_windowSize.x / 2.0f);
+	mouse.y -= (long)(m_windowSize.y / 2.0f);
+	mouse.y *= (long)-1.0f;
+
+	return { (float)mouse.x,(float)mouse.y };
+}
+
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 // アプリケーション更新開始
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
