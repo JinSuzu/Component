@@ -3,9 +3,10 @@
 #include "../../Object/Game/Manager/GameObjectManager.h"
 #include "../../Object/Component/Component.h"
 
-void C_GameScene::Draw2D()
+
+void C_GameScene::PreDraw()
 {
-	SceneBase::Draw2D();
+	GameObject()
 }
 
 void C_GameScene::PreUpdate()
@@ -30,6 +31,7 @@ void C_GameScene::Init()
 
 void C_GameScene::LoadContent()
 {
+	m_camera = std::make_unique<KdCamera>();
 	/*auto obj1 = GameObjectManager::Instance().CreateObject("Test");
 	GameObjectManager::Instance().CreateObject("TestC")
 		->SetParent(obj1);*/

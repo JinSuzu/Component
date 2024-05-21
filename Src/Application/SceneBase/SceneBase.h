@@ -14,30 +14,32 @@ class SceneBase
 public:
 	SceneBase()
 		:id()
-		, m_bLoad()
+		, m_bLoad(false)
 	{}
 	~SceneBase() {}
 
-	virtual void Draw2D();
+	virtual void PreDraw();
+	virtual void Draw();
+	virtual void DrawSprite();
+
 	virtual void PreUpdate();
 	virtual void Update();
 	virtual void PostUpdate();
-	virtual void Init() 
-	{
-		id = PickName(typeid(*this).name());
-		m_objectMgr.Init();
-	};
+	virtual void Init() {};
 	virtual void Load()final;
 	virtual void Release() final;
 	virtual void ImGuiUpdate();
 
 protected:
 	std::string id;
+
+	std::unique_ptr<KdCamera>	m_camera;
+	Math::Matrix				m_world;
+
 	GameObjectManager m_objectMgr;
 
 	bool m_bLoad;
 	virtual void ReleaseContent() {};
 	virtual void LoadContent() {};
-private:
-	nlohmann::json m_jsonData;
+
 };

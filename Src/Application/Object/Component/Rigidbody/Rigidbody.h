@@ -10,7 +10,7 @@ public:
 
 	void PreUpdateContents()override;
 	void UpdateContents()override;
-	//void PostUpdate()override;
+	void PostUpdate()override;
 	void ImGuiUpdate()override;
 
 	nlohmann::json GetJson()override;
@@ -21,6 +21,3 @@ private:
 	Math::Vector3 m_move;
 	Math::Vector3 m_gravity;
 };
-
-
-GENCOMPONENTLIST(Rigidbody)

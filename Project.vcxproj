@@ -206,7 +206,7 @@
     <ClInclude Include="Src\Application\Object\Component\AllComponentIncluder.h" />
     <ClInclude Include="Src\Application\Object\Component\BoxCollision\BoxCollision.h" />
     <ClInclude Include="Src\Application\Object\Component\Component.h" />
-    <ClInclude Include="Src\Application\Object\Component\DrawTex\DrawTex.h" />
+    <ClInclude Include="Src\Application\Object\Component\Draw\Draw.h" />
     <ClInclude Include="Src\Application\Object\Component\Rigidbody\Rigidbody.h" />
     <ClInclude Include="Src\Application\Object\Component\Transform\Transform.h" />
     <ClInclude Include="Src\Application\Object\Game\GameObject.h" />
@@ -268,7 +268,7 @@
     <ClCompile Include="Src\Application\Object\Component\AddRotation\AddRotaion.cpp" />
     <ClCompile Include="Src\Application\Object\Component\BoxCollision\BoxCollision.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Component.cpp" />
-    <ClCompile Include="Src\Application\Object\Component\DrawTex\DrawTex.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\Draw\Draw.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Rigidbody\Rigidbody.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Transform\Transform.cpp" />
     <ClCompile Include="Src\Application\Object\Game\GameObject.cpp" />

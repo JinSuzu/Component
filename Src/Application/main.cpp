@@ -109,7 +109,7 @@ void Application::KdPostDraw()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::PreDraw()
 {
-	
+	SceneManager::Instance().PreDraw();
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -117,36 +117,7 @@ void Application::PreDraw()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::Draw()
 {
-	// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// 光を遮るオブジェクト(不透明な物体や2Dキャラ)はBeginとEndの間にまとめてDrawする
-	KdShaderManager::Instance().m_StandardShader.BeginGenerateDepthMapFromLight();
-	{
-	}
-	KdShaderManager::Instance().m_StandardShader.EndGenerateDepthMapFromLight();
-
-
-	// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// 陰影のあるオブジェクト(不透明な物体や2Dキャラ)はBeginとEndの間にまとめてDrawする
-	KdShaderManager::Instance().m_StandardShader.BeginLit();
-	{
-	}
-	KdShaderManager::Instance().m_StandardShader.EndLit();
-
-
-	// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// 陰影のないオブジェクト(透明な部分を含む物体やエフェクト)はBeginとEndの間にまとめてDrawする
-	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
-	{
-	}
-	KdShaderManager::Instance().m_StandardShader.EndUnLit();
-
-
-	// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// 光源オブジェクト(自ら光るオブジェクトやエフェクト)はBeginとEndの間にまとめてDrawする
-	KdShaderManager::Instance().m_postProcessShader.BeginBright();
-	{
-	}
-	KdShaderManager::Instance().m_postProcessShader.EndBright();
+	SceneManager::Instance().Draw();
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -163,14 +134,7 @@ void Application::PostDraw()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::DrawSprite()
 {
-	// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// 2Dの描画はこの間で行う
-	KdShaderManager::Instance().m_spriteShader.Begin();
-	{
-		SceneManager::Instance().Draw();
-	}
-	KdShaderManager::Instance().m_spriteShader.End();
-	
+	SceneManager::Instance().DrawSprite();
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -424,32 +388,30 @@ void Application::ImGuiUpdate()
 	ImGui::ShowDemoWindow(nullptr);
 	if (ImGui::Begin("Debug Window"))
 	{
+		if (ImGui::BeginTabBar("CreateObject"))
+		{
+			if (ImGui::BeginTabItem("Scene"))
+			{
+				int SceneNum = SceneManager::Instance().GetNowSceneNum();
+				ImGui::SliderInt("SceneNum", &SceneNum, 0, SceneID::Max - 1); SceneManager::Instance().ShiftScene((SceneID)SceneNum);
+				if (ImGui::Button("ReLoad"))SceneManager::Instance().ReLoad();
+				ImGui::EndTabItem();
+			}
 
-
-		static int mode = 0;
-
-		enum {
-			SceneMode,
-			ObjectMode,
-			OtherMode,
-		};
-
-
-		ImGui::RadioButton("Scene", &mode, SceneMode);ImGui::SameLine();
-		ImGui::RadioButton("Object", &mode, ObjectMode);ImGui::SameLine();
-		ImGui::RadioButton("Other", &mode, OtherMode);
-
-		if (mode == SceneMode) {
-			static int SceneNum = SceneManager::Instance().GetNowSceneNum();
-			ImGui::SliderInt("SceneNum", &SceneNum, 0, SceneID::Max - 1); SceneManager::Instance().ShiftScene((SceneID)SceneNum);
-			SceneManager::Instance().ImGuiUpdate();
-		}
-		else if (mode == ObjectMode) {
-			//GameObjectManager::Instance().ImGuiUpdate();
-		}
-		else if (mode == OtherMode) {
-			ImGui::Text("FPS : %d",m_fpsController.m_nowfps);
-			ImGui::Text("TherdMax : %d",std::hardware_constructive_interference_size);
+			if (ImGui::BeginTabItem("Object"))
+			{
+				SceneManager::Instance().ImGuiUpdate();
+				ImGui::EndTabItem();
+			}
+			
+			if (ImGui::BeginTabItem("Other"))
+			{
+				ImGui::Text("FPS : %d", m_fpsController.m_nowfps);
+				ImGui::Text("ThreadMax : %d", std::hardware_constructive_interference_size);
+				
+				ImGui::EndTabItem();
+			}
+			ImGui::EndTabBar();
 		}
 	}
 	ImGui::End();

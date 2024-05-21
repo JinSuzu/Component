@@ -1,10 +1,10 @@
 {
     "Component": [
         {
-            "matTag": "SRT",
+            "matTag": "",
             "position": {
-                "x": -103.0,
-                "y": -41.0,
+                "x": 0.0,
+                "y": 0.0,
                 "z": 0.0
             },
             "rotation": {
@@ -21,13 +21,16 @@
         {
             "Animation": [],
             "ID": 2,
-            "path": "chara/block.png",
+            "drawType": 3,
+            "modelDataPath": "",
             "rect": {
-                "height": 64,
-                "width": 64,
+                "height": 0,
+                "width": 0,
                 "x": 0,
                 "y": 0
-            }
+            },
+            "squarePolygonPath": "chara/block",
+            "texPath": "chara/block"
         }
     ],
     "Name": "Test",

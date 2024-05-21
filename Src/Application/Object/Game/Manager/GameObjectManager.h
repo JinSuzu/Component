@@ -12,19 +12,22 @@ public:
 	GameObjectManager() {}
 	~GameObjectManager() {}
 
-	void Draw();
-
 	void PreUpdate();
 	void Update();
 	void PostUpdate();
 
-	void ImGuiUpdate();
-	void Init();
-	void Release();
+	#pragma region void Draw
+	void PreDraw()						{ for (auto& family : m_obList) family.PreDraw(); }
+	void GenerateDepthMapFromLight()	{ for (auto& family : m_obList) family.GenerateDepthMapFromLight(); }
+	void DrawLit()						{ for (auto& family : m_obList) family.DrawLit(); }
+	void DrawUnLit()					{ for (auto& family : m_obList) family.DrawUnLit(); }
+	void DrawBright()					{ for (auto& family : m_obList) family.DrawBright(); }
+	void DrawSprite()					{ for (auto& family : m_obList) family.DrawSprite(); }
+#pragma endregion
 
-	static std::shared_ptr<Component> ToComponent(unsigned int _id);
-	static std::string ToTag(unsigned int _id);
-	static unsigned int ToID(std::string _tag);
+	void ImGuiUpdate();
+	void Init(std::string _path);
+	void Release(std::string _path);
 
 	static std::string GetGameObjectPath() { return "GameObject/"; };
 	static std::string GetGameObjectSetPath() { return "GameObject/Set/"; }
@@ -49,17 +52,23 @@ private:
 			}
 		}
 
-		~GameObjectFamily() { if (GameObjectManager::EditObject() == this)delete GameObjectManager::EditObject(); }
-
-
-		void Draw();
+		~GameObjectFamily() { if (GameObjectManager::EditObject() == this)GameObjectManager::EditObject(nullptr, true); }
 
 		void PreUpdate();
 		void Update();
 		void PostUpdate();
 
+	#pragma region	void Draw
+		void PreDraw();
+		void GenerateDepthMapFromLight();
+		void DrawLit();
+		void DrawUnLit();
+		void DrawBright();
+		void DrawSprite();
+
 		void ImGuiUpdate(int num);
 		void ImGuiOpenOption(int num);
+#pragma endregion
 
 		nlohmann::json GetJson();
 
@@ -74,16 +83,18 @@ private:
 	//階層構造のあるGameObject用Json専
 	static std::shared_ptr<GameObject> CreateObject(nlohmann::json _json, GameObjectFamily* _family);
 
-	
-	void ImGuiCreateObject(bool bOrigin = false);
-
 	void LoadJson(std::string _path,bool _bOrigin = true);
+	void ImGuiCreateObject(bool bOrigin = false);
 public:
+	static std::shared_ptr<Component> ToComponent(unsigned int _id);
+	static std::string ToTag(unsigned int _id);
+	static unsigned int ToID(std::string _tag);
+
 	static void ImGuiAddComponent(std::weak_ptr<GameObject> _object);
-	static GameObjectFamily* EditObject(GameObjectFamily* _edit = nullptr)
+	static GameObjectFamily* EditObject(GameObjectFamily* _edit = nullptr,bool bDelete = false)
 	{
-		static GameObjectFamily* inst;
-		if(_edit)inst = _edit;
+		static GameObjectFamily* inst = nullptr;
+		if (_edit || bDelete)inst = _edit;
 		return inst;
 	};
 };

@@ -2,7 +2,7 @@
 
 #include "Component.h"
 #include "BoxCollision/BoxCollision.h"
-#include "DrawTex/DrawTex.h"
+#include "Draw/Draw.h"
 #include "Rigidbody/Rigidbody.h"
 #include "AddRotation/AddRotaion.h"
 
@@ -29,7 +29,7 @@ class ComponentMap
 	{
 		//独立コンポ
 		{ComponentID::BoxCollision		,FNCOMPONENT(BoxCollision)},
-		{ComponentID::DrawTex			,FNCOMPONENT(DrawTex)},
+		{ComponentID::Draw				,FNCOMPONENT(Draw)},
 		{ComponentID::Rigidbody			,FNCOMPONENT(Rigidbody)},
 
 		//依存コンポ

@@ -100,14 +100,14 @@
     <Filter Include="Src\Application\Object\Component\BoxCollidion">
       <UniqueIdentifier>{a457cb12-843b-4c59-a7d2-082068244346}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\Object\Component\DrawTex">
-      <UniqueIdentifier>{2e514ec8-cac4-4146-a3f8-be1e3e80a1e1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Src\Application\Object\Component\Rigidbody">
       <UniqueIdentifier>{7ec9ec56-9144-4c04-a038-ee9ec295ce45}</UniqueIdentifier>
     </Filter>
     <Filter Include="Src\Application\Object\Component\Transform">
       <UniqueIdentifier>{68c26de7-b3c1-4843-8301-bcd3108c5407}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\Draw">
+      <UniqueIdentifier>{8fa7ea95-a32f-4bbc-900a-5fae094c4ea7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -435,9 +435,6 @@
     <ClInclude Include="Src\Application\Object\Component\BoxCollision\BoxCollision.h">
       <Filter>Src\Application\Object\Component\BoxCollidion</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Object\Component\DrawTex\DrawTex.h">
-      <Filter>Src\Application\Object\Component\DrawTex</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\Object\Component\Rigidbody\Rigidbody.h">
       <Filter>Src\Application\Object\Component\Rigidbody</Filter>
     </ClInclude>
@@ -446,6 +443,9 @@
     </ClInclude>
     <ClInclude Include="Src\Application\Object\Object.h">
       <Filter>Src\Application\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\Draw\Draw.h">
+      <Filter>Src\Application\Object\Component\Draw</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -608,9 +608,6 @@
     <ClCompile Include="Src\Application\Object\Component\BoxCollision\BoxCollision.cpp">
       <Filter>Src\Application\Object\Component\BoxCollidion</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Object\Component\DrawTex\DrawTex.cpp">
-      <Filter>Src\Application\Object\Component\DrawTex</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\Rigidbody\Rigidbody.cpp">
       <Filter>Src\Application\Object\Component\Rigidbody</Filter>
     </ClCompile>
@@ -619,6 +616,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Object.cpp">
       <Filter>Src\Application\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\Draw\Draw.cpp">
+      <Filter>Src\Application\Object\Component\Draw</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

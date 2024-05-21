@@ -3,9 +3,9 @@
 #include "../../Object/Game/Manager/GameObjectManager.h"
 #include "../../Object/Component/Component.h"
 
-void C_TitleScene::Draw2D()
+void C_TitleScene::Draw()
 {
-	SceneBase::Draw2D();
+	SceneBase::Draw();
 }
 
 void C_TitleScene::PreUpdate()

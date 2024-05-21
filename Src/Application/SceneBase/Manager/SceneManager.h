@@ -8,7 +8,9 @@ class SceneManager
 public:
 	~SceneManager() {}
 
+	void PreDraw();
 	void Draw();
+	void DrawSprite();
 
 	void PreUpdate();
 	void Update();
@@ -39,5 +41,7 @@ public:
 		static SceneManager instance;
 		return instance;
 	}
+
+	void ReLoad();
 };
 

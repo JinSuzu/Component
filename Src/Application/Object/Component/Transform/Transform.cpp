@@ -39,6 +39,8 @@ Math::Matrix Cp_Transform::GetMatrix()
 {
 	auto it = m_matTag.begin();
 
+	if(it == m_matTag.end())return m_mWorld = GetRMat() * GetSMat() * GetTMat();
+
 	switch (*it)
 	{
 	case 'T':
@@ -51,11 +53,10 @@ Math::Matrix Cp_Transform::GetMatrix()
 		m_mWorld = GetSMat();
 		break;
 	default:
-		return GetMatrix();
+		return m_mWorld = GetRMat() * GetSMat() * GetTMat();
 	}
 
 	it++;
-
 	while (it != m_matTag.end())
 	{
 		switch (*it)
@@ -70,7 +71,7 @@ Math::Matrix Cp_Transform::GetMatrix()
 			m_mWorld *= GetSMat();
 			break;
 		default:
-			return GetMatrix();
+			return m_mWorld = GetRMat() * GetSMat() * GetTMat();
 		}
 		it++;
 	}

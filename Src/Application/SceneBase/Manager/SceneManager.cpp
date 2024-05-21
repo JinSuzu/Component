@@ -8,10 +8,20 @@
 
 #include "../../main.h"
 
+void SceneManager::PreDraw()
+{
+	if (m_scene.get() == nullptr)return;
+	m_scene->PreDraw();
+}
 void SceneManager::Draw()
 {
 	if (m_scene.get() == nullptr)return;
-	m_scene->Draw2D();
+	m_scene->Draw();
+}
+void SceneManager::DrawSprite()
+{
+	if (m_scene.get() == nullptr)return;
+	m_scene->DrawSprite();
 }
 void SceneManager::PreUpdate()
 {
@@ -54,7 +64,7 @@ void SceneManager::ShiftScene(SceneID _toSceneNum)
 	if (m_nowSceneNum == _toSceneNum)return;
 
 	//Release前処理
-	auto temp = m_geneSceneList[m_nowSceneNum]();
+	auto temp = m_geneSceneList[_toSceneNum]();
 	temp->Init();
 	m_scene->Release();
 
@@ -63,13 +73,13 @@ void SceneManager::ShiftScene(SceneID _toSceneNum)
 	
 	bool flg = true;
 	auto Fn = [temp]() {temp->Load(); };
-
-	std::thread mask(&SceneManager::DrawLoad, this, std::ref(flg));
+	Fn();
+	/*std::thread mask(&SceneManager::DrawLoad, this, std::ref(flg));
 	std::thread load(Fn);
 
 	load.join();
 	flg = false;
-	mask.join();
+	mask.join();*/
 
 	m_scene = temp;
 }
@@ -101,4 +111,10 @@ void SceneManager::DrawLoad(bool& flg)
 		std::this_thread::sleep_for(std::chrono::milliseconds(16));
 		*/
 	}
+}
+
+void SceneManager::ReLoad()
+{
+	m_scene->Release();
+	m_scene->Load();
 }

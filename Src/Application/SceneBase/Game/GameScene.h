@@ -5,10 +5,12 @@ class C_GameScene :
 {
 public:
     C_GameScene()
-    {}
+	{
+		id = "Game";
+	}
     ~C_GameScene() {}
 
-    void Draw2D()override;
+    void PreDraw()override;
 
 	void PreUpdate()override;
 	void Update()override;

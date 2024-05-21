@@ -2,15 +2,11 @@
 #include "../../Object/Component/Component.h"
 #include "Manager/GameObjectManager.h"
 #include "../../Object/Component/Transform/Transform.h"
-
+#include "../../Object/Component/Draw/Draw.h"
+	
 #define ITERATOR(x) for (auto&& it : m_cpList)if(it.get() != nullptr)it->
 
-void GameObject::Draw()
-{
-	if (!m_bActive)return;
-	if (m_bDestroy)return;
-	ITERATOR(m_cpList)Draw();
-}
+
 void GameObject::PreUpdate()
 {
 	if (!m_bActive)return;
@@ -42,6 +38,44 @@ void GameObject::PostUpdate()
 	ITERATOR(m_cpList)PostUpdate();
 }
 
+#pragma region void Draw
+void GameObject::PreDraw()
+{
+	auto draw = m_draws.begin();
+	while (draw != m_draws.end())
+	{
+		if (draw->expired()) 
+		{
+			draw = m_draws.erase(draw);
+			continue;
+		}
+
+		draw->lock()->PreDraw();
+		draw++;
+	}
+}
+void GameObject::GenerateDepthMapFromLight()
+{
+	for (auto& draw : m_draws)draw.lock()->GenerateDepthMapFromLight();
+}
+void GameObject::DrawLit()
+{
+	for (auto& draw : m_draws)draw.lock()->DrawLit();
+}
+void GameObject::DrawUnLit()
+{
+	for (auto& draw : m_draws)draw.lock()->DrawUnLit();
+}
+void GameObject::DrawBright()
+{
+	for (auto& draw : m_draws)draw.lock()->DrawBright();
+}
+void GameObject::DrawSprite()
+{
+	for (auto& draw : m_draws)draw.lock()->DrawSprite();
+}
+#pragma endregion
+
 void GameObject::Init(nlohmann::json _json)
 {
 	m_trans = std::make_shared<Cp_Transform>();
@@ -59,15 +93,6 @@ void GameObject::Init(nlohmann::json _json)
 	AddComponents();
 }
 
-void GameObject::ImGuiUpdate()
-{
-	ImGui::InputText("Name", &m_name);
-
-	ImGuiComponents();
-
-	GameObjectManager::ImGuiAddComponent(weak_from_this());
-}
-
 #pragma region ComponentFns
 std::shared_ptr<Component> GameObject::AddComponent(unsigned int _id, nlohmann::json _json)
 {
@@ -77,6 +102,7 @@ std::shared_ptr<Component> GameObject::AddComponent(unsigned int _id, nlohmann::
 	_json.is_null() ? ComponentInit(addCp) : ComponentInit(addCp, _json);
 	return addCp;
 }
+
 std::shared_ptr<Component> GameObject::AddComponent(Component* _addCp)
 {
 	std::shared_ptr<Component> addCp(_addCp);
@@ -129,7 +155,14 @@ std::list<std::shared_ptr<Component>> GameObject::AddComponents()
 
 void GameObject::ComponentInit(std::shared_ptr<Component>& _addCp)
 {
-	m_cpList.push_back(std::shared_ptr<Component>(_addCp));
+	switch (_addCp->GetID())
+	{
+	case ComponentID::Draw:
+		m_draws.push_back(static_pointer_cast<Cp_Draw>(_addCp));
+		break;
+	}
+	m_cpList.push_back(_addCp);
+
 	_addCp->SetOwner(weak_from_this());
 	_addCp->Start();
 }
@@ -205,7 +238,8 @@ void GameObject::ImGuiComponents()
 		{
 			std::string ImGui = std::to_string(_num) + " : " + _component->GetIDName();
 			bool flg = ImGui::TreeNode(ImGui.c_str());
-			ImGui::SameLine(); if (ImGui::SmallButton(("Remove##" + ImGui).c_str()))_component->Destroy();
+			ImGui::SameLine(); if (ImGui::SmallButton(("Remove##" + ImGui).c_str()))
+				_component->Destroy();
 			return flg;
 		};
 

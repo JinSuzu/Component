@@ -8,7 +8,7 @@ enum ComponentID
 {
 	//独立コンポ
 	BoxCollision			= 1 << 0,
-	DrawTex					= 1 << 1,
+	Draw					= 1 << 1,
 	Rigidbody				= 1 << 2,
 
 	//依存コンポ
@@ -27,8 +27,6 @@ public:
 	virtual	~Component() {}
 
 	virtual void Start() {}
-
-	virtual void Draw() {}
 
 	virtual void PreUpdate()	final { if (m_bActive && !m_bDestroy)PreUpdateContents(); }
 	virtual void Update()		final { if (m_bActive && !m_bDestroy)UpdateContents(); }
@@ -110,29 +108,3 @@ private:
 	// プライベートコンストラクタ
 	std::list<std::weak_ptr<T>> list;
 };
-
-#define GENCOMPONENTLIST(NAME)													\
-class NAME##List: public ComponentFactoryList<Cp_##NAME>						\
-{																				\
-private:																		\
-	NAME##List();																\
-	virtual ~NAME##List();														\
-};
-
-#define FNTURN(_fnList,arg)				\
-auto fn = _fnList.begin();				\
-while (fn != _fnList.end())				\
-{										\
-	if ((*fn).lock().get() == nullptr)	\
-	{									\
-		fn = _fnList.erase(fn);			\
-		continue;						\
-	}									\
-										\
-	(*fn).lock()->operator()(arg);		\
-	fn++;								\
-}
-
-#define COMPONENTLISTINSTANCE(NAME)\
-ComponentFactoryList<Cp_##NAME>::Instance()
-

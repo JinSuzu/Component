@@ -5,10 +5,12 @@ class C_TitleScene :
 {
 public:
     C_TitleScene() 
-    {}
+	{
+		id = "Title";
+	}
     ~C_TitleScene() {}
 
-    void Draw2D()override;
+    void Draw()override;
 	void PreUpdate()override;
     void Update()override;
 	void PostUpdate()override;

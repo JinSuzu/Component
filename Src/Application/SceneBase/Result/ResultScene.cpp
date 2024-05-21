@@ -1,8 +1,8 @@
 ﻿#include "ResultScene.h"
 
-void C_ResultScene::Draw2D()
+void C_ResultScene::Draw()
 {
-	SceneBase::Draw2D();
+	SceneBase::Draw();
 }
 
 void C_ResultScene::PreUpdate()

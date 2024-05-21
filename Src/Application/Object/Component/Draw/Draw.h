@@ -19,21 +19,37 @@ struct AnimeSet
 	int									interval;
 };
 
-class Cp_DrawTex
+
+class Cp_Draw
 	:public Component
 {
+private:
+	enum DrawType
+	{
+		Lit = 1 << 0,
+		UnLit = 1 << 1,
+		Bright = 1 << 2,
+		UI = 1 << 3,
+		DepthOfShadow = 1 << 4,
+	};
+
 public:
-	Cp_DrawTex(std::shared_ptr<KdTexture> _tex = nullptr)
-		:m_tex(_tex)
-	{}
-	~Cp_DrawTex() {}
+	Cp_Draw(){}
+	~Cp_Draw() {}
 
 	void Start()override;
 	void InitJson()override;
 
-	void Draw()override;
+	void PreDraw();
+	void GenerateDepthMapFromLight();
+	void DrawLit();
+	void DrawUnLit();
+	void DrawBright(); 
+	void DrawSprite(); 
+
 	void UpdateContents()override;
 	void ImGuiUpdate()override;
+
 	nlohmann::json GetJson()override;
 	nlohmann::json GetAnimeJson(std::string _tag,AnimeSet _set);
 
@@ -41,9 +57,16 @@ public:
 	void SetTex(std::shared_ptr<KdTexture> _tex) {m_tex = _tex;}
 
 private:
-	std::shared_ptr<KdTexture>		m_tex		= nullptr;
-	Math::Rectangle					m_rect		= { 0,0,64,64 };
-	std::string						m_path		= "chara/block.png";
+	unsigned int							m_drawType		= DrawType::UI;
+	std::shared_ptr<KdTexture>				m_tex			= nullptr;
+	Math::Rectangle					m_rect		= { 0,0,64,64 }; 
+
+	std::shared_ptr<KdModelData>			m_modelData		= nullptr;
+	std::shared_ptr<KdSquarePolygon>		m_squarePolygon = nullptr;
+	
+	std::string m_texPath			= "chara/block";
+	std::string m_modelDataPath		= "";
+	std::string m_squarePolygonPath	= "";
 	
 	bool							m_bAnime	= false;
 	std::string						m_nowAnime	= "default";
