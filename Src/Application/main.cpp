@@ -399,35 +399,44 @@ void Application::ImGuiUpdate()
 	//ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiSetCond_Once);
 	//ImGui::SetNextWindowSize(ImVec2(500, 300), ImGuiSetCond_Once);
 	// デバッグウィンドウ
-	
+
 	ImGui::ShowDemoWindow(nullptr);
 	if (ImGui::Begin("Debug Window"))
 	{
-		if (ImGui::BeginTabBar("CreateObject"))
+		ImGui::BeginChild("Window");
 		{
-			if (ImGui::BeginTabItem("Scene"))
+			if(ImGui::BeginTabBar("CreateObject"))
 			{
-				int SceneNum = SceneManager::Instance().GetNowSceneNum();
-				ImGui::SliderInt("SceneNum", &SceneNum, 0, SceneID::Max - 1); SceneManager::Instance().ShiftScene((SceneID)SceneNum);
-				if (ImGui::Button("ReLoad"))SceneManager::Instance().ReLoad();
-				ImGui::EndTabItem();
-			}
+				/*if (ImGui::BeginTabItem("Scene"))
+				{
+					ImGui::SliderInt("SceneNum", &SceneNum, 0, SceneID::Max - 1); SceneManager::Instance().ShiftScene((SceneID)SceneNum);
+					if (ImGui::Button("ReLoad"))SceneManager::Instance().ReLoad();
+					ImGui::EndTabItem();
+				}*/
+				if (ImGui::BeginTabItem("Object"))
+				{
+					if (ImGui::TreeNode("Scene"))
+					{
+						int SceneNum = SceneManager::Instance().GetNowSceneNum();
+						ImGui::SliderInt("SceneNum", &SceneNum, 0, SceneID::Max - 1); SceneManager::Instance().ShiftScene((SceneID)SceneNum);
+						if (ImGui::Button("ReLoad"))SceneManager::Instance().ReLoad();
+						ImGui::TreePop();
+					}
+					SceneManager::Instance().ImGuiUpdate();
+					ImGui::EndTabItem();
+				}
 
-			if (ImGui::BeginTabItem("Object"))
-			{
-				SceneManager::Instance().ImGuiUpdate();
-				ImGui::EndTabItem();
+				if (ImGui::BeginTabItem("Other"))
+				{
+					ImGui::Text("FPS : %d", m_fpsController.m_nowfps);
+					ImGui::Text("ThreadMax : %d", std::hardware_constructive_interference_size);
+
+					ImGui::EndTabItem();
+				}
+				ImGui::EndTabBar();
 			}
-			
-			if (ImGui::BeginTabItem("Other"))
-			{
-				ImGui::Text("FPS : %d", m_fpsController.m_nowfps);
-				ImGui::Text("ThreadMax : %d", std::hardware_constructive_interference_size);
-				
-				ImGui::EndTabItem();
-			}
-			ImGui::EndTabBar();
 		}
+		ImGui::EndChild();
 	}
 	ImGui::End();
 }

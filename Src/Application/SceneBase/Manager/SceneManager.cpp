@@ -8,6 +8,10 @@
 
 #include "../../main.h"
 
+#define MAKESCENE(NAME)\
+class NAME##Scene :public SceneBase { public: NAME##Scene(){m_name = #NAME;} };\
+m_registerScene[SceneID::##NAME] = ([=]() {return std::make_shared<NAME##Scene>(); });
+
 void SceneManager::PreDraw()
 {
 	if (m_scene == nullptr)return;
@@ -42,12 +46,15 @@ void SceneManager::PostUpdate()
 
 void SceneManager::Init()
 {
-	m_geneSceneList.push_back([=]() {return std::make_shared<C_TitleScene>(); });
-	m_geneSceneList.push_back([=]() {return std::make_shared<C_GameScene>(); });
-	m_geneSceneList.push_back([=]() {return std::make_shared<C_ResultScene>(); });
+	m_registerScene[SceneID::Title]		= ([=]() {return std::make_shared<TitleScene>(); });
+	m_registerScene[SceneID::Game]		= ([=]() {return std::make_shared<GameScene>(); });
+	m_registerScene[SceneID::Result]	= ([=]() {return std::make_shared<ResultScene>(); });
+	MAKESCENE(Kurosaki)
+	MAKESCENE(Yamamoto)
+	MAKESCENE(Motoori)
 
 	m_nowSceneNum = SceneID::Game;
-	auto newScene = m_geneSceneList[m_nowSceneNum]();
+	auto newScene = m_registerScene[m_nowSceneNum]();
 	newScene->Init();
 	newScene->Load();
 	m_scene = newScene;
@@ -64,7 +71,7 @@ void SceneManager::ShiftScene(SceneID _toSceneNum)
 	if (m_nowSceneNum == _toSceneNum)return;
 
 	//Release前処理
-	auto temp = m_geneSceneList[_toSceneNum]();
+	auto temp = m_registerScene[_toSceneNum]();
 	temp->Init();
 	m_scene->Release();
 

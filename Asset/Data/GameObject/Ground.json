@@ -1,0 +1,38 @@
+{
+    "Component": [
+        {
+            "matTag": "SRT",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 100.0
+            }
+        },
+        {
+            "Animation": [],
+            "ID": 2,
+            "drawType": 1,
+            "modelDataPath": "Ground",
+            "rect": {
+                "height": 0,
+                "width": 0,
+                "x": 0,
+                "y": 0
+            },
+            "squarePolygonPath": "",
+            "texPath": "chara/block"
+        }
+    ],
+    "Name": "Ground",
+    "Tag": 0
+}

@@ -3,31 +3,31 @@
 #include "../../Object/Game/Manager/GameObjectManager.h"
 #include "../../Object/Component/Component.h"
 
-void C_TitleScene::Draw()
+void TitleScene::Draw()
 {
 	SceneBase::Draw();
 }
 
-void C_TitleScene::PreUpdate()
+void TitleScene::PreUpdate()
 {
 	SceneBase::PreUpdate();
 }
 
-void C_TitleScene::Update()
+void TitleScene::Update()
 {
 	SceneBase::Update();
 }
 
-void C_TitleScene::PostUpdate()
+void TitleScene::PostUpdate()
 {
 	SceneBase::PostUpdate();
 }
 
-void C_TitleScene::Init()
+void TitleScene::Init()
 {
 	SceneBase::Init();
 }
 
-void C_TitleScene::LoadContent()
+void TitleScene::LoadContent()
 {
 }

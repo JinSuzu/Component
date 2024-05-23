@@ -1,25 +1,17 @@
 ﻿#pragma once
 #include "../Object/Game/Manager/GameObjectManager.h"
 
-enum SceneID
-{
-	Title,
-	Game,
-	Result,
-	Max
-};
-
 class SceneBase
 {
 public:
 	SceneBase()
-		:id()
+		:m_name()
 		, m_bLoad(false)
 	{}
 	~SceneBase() {}
 
 	virtual void PreDraw();
-	virtual void Draw();
+	virtual void  Draw();
 	virtual void DrawSprite();
 
 	virtual void PreUpdate();
@@ -31,7 +23,7 @@ public:
 	virtual void ImGuiUpdate();
 
 protected:
-	std::string id;
+	std::string m_name;
 	Math::Matrix				m_world;
 
 	GameObjectManager m_objectMgr;

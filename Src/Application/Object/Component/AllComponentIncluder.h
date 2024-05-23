@@ -61,21 +61,22 @@ public:
 	unsigned int ImGuiComponentSet()
 	{
 		ImGui::SeparatorText("ComponentSet");
-		ImGui::BeginChild("##ComponentSet", ImVec2(350, 100), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY);
-
 		static unsigned int state;
-		if (ImGui::BeginTable("##ComponentSet", 2, ImGuiTableFlags_BordersInnerV |ImGuiTableFlags_NoSavedSettings))
+		ImGui::BeginChild("##ComponentSet" , ImVec2(350, 100), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY);
 		{
-			for (int i = 0; i < GetCompoNum(); i++)
+			if (ImGui::BeginTable("##ComponentSet", 3, ImGuiTableFlags_BordersInnerV))
 			{
-				bool flg = state & (1 << i);
-				ImGui::TableNextColumn();
-				ImGui::Checkbox(GetTag(1 << i).c_str(), &flg);
+				for (int i = 0; i < GetCompoNum(); i++)
+				{
+					bool flg = state & (1 << i);
+					ImGui::TableNextColumn();
+					ImGui::Checkbox(GetTag(1 << i).c_str(), &flg);
 
-				if (flg)state |= (1 << i);
-				if (!flg)state &= ~(1 << i);
+					if (flg)state |= (1 << i);
+					if (!flg)state &= ~(1 << i);
+				}
+				ImGui::EndTable();
 			}
-			ImGui::EndTable();
 		}
 		ImGui::EndChild();
 		return state;

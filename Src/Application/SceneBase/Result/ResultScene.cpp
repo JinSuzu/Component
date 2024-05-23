@@ -1,26 +1,26 @@
 ﻿#include "ResultScene.h"
 
-void C_ResultScene::Draw()
+void ResultScene::Draw()
 {
 	SceneBase::Draw();
 }
 
-void C_ResultScene::PreUpdate()
+void ResultScene::PreUpdate()
 {
 	SceneBase::PreUpdate();
 }
 
-void C_ResultScene::Update()
+void ResultScene::Update()
 {
 	SceneBase::Update();
 }
 
-void C_ResultScene::PostUpdate()
+void ResultScene::PostUpdate()
 {
 	SceneBase::PostUpdate();
 }
 
-void C_ResultScene::Init()
+void ResultScene::Init()
 {
 	SceneBase::Init();
 }

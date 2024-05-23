@@ -3,27 +3,27 @@
 #include "../../Object/Game/Manager/GameObjectManager.h"
 #include "../../Object/Component/Component.h"
 
-void C_GameScene::PreUpdate()
+void GameScene::PreUpdate()
 {
 	SceneBase::PreUpdate();
 }
 
-void C_GameScene::Update()
+void GameScene::Update()
 {
 	SceneBase::Update();
 }
 
-void C_GameScene::PostUpdate()
+void GameScene::PostUpdate()
 {
 	SceneBase::PostUpdate();
 }
 
-void C_GameScene::Init()
+void GameScene::Init()
 {
 	SceneBase::Init();
 }
 
-void C_GameScene::LoadContent()
+void GameScene::LoadContent()
 {
 	/*auto obj1 = GameObjectManager::Instance().CreateObject("Test");
 	GameObjectManager::Instance().CreateObject("TestC")

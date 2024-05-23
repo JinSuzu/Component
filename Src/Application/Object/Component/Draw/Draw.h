@@ -16,7 +16,7 @@ struct AnimeSet
 	int h = 0;
 	int w = 0;
 
-	int									interval;
+	int	interval;
 };
 
 

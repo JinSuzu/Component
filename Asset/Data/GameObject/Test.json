@@ -22,14 +22,14 @@
             "Animation": [],
             "ID": 2,
             "drawType": 3,
-            "modelDataPath": "",
+            "modelDataPath": "SideViewMap",
             "rect": {
                 "height": 0,
                 "width": 0,
                 "x": 0,
                 "y": 0
             },
-            "squarePolygonPath": "chara/block",
+            "squarePolygonPath": "",
             "texPath": "chara/block"
         }
     ],

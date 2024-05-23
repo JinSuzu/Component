@@ -1,14 +1,14 @@
 ﻿#pragma once
 #include "../SceneBase.h"
-class C_TitleScene :
+class TitleScene :
     public SceneBase
 {
 public:
-    C_TitleScene() 
+    TitleScene() 
 	{
-		id = "Title";
+		m_name = "Title";
 	}
-    ~C_TitleScene() {}
+    ~TitleScene() {}
 
     void Draw()override;
 	void PreUpdate()override;

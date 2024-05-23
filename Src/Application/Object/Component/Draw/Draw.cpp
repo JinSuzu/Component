@@ -103,19 +103,37 @@ void Cp_Draw::ImGuiUpdate()
 		{
 			m_tex = AssetManager::Instance().GetKdTexture(m_texPath = path);
 			m_rect = { 0,0,(LONG)m_tex->GetInfo().Width,(LONG)m_tex->GetInfo().Height };
-			if (m_tex)m_jsonData["texPath"] = path;
+			if (m_tex) 
+			{
+				m_jsonData["texPath"] = path;
+				m_drawType = DrawType::UI;
+
+				m_squarePolygonPath = "";
+				m_modelDataPath = "";
+			}
+
 		}
 
 		if (ImGui::MenuItem("ModelData"))
 		{
 			m_modelData = AssetManager::Instance().GetModelData(m_modelDataPath = path);
-			if (m_modelData)m_jsonData["modelDataPath"] = path;
+			if (m_modelData)
+			{
+				m_drawType = DrawType::Lit;
+				m_texPath = "";
+				m_squarePolygonPath = "";
+			}
 		}
 		
 		if (ImGui::MenuItem("SquarePolygon"))
 		{
 			m_squarePolygon = AssetManager::Instance().GetSquarePolygon(m_squarePolygonPath = path);
-			if (m_modelData)m_jsonData["squarePolygonPath"] = path;
+			if (m_modelData)
+			{
+				m_drawType = DrawType::Lit;
+				m_texPath = "";
+				m_modelDataPath = "";
+			}
 		}
 		ImGui::EndPopup();
 	}

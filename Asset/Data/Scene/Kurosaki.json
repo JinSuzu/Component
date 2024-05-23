@@ -1,0 +1,101 @@
+[
+    {
+        "Childs": [],
+        "Parent": {
+            "Component": [
+                {
+                    "matTag": "SRT",
+                    "position": {
+                        "x": -16.045578002929688,
+                        "y": 2.0,
+                        "z": -4.479054927825928
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "ID": 4,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "move": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                {
+                    "ID": 16,
+                    "RotationShaft": 3,
+                    "movePow": 1.0
+                },
+                {
+                    "ID": 8,
+                    "addPow": {
+                        "x": 0.25,
+                        "y": 0.25,
+                        "z": 0.25
+                    },
+                    "addType": 2
+                },
+                {
+                    "ID": 32,
+                    "Name": ""
+                }
+            ],
+            "Name": "camera",
+            "Tag": 0
+        }
+    },
+    {
+        "Childs": [],
+        "Parent": {
+            "Component": [
+                {
+                    "matTag": "SRT",
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 5.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "Animation": [],
+                    "ID": 2,
+                    "drawType": 3,
+                    "modelDataPath": "SideViewMap",
+                    "rect": {
+                        "height": 0,
+                        "width": 0,
+                        "x": 0,
+                        "y": 0
+                    },
+                    "squarePolygonPath": "",
+                    "texPath": "chara/block"
+                }
+            ],
+            "Name": "SideViewMap",
+            "Tag": 0
+        }
+    }
+]

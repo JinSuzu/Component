@@ -69,7 +69,7 @@ void SceneBase::Load()
 {
 	if (m_bLoad)return;//ロード済みreturn
 	m_bLoad = true;
-	m_objectMgr.Init("Scene/" + id);
+	m_objectMgr.Load("Scene/" + m_name);
 	LoadContent();
 }
 
@@ -77,11 +77,16 @@ void SceneBase::Release()
 {
 	if (!m_bLoad)return;//リリース済みreturn
 	m_bLoad = false;
-	m_objectMgr.Release("Scene/" + id);
+	m_objectMgr.Release("Scene/" + m_name);
 	ReleaseContent();
 }
 
 void SceneBase::ImGuiUpdate()
 {
-	m_objectMgr.ImGuiUpdate();
+	ImGui::Text(m_name.c_str());
+	ImGui::BeginChild("ObjectWindow"); 
+	{
+		m_objectMgr.ImGuiUpdate();
+	}
+	ImGui::EndChild();
 }

@@ -1,59 +1,60 @@
 [
     {
-        "Childs": [],
-        "Parent": {
-            "Component": [
-                {
-                    "matTag": "",
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotation": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    }
-                },
-                {
-                    "Animation": [],
-                    "ID": 2,
-                    "drawType": 3,
-                    "modelDataPath": "",
-                    "rect": {
-                        "height": 0,
-                        "width": 0,
-                        "x": 0,
-                        "y": 0
-                    },
-                    "squarePolygonPath": "chara/block",
-                    "texPath": "chara/block"
+        "Childs": [
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "matTag": "SRT",
+                            "position": {
+                                "x": 0.1550000011920929,
+                                "y": -0.029999999329447746,
+                                "z": 0.009999999776482582
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 90.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "Animation": [],
+                            "ID": 2,
+                            "drawType": 1,
+                            "modelDataPath": "RPG-7",
+                            "rect": {
+                                "height": 0,
+                                "width": 0,
+                                "x": 0,
+                                "y": 0
+                            },
+                            "squarePolygonPath": "",
+                            "texPath": "chara/block"
+                        }
+                    ],
+                    "Name": "RPG-7",
+                    "Tag": 0
                 }
-            ],
-            "Name": "Test",
-            "Tag": 0
-        }
-    },
-    {
-        "Childs": [],
+            }
+        ],
         "Parent": {
             "Component": [
                 {
                     "matTag": "SRT",
                     "position": {
-                        "x": -31.0914306640625,
-                        "y": 11.614285469055176,
-                        "z": 39.769596099853516
+                        "x": -61.905364990234375,
+                        "y": 10.0,
+                        "z": -76.00608825683594
                     },
                     "rotation": {
-                        "x": 19.25,
-                        "y": 134.25,
+                        "x": 10.0,
+                        "y": 41.25,
                         "z": 0.0
                     },
                     "scale": {
@@ -77,7 +78,7 @@
                 },
                 {
                     "ID": 16,
-                    "RotationShaft": 3,
+                    "RotationShaft": 2,
                     "movePow": 1.0
                 },
                 {
@@ -115,16 +116,16 @@
                         "z": 0.0
                     },
                     "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
+                        "x": 100.0,
+                        "y": 100.0,
+                        "z": 100.0
                     }
                 },
                 {
                     "Animation": [],
                     "ID": 2,
-                    "drawType": 3,
-                    "modelDataPath": "Terrain",
+                    "drawType": 1,
+                    "modelDataPath": "Ground",
                     "rect": {
                         "height": 0,
                         "width": 0,
@@ -135,7 +136,7 @@
                     "texPath": "chara/block"
                 }
             ],
-            "Name": "Terrain",
+            "Name": "Ground",
             "Tag": 0
         }
     }

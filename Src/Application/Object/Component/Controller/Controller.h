@@ -11,19 +11,28 @@ public:
 	void InitJson()override;
 	nlohmann::json GetJson()override;
 private:
-	enum RotationShaft 
+	enum Shaft 
 	{
 		X = 1 << 0,
 		Y = 1 << 1,
 		Z = 1 << 2
 	};
+	
 
 	std::weak_ptr<class Cp_Rigidbody> m_rigitbody;
 
 	float m_movePow = 1.0f;
-	unsigned int m_shaft = {
-		RotationShaft::X |
-		RotationShaft::Y |
-		RotationShaft::Z
+	unsigned int m_moveShaft = {
+		Shaft::X |
+		Shaft::Y |
+		Shaft::Z
 	};
+
+	unsigned int m_rotationShaft = {
+		Shaft::X |
+		Shaft::Y |
+		Shaft::Z
+	};
+	
+
 };

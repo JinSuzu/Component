@@ -1,7 +1,16 @@
 ﻿#pragma once
 
 class SceneBase;
-enum SceneID;
+enum SceneID
+{
+	Title,
+	Game,
+	Result,
+	Kurosaki,
+	Yamamoto,
+	Motoori,
+	Max
+};
 
 class SceneManager
 {
@@ -27,12 +36,12 @@ public:
 private:
 
 	std::shared_ptr<SceneBase> m_scene;
-	std::vector<std::function<std::shared_ptr<SceneBase>()>> m_geneSceneList;
+	std::map<SceneID,std::function<std::shared_ptr<SceneBase>()>> m_registerScene;
 	SceneID m_nowSceneNum;
 
 	SceneManager()
 		:m_scene()
-		,m_geneSceneList()
+		,m_registerScene()
 		,m_nowSceneNum()
 	{}
 public:

@@ -7,7 +7,6 @@ enum  ComponentID;
 
 class GameObjectManager
 {
-private:
 public:
 	GameObjectManager() {}
 	~GameObjectManager() {}
@@ -26,7 +25,7 @@ public:
 #pragma endregion
 
 	void ImGuiUpdate();
-	void Init(std::string _path);
+	void Load(std::string _path);
 	void Release(std::string _path);
 
 	static std::string GetGameObjectPath() { return "GameObject/"; };
@@ -35,8 +34,6 @@ public:
 private:
 	struct GameObjectFamily
 	{
-		operator bool() { return this != nullptr; }
-
 		GameObjectFamily(std::shared_ptr<GameObject> _obj)
 			:parent(_obj)
 		{}
@@ -79,9 +76,9 @@ private:
 	std::list<GameObjectFamily>		m_obList;
 
 	//単品GameObject用Json専
-	std::shared_ptr<GameObject> CreateObject(std::string _tag, GameObjectFamily* _family,bool bPush = true);
+	std::shared_ptr<GameObject> CreateObject(std::string _tag, GameObjectFamily* _family = nullptr,bool bPush = true);
 	//階層構造のあるGameObject用Json専
-	static std::shared_ptr<GameObject> CreateObject(nlohmann::json _json, GameObjectFamily* _family);
+	static std::shared_ptr<GameObject> CreateObject(nlohmann::json _json, GameObjectFamily* _family = nullptr);
 
 	void LoadJson(std::string _path,bool _bOrigin = true);
 	void ImGuiCreateObject(bool bOrigin = false);
