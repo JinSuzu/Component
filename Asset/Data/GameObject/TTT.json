@@ -3,13 +3,13 @@
         {
             "matTag": "SRT",
             "position": {
-                "x": 2.0,
+                "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
             },
             "rotation": {
                 "x": 0.0,
-                "y": 21.0,
+                "y": 0.0,
                 "z": 0.0
             },
             "scale": {
@@ -22,26 +22,17 @@
             "Animation": [],
             "ID": 2,
             "drawType": 1,
-            "modelDataPath": "moon",
+            "modelDataPath": "chara/chara",
             "rect": {
-                "height": 0,
-                "width": 0,
+                "height": 64,
+                "width": 64,
                 "x": 0,
                 "y": 0
             },
             "squarePolygonPath": "",
             "texPath": "chara/block"
-        },
-        {
-            "ID": 8,
-            "addPow": {
-                "x": 0.0,
-                "y": 1.0,
-                "z": 0.0
-            },
-            "addType": 1
         }
     ],
-    "Name": "moon",
+    "Name": "TTT",
     "Tag": 0
 }

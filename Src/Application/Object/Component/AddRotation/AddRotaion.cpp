@@ -21,7 +21,11 @@ void Cp_AddRotation::UpdateContents()
 	{
 		Math::Vector2 nowMouseMove = Application::Instance().GetMouse() - m_mouseMove;
 		Math::Vector2 windowSize = Application::Instance().GetWindowSize();
-		SetCursorPos(windowSize.x / 2.0f, windowSize.y / 2.0f);
+
+		POINT test{ 640,360 };
+		ClientToScreen(Application::Instance().GetWindowHandle(), &test);
+		SetCursorPos(test.x, test.y);
+
 		m_mouseMove = Application::Instance().GetMouse();
 
 		nowMouseMove = nowMouseMove * m_addPow;

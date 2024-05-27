@@ -12,30 +12,27 @@ void Cp_Controller::Start()
 void Cp_Controller::PreUpdateContents()
 {
 	//視点を前にしたベクトルを取る
+	Math::Matrix mat = m_owner.lock()->GetTransform().lock()->GetMatrix();
 	Math::Vector3 vec = Math::Vector3::Zero;
-	vec.z += (GetAsyncKeyState('W') & 0x8000) && (m_moveShaft & Shaft::Z);
-	vec.z -= (GetAsyncKeyState('S') & 0x8000) && (m_moveShaft & Shaft::Z);
-	vec.x += (GetAsyncKeyState('D') & 0x8000) && (m_moveShaft & Shaft::X);
-	vec.x -= (GetAsyncKeyState('A') & 0x8000) && (m_moveShaft & Shaft::X);
-	vec.Normalize();
-	Math::Matrix vecMat = Math::Matrix::CreateTranslation(vec);
+	if(GetAsyncKeyState('W') & 0x8000)vec += mat.Backward();	
+	if(GetAsyncKeyState('S') & 0x8000)vec += mat.Forward();
+	if(GetAsyncKeyState('D') & 0x8000)vec += mat.Right();
+	if(GetAsyncKeyState('A') & 0x8000)vec += mat.Left();
 
-	Math::Vector3 deg = m_owner.lock()->GetTransform().lock()->GetRotation();
-	if (m_rotationShaft & Shaft::X)vecMat *= Math::Matrix::CreateRotationX(DirectX::XMConvertToRadians(deg.x));
-	if (m_rotationShaft & Shaft::Y)vecMat *= Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(deg.y));
-	if (m_rotationShaft & Shaft::Z)vecMat *= Math::Matrix::CreateRotationZ(DirectX::XMConvertToRadians(deg.z));
+	vec.y += GetAsyncKeyState(VK_SPACE) & 0x80f00;
+	vec.y -= GetAsyncKeyState(VK_SHIFT) & 0x8000;
 	
-	vec = vecMat.Translation();
-	vec.y += (GetAsyncKeyState(VK_SPACE) & 0x8000) && (m_moveShaft & Shaft::Y);
-	vec.y -= (GetAsyncKeyState(VK_SHIFT) & 0x8000) && (m_moveShaft & Shaft::Y);
+	vec.x *= m_moveShaft & Shaft::X;
+	vec.y *= m_moveShaft & Shaft::Y;
+	vec.z *= m_moveShaft & Shaft::Z;
+
+	vec.Normalize();
 
 	m_rigitbody.lock()->SetMove(vec * m_movePow);
 }
 
 void Cp_Controller::ImGuiUpdate()
 {
-
-
 	if (ImGui::Button("MoveShaft"))ImGui::OpenPopup("MShafts");
 	if (ImGui::BeginPopup("MShafts"))
 	{
@@ -45,7 +42,7 @@ void Cp_Controller::ImGuiUpdate()
 		ImGui::EndPopup();
 	}
 	
-	ImGui::SameLine();if (ImGui::Button("RotationShaft"))ImGui::OpenPopup("RShafts");
+	if (ImGui::SameLine(); ImGui::Button("RotationShaft"))ImGui::OpenPopup("RShafts");
 	if (ImGui::BeginPopup("RShafts"))
 	{
 		ImGuiCheckBoxBit("X", m_rotationShaft, Shaft::X);

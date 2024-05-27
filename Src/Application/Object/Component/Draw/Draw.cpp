@@ -41,10 +41,7 @@ void Cp_Draw::InitJson()
 	}
 }
 
-void Cp_Draw::PreDraw()
-{
-	
-}
+void Cp_Draw::PreDraw(){}
 void Cp_Draw::GenerateDepthMapFromLight()
 {
 	if (!(m_drawType & DrawType::DepthOfShadow))return;

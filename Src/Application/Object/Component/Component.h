@@ -16,8 +16,10 @@ enum ComponentID
 	AddRotation				= 1 << 3,
 	Controller				= 1 << 4,
 	Camera					= 1 << 5,
+	TransformLimit			= 1 << 6,
+	SquarePolygonAnimetion	= 1 << 7,
 
-	MaxID					= 1 << 6,
+	MaxID					= 1 << 8,
 };
 
 class Component

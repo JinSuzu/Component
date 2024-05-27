@@ -7,6 +7,8 @@
 #include "AddRotation/AddRotaion.h"
 #include "Controller/Controller.h"
 #include "Camera/Camera.h"
+#include "TransformLimit/TransformLimit.h"
+#include "SquarePolygonAnimetion/SquarePolygonAnimetion.h"
 
 
 #define FNCOMPONENT(Tag)											\
@@ -30,14 +32,16 @@ class ComponentMap
 	std::map<unsigned int, std::function<std::shared_ptr<Component>()>> m_createList =
 	{
 		//独立コンポ
-		{ComponentID::BoxCollision		,FNCOMPONENT(BoxCollision)},
-		{ComponentID::Draw				,FNCOMPONENT(Draw)},
-		{ComponentID::Rigidbody			,FNCOMPONENT(Rigidbody)},
+		{ComponentID::BoxCollision				,FNCOMPONENT(BoxCollision)},
+		{ComponentID::Draw						,FNCOMPONENT(Draw)},
+		{ComponentID::Rigidbody					,FNCOMPONENT(Rigidbody)},
 
 		//依存コンポ
-		{ComponentID::AddRotation		,FNCOMPONENT(AddRotation)},
-		{ComponentID::Controller		,FNCOMPONENT(Controller)},
-		{ComponentID::Camera			,FNCOMPONENT(Camera)},
+		{ComponentID::AddRotation				,FNCOMPONENT(AddRotation)},
+		{ComponentID::Controller				,FNCOMPONENT(Controller)},
+		{ComponentID::Camera					,FNCOMPONENT(Camera)},
+		{ComponentID::TransformLimit			,FNCOMPONENT(TransformLimit)},
+		{ComponentID::SquarePolygonAnimetion	,FNCOMPONENT(SquarePolygonAnimetion)}
 	};
 
 

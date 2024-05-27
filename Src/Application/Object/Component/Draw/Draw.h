@@ -56,6 +56,7 @@ public:
 	void SetNowAnime(std::string _str) { m_nowAnime = _str; }
 	void SetTex(std::shared_ptr<KdTexture> _tex) {m_tex = _tex;}
 
+	std::weak_ptr<KdSquarePolygon> GetwpSuqrePolygon() {return m_squarePolygon; };
 private:
 	unsigned int							m_drawType		= DrawType::UI;
 	std::shared_ptr<KdTexture>				m_tex			= nullptr;

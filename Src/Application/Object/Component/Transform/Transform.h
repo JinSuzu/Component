@@ -34,7 +34,6 @@ private:
 	Math::Vector3	m_rotation		= { 0,0,0 };
 	Math::Vector3	m_scale			= { 1,1,1 };
 
-
 	std::string		m_matTag		= "SRT";
 	std::weak_ptr<Cp_Transform>	m_parent;
 };

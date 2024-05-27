@@ -210,6 +210,9 @@
     <ClInclude Include="Src\Application\Object\Component\Controller\Controller.h" />
     <ClInclude Include="Src\Application\Object\Component\Draw\Draw.h" />
     <ClInclude Include="Src\Application\Object\Component\Rigidbody\Rigidbody.h" />
+    <ClInclude Include="Src\Application\Object\Component\SquarePolygonAnimetion\SquarePolygonAnimetion.h" />
+    <ClInclude Include="Src\Application\Object\Component\TextureAnimetion\TextureAnimetion.h" />
+    <ClInclude Include="Src\Application\Object\Component\TransformLimit\TransformLimit.h" />
     <ClInclude Include="Src\Application\Object\Component\Transform\Transform.h" />
     <ClInclude Include="Src\Application\Object\Game\GameObject.h" />
     <ClInclude Include="Src\Application\Object\Game\Manager\GameObjectManager.h" />
@@ -274,6 +277,9 @@
     <ClCompile Include="Src\Application\Object\Component\Controller\Controller.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Draw\Draw.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Rigidbody\Rigidbody.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\SquarePolygonAnimetion\SquarePolygonAnimetion.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\TextureAnimetion\TextureAnimetion.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\TransformLimit\TransformLimit.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Transform\Transform.cpp" />
     <ClCompile Include="Src\Application\Object\Game\GameObject.cpp" />
     <ClCompile Include="Src\Application\Object\Game\Manager\GameObjectManager.cpp" />

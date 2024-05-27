@@ -34,9 +34,6 @@
     <Filter Include="Src\Framework\Math">
       <UniqueIdentifier>{04f33e76-24f0-4a58-9355-5770b3f6f9c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Framework\Audio">
-      <UniqueIdentifier>{2a0de30f-d7e8-4517-a9a1-20de6e434592}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Src\Framework\Shader\PostProcessShader">
       <UniqueIdentifier>{bfef98c3-f0b2-41b1-b813-6f298072287b}</UniqueIdentifier>
     </Filter>
@@ -114,6 +111,18 @@
     </Filter>
     <Filter Include="Src\Application\Object\Component\Camera">
       <UniqueIdentifier>{2cb4ebd9-75a6-4315-9fcb-9949b4408180}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Framework\Audio">
+      <UniqueIdentifier>{2a0de30f-d7e8-4517-a9a1-20de6e434592}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\TransFormLimit">
+      <UniqueIdentifier>{6c65c728-6732-458b-b5b8-8edf6e238858}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\TextureAnimetion">
+      <UniqueIdentifier>{4bb9bb0a-ceb1-4844-ac94-28364ab32f3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\SquarePolygonAnimetion">
+      <UniqueIdentifier>{b919f07f-a0a6-4935-950d-888e69c20edd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -459,6 +468,15 @@
     <ClInclude Include="Src\Application\Object\Component\Camera\Camera.h">
       <Filter>Src\Application\Object\Component\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\TransformLimit\TransformLimit.h">
+      <Filter>Src\Application\Object\Component\TransFormLimit</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\TextureAnimetion\TextureAnimetion.h">
+      <Filter>Src\Application\Object\Component\TextureAnimetion</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\SquarePolygonAnimetion\SquarePolygonAnimetion.h">
+      <Filter>Src\Application\Object\Component\SquarePolygonAnimetion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -637,6 +655,15 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\Camera\Camera.cpp">
       <Filter>Src\Application\Object\Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\TransformLimit\TransformLimit.cpp">
+      <Filter>Src\Application\Object\Component\TransFormLimit</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\TextureAnimetion\TextureAnimetion.cpp">
+      <Filter>Src\Application\Object\Component\TextureAnimetion</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\SquarePolygonAnimetion\SquarePolygonAnimetion.cpp">
+      <Filter>Src\Application\Object\Component\SquarePolygonAnimetion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

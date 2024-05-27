@@ -62,17 +62,21 @@ void GameObjectManager::ImGuiUpdate()
 	if (!EditObject())return;
 	ImGui::SeparatorText("EditObject");
 
-	auto& obj = EditObject()->parent;
-	ImGui::InputText("Name", obj->WorkName());
-	obj->ImGuiComponents();
-	
-	ImGui::BeginChild("Edit");
+	ImGui::BeginChild("Edit",ImVec2(),ImGuiChildFlags_AlwaysAutoResize| ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
 	{
+		auto& obj = EditObject()->parent;
+		ImGui::InputText("Name", obj->WorkName());
+		obj->ImGuiComponents();
 		ImGuiAddComponent(obj);
-		ImGuiCreateObject();
 	}
 	ImGui::EndChild();
-
+	
+	ImGui::BeginChild("CreateObject_branch",ImVec2(), ImGuiChildFlags_AlwaysAutoResize | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
+	{
+		ImGuiCreateObject(false);
+	}
+	ImGui::EndChild();
+	ImGui::Text("##");
 }
 
 void GameObjectManager::Load(std::string _path)

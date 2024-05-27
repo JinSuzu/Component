@@ -2,19 +2,61 @@
     {
         "Childs": [
             {
-                "Childs": [],
+                "Childs": [
+                    {
+                        "Childs": [],
+                        "Parent": {
+                            "Component": [
+                                {
+                                    "matTag": "SRT",
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.4300000071525574
+                                    },
+                                    "rotation": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    }
+                                },
+                                {
+                                    "Animation": [],
+                                    "ID": 2,
+                                    "drawType": 1,
+                                    "modelDataPath": "RPG-7_Bullet",
+                                    "rect": {
+                                        "height": 0,
+                                        "width": 0,
+                                        "x": 0,
+                                        "y": 0
+                                    },
+                                    "squarePolygonPath": "",
+                                    "texPath": "chara/block"
+                                }
+                            ],
+                            "Name": "RPG-7_Bullet",
+                            "Tag": 0
+                        }
+                    }
+                ],
                 "Parent": {
                     "Component": [
                         {
                             "matTag": "SRT",
                             "position": {
                                 "x": 0.1550000011920929,
-                                "y": -0.029999999329447746,
-                                "z": 0.009999999776482582
+                                "y": -0.05000000074505806,
+                                "z": 0.0
                             },
                             "rotation": {
                                 "x": 0.0,
-                                "y": 90.0,
+                                "y": 0.0,
                                 "z": 0.0
                             },
                             "scale": {
@@ -27,7 +69,7 @@
                             "Animation": [],
                             "ID": 2,
                             "drawType": 1,
-                            "modelDataPath": "RPG-7",
+                            "modelDataPath": "RPG-7_Launcher",
                             "rect": {
                                 "height": 0,
                                 "width": 0,
@@ -38,7 +80,7 @@
                             "texPath": "chara/block"
                         }
                     ],
-                    "Name": "RPG-7",
+                    "Name": "RPG-7_Launcher",
                     "Tag": 0
                 }
             }
@@ -48,13 +90,13 @@
                 {
                     "matTag": "SRT",
                     "position": {
-                        "x": -61.905364990234375,
+                        "x": -65.32059478759766,
                         "y": 10.0,
-                        "z": -76.00608825683594
+                        "z": 16.400089263916016
                     },
                     "rotation": {
-                        "x": 10.0,
-                        "y": 41.25,
+                        "x": -3.0,
+                        "y": 94.0,
                         "z": 0.0
                     },
                     "scale": {
@@ -67,13 +109,13 @@
                     "ID": 4,
                     "gravity": {
                         "x": 0.0,
-                        "y": 0.0,
+                        "y": 0.5,
                         "z": 0.0
                     },
                     "move": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
+                        "x": 4.203895392974451e-45,
+                        "y": -2.833334445953369,
+                        "z": 4.203895392974451e-45
                     }
                 },
                 {
@@ -93,6 +135,75 @@
                 {
                     "ID": 32,
                     "Name": ""
+                },
+                {
+                    "ID": 64,
+                    "posLimit": {
+                        "ActiveFlg": true,
+                        "Max": {
+                            "x": 100.0,
+                            "y": 100.0,
+                            "z": 100.0
+                        },
+                        "MaxFlg": false,
+                        "Min": {
+                            "x": -100.0,
+                            "y": 10.0,
+                            "z": -100.0
+                        },
+                        "MinFlg": true,
+                        "Offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "OffsetFlg": false,
+                        "shaft": 2
+                    },
+                    "rotationLimit": {
+                        "ActiveFlg": true,
+                        "Max": {
+                            "x": 100.0,
+                            "y": 100.0,
+                            "z": 100.0
+                        },
+                        "MaxFlg": true,
+                        "Min": {
+                            "x": -100.0,
+                            "y": -100.0,
+                            "z": -100.0
+                        },
+                        "MinFlg": true,
+                        "Offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "OffsetFlg": true,
+                        "shaft": 1
+                    },
+                    "scaleLimit": {
+                        "ActiveFlg": false,
+                        "Max": {
+                            "x": 100.0,
+                            "y": 100.0,
+                            "z": 100.0
+                        },
+                        "MaxFlg": false,
+                        "Min": {
+                            "x": -100.0,
+                            "y": -100.0,
+                            "z": -100.0
+                        },
+                        "MinFlg": false,
+                        "Offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "OffsetFlg": false,
+                        "shaft": 0
+                    }
                 }
             ],
             "Name": "camera",

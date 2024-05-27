@@ -6,7 +6,7 @@ public:
 	void PreUpdate() 
 	{
 		m_frame++;
-		m_frame *= !(m_frame > 60);
+		m_frame %= 600;
 	}
 
 	std::function<bool(int)> GetAlarmFn() 

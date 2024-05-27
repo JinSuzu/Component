@@ -9,7 +9,6 @@ void Cp_Rigidbody::Start()
 
 void Cp_Rigidbody::InitJson()
 {
-	Component::InitJson();
 	if (!m_jsonData.is_null())
 	{
 		m_move = JsonToVec3(m_jsonData["move"]);
@@ -19,17 +18,18 @@ void Cp_Rigidbody::InitJson()
 
 void Cp_Rigidbody::PreUpdateContents()
 {
-	m_move -= m_gravity;
 }
 
 void Cp_Rigidbody::UpdateContents()
 {
+	m_move -= m_gravity;
 	std::weak_ptr<Cp_Transform>tans =  m_owner.lock()->GetTransform();
 	tans.lock()->SetPosition(tans.lock()->GetPosition() + m_move);
 }
 
 void Cp_Rigidbody::PostUpdateContents()
 {
+	m_move *= 0.85;
 }
 
 void Cp_Rigidbody::ImGuiUpdate()

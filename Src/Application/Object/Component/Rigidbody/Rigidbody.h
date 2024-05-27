@@ -15,8 +15,8 @@ public:
 
 	nlohmann::json GetJson()override;
 
-	void SetMove(Math::Vector3 _move) { m_move = _move; }
-	void SetGravity(Math::Vector3 _gravity) { m_gravity = _gravity; }
+	void SetMove(Math::Vector3 _move) { m_move += _move; }
+	void SetGravity(Math::Vector3 _gravity) { m_gravity += _gravity; }
 private:
 	Math::Vector3 m_move	= {0,0,0};
 	Math::Vector3 m_gravity = {0,0,0};
