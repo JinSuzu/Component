@@ -1,294 +1,181 @@
 ﻿#include "GameObjectManager.h"
 #include "../../Component/AllComponentIncluder.h"
+#include "../../../SceneBase/Manager/SceneManager.h"
+#include "../../../SceneBase/SceneBase.h"
 #include "../GameObject.h"
-
-#define ITERATOR(x)					\
-for (auto&& it : family.childs)		\
-{									\
-	if(it)							\
-	{								\
-		if (it->GetActive())		\
-		{							\
-			it->x();				\
-		}							\
-	}								\
-}
 
 void GameObjectManager::PreUpdate()
 {
-	auto family = m_obList.begin();
-	while (family != m_obList.end())
+	for (auto it = m_objectList.begin(); it != m_objectList.end();)
 	{
-		if (family->parent->GetDestroy())
+		std::shared_ptr<GameObject>object = *it;
+		if (object->GetDestroy())
 		{
-			family = m_obList.erase(family);
-			break;
+			it = m_objectList.erase(it);
+			continue;
 		}
 
-		family->PreUpdate();
-		family++;
+		object->PreUpdate();
+		it++;
 	}
 }
-void GameObjectManager::Update() {
-
-	for (auto& family : m_obList)
-	{
-		family.Update();
-	}
-}
-void GameObjectManager::PostUpdate()
-{
-	for (auto& family : m_obList)
-	{
-		family.PostUpdate();
-	}
-}
+void GameObjectManager::Update() { for (auto& object : m_objectList)object->Update(); }
+void GameObjectManager::PostUpdate() { for (auto& object : m_objectList)object->PostUpdate(); }
 
 void GameObjectManager::ImGuiUpdate()
 {
 	ImGuiCreateObject(true);
 
-	ImGui::SeparatorText(("ObjectList :" + std::to_string(m_obList.size())).c_str());
+	ImGui::SeparatorText("ObjectList");
 	ImGui::BeginChild("##ObjectChild", ImVec2(350, 250), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeY);
 	{
 		int obNum = 0;
-		for (auto& family : m_obList)
+		for (auto& object : m_objectList)
 		{
-			family.ImGuiUpdate(obNum++);
+			if (object->GetParent().expired())object->ImGuiUpdate(obNum++);
 		}
 	}
 	ImGui::EndChild();
 
-	if (!EditObject())return;
+	if (EditObject().expired())return;
 	ImGui::SeparatorText("EditObject");
 
-	ImGui::BeginChild("Edit",ImVec2(),ImGuiChildFlags_AlwaysAutoResize| ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
+	ImGui::BeginChild("Edit", ImVec2(), ImGuiChildFlags_AlwaysAutoResize | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
 	{
-		auto& obj = EditObject()->parent;
+		auto obj = EditObject().lock();
 		ImGui::InputText("Name", obj->WorkName());
 		obj->ImGuiComponents();
 		ImGuiAddComponent(obj);
 	}
 	ImGui::EndChild();
-	
-	ImGui::BeginChild("CreateObject_branch",ImVec2(), ImGuiChildFlags_AlwaysAutoResize | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
+
+	ImGui::BeginChild("CreateObject_branch", ImVec2(), ImGuiChildFlags_AlwaysAutoResize | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
 	{
 		ImGuiCreateObject(false);
 	}
 	ImGui::EndChild();
-	ImGui::Text("##");
+	//ImGui::Text("##");
 }
 
 void GameObjectManager::Load(std::string _path)
 {
 	LoadJson(_path);
 }
-
 void GameObjectManager::Release(std::string _path)
 {
-	nlohmann::json json;
-	auto it = m_obList.begin();
-	while (it != m_obList.end()) 
+	nlohmann::json json = nlohmann::json::array();
+	for (auto& object : m_objectList)
 	{
-		json.push_back(it->GetJson());
-		it = m_obList.erase(it);
+		if (object->GetParent().expired())json.push_back(object->OutPutFamilyJson());
 	}
-
+	m_objectList.clear();
 	OutPutJson(json, _path);
 }
 
-std::shared_ptr<GameObject> GameObjectManager::CreateObject(std::string _tag,GameObjectFamily* _family,bool bPush)
+bool GameObjectManager::RayHit(const KdCollider::SphereInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults)
 {
-	auto object = std::make_shared<GameObject>();
-	object->Init(InPutJson(GameObjectManager::GetGameObjectPath() + _tag));
-	object->SetParent(_family ? _family->parent : nullptr);
+	bool flg = false;
 
-	if (!bPush) return object;
+	auto it = m_colliderList.begin();
+	while (it != m_colliderList.end())
+	{
+		if (it->expired())
+		{
+			it = m_colliderList.erase(it);
+			continue;
+		}
 
-	if(_family)_family->childs.push_back(GameObjectFamily(object));
-	else m_obList.push_back(GameObjectFamily(object));
+		flg |= (*it).lock()->Intersects(targetShape, pResults);
+		it++;
+	}
 
-	return object;
+	return flg;
+}
+bool GameObjectManager::RayHit(const KdCollider::BoxInfo& targetBox, std::list<KdCollider::CollisionResult>* pResults)
+{
+	bool flg = false;
+
+	auto it = m_colliderList.begin();
+	while (it != m_colliderList.end())
+	{
+		if (it->expired())
+		{
+			it = m_colliderList.erase(it);
+			continue;
+		}
+
+		flg |= (*it).lock()->Intersects(targetBox, pResults);
+		it++;
+	}
+
+	return flg;
+}
+bool GameObjectManager::RayHit(const KdCollider::RayInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults)
+{
+	bool flg = false;
+
+	auto it = m_colliderList.begin();
+	while (it != m_colliderList.end())
+	{
+		if (it->expired())
+		{
+			it = m_colliderList.erase(it);
+			continue;
+		}
+
+		flg |= (*it).lock()->Intersects(targetShape, pResults);
+		it++;
+	}
+
+	return flg;
 }
 
-//GameObjectFamily用
-std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json,GameObjectFamily* _family)
+std::shared_ptr<GameObject> GameObjectManager::CreateObject(std::string _tag, bool bPush)
+{
+	return CreateObject(InPutJson(GameObjectManager::GetGameObjectPath() + _tag), bPush);
+}
+std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json, bool bPush)
 {
 	auto object = std::make_shared<GameObject>();
 	object->Init(_json);
-	object->SetParent(_family ? _family->parent : nullptr);
+	if (bPush)SceneManager::Instance().GetNowScene().lock()->GetGameObject().m_objectList.push_back(object);
 
 	return object;
 }
-
-#pragma region GameObjectFamily
-
-void GameObjectManager::GameObjectFamily::PreUpdate() {
-	if (parent) parent->PreUpdate();
-	auto child = childs.begin();
-	while (child != childs.end())
-	{
-		if (!child->parent || child->parent->GetDestroy())
-		{
-			child = childs.erase(child);
-			break;
-		}
-		child->PreUpdate();
-		child++;
-	}
-}
-void GameObjectManager::GameObjectFamily::Update() {
-	if (parent) parent->Update();
-	for (auto& child : childs) {
-		child.Update();
-	}
-}
-void GameObjectManager::GameObjectFamily::PostUpdate() {
-	if (parent) parent->PostUpdate();
-	for (auto& child : childs) {
-		child.PostUpdate();
-	}
-}
-
-#pragma region	void Draw
-void GameObjectManager::GameObjectFamily::PreDraw()
-{
-	if (parent)parent->PreDraw();
-	for (auto& child : childs) child.PreDraw();
-}
-void GameObjectManager::GameObjectFamily::GenerateDepthMapFromLight()
-{
-	if (parent) parent->GenerateDepthMapFromLight();
-	for (auto& child : childs) child.GenerateDepthMapFromLight();
-}
-void GameObjectManager::GameObjectFamily::DrawLit()
-{
-	if (parent) parent->DrawLit();
-	for (auto& child : childs) child.DrawLit();
-}
-void GameObjectManager::GameObjectFamily::DrawUnLit()
-{
-	if (parent) parent->DrawUnLit();
-	for (auto& child : childs) child.DrawUnLit();
-}
-void GameObjectManager::GameObjectFamily::DrawBright()
-{
-	if (parent) parent->DrawBright();
-	for (auto& child : childs) child.DrawBright();
-}
-void GameObjectManager::GameObjectFamily::DrawSprite()
-{
-	if (parent) parent->DrawSprite();
-	for (auto& child : childs) child.DrawSprite();
-}
-#pragma endregion
-
-void GameObjectManager::GameObjectFamily::ImGuiUpdate(int num) {
-	if (childs.empty()) 
-	{
-		ImGui::Text(("   " + std::to_string(num) + " :").c_str()); ImGui::SameLine();
-		ImGuiOpenOption(num);
-		return;
-	}
-
-	auto Tree = [&]()
-		{
-			bool flg = ImGui::TreeNode((std::to_string(num) + " :").c_str()); ImGui::SameLine();
-			ImGuiOpenOption(num);
-			return flg;
-		};
-
-	if (!Tree())return;
-
-	int i = 0;
-	for (auto& child : childs) {
-		child.ImGuiUpdate(i++);
-	}
-
-	ImGui::TreePop();
-}
-void GameObjectManager::GameObjectFamily::ImGuiOpenOption(int num)
-{
-	std::string ImGuiID = parent->GetName() + std::to_string(num);
-	if (ImGui::SmallButton((parent->GetName() + "##" + std::to_string(num)).c_str()))ImGui::OpenPopup(("Option##" + ImGuiID).c_str());
-	if (!ImGui::BeginPopup(("Option##" + ImGuiID).c_str())) return;
-
-	if (ImGui::MenuItem("Edit")) 
-	{
-		GameObjectManager::EditObject(this);
-		
-	}
-
-	static std::string path;
-	ImGui::InputText("##Path", &path);ImGui::SameLine();
-	if (ImGui::Button("Save"))
-	{
-		nlohmann::json json = nlohmann::json::array();
-		json.push_back(GetJson());
-		OutPutJson(json,GetGameObjectSetPath() + path);
-		ImGui::CloseCurrentPopup();
-	}
-
-	if (ImGui::MenuItem("Remove"))
-		this->parent->Destroy();
-	ImGui::EndPopup();
-
-}
-
-nlohmann::json GameObjectManager::GameObjectFamily::GetJson()
-{
-	nlohmann::json json;
-	json["Parent"] = parent->GetJson();
-
-	json["Childs"] = nlohmann::json::array();
-	for (auto& child : childs) {
-		json["Childs"].push_back(child.GetJson());
-	}
-	return json;
-
-	/*
-	nlohmann::json json;
-	json[parent->GetName()] = nlohmann::json::array();
-	if (parent) parent->PostUpdate();
-	for (auto& child : childs) {
-		json[parent->GetName()].push_back(child.GetJson());
-	}
-	return json;
-	*/
-}
-#pragma endregion
 
 void GameObjectManager::LoadJson(std::string _path, bool _bOrigin)
 {
 	nlohmann::json json = InPutJson(_path);
-
 	auto name = json.begin();
+	assert(name != json.end() && "not found json");
 	while (name != json.end())
 	{
-		if (_bOrigin)m_obList.push_back(GameObjectFamily(name));
-		else if(auto obj = EditObject())obj->childs.push_back(GameObjectFamily(name, obj));
+		std::shared_ptr<GameObject>object = CreateObject(*name);
+		if (auto edit = EditObject().lock(); edit && !_bOrigin)
+		{
+			object->SetParent(edit);
+			edit->GetChilds().push_back(object);
+		}
 		name++;
 	}
 }
 void GameObjectManager::ImGuiCreateObject(bool _bOrigin)
 {
 	ImGui::SeparatorText(("CreateObject On" + std::string(_bOrigin ? "Root" : "Branch")).c_str());
+	std::shared_ptr<GameObject> object;
 
-	if (ImGui::BeginTabBar("CreateObject##"))
+	if(ImGui::BeginTabBar(("CreateObject##" + std::string(_bOrigin ? "Root" : "Branch")).c_str()))
 	{
 		static std::string path = "";
 		if (ImGui::BeginTabItem("Custom"))
 		{
 			ImGui::InputText("Name", &path);
-
-			unsigned int state = ComponentMap::Instance().ImGuiComponentSet();
-			if (ImGui::Button("Create"))
+			if (unsigned int state = ComponentMap::Instance().ImGuiComponentSet(); ImGui::Button("Create"))
 			{
-				auto object = CreateObject(path, _bOrigin ? nullptr : EditObject());
+				object = CreateObject(path);
 				object->AddComponents(state);
 				object->SetName(path);
 			}
-
 			ImGui::EndTabItem();
 		}
 
@@ -296,12 +183,24 @@ void GameObjectManager::ImGuiCreateObject(bool _bOrigin)
 		{
 			ImGui::InputText("PreSetPath", &path);
 
-			if (ImGui::Button("Create"))LoadJson(GameObjectManager::GetGameObjectSetPath() + path, _bOrigin);
+			if (ImGui::Button("Create"))
+			{
+				LoadJson(GameObjectManager::GetGameObjectSetPath() + path, _bOrigin);
+			}
 
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();
 	}
+
+	if (object == nullptr)return;
+
+	if (EditObject().lock() && !_bOrigin)
+	{
+		EditObject().lock()->AddChilds(object);
+		object->SetParent(EditObject());
+	}
+
 }
 
 std::shared_ptr<Component> GameObjectManager::ToComponent(unsigned int _id)

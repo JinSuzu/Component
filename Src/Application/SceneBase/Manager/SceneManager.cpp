@@ -12,21 +12,6 @@
 class NAME##Scene :public SceneBase { public: NAME##Scene(){m_name = #NAME;} };\
 m_registerScene[SceneID::##NAME] = ([=]() {return std::make_shared<NAME##Scene>(); });
 
-void SceneManager::PreDraw()
-{
-	if (m_scene == nullptr)return;
-	m_scene->PreDraw();
-}
-void SceneManager::Draw()
-{
-	if (m_scene == nullptr)return;
-	m_scene->Draw();
-}
-void SceneManager::DrawSprite()
-{
-	if (m_scene == nullptr)return;
-	m_scene->DrawSprite();
-}
 void SceneManager::PreUpdate()
 {
 	if (m_scene == nullptr)return;
@@ -55,9 +40,9 @@ void SceneManager::Init()
 
 	m_nowSceneNum = SceneID::Game;
 	auto newScene = m_registerScene[m_nowSceneNum]();
+	m_scene = newScene;
 	newScene->Init();
 	newScene->Load();
-	m_scene = newScene;
 }
 
 void SceneManager::ImGuiUpdate()
@@ -77,6 +62,7 @@ void SceneManager::ShiftScene(SceneID _toSceneNum)
 
 	//Release後処理
 	m_nowSceneNum = _toSceneNum;
+	m_scene = temp;
 	
 	bool flg = true;
 	auto Fn = [temp]() {temp->Load(); };
@@ -88,7 +74,6 @@ void SceneManager::ShiftScene(SceneID _toSceneNum)
 	flg = false;
 	mask.join();*/
 
-	m_scene = temp;
 }
 
 void SceneManager::DrawLoad(bool& flg)

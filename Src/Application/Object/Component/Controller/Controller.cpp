@@ -6,11 +6,15 @@
 void Cp_Controller::Start()
 {
 	m_rigitbody = m_owner.lock()->GetComponent<Cp_Rigidbody>();
-	assert(m_rigitbody.lock() && "RigidBodyが見つかりませんでした");
 }
 
 void Cp_Controller::PreUpdateContents()
 {
+	if (m_rigitbody.expired()) 
+	{
+		Destroy();
+		return;
+	}
 	//視点を前にしたベクトルを取る
 	Math::Matrix mat = m_owner.lock()->GetTransform().lock()->GetMatrix();
 	Math::Vector3 vec = Math::Vector3::Zero;
@@ -41,15 +45,6 @@ void Cp_Controller::ImGuiUpdate()
 		ImGuiCheckBoxBit("Z", m_moveShaft, Shaft::Z);
 		ImGui::EndPopup();
 	}
-	
-	if (ImGui::SameLine(); ImGui::Button("RotationShaft"))ImGui::OpenPopup("RShafts");
-	if (ImGui::BeginPopup("RShafts"))
-	{
-		ImGuiCheckBoxBit("X", m_rotationShaft, Shaft::X);
-		ImGuiCheckBoxBit("Y", m_rotationShaft, Shaft::Y);
-		ImGuiCheckBoxBit("Z", m_rotationShaft, Shaft::Z);
-		ImGui::EndPopup();
-	}
 
 	ImGui::DragFloat("movePow", &m_movePow);
 }
@@ -58,14 +53,12 @@ void Cp_Controller::InitJson()
 {
 	if (!m_jsonData.is_null())
 	{
-		m_rotationShaft = m_jsonData["RotationShaft"];
 		m_movePow = m_jsonData["movePow"];
 	}
 }
 
 nlohmann::json Cp_Controller::GetJson()
 {
-	m_jsonData["RotationShaft"] = m_rotationShaft;
 	m_jsonData["movePow"] = m_movePow;
 	return m_jsonData;
 }

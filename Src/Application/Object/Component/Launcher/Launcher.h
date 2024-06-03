@@ -1,18 +1,19 @@
 ﻿#pragma once
 #include "../Component.h"
 
-class _Base
-	:public Component
+class Cp_Launcher
+	:public Component 
 {
 public:
 	void Start()override;
 	void PreUpdateContents()override;
-	void UpdateContents()override;
-	void PostUpdateContents()override;
+
 	void ImGuiUpdate()override;
 	void InitJson()override;
 	nlohmann::json GetJson()override;
-
 private:
+	std::string m_bulletPath = "Bullet";
+	std::shared_ptr<GameObject> m_bullet;
 
+	int m_capacity = 1;
 };

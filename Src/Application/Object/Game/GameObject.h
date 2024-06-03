@@ -3,8 +3,8 @@
 
 class Component;
 class Cp_Transform;
+class Cp_Collider;
 enum ComponentID;
-
 
 enum class ObjectTag 
 {
@@ -21,35 +21,45 @@ enum class ObjectTag
 
 class GameObject
 	:public std::enable_shared_from_this<GameObject>
-	, public Object
+	,public Object
 {
 public:
 	GameObject() {}
 	~GameObject() { Release(); }
 
-	void Update();
 	void PreUpdate();
+	void Update();
 	void PostUpdate();
-
-	#pragma region void Draw
-	void PreDraw();
-	void GenerateDepthMapFromLight();
-	void DrawLit();
-	void DrawUnLit();
-	void DrawBright();
-	void DrawSprite();
-#pragma endregion
 
 	void Init(nlohmann::json _json);
 
+	void ImGuiUpdate(int num);
+	void ImGuiOpenOption();
+	#pragma region Get/SetFunction
 	std::string GetName() { return m_name; };
 	std::string* WorkName() { return &m_name; };
 	void SetName(std::string _name) { m_name = _name; };
+
 	ObjectTag GetTag() const { return m_tag; };
 	void SetTag(ObjectTag _tag) { m_tag = _tag; };
 
+	std::weak_ptr<GameObject> GetParent()	{ return m_parent; }
+	void SetParent(std::weak_ptr<GameObject> _parent);
+
+	std::list<std::weak_ptr<GameObject>>& GetChilds() { return m_childs; }
+	void AddChilds(std::weak_ptr<GameObject> _child) { m_childs.push_back(_child); }
+
+	virtual void Destroy()override;
+
+	//Json係	
+	void DotSave() { m_bSave = false; }
+	nlohmann::json GetJson();
+	nlohmann::json OutPutFamilyJson();
+#pragma endregion
+
 	#pragma region ComponentFns
 	std::weak_ptr<Cp_Transform>GetTransform() { return m_trans; }
+
 	std::shared_ptr<Component> AddComponent(unsigned int _id, nlohmann::json _json = nlohmann::json());
 	std::shared_ptr<Component> AddComponent(Component* _add);
 	std::list<std::shared_ptr<Component>> AddComponents(unsigned int _id);
@@ -70,7 +80,7 @@ public:
 		if (tag.empty()) return std::list<std::weak_ptr<T>>();//ケツまで回ってたらナシ
 
 		std::list<std::weak_ptr<T>>list;
-		for (auto& it : tag) list.push_back(std::dynamic_pointer_cast<T>(tag));
+		for (auto& it : tag) list.push_back(std::dynamic_pointer_cast<T>(it));
 
 		return list;
 	}
@@ -82,24 +92,20 @@ private:
 public:
 #pragma endregion
 
-	std::weak_ptr<GameObject> GetParent() { return m_parent; }
-	void SetParent(std::weak_ptr<GameObject> _parent);
-
-	//Json係	
-	void DotSave() { m_bSave = false; }
-	nlohmann::json& GetJson();
-
+	std::shared_ptr<GameObject>Initialize() { return std::make_shared<GameObject>(*this); }
 private:
 	std::string									m_name;
 	ObjectTag									m_tag = ObjectTag::Untagged;
 
+	//親子関係＆家族関係
 	std::weak_ptr<GameObject>					m_parent;
+	std::list<std::weak_ptr<GameObject>>		m_childs;
 
+	//前提コンポども
 	std::shared_ptr<Cp_Transform>				m_trans;
-	std::list<std::weak_ptr<class Cp_Draw>>		m_draws;
 	std::weak_ptr<class Cp_Camera>				m_camera;
-	std::list<std::shared_ptr<Component>>		m_cpList;
 
+	std::list<std::shared_ptr<Component>>		m_cpList;
 
 	//Json係
 	bool										m_bSave = true;
@@ -108,6 +114,8 @@ private:
 	//便利関数
 	std::shared_ptr<Component> SearchTag(std::string _tag);
 	std::list<std::shared_ptr<Component>> SearchTags(std::string _tag);
+	std::shared_ptr<Component> SearchID(UINT _id);
+	std::list<std::shared_ptr<Component>> SearchIDs(UINT _id);
 
 
 	void Release();

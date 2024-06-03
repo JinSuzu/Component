@@ -1,6 +1,24 @@
 ﻿#include "Transform.h"
 #include "../../Game/GameObject.h"
 
+void Cp_Transform::ImGuiUpdate()
+{
+	ImGui::DragFloat3("Position", &m_position.x);
+	ImGui::DragFloat3("Rotation", &m_rotation.x);	
+	ImGui::DragFloat3("Scale"	, &m_scale.x);
+
+;
+	ImGui::InputText("myMatTag", &m_myMatTag);
+	if(m_parent.lock())ImGui::InputText("parentMatTag", &m_parentMatTag);
+
+	if (!ImGui::TreeNode("Property"))return;
+	{
+		Math::Vector3 vec = GetMatrix().Translation();
+		ImGui::InputFloat3("Mat",&vec.x);
+	}
+	ImGui::TreePop();
+}
+
 void Cp_Transform::InitJson()
 {
 	Component::InitJson();
@@ -10,36 +28,33 @@ void Cp_Transform::InitJson()
 		m_rotation = JsonToVec3(m_jsonData["rotation"]);
 		m_scale = JsonToVec3(m_jsonData["scale"]);
 
-		m_matTag = m_jsonData["matTag"];
+		m_myMatTag = m_jsonData["matTag"];
+		m_parentMatTag = m_jsonData["parentMatTag"];
 	}
 }
-
-void Cp_Transform::ImGuiUpdate()
-{
-	ImGui::DragFloat3("Position", &m_position.x);
-	ImGui::DragFloat3("Rotation", &m_rotation.x);	
-	ImGui::DragFloat3("Scale"	, &m_scale.x);
-
-	static char matTag[50] = "";
-	ImGui::InputText("matTag", matTag, sizeof(matTag));
-	ImGui::SameLine(); if (ImGui::Button("Set"))m_matTag = matTag;
-}
-
 nlohmann::json Cp_Transform::GetJson()
 {
 	m_jsonData["position"]	= Vec3ToJson(m_position);
 	m_jsonData["rotation"]	= Vec3ToJson(m_rotation);
 	m_jsonData["scale"]		= Vec3ToJson(m_scale);
 
-	m_jsonData["matTag"]	= m_matTag;
+	m_jsonData["matTag"]	= m_myMatTag;
+	m_jsonData["parentMatTag"]	= m_parentMatTag;
 	return m_jsonData;
 }
 
-Math::Matrix Cp_Transform::GetMatrix()
+Math::Matrix Cp_Transform::GetMatrix(std::string _matTag)
 {
-	auto it = m_matTag.begin();
+	std::string::iterator it = (_matTag.empty() ? m_myMatTag : _matTag).begin();
+	std::string::iterator end = (_matTag.empty() ? m_myMatTag : _matTag).end();
 
-	if(it == m_matTag.end())return m_mWorld = GetRMat() * GetSMat() * GetTMat();
+	auto ReturnMat = [&]()
+		{
+			if (m_mWorld = GetRMat() * GetSMat() * GetTMat(); m_parent.lock())return m_mWorld * m_parent.lock()->GetMatrix(m_parentMatTag);
+			else return  m_mWorld;
+		};
+
+	if (it == end) return ReturnMat();
 
 	switch (*it)
 	{
@@ -53,11 +68,11 @@ Math::Matrix Cp_Transform::GetMatrix()
 		m_mWorld = GetSMat();
 		break;
 	default:
-		return m_mWorld = GetRMat() * GetSMat() * GetTMat();
+		return m_mWorld = ReturnMat();
 	}
 
 	it++;
-	while (it != m_matTag.end())
+	while (it != end)
 	{
 		switch (*it)
 		{
@@ -71,13 +86,13 @@ Math::Matrix Cp_Transform::GetMatrix()
 			m_mWorld *= GetSMat();
 			break;
 		default:
-			return m_mWorld = GetRMat() * GetSMat() * GetTMat();
+			return ReturnMat();
 		}
 		it++;
 	}
 
 	if(m_parent.expired())return m_mWorld;
-	return m_mWorld * m_parent.lock()->GetMatrix();
+	return m_mWorld * m_parent.lock()->GetMatrix(m_parentMatTag);
 }
 
 Math::Matrix Cp_Transform::GetTMat()

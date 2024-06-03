@@ -17,10 +17,6 @@ class SceneManager
 public:
 	~SceneManager() {}
 
-	void PreDraw();
-	void Draw();
-	void DrawSprite();
-
 	void PreUpdate();
 	void Update();
 	void PostUpdate();
@@ -32,7 +28,8 @@ public:
 
 	void DrawLoad(bool& flg);
 
-	int GetNowSceneNum() { return m_nowSceneNum;}
+	int GetNowSceneNum() const { return m_nowSceneNum; }
+	std::weak_ptr<SceneBase> GetNowScene() { return m_scene; }
 private:
 
 	std::shared_ptr<SceneBase> m_scene;

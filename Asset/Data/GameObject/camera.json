@@ -1,124 +1,31 @@
 {
-    "Component": [
-        {
-            "matTag": "SRT",
-            "position": {
-                "x": -65.32059478759766,
-                "y": 10.0,
-                "z": 16.400089263916016
-            },
-            "rotation": {
-                "x": 14.75,
-                "y": 143.0,
-                "z": 0.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            }
-        },
-        {
-            "ID": 4,
-            "gravity": {
-                "x": 0.0,
-                "y": 0.5,
-                "z": 0.0
-            },
-            "move": {
-                "x": 4.203895392974451e-45,
-                "y": -2.833334445953369,
-                "z": 4.203895392974451e-45
-            }
-        },
-        {
-            "ID": 16,
-            "RotationShaft": 2,
-            "movePow": 1.0
-        },
-        {
-            "ID": 8,
-            "addPow": {
-                "x": 0.25,
-                "y": 0.25,
-                "z": 0.25
-            },
-            "addType": 2
-        },
-        {
-            "ID": 32,
-            "Name": ""
-        },
-        {
-            "ID": 64,
-            "posLimit": {
-                "ActiveFlg": true,
-                "Max": {
-                    "x": 100.0,
-                    "y": 100.0,
-                    "z": 100.0
+    "Childs": [],
+    "Parent": {
+        "Component": [
+            {
+                "matTag": "SRT",
+                "parentMatTag": "SRT",
+                "position": {
+                    "x": -10.0,
+                    "y": 0.0,
+                    "z": -80.0
                 },
-                "MaxFlg": false,
-                "Min": {
-                    "x": -100.0,
-                    "y": 10.0,
-                    "z": -100.0
-                },
-                "MinFlg": true,
-                "Offset": {
+                "rotation": {
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
                 },
-                "OffsetFlg": false,
-                "shaft": 2
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
             },
-            "rotationLimit": {
-                "ActiveFlg": true,
-                "Max": {
-                    "x": 100.0,
-                    "y": 100.0,
-                    "z": 100.0
-                },
-                "MaxFlg": true,
-                "Min": {
-                    "x": -100.0,
-                    "y": -100.0,
-                    "z": -100.0
-                },
-                "MinFlg": true,
-                "Offset": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OffsetFlg": true,
-                "shaft": 1
-            },
-            "scaleLimit": {
-                "ActiveFlg": false,
-                "Max": {
-                    "x": 100.0,
-                    "y": 100.0,
-                    "z": 100.0
-                },
-                "MaxFlg": false,
-                "Min": {
-                    "x": -100.0,
-                    "y": -100.0,
-                    "z": -100.0
-                },
-                "MinFlg": false,
-                "Offset": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OffsetFlg": false,
-                "shaft": 0
+            {
+                "ID": 128
             }
-        }
-    ],
-    "Name": "camera",
-    "Tag": 0
+        ],
+        "Name": "camera",
+        "Tag": 0
+    }
 }

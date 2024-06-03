@@ -3,11 +3,6 @@
 #include "../../Object/Game/Manager/GameObjectManager.h"
 #include "../../Object/Component/Component.h"
 
-void TitleScene::Draw()
-{
-	SceneBase::Draw();
-}
-
 void TitleScene::PreUpdate()
 {
 	SceneBase::PreUpdate();

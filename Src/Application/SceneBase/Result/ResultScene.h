@@ -10,7 +10,6 @@ public:
 	}
     ~ResultScene() {}
 
-    void Draw()override;
 	void PreUpdate()override;
 	void Update()override;
 	void PostUpdate()override;

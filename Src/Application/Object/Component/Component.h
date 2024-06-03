@@ -9,17 +9,19 @@ enum ComponentID
 	Null					= 0,
 	//独立コンポ
 	BoxCollision			= 1 << 0,
-	Draw					= 1 << 1,
-	Rigidbody				= 1 << 2,
+	Texture					= 1 << 1,
+	ModelData				= 1 << 2,
+	SquarePolygon			= 1 << 3,
+	Rigidbody				= 1 << 4,
 
 	//依存コンポ
-	AddRotation				= 1 << 3,
-	Controller				= 1 << 4,
-	Camera					= 1 << 5,
-	TransformLimit			= 1 << 6,
-	SquarePolygonAnimetion	= 1 << 7,
+	AddRotation				= 1 << 5,
+	Controller				= 1 << 6,
+	Camera					= 1 << 7,
+	TransformLimit			= 1 << 8,
+	Collider				= 1 << 9,
 
-	MaxID					= 1 << 8,
+	MaxID					= 1 << 10,
 };
 
 class Component
@@ -53,7 +55,7 @@ public:
 
 	//Json係
 	virtual void InitJson() {};
-	virtual nlohmann::json GetJson();
+	virtual nlohmann::json GetJson() { return nlohmann::json(); }
 	virtual void SetJson(nlohmann::json _json) { m_jsonData = _json; }
 
 protected:

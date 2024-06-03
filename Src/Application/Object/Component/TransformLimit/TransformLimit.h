@@ -20,7 +20,7 @@ private:
 
 	struct LimitSet
 	{
-		bool bActive;
+		bool			bActive = false;
 
 		unsigned int	shaft	= Shaft::Null;
 		bool			bMax	= false;

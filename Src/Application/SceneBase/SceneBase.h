@@ -10,10 +10,6 @@ public:
 	{}
 	~SceneBase() {}
 
-	virtual void PreDraw();
-	virtual void  Draw();
-	virtual void DrawSprite();
-
 	virtual void PreUpdate();
 	virtual void Update();
 	virtual void PostUpdate();
@@ -22,6 +18,7 @@ public:
 	virtual void Release() final;
 	virtual void ImGuiUpdate();
 
+	virtual GameObjectManager& GetGameObject() final { return m_objectMgr; }
 protected:
 	std::string m_name;
 	Math::Matrix				m_world;

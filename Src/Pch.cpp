@@ -1,18 +1,6 @@
 ﻿#include "Pch.h"
 
 
-float* Vec3ToArray(Math::Vector3 _value)
-{
-	float array[3] =
-	{
-		_value.x,
-		_value.y,
-		_value.z
-	};
-	return array;
-}
-
-
 Math::Vector3 TrigToVec2D(float _angle)
 {
 	_angle = DirectX::XMConvertToRadians(_angle);
@@ -51,7 +39,6 @@ Math::Rectangle JsonToRect(nlohmann::json _other)
 		_other["height"]
 	);
 }
-
 nlohmann::json Vec3ToJson(Math::Vector3 _value)
 {
 	return nlohmann::json
@@ -61,7 +48,6 @@ nlohmann::json Vec3ToJson(Math::Vector3 _value)
 		{"z",_value.z}
 	};
 }
-
 nlohmann::json RectToJson(Math::Rectangle _value)
 {
 	return nlohmann::json

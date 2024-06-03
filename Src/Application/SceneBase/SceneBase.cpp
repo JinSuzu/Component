@@ -1,55 +1,6 @@
 ﻿#include "SceneBase.h"
 #include "../Object/Game/Manager/GameObjectManager.h"
 
-void SceneBase::PreDraw()
-{
-	m_objectMgr.PreDraw();
-}
-
-void SceneBase::Draw()
-{
-	// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// 光を遮るオブジェクト(不透明な物体や2Dキャラ)はBeginとEndの間にまとめてDrawする
-	KdShaderManager::Instance().m_StandardShader.BeginGenerateDepthMapFromLight();
-	{
-		m_objectMgr.GenerateDepthMapFromLight();
-	}
-	KdShaderManager::Instance().m_StandardShader.EndGenerateDepthMapFromLight();
-
-	// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// 陰影のあるオブジェクト(不透明な物体や2Dキャラ)はBeginとEndの間にまとめてDrawする
-	KdShaderManager::Instance().m_StandardShader.BeginLit();
-	{
-		m_objectMgr.DrawLit();
-	}
-	KdShaderManager::Instance().m_StandardShader.EndLit();
-
-	// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// 陰影のないオブジェクト(透明な部分を含む物体やエフェクト)はBeginとEndの間にまとめてDrawする
-	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
-	{
-		m_objectMgr.DrawUnLit();
-	}
-	KdShaderManager::Instance().m_StandardShader.EndUnLit();
-
-	// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
-	// 光源オブジェクト(自ら光るオブジェクトやエフェクト)はBeginとEndの間にまとめてDrawする
-	KdShaderManager::Instance().m_postProcessShader.BeginBright();
-	{
-		m_objectMgr.DrawBright();
-	}
-	KdShaderManager::Instance().m_postProcessShader.EndBright();
-}
-
-void SceneBase::DrawSprite()
-{
-	KdShaderManager::Instance().m_spriteShader.Begin();
-	{
-		m_objectMgr.DrawSprite();
-	}
-	KdShaderManager::Instance().m_spriteShader.End();
-}
-
 void SceneBase::PreUpdate()
 {
 	m_objectMgr.PreUpdate();

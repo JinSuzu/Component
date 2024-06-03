@@ -1,10 +1,5 @@
 ﻿#include "ResultScene.h"
 
-void ResultScene::Draw()
-{
-	SceneBase::Draw();
-}
-
 void ResultScene::PreUpdate()
 {
 	SceneBase::PreUpdate();

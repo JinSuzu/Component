@@ -1,5 +1,7 @@
 ﻿#include "Rigidbody.h"
 #include "../../Game/GameObject.h"
+#include "../../../SceneBase/Manager/SceneManager.h"
+#include "../../../SceneBase/SceneBase.h"
 #include "../Transform/Transform.h"
 
 void Cp_Rigidbody::Start()
@@ -23,8 +25,25 @@ void Cp_Rigidbody::PreUpdateContents()
 void Cp_Rigidbody::UpdateContents()
 {
 	m_move -= m_gravity;
-	std::weak_ptr<Cp_Transform>tans =  m_owner.lock()->GetTransform();
-	tans.lock()->SetPosition(tans.lock()->GetPosition() + m_move);
+	std::shared_ptr<Cp_Transform>tans =  m_owner.lock()->GetTransform().lock();
+	tans->SetPosition(tans->GetPosition() + m_move);
+
+	KdCollider::RayInfo rayInfo(
+		KdCollider::Type::TypeGround,
+		m_owner.lock()->GetTransform().lock()->GetMatrix().Translation(),
+		m_move,
+		m_move.Length()
+	);
+
+	std::list<KdCollider::CollisionResult>results;
+	SceneManager::Instance().GetNowScene().lock()->GetGameObject().RayHit(rayInfo, &results);
+	for (auto& result : results) 
+	{
+		tans->SetPosition(result.m_hitPos);
+		if (result.m_hitDir.x)m_move.x = 0;
+		if (result.m_hitDir.y)m_move.y = 0;
+		if (result.m_hitDir.z)m_move.z = 0;
+	}
 }
 
 void Cp_Rigidbody::PostUpdateContents()

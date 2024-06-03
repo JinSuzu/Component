@@ -126,5 +126,7 @@ std::vector<Math::Vector3> Cp_BoxCollision::GetVertex()
 			pos + Math::Vector3(-m_rad.x,m_rad.y,m_rad.z),
 			pos + Math::Vector3(-m_rad.x,-m_rad.y,m_rad.z),
 			pos + Math::Vector3(-m_rad.x,m_rad.y,-m_rad.z),
-		});
+		}); 
+
+	
 }

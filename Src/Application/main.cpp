@@ -1,8 +1,9 @@
 ﻿#include "main.h"
-#include"SceneBase/Manager/SceneManager.h"
-#include"SceneBase/SceneBase.h"
-#include"Object/Game/Manager/GameObjectManager.h"
-#include"Utility/Timer.h"
+#include "SceneBase/Manager/SceneManager.h"
+#include "SceneBase/SceneBase.h"
+#include "Object/Game/Manager/GameObjectManager.h"
+#include "RenderManger/RenderManger.h"
+#include "Utility/Timer.h"
 
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -123,7 +124,7 @@ void Application::KdPostDraw()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::PreDraw()
 {
-	SceneManager::Instance().PreDraw();
+	RenderManager::Instance().PreDraw();
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -131,7 +132,7 @@ void Application::PreDraw()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::Draw()
 {
-	SceneManager::Instance().Draw();
+	RenderManager::Instance().Draw();
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -148,7 +149,8 @@ void Application::PostDraw()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::DrawSprite()
 {
-	SceneManager::Instance().DrawSprite();
+	//SceneManager::Instance().DrawSprite();
+	RenderManager::Instance().DrawSprite();
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////

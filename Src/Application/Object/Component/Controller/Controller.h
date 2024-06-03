@@ -27,12 +27,4 @@ private:
 		Shaft::Y |
 		Shaft::Z
 	};
-
-	unsigned int m_rotationShaft = {
-		Shaft::X |
-		Shaft::Y |
-		Shaft::Z
-	};
-	
-
 };

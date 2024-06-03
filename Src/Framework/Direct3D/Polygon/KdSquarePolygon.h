@@ -49,6 +49,12 @@ public:
 		m_splitX = splitX;
 		m_splitY = splitY;
 	}
+	inline void SetSplit(int* _split)
+	{
+		m_splitX = *_split;
+		_split++;
+		m_splitY = *_split;
+	}
 
 	UINT GetSplitX() { return m_splitX; }
 	UINT GetSplitY() { return m_splitY; }
