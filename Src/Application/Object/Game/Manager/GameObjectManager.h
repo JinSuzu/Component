@@ -3,7 +3,6 @@
 class GameObject;
 class Component;
 class Cp_Collider;
-enum  ComponentID;
 
 
 class GameObjectManager
@@ -40,11 +39,7 @@ public:
 	static std::string GetGameObjectPath() { return "GameObject/"; };
 	static std::string GetGameObjectSetPath() { return "GameObject/Set/"; }
 
-	static std::shared_ptr<Component> ToComponent(unsigned int _id);
-	static std::string ToTag(unsigned int _id);
-	static unsigned int ToID(std::string _tag);
 
-	static void ImGuiAddComponent(std::weak_ptr<GameObject> _object);
 	static std::weak_ptr<GameObject>& EditObject() 
 	{
 		static std::weak_ptr<GameObject> editObject;

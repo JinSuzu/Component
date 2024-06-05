@@ -8,7 +8,7 @@ void RenderManager::PreDraw()
 	{
 		if (preDraw->expired())
 		{
-			preDraw = m_draw2DList.erase(preDraw);
+			preDraw = m_preDrawList.erase(preDraw);
 			continue;
 		}
 

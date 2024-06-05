@@ -8,6 +8,7 @@ void Cp_Camera::Start()
 	m_camera = std::make_unique<KdCamera>();
 	m_preDraw = std::make_shared<std::function<void()>>([&]() {PreDraw(); });
 	RenderManager::Instance().AddPreDraw(m_preDraw);
+	m_owner.lock()->SetCamera(WeakThisPtr(this));
 }
 
 void Cp_Camera::PreDraw()

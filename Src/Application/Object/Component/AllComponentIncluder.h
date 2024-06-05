@@ -18,7 +18,7 @@
 #define FNCOMPONENT(Tag)											\
 []()																\
 {																	\
-	return std::shared_ptr<Cp_##Tag>(new Cp_##Tag);					\
+	return std::shared_ptr<Tag>(new Tag);							\
 }
 
 static std::size_t ComponentHash(const Component* comp)
@@ -30,43 +30,35 @@ static std::size_t ComponentHash(Component comp)
 	return std::hash<std::type_index>()(std::type_index(typeid(comp)));
 }
 
-class ComponentMap
+class RegisterComponent
 {
-	std::map<unsigned int, std::function<std::shared_ptr<Component>()>> m_createList =
-	{
-		//独立コンポ
-		{ComponentID::BoxCollision				,FNCOMPONENT(BoxCollision)},
-		{ComponentID::Texture					,FNCOMPONENT(Texture)},
-		{ComponentID::ModelData					,FNCOMPONENT(ModelData)},
-		{ComponentID::SquarePolygon				,FNCOMPONENT(SquarePolygon)},
-		{ComponentID::Rigidbody					,FNCOMPONENT(Rigidbody)},
+	std::map<std::string, std::function<std::shared_ptr<Component>()>> m_createMap;
 
-		//依存コンポ
-		{ComponentID::AddRotation				,FNCOMPONENT(AddRotation)},
-		{ComponentID::Controller				,FNCOMPONENT(Controller)},
-		{ComponentID::Camera					,FNCOMPONENT(Camera)},
-		{ComponentID::TransformLimit			,FNCOMPONENT(TransformLimit)},
-		{ComponentID::Collider					,FNCOMPONENT(Collider)}
-	};
-
-
-	std::map<unsigned int, std::string>m_tagMap;
-	std::map<std::string, unsigned int>m_bitMap;
-	std::map<std::size_t, unsigned int>m_typeMap;
-
+	std::map<UINT, std::string> m_bitNameMap;
 public:
-	std::shared_ptr<Component> createFind(unsigned int _id)
+	/*UINT NameToBit(std::string _tag) { return m_nameToBitMap.find(PickName(_tag, '_'))->second; }
+	std::string GetName(unsigned int _id) { return m_bitToNameMap.find(_id)->second; }*/
+	int GetCompoNum() { return m_createMap.size(); }
+
+	std::shared_ptr<Component>CreateComponent(std::string _name)
 	{
-		auto temp = m_createList.find(_id);
-		assert(temp != m_createList.end() && "Mapに入ってないよ");
-		return temp->second();
+		auto temp = m_createMap.find(_name);
+		assert(temp != m_createMap.end() && "Mapに入ってないよ");
+
+		std::shared_ptr<Component> cmp = temp->second();
+		cmp->SetIDName(temp->first);
+		return cmp;
+	}
+	std::shared_ptr<Component>CreateComponent(UINT _name)
+	{
+		auto temp = m_bitNameMap.find(_name);
+		assert(temp != m_bitNameMap.end() && "Mapに入ってないよ");
+		
+		std::shared_ptr<Component> cmp = m_createMap[temp->second]();
+		cmp->SetIDName(temp->second);
+		return cmp;
 	}
 
-	auto bitFind(std::string _tag) { return m_bitMap.find(PickName(_tag, '_')); }
-	auto bitBegin() { return m_bitMap.begin(); }
-	auto bitEnd() { return m_bitMap.end(); }
-	std::string GetTag(unsigned int _id) { return m_tagMap.find(_id)->second; }
-	int GetCompoNum() { return std::log2((double)ComponentID::MaxID); }
 	unsigned int ImGuiComponentSet()
 	{
 		ImGui::SeparatorText("ComponentSet");
@@ -75,14 +67,14 @@ public:
 		{
 			if (ImGui::BeginTable("##ComponentSet", 3, ImGuiTableFlags_BordersInnerV))
 			{
-				for (int i = 0; i < GetCompoNum(); i++)
+				for (auto& map:m_bitNameMap) 
 				{
-					bool flg = state & (1 << i);
 					ImGui::TableNextColumn();
-					ImGui::Checkbox(GetTag(1 << i).c_str(), &flg);
+					bool flg = state & map.first;
+					ImGui::Checkbox(map.second.c_str(), &flg);
 
-					if (flg)state |= (1 << i);
-					if (!flg)state &= ~(1 << i);
+					if (flg)state |= map.first;
+					if (!flg)state &= ~map.first;
 				}
 				ImGui::EndTable();
 			}
@@ -90,25 +82,54 @@ public:
 		ImGui::EndChild();
 		return state;
 	}
-
-	static ComponentMap& Instance()
+	std::shared_ptr<Component> ImGuiAddComponent()
 	{
-		static ComponentMap inst;
+		if (ImGuiTreeCenterButton("AddComponent"))ImGui::OpenPopup("Components");
+		std::shared_ptr<Component> obj;
+		if (!ImGui::BeginPopup("Components"))return obj;
+
+		ImGui::SeparatorText("Component");
+		auto it = m_createMap.begin();
+		while (it != m_createMap.end())
+		{
+			if (ImGui::MenuItem(it->first.c_str())) 
+			{
+				obj = it->second();
+				break;
+			}
+			++it;
+		}
+		ImGui::EndPopup();
+		return obj;
+	}
+
+
+	static RegisterComponent& Instance()
+	{
+		static RegisterComponent inst;
 		return inst;
 	}
 
 private:
-	ComponentMap()
+	RegisterComponent()
 	{
-		for (auto&& map : m_createList)
-		{
-			auto contents = map.second();
-			std::string tag = PickName(typeid(*contents.get()).name(), '_');
-			m_tagMap[map.first] = tag;
-			m_bitMap[tag] = map.first;
+		auto Register = [&](std::function<std::shared_ptr<Component>()> _fn)
+			{
+				UINT bit = 1 << m_createMap.size();
+				m_createMap[PickName(typeid(*_fn().get()).name(), '_')] = _fn;
+				m_bitNameMap[bit] = PickName(typeid(*_fn().get()).name(), '_');
+			};
 
-			m_typeMap[ComponentHash(map.second().get())] = map.first;
-		}
+		Register(FNCOMPONENT(Cp_BoxCollision));
+		Register(FNCOMPONENT(Cp_Texture));
+		Register(FNCOMPONENT(Cp_ModelData));
+		Register(FNCOMPONENT(Cp_SquarePolygon));
+		Register(FNCOMPONENT(Cp_Rigidbody));
+		Register(FNCOMPONENT(Cp_AddRotation));
+		Register(FNCOMPONENT(Cp_Controller));
+		Register(FNCOMPONENT(Cp_Camera));
+		Register(FNCOMPONENT(Cp_TransformLimit));
+		Register(FNCOMPONENT(Cp_Collider));
 	};
 
 };

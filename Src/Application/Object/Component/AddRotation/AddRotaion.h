@@ -20,7 +20,7 @@ private:
 	};
 
 	Math::Vector3 m_addPow;
-	AddType m_addType;
+	AddType m_addType = AddType::Normal;
 
 	Math::Vector2 m_mouseMove;
 };

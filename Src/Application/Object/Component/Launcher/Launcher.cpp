@@ -12,7 +12,15 @@ void Cp_Launcher::PreUpdateContents()
 {
 	if (GetAsyncKeyState('R') & 0x8000 && m_capacity == 0) 
 	{
-		//m_owner.lock()->WorkFamily()->
+		std::weak_ptr<GameObject> object = GameObjectManager::CreateObject(m_bulletPath);
+		m_owner.lock()->AddChilds(object);
+		m_capacity++;
+	}
+
+	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) 
+	{
+		std::list<std::weak_ptr<GameObject>>& list = m_owner.lock()->GetChilds();
+		if(list.empty())list.erase(list.begin());
 	}
 }
 

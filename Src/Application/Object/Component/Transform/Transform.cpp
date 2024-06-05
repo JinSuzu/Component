@@ -106,10 +106,17 @@ Math::Matrix Cp_Transform::GetSMat()
 	return Math::Matrix::CreateScale(m_scale);
 }
 
-Math::Matrix Cp_Transform::GetRMat()
+Math::Matrix Cp_Transform::GetRMat(UINT _shafts)
 {
+	if(_shafts == 0)
 	return 
 		Math::Matrix::CreateRotationX(DirectX::XMConvertToRadians(m_rotation.x))
 		* Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_rotation.y))
 		* Math::Matrix::CreateRotationZ(DirectX::XMConvertToRadians(m_rotation.z));
+
+	Math::Matrix rMat;
+	if (_shafts & Shaft::X)rMat *= Math::Matrix::CreateRotationX(DirectX::XMConvertToRadians(m_rotation.x));
+	if (_shafts & Shaft::Y)rMat *= Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_rotation.y));
+	if (_shafts & Shaft::Z)rMat *= Math::Matrix::CreateRotationZ(DirectX::XMConvertToRadians(m_rotation.z));
+	return rMat;
 }

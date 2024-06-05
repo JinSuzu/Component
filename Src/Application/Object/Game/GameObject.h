@@ -4,7 +4,7 @@
 class Component;
 class Cp_Transform;
 class Cp_Collider;
-enum ComponentID;
+class Cp_Camera;
 
 enum class ObjectTag 
 {
@@ -20,8 +20,7 @@ enum class ObjectTag
 };
 
 class GameObject
-	:public std::enable_shared_from_this<GameObject>
-	,public Object
+	:public Object
 {
 public:
 	GameObject() {}
@@ -47,7 +46,11 @@ public:
 	void SetParent(std::weak_ptr<GameObject> _parent);
 
 	std::list<std::weak_ptr<GameObject>>& GetChilds() { return m_childs; }
-	void AddChilds(std::weak_ptr<GameObject> _child) { m_childs.push_back(_child); }
+	void AddChilds(std::weak_ptr<GameObject> _child)
+	{
+		_child.lock()->SetParent(WeakThisPtr(this));
+		m_childs.push_back(_child); 
+	}
 
 	virtual void Destroy()override;
 
@@ -59,9 +62,11 @@ public:
 
 	#pragma region ComponentFns
 	std::weak_ptr<Cp_Transform>GetTransform() { return m_trans; }
+	void SetCamera(std::weak_ptr<Cp_Camera> _camera) { m_camera = _camera; }
 
-	std::shared_ptr<Component> AddComponent(unsigned int _id, nlohmann::json _json = nlohmann::json());
-	std::shared_ptr<Component> AddComponent(Component* _add);
+	std::shared_ptr<Component> AddComponent(std::string _name, nlohmann::json _json = nlohmann::json());
+	std::shared_ptr<Component> AddComponent(UINT _id, nlohmann::json _json = nlohmann::json());
+	std::shared_ptr<Component> AddComponent(std::shared_ptr<Component> _add);
 	std::list<std::shared_ptr<Component>> AddComponents(unsigned int _id);
 	std::list<std::shared_ptr<Component>> AddComponents();
 
@@ -87,8 +92,7 @@ public:
 
 	void ImGuiComponents();
 private:
-	void ComponentInit(std::shared_ptr<Component>& _addCp);
-	void ComponentInit(std::shared_ptr<Component>& _addCp, nlohmann::json& _json);
+	void ComponentInit(std::shared_ptr<Component>& _addCp, nlohmann::json _json);
 public:
 #pragma endregion
 
@@ -103,7 +107,7 @@ private:
 
 	//前提コンポども
 	std::shared_ptr<Cp_Transform>				m_trans;
-	std::weak_ptr<class Cp_Camera>				m_camera;
+	std::weak_ptr<Cp_Camera>				m_camera;
 
 	std::list<std::shared_ptr<Component>>		m_cpList;
 
@@ -114,8 +118,6 @@ private:
 	//便利関数
 	std::shared_ptr<Component> SearchTag(std::string _tag);
 	std::list<std::shared_ptr<Component>> SearchTags(std::string _tag);
-	std::shared_ptr<Component> SearchID(UINT _id);
-	std::list<std::shared_ptr<Component>> SearchIDs(UINT _id);
 
 
 	void Release();

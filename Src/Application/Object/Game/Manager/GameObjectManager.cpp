@@ -45,7 +45,8 @@ void GameObjectManager::ImGuiUpdate()
 		auto obj = EditObject().lock();
 		ImGui::InputText("Name", obj->WorkName());
 		obj->ImGuiComponents();
-		ImGuiAddComponent(obj);
+
+		if (std::shared_ptr<Component> compo = RegisterComponent::Instance().ImGuiAddComponent())obj->AddComponent(compo);
 	}
 	ImGui::EndChild();
 
@@ -170,7 +171,7 @@ void GameObjectManager::ImGuiCreateObject(bool _bOrigin)
 		if (ImGui::BeginTabItem("Custom"))
 		{
 			ImGui::InputText("Name", &path);
-			if (unsigned int state = ComponentMap::Instance().ImGuiComponentSet(); ImGui::Button("Create"))
+			if (unsigned int state = RegisterComponent::Instance().ImGuiComponentSet(); ImGui::Button("Create"))
 			{
 				object = CreateObject(path);
 				object->AddComponents(state);
@@ -201,40 +202,4 @@ void GameObjectManager::ImGuiCreateObject(bool _bOrigin)
 		object->SetParent(EditObject());
 	}
 
-}
-
-std::shared_ptr<Component> GameObjectManager::ToComponent(unsigned int _id)
-{
-	return ComponentMap::Instance().createFind(_id);
-}
-std::string GameObjectManager::ToTag(unsigned int _id)
-{
-	return ComponentMap::Instance().GetTag(_id);
-}
-unsigned int GameObjectManager::ToID(std::string _tag)
-{
-	auto ID = ComponentMap::Instance().bitFind(_tag);
-	if (ID == ComponentMap::Instance().bitEnd())assert(false && "コンポIDListにないよ！！");
-	return ID->second;
-}
-void GameObjectManager::ImGuiAddComponent(std::weak_ptr<GameObject> _object)
-{
-	if (ImGuiTreeCenterButton("AddComponent"))ImGui::OpenPopup("Components");
-
-	if (!ImGui::BeginPopup("Components"))return;
-
-	ImGui::SeparatorText("Component");
-	auto it = ComponentMap::Instance().bitBegin();
-	while (it != ComponentMap::Instance().bitEnd())
-	{
-		if (ImGui::MenuItem(it->first.c_str()))
-		{
-			if (auto obj = _object.lock()) {
-				obj->AddComponent(it->second);
-			}
-			break;
-		}
-		++it;
-	}
-	ImGui::EndPopup();
 }

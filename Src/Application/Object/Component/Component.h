@@ -4,29 +4,8 @@
 class GameObject;
 enum class ObjectTag;
 
-enum ComponentID
-{
-	Null					= 0,
-	//独立コンポ
-	BoxCollision			= 1 << 0,
-	Texture					= 1 << 1,
-	ModelData				= 1 << 2,
-	SquarePolygon			= 1 << 3,
-	Rigidbody				= 1 << 4,
-
-	//依存コンポ
-	AddRotation				= 1 << 5,
-	Controller				= 1 << 6,
-	Camera					= 1 << 7,
-	TransformLimit			= 1 << 8,
-	Collider				= 1 << 9,
-
-	MaxID					= 1 << 10,
-};
-
 class Component
-	:public std::enable_shared_from_this<Component>
-	,public Object
+	:public Object
 {
 
 public:
@@ -45,13 +24,10 @@ public:
 	virtual void SetOwner(std::weak_ptr<GameObject> _object)	final	{ m_owner = _object; }
 
 
-	virtual std::string GetIDName()			final	{ return m_IDName; }
-	virtual void SetIDName(std::string _tag)   final	{ m_IDName = _tag; }
+	virtual std::string GetIDName()			final	{ return m_idName; }
+	virtual void SetIDName(std::string _tag)   final	{ m_idName = _tag; }
 
-	virtual ComponentID GetID() { return m_id; };
-	virtual void SetID(unsigned int _id) { m_id = (ComponentID)_id; };
-
-	virtual bool CheckIDName(std::string _tag)	final	{return m_IDName == _tag;}
+	virtual bool CheckIDName(std::string _tag)	final	{return m_idName == _tag;}
 
 	//Json係
 	virtual void InitJson() {};
@@ -66,8 +42,8 @@ protected:
 
 	std::string								m_name;
 
-	std::string								m_IDName;
-	ComponentID                             m_id = ComponentID::Null;
+	std::string								m_idName;
+	UINT									m_id = 0;
 
 	nlohmann::json							m_jsonData;
 

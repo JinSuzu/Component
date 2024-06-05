@@ -11,20 +11,8 @@ public:
 	void InitJson()override;
 	nlohmann::json GetJson()override;
 private:
-	enum Shaft 
-	{
-		X = 1 << 0,
-		Y = 1 << 1,
-		Z = 1 << 2
-	};
-	
-
 	std::weak_ptr<class Cp_Rigidbody> m_rigitbody;
 
 	float m_movePow = 1.0f;
-	unsigned int m_moveShaft = {
-		Shaft::X |
-		Shaft::Y |
-		Shaft::Z
-	};
+	UINT m_shaft = 0;
 };

@@ -1,6 +1,13 @@
 ﻿#pragma once
 #include "../Component.h"
 
+enum Shaft
+{
+	X = 1 << 0,
+	Y = 1 << 1,
+	Z = 1 << 2
+};
+
 class Cp_Transform
 	:public Component
 {
@@ -22,6 +29,9 @@ public:
 
 
 	Math::Matrix GetMatrix(std::string _matTag = std::string());
+	Math::Matrix GetTMat();
+	Math::Matrix GetSMat();
+	Math::Matrix GetRMat(UINT _shafts = 0);
 
 	void SetParent(std::weak_ptr<Cp_Transform> _parent) { m_parent = _parent; }
 private:
@@ -35,7 +45,4 @@ private:
 	std::string		m_parentMatTag	= "SRT";
 	std::weak_ptr<Cp_Transform>	m_parent;
 
-	Math::Matrix GetTMat();
-	Math::Matrix GetSMat();
-	Math::Matrix GetRMat();
 };

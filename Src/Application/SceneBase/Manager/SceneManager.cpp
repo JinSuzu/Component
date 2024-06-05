@@ -64,7 +64,7 @@ void SceneManager::ShiftScene(SceneID _toSceneNum)
 	m_nowSceneNum = _toSceneNum;
 	m_scene = temp;
 	
-	bool flg = true;
+	//bool flg = true;
 	auto Fn = [temp]() {temp->Load(); };
 	Fn();
 	/*std::thread mask(&SceneManager::DrawLoad, this, std::ref(flg));

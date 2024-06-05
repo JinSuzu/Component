@@ -4,8 +4,7 @@
 #include "../../Object/Component/Component.h"
 #include "Manager/GameObjectManager.h"
 #include "../../Object/Component/Transform/Transform.h"
-#include "../../Object/Component/Camera/Camera.h"
-#include "../../Object/Component/Collider/Collider.h"
+#include "../../Object/Component/AllComponentIncluder.h"
 	
 #define ITERATOR(x) for (auto&& it : m_cpList)if(it.get() != nullptr)it->
 
@@ -43,7 +42,7 @@ void GameObject::PostUpdate()
 void GameObject::Init(nlohmann::json _json)
 {
 	m_trans = std::make_shared<Cp_Transform>();
-	m_trans->SetOwner(weak_from_this());
+	m_trans->SetOwner(WeakThisPtr(this));
 	m_trans->SetIDName("Transform");
 
 	if (_json.is_null())return;
@@ -52,8 +51,8 @@ void GameObject::Init(nlohmann::json _json)
 	m_trans->SetJson(m_jsonData["Component"][0]);
 	m_trans->InitJson();
 
-	m_tag = m_jsonData["Tag"];
-	m_name = m_jsonData["Name"];
+	m_tag = m_jsonData["tag"];
+	m_name = m_jsonData["name"];
 	AddComponents();
 
 	for (auto& child : _json["Childs"]) 
@@ -62,7 +61,7 @@ void GameObject::Init(nlohmann::json _json)
 			SceneManager::Instance().GetNowScene().lock()
 				->GetGameObject().CreateObject(child);
 
-		object->SetParent(weak_from_this());
+		object->SetParent(WeakThisPtr(this));
 		m_childs.push_back(object);
 	}
 }
@@ -103,7 +102,7 @@ void GameObject::ImGuiOpenOption()
 	if (ImGui::SmallButton((m_name + ImGuiID).c_str()))ImGui::OpenPopup(("Option" + ImGuiID).c_str());
 	if (!ImGui::BeginPopup(("Option" + ImGuiID).c_str())) return;
 	{
-		if (ImGui::MenuItem("Edit"))GameObjectManager::EditObject() = weak_from_this();
+		if (ImGui::MenuItem("Edit"))GameObjectManager::EditObject() = WeakThisPtr(this);
 
 		static std::string path;
 		ImGui::InputText("##Path", &path);
@@ -120,29 +119,30 @@ void GameObject::ImGuiOpenOption()
 }
 
 #pragma region ComponentFns
-std::shared_ptr<Component> GameObject::AddComponent(unsigned int _id, nlohmann::json _json)
+std::shared_ptr<Component> GameObject::AddComponent(std::string _name, nlohmann::json _json)
 {
-	auto addCp = GameObjectManager::ToComponent(_id);
-	addCp->SetIDName(GameObjectManager::ToTag(_id));
-	addCp->SetID(_id);
-	_json.is_null() ? ComponentInit(addCp) : ComponentInit(addCp, _json);
+	auto addCp = RegisterComponent::Instance().CreateComponent(_name);
+	ComponentInit(addCp, _json);
 	return addCp;
 }
-std::shared_ptr<Component> GameObject::AddComponent(Component* _addCp)
+std::shared_ptr<Component> GameObject::AddComponent(UINT _id, nlohmann::json _json)
 {
-	std::shared_ptr<Component> addCp(_addCp);
-	unsigned int id = GameObjectManager::ToID(typeid(*addCp).name());
-	addCp->SetIDName(GameObjectManager::ToTag(id));
-	addCp->SetID(id);
-	ComponentInit(addCp);
+	auto addCp = RegisterComponent::Instance().CreateComponent(_id);
+	ComponentInit(addCp, _json);
 	return addCp;
+}
+std::shared_ptr<Component> GameObject::AddComponent(std::shared_ptr<Component> _add)
+{
+	_add->CheckIDName(PickName(typeid(*_add.get()).name(), '_'));
+	ComponentInit(_add,nlohmann::json());
+	return _add;
 }
 
 std::list<std::shared_ptr<Component>> GameObject::AddComponents(unsigned int _id)
 {
 	std::list<std::shared_ptr<Component>>list;
 
-	int Max = std::log2((double)ComponentID::MaxID);
+	int Max = RegisterComponent::Instance().GetCompoNum();
 	for (int i = 0; i < Max; i++)
 	{
 		unsigned int search = 1 << i;
@@ -164,9 +164,9 @@ std::list<std::shared_ptr<Component>> GameObject::AddComponents()
 		auto Key = json.begin();
 		while (Key != json.end())
 		{
-			if (Key.key() == "ID")
+			if (Key.key() == "IDName")
 			{
-				auto addCp = AddComponent(json["ID"], json);
+				std::shared_ptr<Component> addCp = AddComponent(json["IDName"].get<std::string>(), json);
 				list.push_back(addCp);
 				break;
 			}
@@ -177,30 +177,12 @@ std::list<std::shared_ptr<Component>> GameObject::AddComponents()
 	return list;
 }
 
-void GameObject::ComponentInit(std::shared_ptr<Component>& _addCp)
+void GameObject::ComponentInit(std::shared_ptr<Component>& _addCp, nlohmann::json _json)
 {
-	switch (_addCp->GetID())
-	{
-	case ComponentID::Camera:
-		m_camera = static_pointer_cast<Cp_Camera>(_addCp);
-		break;
-	case ComponentID::Collider:
-		if (SearchID(ComponentID::Collider)) _addCp->Destroy();
-		else 
-		{
-			SceneManager::Instance().GetNowScene().lock()
-				->GetGameObject().AddColliderList(static_pointer_cast<Cp_Collider>(_addCp));
-		}
-		break;
-	}
-
 	m_cpList.push_back(_addCp);
-	_addCp->SetOwner(weak_from_this());
+	_addCp->SetOwner(WeakThisPtr(this));
 	_addCp->Start();
-}
-void GameObject::ComponentInit(std::shared_ptr<Component>& _addCp, nlohmann::json& _json)
-{
-	ComponentInit(_addCp);
+	if (_json.is_null())return;
 	_addCp->SetJson(_json);
 	_addCp->InitJson();
 }
@@ -230,14 +212,12 @@ nlohmann::json GameObject::GetJson()
 	for (auto&& it : m_cpList)
 	{
 		nlohmann::json json = it->GetJson();
-		json["ID"] = it->GetID();
+		json["IDName"] = it->GetIDName();
 		component.push_back(json);
 	}
-
-	m_jsonData["Name"] = m_name;
-	m_jsonData["Tag"] = m_tag;
+	m_jsonData["tag"] = m_tag;
 	m_jsonData["Component"] = component;
-
+	m_jsonData["name"] = m_name;
 	return m_jsonData;
 }
 
@@ -257,8 +237,13 @@ nlohmann::json GameObject::OutPutFamilyJson()
 std::shared_ptr<Component> GameObject::SearchTag(std::string _tag)
 {
 	auto&& it = m_cpList.begin();
-	while (it != m_cpList.end() && !(*it)->CheckIDName(PickName(_tag,'_'))) { it++; }
+	while (it != m_cpList.end() && !(*it)->CheckIDName(PickName(_tag, '_'))) { it++; }
 
+	if (it == m_cpList.end()) 
+	{
+		assert(false&&"GetComponent失敗！");
+		return std::shared_ptr<Component>();
+	}
 	return  *it;
 }
 std::list<std::shared_ptr<Component>> GameObject::SearchTags(std::string _tag)
@@ -267,30 +252,7 @@ std::list<std::shared_ptr<Component>> GameObject::SearchTags(std::string _tag)
 	std::list<std::shared_ptr<Component>> list;
 	while (it != m_cpList.end())
 	{
-		if((*it)->CheckIDName(PickName(_tag, '_')))list.push_back(*it);
-		it++;
-	}
-
-	return list;
-}
-std::shared_ptr<Component> GameObject::SearchID(UINT _id)
-{
-	auto&& it = m_cpList.begin();
-	while (it != m_cpList.end())
-	{
-		if ((*it)->GetID() == _id)return  *it;
-		it++;
-	}
-
-	return std::shared_ptr<Component>();
-}
-std::list<std::shared_ptr<Component>> GameObject::SearchIDs(UINT _id)
-{
-	auto&& it = m_cpList.begin();
-	std::list<std::shared_ptr<Component>> list;
-	while (it != m_cpList.end())
-	{
-		if ((*it)->GetID() != _id)list.push_back(*it);
+		if ((*it)->CheckIDName(PickName(_tag, '_')))list.push_back(*it);
 		it++;
 	}
 
@@ -341,6 +303,5 @@ void GameObject::Release()
 	nlohmann::json json;
 	json["Parent"] = GetJson();
 	json["Childs"] = nlohmann::json::array();
-
 	OutPutJson(json, GameObjectManager::GetGameObjectPath() + m_name);
 }

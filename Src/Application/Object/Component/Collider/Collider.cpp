@@ -1,6 +1,8 @@
 ﻿#include "Collider.h"
 #include "../../Game/GameObject.h"
-#include "Collider.h"
+#include "../../Game/Manager/GameObjectManager.h"
+#include "../../../SceneBase/Manager/SceneManager.h"
+#include "../../../SceneBase/SceneBase.h"
 
 #include "../Transform/Transform.h"
 #include "../ModelData/ModelData.h"
@@ -12,13 +14,14 @@ void Cp_Collider::Start()
 	for (auto& it : m_owner.lock()->GetComponents<Cp_ModelData>()) 
 	{
 		m_collider.RegisterCollisionShape(
-			"Object" + std::to_string(i),
+			"Object" + std::to_string(i++),
 			it.lock()->GetModelData().lock(),
 			KdCollider::Type::TypeGround
 		);
 	}
-	
-	
+
+	SceneManager::Instance().GetNowScene().lock()
+		->GetGameObject().AddColliderList(WeakThisPtr(this));
 }
 
 bool Cp_Collider::Intersects(const KdCollider::SphereInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults)

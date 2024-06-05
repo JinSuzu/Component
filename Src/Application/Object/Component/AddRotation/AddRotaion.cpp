@@ -50,16 +50,12 @@ void Cp_AddRotation::ImGuiUpdate()
 
 void Cp_AddRotation::InitJson()
 {
-	Component::InitJson();
-	if (!m_jsonData.is_null())
-	{
-		m_addPow = JsonToVec3(m_jsonData["addPow"]);
-		m_addType = m_jsonData["addType"];
-	}
+	m_addPow = JsonToVec3(m_jsonData["addPow"]);
+	m_addType = m_jsonData["addType"];
 }
 nlohmann::json Cp_AddRotation::GetJson()
 {
-	m_jsonData["addType"] = m_addType;
 	m_jsonData["addPow"]  = Vec3ToJson(m_addPow);
+	m_jsonData["addType"] = m_addType;
 	return m_jsonData;
 }
