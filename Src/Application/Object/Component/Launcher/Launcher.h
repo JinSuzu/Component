@@ -14,6 +14,7 @@ public:
 private:
 	std::string m_bulletPath = "RPG-7_Bullet";
 	std::shared_ptr<GameObject> m_bullet;
+	std::list<std::weak_ptr<GameObject>> m_cartridge;
 
 	int m_capacity = 1;
 };

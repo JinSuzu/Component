@@ -81,3 +81,26 @@ void RenderManager::DrawSprite()
 	}
 	KdShaderManager::Instance().m_spriteShader.End();
 }
+
+std::shared_ptr<KdTexture> RenderManager::CreateBackBuffer()
+{
+	RenderTarget render;
+	PreDraw();
+	Draw();
+	DrawSprite();
+	return render;
+}
+
+void RenderTarget::BeginRenderTarget()
+{
+	tex = std::make_shared<KdTexture>();
+	tex->CreateRenderTarget(1280, 720);
+	tex->ClearRenderTarget();
+	tex->SetRenderTarget();
+}
+
+void RenderTarget::EndRenderTarget()
+{
+	bCallEnd = true;
+	KdDirect3D::Instance().SetBackBuffer();
+}

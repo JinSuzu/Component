@@ -1,5 +1,7 @@
 ﻿#include "Framework/KdFramework.h"
 
+
+
 void KdDirect3D::CopyViewportInfo(Math::Viewport& out) const
 {
 	UINT numVPs = 1;
@@ -565,7 +567,7 @@ void KdDirect3D::DrawVertices(D3D_PRIMITIVE_TOPOLOGY topology, int vertexCount, 
 void KdDirect3D::ClearBackBuffer()
 {
 	// バックバッファクリア
-	m_pDeviceContext->ClearRenderTargetView(m_backBuffer->WorkRTView(), m_backBafferClearColor);
+	m_pDeviceContext->ClearRenderTargetView(m_backBuffer->WorkRTView(), m_backBufferClearColor);
 
 	// Zバッファクリア
 	m_pDeviceContext->ClearDepthStencilView(m_zBuffer->WorkDSView(),

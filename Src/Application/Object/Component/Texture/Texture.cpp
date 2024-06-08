@@ -9,6 +9,7 @@
 
 void Cp_Texture::DrawSprite()
 {
+	if (m_owner.lock()->GetHideFlg())return;
 	KdShaderManager::Instance().m_spriteShader.SetMatrix(m_trans.lock()->GetMatrix());
 
 	KdShaderManager::Instance().m_spriteShader.DrawTex(m_tex, 0, 0, m_rect.width, m_rect.height, &m_rect);

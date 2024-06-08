@@ -24,7 +24,7 @@ class GameObject
 {
 public:
 	GameObject() {}
-	~GameObject() { Release(); }
+	~GameObject() {}
 
 	void PreUpdate();
 	void Update();
@@ -51,6 +51,9 @@ public:
 		_child.lock()->SetParent(WeakThisPtr(this));
 		m_childs.push_back(_child); 
 	}
+
+	bool GetHideFlg() { return m_bHide; };
+	void SetHideFlg(bool _flg) { m_bHide = _flg; };
 
 	virtual void Destroy()override;
 
@@ -96,10 +99,11 @@ private:
 public:
 #pragma endregion
 
-	std::shared_ptr<GameObject>Initialize() { return std::make_shared<GameObject>(*this); }
+	std::shared_ptr<GameObject>Initialize(std::weak_ptr<GameObject> _parent);
 private:
 	std::string									m_name;
 	ObjectTag									m_tag = ObjectTag::Untagged;
+	bool										m_bHide = false;
 
 	//親子関係＆家族関係
 	std::weak_ptr<GameObject>					m_parent;
@@ -107,7 +111,7 @@ private:
 
 	//前提コンポども
 	std::shared_ptr<Cp_Transform>				m_trans;
-	std::weak_ptr<Cp_Camera>				m_camera;
+	std::weak_ptr<Cp_Camera>					m_camera;
 
 	std::list<std::shared_ptr<Component>>		m_cpList;
 

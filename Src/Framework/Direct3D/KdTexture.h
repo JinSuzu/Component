@@ -98,6 +98,12 @@ public:
 	// ・miscFlags    … その他フラグ(キューブマップを作成したい時に必要)
 	// 戻り値：true … 成功
 	bool CreateRenderTarget(int w, int h, DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM, UINT arrayCnt = 1, const D3D11_SUBRESOURCE_DATA* fillData = nullptr, UINT miscFlags = 0);
+	// RenderTargetをクリア
+	// ※RenderTargetViewを作成する必要があります
+	// ・ColorRGBA	… クリアする色
+	void ClearRenderTarget(const Math::Color& ColorRGBA = kBlueColor);
+	//描画の書き換え先を変える奴
+	void SetRenderTarget();
 
 	// 深度ステンシルテクスチャ(Zバッファ)として作成
 	// ・w            … 画像の幅(ピクセル)
@@ -154,6 +160,6 @@ private:
 
 private:
 	// コピー禁止用
-	KdTexture(const KdTexture& src) = delete;
-	void operator=(const KdTexture& src) = delete;
+	//KdTexture(const KdTexture& src) = delete;
+	//void operator=(const KdTexture& src) = delete;
 };

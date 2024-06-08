@@ -13,6 +13,7 @@
 #include "Camera/Camera.h"
 #include "TransformLimit/TransformLimit.h"
 #include "Collider/Collider.h"
+#include "Launcher/Launcher.h"
 
 
 #define FNCOMPONENT(Tag)											\
@@ -85,8 +86,8 @@ public:
 	std::shared_ptr<Component> ImGuiAddComponent()
 	{
 		if (ImGuiTreeCenterButton("AddComponent"))ImGui::OpenPopup("Components");
-		std::shared_ptr<Component> obj;
-		if (!ImGui::BeginPopup("Components"))return obj;
+		std::shared_ptr<Component> cmp;
+		if (!ImGui::BeginPopup("Components"))return cmp;
 
 		ImGui::SeparatorText("Component");
 		auto it = m_createMap.begin();
@@ -94,13 +95,13 @@ public:
 		{
 			if (ImGui::MenuItem(it->first.c_str())) 
 			{
-				obj = it->second();
+				cmp = CreateComponent(it->first);
 				break;
 			}
 			++it;
 		}
 		ImGui::EndPopup();
-		return obj;
+		return cmp;
 	}
 
 
@@ -120,16 +121,17 @@ private:
 				m_bitNameMap[bit] = PickName(typeid(*_fn().get()).name(), '_');
 			};
 
-		Register(FNCOMPONENT(Cp_BoxCollision));
-		Register(FNCOMPONENT(Cp_Texture));
-		Register(FNCOMPONENT(Cp_ModelData));
-		Register(FNCOMPONENT(Cp_SquarePolygon));
-		Register(FNCOMPONENT(Cp_Rigidbody));
 		Register(FNCOMPONENT(Cp_AddRotation));
-		Register(FNCOMPONENT(Cp_Controller));
+		Register(FNCOMPONENT(Cp_BoxCollision));
 		Register(FNCOMPONENT(Cp_Camera));
-		Register(FNCOMPONENT(Cp_TransformLimit));
 		Register(FNCOMPONENT(Cp_Collider));
+		Register(FNCOMPONENT(Cp_Controller));
+		Register(FNCOMPONENT(Cp_ModelData));
+		Register(FNCOMPONENT(Cp_Rigidbody));
+		Register(FNCOMPONENT(Cp_Launcher));
+		Register(FNCOMPONENT(Cp_SquarePolygon));
+		Register(FNCOMPONENT(Cp_Texture));
+		Register(FNCOMPONENT(Cp_TransformLimit));
 	};
 
 };

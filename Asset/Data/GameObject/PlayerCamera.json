@@ -1,0 +1,124 @@
+{
+    "Childs": [],
+    "Parent": {
+        "Component": [
+            {
+                "matTag": "SRT",
+                "parentMatTag": "SRT",
+                "position": {
+                    "x": -4.118173599243164,
+                    "y": 7.0,
+                    "z": -12.534830093383789
+                },
+                "rotation": {
+                    "x": 31.0,
+                    "y": 118.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            {
+                "IDName": "Camera"
+            },
+            {
+                "IDName": "Rigidbody",
+                "deceleration": 0.0,
+                "gravity": 0.0,
+                "move": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            {
+                "IDName": "Controller",
+                "movePow": 1.0,
+                "shaft": 7
+            },
+            {
+                "IDName": "TransformLimit",
+                "posLimit": {
+                    "ActiveFlg": true,
+                    "Max": {
+                        "x": 100.0,
+                        "y": 100.0,
+                        "z": 100.0
+                    },
+                    "MaxFlg": false,
+                    "Min": {
+                        "x": -100.0,
+                        "y": 7.0,
+                        "z": -100.0
+                    },
+                    "MinFlg": true,
+                    "Offset": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "OffsetFlg": false,
+                    "shaft": 2
+                },
+                "rotationLimit": {
+                    "ActiveFlg": true,
+                    "Max": {
+                        "x": 90.0,
+                        "y": 100.0,
+                        "z": 100.0
+                    },
+                    "MaxFlg": true,
+                    "Min": {
+                        "x": -90.0,
+                        "y": -100.0,
+                        "z": -100.0
+                    },
+                    "MinFlg": true,
+                    "Offset": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "OffsetFlg": false,
+                    "shaft": 1
+                },
+                "scaleLimit": {
+                    "ActiveFlg": false,
+                    "Max": {
+                        "x": 100.0,
+                        "y": 100.0,
+                        "z": 100.0
+                    },
+                    "MaxFlg": false,
+                    "Min": {
+                        "x": -100.0,
+                        "y": -100.0,
+                        "z": -100.0
+                    },
+                    "MinFlg": false,
+                    "Offset": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "OffsetFlg": false,
+                    "shaft": 0
+                }
+            },
+            {
+                "IDName": "AddRotation",
+                "addPow": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "addType": 2
+            }
+        ],
+        "name": "PlayerCamera",
+        "tag": 0
+    }
+}

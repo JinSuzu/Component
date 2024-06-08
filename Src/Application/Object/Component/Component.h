@@ -25,7 +25,8 @@ public:
 
 
 	virtual std::string GetIDName()			final	{ return m_idName; }
-	virtual void SetIDName(std::string _tag)   final	{ m_idName = _tag; }
+	virtual void SetIDName(std::string _tag)   final	
+	{ m_idName = _tag; }
 
 	virtual bool CheckIDName(std::string _tag)	final	{return m_idName == _tag;}
 

@@ -24,10 +24,11 @@ public:
 	bool RayHit(const KdCollider::SphereInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults);
 	bool RayHit(const KdCollider::BoxInfo& targetBox, std::list<KdCollider::CollisionResult>* pResults);
 	bool RayHit(const KdCollider::RayInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults);
-	//単品GameObject用Json専
+
 	static std::shared_ptr<GameObject> CreateObject(std::string _tag, bool bPush = true);
-	//階層構造のあるGameObject用Json専
 	static std::shared_ptr<GameObject> CreateObject(nlohmann::json _json, bool bPush = true);
+
+	void AddObject(std::shared_ptr<GameObject> _add) { m_objectList.push_back(_add); }
 private:
 	std::list<std::shared_ptr<GameObject>>	m_objectList;
 	std::list<std::weak_ptr<Cp_Collider>>	m_colliderList;

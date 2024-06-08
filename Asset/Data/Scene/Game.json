@@ -1,0 +1,196 @@
+[
+    {
+        "Childs": [],
+        "Parent": {
+            "Component": [
+                {
+                    "matTag": "SRT",
+                    "parentMatTag": "SRT",
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "IDName": "ModelData",
+                    "drawType": 3452816833,
+                    "path": "Terrain"
+                }
+            ],
+            "name": "Terrain",
+            "tag": 0
+        }
+    },
+    {
+        "Childs": [
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 0.25,
+                                "y": -0.05000000074505806,
+                                "z": 0.0
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "IDName": "ModelData",
+                            "drawType": 3452816833,
+                            "path": "RPG-7_Launcher"
+                        },
+                        {
+                            "IDName": "Launcher"
+                        }
+                    ],
+                    "name": "RPG-7_Launcher",
+                    "tag": 0
+                }
+            }
+        ],
+        "Parent": {
+            "Component": [
+                {
+                    "matTag": "SRT",
+                    "parentMatTag": "SRT",
+                    "position": {
+                        "x": -21.46385955810547,
+                        "y": 7.0,
+                        "z": -0.07698747515678406
+                    },
+                    "rotation": {
+                        "x": 30.0,
+                        "y": -237.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "IDName": "Camera"
+                },
+                {
+                    "IDName": "Rigidbody",
+                    "deceleration": 0.0,
+                    "gravity": 0.0,
+                    "move": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                {
+                    "IDName": "Controller",
+                    "movePow": 1.0,
+                    "shaft": 7
+                },
+                {
+                    "IDName": "TransformLimit",
+                    "posLimit": {
+                        "ActiveFlg": true,
+                        "Max": {
+                            "x": 100.0,
+                            "y": 100.0,
+                            "z": 100.0
+                        },
+                        "MaxFlg": false,
+                        "Min": {
+                            "x": -100.0,
+                            "y": 7.0,
+                            "z": -100.0
+                        },
+                        "MinFlg": true,
+                        "Offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "OffsetFlg": false,
+                        "shaft": 2
+                    },
+                    "rotationLimit": {
+                        "ActiveFlg": true,
+                        "Max": {
+                            "x": 90.0,
+                            "y": 100.0,
+                            "z": 100.0
+                        },
+                        "MaxFlg": true,
+                        "Min": {
+                            "x": -90.0,
+                            "y": -100.0,
+                            "z": -100.0
+                        },
+                        "MinFlg": true,
+                        "Offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "OffsetFlg": false,
+                        "shaft": 1
+                    },
+                    "scaleLimit": {
+                        "ActiveFlg": false,
+                        "Max": {
+                            "x": 100.0,
+                            "y": 100.0,
+                            "z": 100.0
+                        },
+                        "MaxFlg": false,
+                        "Min": {
+                            "x": -100.0,
+                            "y": -100.0,
+                            "z": -100.0
+                        },
+                        "MinFlg": false,
+                        "Offset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "OffsetFlg": false,
+                        "shaft": 0
+                    }
+                },
+                {
+                    "IDName": "AddRotation",
+                    "addPow": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    },
+                    "addType": 2
+                }
+            ],
+            "name": "PlayerCamera",
+            "tag": 0
+        }
+    }
+]

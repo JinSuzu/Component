@@ -6,21 +6,26 @@
 
 void Cp_Launcher::Start()
 {
+	m_bullet = SceneManager::Instance().GetNowScene().lock()->GetGameObject()
+		.CreateObject(m_bulletPath, false);
+	m_bullet->SetHideFlg(true);
+	m_bullet->SetActive(false);
 }
 
 void Cp_Launcher::PreUpdateContents()
 {
-	if (GetAsyncKeyState('R') & 0x8000 && m_capacity == 0) 
+	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000 && m_cartridge.size())
 	{
-		std::weak_ptr<GameObject> object = GameObjectManager::CreateObject(m_bulletPath);
-		m_owner.lock()->AddChilds(object);
-		m_capacity++;
+		m_cartridge.begin()->lock()->Destroy();
+		m_cartridge.erase(m_cartridge.begin());
 	}
-
-	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) 
+	if (GetAsyncKeyState('R') & 0x8000 && m_cartridge.empty())
 	{
-		std::list<std::weak_ptr<GameObject>>& list = m_owner.lock()->GetChilds();
-		if(list.empty())list.erase(list.begin());
+		std::weak_ptr<GameObject> object = m_bullet->Initialize(m_owner);
+		object.lock()->SetHideFlg(false);
+		object.lock()->SetActive(true);
+		m_cartridge.push_back(object);
+		m_capacity++;
 	}
 }
 
@@ -29,12 +34,12 @@ void Cp_Launcher::ImGuiUpdate()
 	ImGui::InputText("bulletPath", &m_bulletPath);
 	if (ImGui::SameLine(); ImGui::Button("Input"))
 	{
-		/*m_bullet = SceneManager::Instance().GetNowScene().lock()->GetGameObject()
-				.CreateObject(m_bulletPath, nullptr, false);*/
+		m_bullet = SceneManager::Instance().GetNowScene().lock()
+			->GetGameObject().CreateObject(m_bulletPath, false);
 	}
 
 
-	if (m_bullet) 
+	if (m_bullet)
 	{
 		ImGui::BeginChild("myBullet");
 		{

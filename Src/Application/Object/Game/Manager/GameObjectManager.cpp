@@ -26,7 +26,7 @@ void GameObjectManager::ImGuiUpdate()
 {
 	ImGuiCreateObject(true);
 
-	ImGui::SeparatorText("ObjectList");
+	ImGui::SeparatorText(("ObjectList" + std::to_string(m_objectList.size())).c_str());
 	ImGui::BeginChild("##ObjectChild", ImVec2(350, 250), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeY);
 	{
 		int obNum = 0;
@@ -140,7 +140,7 @@ std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json
 	auto object = std::make_shared<GameObject>();
 	object->Init(_json);
 	if (bPush)SceneManager::Instance().GetNowScene().lock()->GetGameObject().m_objectList.push_back(object);
-
+	else assert(false&&"生成しませんでした");
 	return object;
 }
 

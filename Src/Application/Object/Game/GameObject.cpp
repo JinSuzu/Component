@@ -5,14 +5,13 @@
 #include "Manager/GameObjectManager.h"
 #include "../../Object/Component/Transform/Transform.h"
 #include "../../Object/Component/AllComponentIncluder.h"
-	
+
 #define ITERATOR(x) for (auto&& it : m_cpList)if(it.get() != nullptr)it->
 
 
 void GameObject::PreUpdate()
 {
 	if (!m_bActive)return;
-	if (m_bDestroy)return;
 
 	auto it = m_cpList.begin();
 	while (it != m_cpList.end())
@@ -55,11 +54,11 @@ void GameObject::Init(nlohmann::json _json)
 	m_name = m_jsonData["name"];
 	AddComponents();
 
-	for (auto& child : _json["Childs"]) 
+	for (auto& child : _json["Childs"])
 	{
-		std::shared_ptr<GameObject> object = 
+		std::shared_ptr<GameObject> object =
 			SceneManager::Instance().GetNowScene().lock()
-				->GetGameObject().CreateObject(child);
+			->GetGameObject().CreateObject(child);
 
 		object->SetParent(WeakThisPtr(this));
 		m_childs.push_back(object);
@@ -84,7 +83,7 @@ void GameObject::ImGuiUpdate(int num)
 		std::list<std::weak_ptr<GameObject>>::iterator child = m_childs.begin();
 		while (child != m_childs.end())
 		{
-			if (child->expired()) 
+			if (child->expired())
 			{
 				child = m_childs.erase(child);
 				continue;
@@ -134,7 +133,7 @@ std::shared_ptr<Component> GameObject::AddComponent(UINT _id, nlohmann::json _js
 std::shared_ptr<Component> GameObject::AddComponent(std::shared_ptr<Component> _add)
 {
 	_add->CheckIDName(PickName(typeid(*_add.get()).name(), '_'));
-	ComponentInit(_add,nlohmann::json());
+	ComponentInit(_add, nlohmann::json());
 	return _add;
 }
 
@@ -186,6 +185,20 @@ void GameObject::ComponentInit(std::shared_ptr<Component>& _addCp, nlohmann::jso
 	_addCp->SetJson(_json);
 	_addCp->InitJson();
 }
+std::shared_ptr<GameObject> GameObject::Initialize(std::weak_ptr<GameObject> _parent)
+{
+	std::shared_ptr<GameObject>	clone = std::make_shared<GameObject>();
+	nlohmann::json json;
+
+	SceneManager::Instance().GetNowScene().lock()->GetGameObject().AddObject(clone);
+	if (_parent.lock())
+	{
+		clone->SetParent(_parent);
+		_parent.lock()->AddChilds(clone);
+	}
+
+	return clone;
+}
 #pragma endregion
 
 void GameObject::SetParent(std::weak_ptr<GameObject> _parent)
@@ -197,7 +210,7 @@ void GameObject::SetParent(std::weak_ptr<GameObject> _parent)
 void GameObject::Destroy()
 {
 	Object::Destroy();
-	for (auto& child : m_childs) 
+	for (auto& child : m_childs)
 	{
 		child.lock()->Destroy();
 	}
@@ -226,7 +239,7 @@ nlohmann::json GameObject::OutPutFamilyJson()
 	nlohmann::json json;
 	json["Parent"] = GetJson();
 	json["Childs"] = nlohmann::json::array();
-	for (auto& child : m_childs) 
+	for (auto& child : m_childs)
 	{
 		json["Childs"].push_back(child.lock()->OutPutFamilyJson());
 	}
@@ -239,9 +252,9 @@ std::shared_ptr<Component> GameObject::SearchTag(std::string _tag)
 	auto&& it = m_cpList.begin();
 	while (it != m_cpList.end() && !(*it)->CheckIDName(PickName(_tag, '_'))) { it++; }
 
-	if (it == m_cpList.end()) 
+	if (it == m_cpList.end())
 	{
-		assert(false&&"GetComponent失敗！");
+		assert(false && "GetComponent失敗！");
 		return std::shared_ptr<Component>();
 	}
 	return  *it;

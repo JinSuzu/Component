@@ -139,8 +139,14 @@ public:
 
 	//==============================================================
 
-	void SetBackBufferColor(const Math::Color& col) { m_backBafferClearColor = col; }
+	void SetBackBufferColor(const Math::Color& col) { m_backBufferClearColor = col; }
 	void ClearBackBuffer();
+
+	//書き込み主を元に戻す奴
+	void SetBackBuffer() 
+	{
+		m_pDeviceContext->OMSetRenderTargets(1, m_backBuffer->WorkRTViewAddress(), m_zBuffer->WorkDSView());
+	};
 
 private:
 
@@ -172,7 +178,7 @@ private:
 	int				m_windowWidth				= 1280;
 	int				m_windowHeight				= 780;
 
-	Math::Color		m_backBafferClearColor		= kBlueColor;
+	Math::Color		m_backBufferClearColor		= kBlueColor;
 
 	// バッファ
 	std::shared_ptr<KdTexture>	m_backBuffer	= nullptr;		// バックバッファ

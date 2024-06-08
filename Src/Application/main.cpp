@@ -104,8 +104,6 @@ void Application::KdBeginDraw(bool usePostProcess)
 {
 	KdDirect3D::Instance().ClearBackBuffer();
 
-	//KdShaderManager::Instance().WorkAmbientController().Draw();
-
 	if (!usePostProcess) return;
 	KdShaderManager::Instance().m_postProcessShader.Draw();
 }
@@ -322,7 +320,6 @@ void Application::Execute()
 		// アプリケーション描画処理
 		//
 		//=========================================
-
 		KdBeginDraw();
 		{
 			PreDraw();
@@ -400,10 +397,17 @@ void Application::ImGuiUpdate()
 	//ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiSetCond_Once);
 	//ImGui::SetNextWindowSize(ImVec2(500, 300), ImGuiSetCond_Once);
 	// デバッグウィンドウ
-
 	ImGui::ShowDemoWindow(nullptr);
-	if (ImGui::Begin("Debug Window"))
+	ImGui::Begin("Debug Window",0,ImGuiWindowFlags_NoMove| ImGuiWindowFlags_NoTitleBar| ImGuiWindowFlags_NoResize);
 	{
+		Math::Vector2 vec(1280,720);
+		vec *= 0.65;
+		static std::shared_ptr<KdTexture> tex = RenderManager::Instance().CreateBackBuffer();
+		tex = RenderManager::Instance().CreateBackBuffer();
+		ImGui::Image(tex->WorkSRView(), ImVec2(vec.x, vec.y));
+
+		ImGui::SameLine();
+		ImGui::BeginChild("Editor");
 		if (ImGui::BeginTabBar("CreateObject"))
 		{
 			/*if (ImGui::BeginTabItem("Scene"))
@@ -435,6 +439,7 @@ void Application::ImGuiUpdate()
 			}
 			ImGui::EndTabBar();
 		}
+		ImGui::EndChild();
 	}
 	ImGui::End();
 }

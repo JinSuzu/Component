@@ -6,6 +6,7 @@
 
 void Cp_ModelData::Draw3D(UINT _type)
 {
+	if (m_owner.lock()->GetHideFlg())return;
 	if (m_drawType & _type)
 	{
 		KdShaderManager::Instance().m_StandardShader.DrawModel(*m_modelData, m_trans.lock()->GetMatrix());
