@@ -24,13 +24,14 @@ class GameObject
 {
 public:
 	GameObject() {}
-	~GameObject() {}
+	~GameObject() { Release(); }
 
 	void PreUpdate();
 	void Update();
 	void PostUpdate();
 
 	void Init(nlohmann::json _json);
+	void Release();
 
 	void ImGuiUpdate(int num);
 	void ImGuiOpenOption();
@@ -124,5 +125,4 @@ private:
 	std::list<std::shared_ptr<Component>> SearchTags(std::string _tag);
 
 
-	void Release();
 };

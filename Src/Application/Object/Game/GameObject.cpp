@@ -275,38 +275,34 @@ std::list<std::shared_ptr<Component>> GameObject::SearchTags(std::string _tag)
 void GameObject::ImGuiComponents()
 {
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-	if (!ImGui::TreeNode("Component"))return;
+
+	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+	if (ImGui::TreeNode(m_trans->GetIDName().c_str()))
 	{
-		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-		if (ImGui::TreeNode(m_trans->GetIDName().c_str()))
-		{
-			m_trans->ImGuiUpdate();
-			ImGui::TreePop();
-		}
-
-
-		int num = 0;
-		for (auto&& it : m_cpList)
-		{
-			ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-			std::string ImGui = std::to_string(num++) + " : " + it->GetIDName();
-			bool flg = ImGui::TreeNode(ImGui.c_str());
-			if (ImGui::SameLine(); ImGui::SmallButton(("Remove##" + ImGui).c_str()))
-			{
-				it->Destroy();
-			}
-
-
-			if (flg)
-			{
-				ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-				(*it).ImGuiUpdate();
-				ImGui::TreePop();
-			}
-		}
+		m_trans->ImGuiUpdate();
+		ImGui::TreePop();
 	}
 
-	ImGui::TreePop();
+
+	int num = 0;
+	for (auto&& it : m_cpList)
+	{
+		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+		std::string ImGui = std::to_string(num++) + " : " + it->GetIDName();
+		bool flg = ImGui::TreeNode(ImGui.c_str());
+		if (ImGui::SameLine(); ImGui::SmallButton(("Remove##" + ImGui).c_str()))
+		{
+			it->Destroy();
+		}
+
+
+		if (flg)
+		{
+			ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+			(*it).ImGuiUpdate();
+			ImGui::TreePop();
+		}
+	}
 }
 
 void GameObject::Release()

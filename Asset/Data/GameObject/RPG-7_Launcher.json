@@ -27,7 +27,20 @@
                 "path": "RPG-7_Launcher"
             },
             {
-                "IDName": "Launcher"
+                "IDName": "Launcher",
+                "bulletPath": "RPG-7_Bullet",
+                "loadedModelPath": "RPG-7",
+                "unLoadModelPath": "RPG-7_Launcher"
+            },
+            {
+                "IDName": "Rigidbody",
+                "deceleration": 0.9800000190734863,
+                "gravity": 0.0,
+                "move": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
             }
         ],
         "name": "RPG-7_Launcher",

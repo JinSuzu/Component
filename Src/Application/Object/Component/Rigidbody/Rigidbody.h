@@ -13,6 +13,7 @@ public:
 	nlohmann::json GetJson()override;
 
 	void SetMove(Math::Vector3 _move) { m_move += _move; }
+	void ResetMove()				{ m_move = Math::Vector3::Zero; }
 	void SetGravity(float _gravity) { m_gravity += _gravity; }
 private:
 	Math::Vector3 m_move	= {0,0,0};

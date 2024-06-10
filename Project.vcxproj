@@ -205,6 +205,7 @@
     <ClInclude Include="Src\Application\Object\Component\AddRotation\AddRotaion.h" />
     <ClInclude Include="Src\Application\Object\Component\AllComponentIncluder.h" />
     <ClInclude Include="Src\Application\Object\Component\BoxCollision\BoxCollision.h" />
+    <ClInclude Include="Src\Application\Object\Component\Bullet\Bullet.h" />
     <ClInclude Include="Src\Application\Object\Component\Camera\Camera.h" />
     <ClInclude Include="Src\Application\Object\Component\Collider\Collider.h" />
     <ClInclude Include="Src\Application\Object\Component\Component.h" />
@@ -276,6 +277,7 @@
     <ClCompile Include="Src\Application\main.cpp" />
     <ClCompile Include="Src\Application\Object\Component\AddRotation\AddRotaion.cpp" />
     <ClCompile Include="Src\Application\Object\Component\BoxCollision\BoxCollision.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\Bullet\Bullet.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Camera\Camera.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Collider\Collider.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Component.cpp" />

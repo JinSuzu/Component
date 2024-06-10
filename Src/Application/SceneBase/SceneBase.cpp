@@ -35,9 +35,4 @@ void SceneBase::Release()
 void SceneBase::ImGuiUpdate()
 {
 	ImGui::Text(m_name.c_str());
-	ImGui::BeginChild("ObjectWindow"); 
-	{
-		m_objectMgr.ImGuiUpdate();
-	}
-	ImGui::EndChild();
 }

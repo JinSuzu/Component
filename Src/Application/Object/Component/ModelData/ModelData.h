@@ -11,7 +11,8 @@ public:
 	void InitJson()override;
 	nlohmann::json GetJson()override;
 
-	std::weak_ptr<KdModelData>GetModelData() { return m_modelData; }
+	std::weak_ptr<KdModelData> GetModelData() { return m_modelData; }
+	void SetModelData(std::shared_ptr<KdModelData> _data) { m_modelData = _data; }
 private:
 	UINT								m_drawType;
 

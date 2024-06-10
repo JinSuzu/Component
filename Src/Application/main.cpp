@@ -10,7 +10,7 @@
 // エントリーポイント
 // アプリケーションはこの関数から進行する
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
-int WINAPI WinMain(_In_ HINSTANCE, _In_opt_  HINSTANCE, _In_ LPSTR , _In_ int)
+int WINAPI WinMain(_In_ HINSTANCE, _In_opt_  HINSTANCE, _In_ LPSTR, _In_ int)
 {
 	// メモリリークを知らせる
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -163,7 +163,7 @@ bool Application::Init(int w, int h)
 		MessageBoxA(nullptr, "ウィンドウ作成に失敗", "エラー", MB_OK);
 		return false;
 	}
-	
+
 	//===================================================================
 	// フルスクリーン確認
 	//===================================================================
@@ -268,7 +268,7 @@ void Application::Execute()
 		m_fpsController.UpdateStartTime();
 
 		std::string titlebar = "Dust Magic	fps : " + std::to_string(m_fpsController.m_nowfps);
-		SetWindowTextA(GetWindowHandle(),titlebar.c_str());
+		SetWindowTextA(GetWindowHandle(), titlebar.c_str());
 
 		// ゲーム終了指定があるときはループ終了
 		if (m_endFlag)
@@ -293,8 +293,8 @@ void Application::Execute()
 
 		if (GetAsyncKeyState(VK_ESCAPE))
 		{
-//			if (MessageBoxA(m_window.GetWndHandle(), "本当にゲームを終了しますか？",
-//				"終了確認", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES)
+			//			if (MessageBoxA(m_window.GetWndHandle(), "本当にゲームを終了しますか？",
+			//				"終了確認", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES)
 			{
 				End();
 			}
@@ -335,7 +335,7 @@ void Application::Execute()
 		}
 		KdPostDraw();
 		//---------------------
-		
+
 
 		//=========================================
 		//
@@ -380,7 +380,7 @@ void Application::ImGuiProcess()
 	else if (GetAsyncKeyState(VK_DOWN) & 0x8000)flg = false;
 
 	if (!flg)return;
-	
+
 	// ImGui開始
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
@@ -398,48 +398,73 @@ void Application::ImGuiUpdate()
 	//ImGui::SetNextWindowSize(ImVec2(500, 300), ImGuiSetCond_Once);
 	// デバッグウィンドウ
 	ImGui::ShowDemoWindow(nullptr);
-	ImGui::Begin("Debug Window",0,ImGuiWindowFlags_NoMove| ImGuiWindowFlags_NoTitleBar| ImGuiWindowFlags_NoResize);
+	ImGui::Begin("Debug Window", 0, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+	UINT childFlg = ImGuiChildFlags_AlwaysAutoResize | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY;
+	ImGui::BeginChild("Test",ImVec2(), childFlg);
 	{
-		Math::Vector2 vec(1280,720);
-		vec *= 0.65;
-		static std::shared_ptr<KdTexture> tex = RenderManager::Instance().CreateBackBuffer();
-		tex = RenderManager::Instance().CreateBackBuffer();
-		ImGui::Image(tex->WorkSRView(), ImVec2(vec.x, vec.y));
+		{//MenuBar
+			ImGui::Text("FPS : %d", m_fpsController.m_nowfps); ImGui::SameLine();
+			ImGui::Text("ThreadMax : %d", std::hardware_constructive_interference_size); ImGui::SameLine();
+			ImGui::Text("%.2f,%.2f", GetMouse().x, GetMouse().y);
+		}
 
-		ImGui::SameLine();
-		ImGui::BeginChild("Editor");
-		if (ImGui::BeginTabBar("CreateObject"))
+		ImGui::BeginChild("OneLine", ImVec2(), childFlg);
 		{
-			/*if (ImGui::BeginTabItem("Scene"))
-			{
+			ImGui::BeginChild("OneLine", ImVec2()
+				, childFlg);
+			{//GameScreen
+
+				Math::Vector2 vec = Math::Vector2(1280, 720) * 0.625;
+				static std::shared_ptr<KdTexture> tex;
+				tex = RenderManager::Instance().CreateBackBuffer();
+				ImGui::Image(tex->WorkSRView(), ImVec2(vec.x, vec.y));
+			}
+			ImGui::EndChild();
+
+			ImGui::BeginChild("Scene",ImVec2(), ImGuiChildFlags_Border | childFlg);
+			{//Scene
+				SceneManager::Instance().ImGuiUpdate();
+				int SceneNum = SceneManager::Instance().GetNowSceneNum();
 				ImGui::SliderInt("SceneNum", &SceneNum, 0, SceneID::Max - 1); SceneManager::Instance().ShiftScene((SceneID)SceneNum);
 				if (ImGui::Button("ReLoad"))SceneManager::Instance().ReLoad();
-				ImGui::EndTabItem();
-			}*/
+			}
+			ImGui::EndChild();
+			
+			ImGui::SameLine();
+			ImGui::BeginChild("CreateObject",ImVec2(), ImGuiChildFlags_Border | childFlg);
+			{//PreHubもどき
+				SceneManager::Instance().GetNowScene().lock()->GetGameObject().ImGuiCreateObject();
+			}
+			ImGui::EndChild();
+		}
+		ImGui::EndChild();
+
+		{//ObjectEditor
+			ImGui::SameLine();
+			ImGui::BeginChild("Editor",ImVec2(450,685) , ImGuiWindowFlags_NoResize);
+			SceneManager::Instance().GetNowScene().lock()->GetGameObject().ImGuiUpdate();
+			ImGui::EndChild();
+		}
+		/*if (ImGui::BeginTabBar("CreateObject"))
+		{
 			if (ImGui::BeginTabItem("Object"))
 			{
-				ImGui::Text("%.2f,%.2f", GetMouse().x, GetMouse().y);
 				if (ImGui::TreeNode("Scene"))
 				{
-					int SceneNum = SceneManager::Instance().GetNowSceneNum();
-					ImGui::SliderInt("SceneNum", &SceneNum, 0, SceneID::Max - 1); SceneManager::Instance().ShiftScene((SceneID)SceneNum);
-					if (ImGui::Button("ReLoad"))SceneManager::Instance().ReLoad();
 					ImGui::TreePop();
 				}
-				SceneManager::Instance().ImGuiUpdate();
 				ImGui::EndTabItem();
 			}
 
 			if (ImGui::BeginTabItem("Other"))
 			{
-				ImGui::Text("FPS : %d", m_fpsController.m_nowfps);
-				ImGui::Text("ThreadMax : %d", std::hardware_constructive_interference_size);
+
 
 				ImGui::EndTabItem();
 			}
 			ImGui::EndTabBar();
-		}
-		ImGui::EndChild();
+		}*/
 	}
+	ImGui::EndChild();
 	ImGui::End();
 }

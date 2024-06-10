@@ -12,9 +12,19 @@ public:
 	void InitJson()override;
 	nlohmann::json GetJson()override;
 private:
+	enum State
+	{
+		Loaded,
+		UnLoad,
+	};
+	State		m_state			  = UnLoad;
+	std::string m_loadedModelPath = "RPG-7";
+	std::string m_unLoadModelPath = "RPG-7_Launcher";
+	std::shared_ptr<KdModelData> m_launcherModel[2];
+	std::weak_ptr<class Cp_ModelData> m_draw;
+	
 	std::string m_bulletPath = "RPG-7_Bullet";
 	std::shared_ptr<GameObject> m_bullet;
-	std::list<std::weak_ptr<GameObject>> m_cartridge;
 
 	int m_capacity = 1;
 };

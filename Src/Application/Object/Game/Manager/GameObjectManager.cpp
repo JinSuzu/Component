@@ -24,10 +24,9 @@ void GameObjectManager::PostUpdate() { for (auto& object : m_objectList)object->
 
 void GameObjectManager::ImGuiUpdate()
 {
-	ImGuiCreateObject(true);
-
+	//ImGuiCreateObject(true);
 	ImGui::SeparatorText(("ObjectList" + std::to_string(m_objectList.size())).c_str());
-	ImGui::BeginChild("##ObjectChild", ImVec2(350, 250), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeY);
+	ImGui::BeginChild("##ObjectChild", ImVec2(425, 250), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeY);
 	{
 		int obNum = 0;
 		for (auto& object : m_objectList)
@@ -40,7 +39,7 @@ void GameObjectManager::ImGuiUpdate()
 	if (EditObject().expired())return;
 	ImGui::SeparatorText("EditObject");
 
-	ImGui::BeginChild("Edit", ImVec2(), ImGuiChildFlags_AlwaysAutoResize | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
+	//ImGui::BeginChild("Edit", ImVec2(), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeY);
 	{
 		auto obj = EditObject().lock();
 		ImGui::InputText("Name", obj->WorkName());
@@ -48,14 +47,7 @@ void GameObjectManager::ImGuiUpdate()
 
 		if (std::shared_ptr<Component> compo = RegisterComponent::Instance().ImGuiAddComponent())obj->AddComponent(compo);
 	}
-	ImGui::EndChild();
-
-	ImGui::BeginChild("CreateObject_branch", ImVec2(), ImGuiChildFlags_AlwaysAutoResize | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
-	{
-		ImGuiCreateObject(false);
-	}
-	ImGui::EndChild();
-	//ImGui::Text("##");
+	//ImGui::EndChild();
 }
 
 void GameObjectManager::Load(std::string _path)
@@ -140,7 +132,7 @@ std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json
 	auto object = std::make_shared<GameObject>();
 	object->Init(_json);
 	if (bPush)SceneManager::Instance().GetNowScene().lock()->GetGameObject().m_objectList.push_back(object);
-	else assert(false&&"生成しませんでした");
+
 	return object;
 }
 
@@ -160,22 +152,45 @@ void GameObjectManager::LoadJson(std::string _path, bool _bOrigin)
 		name++;
 	}
 }
-void GameObjectManager::ImGuiCreateObject(bool _bOrigin)
+void GameObjectManager::ImGuiCreateObject()
 {
-	ImGui::SeparatorText(("CreateObject On" + std::string(_bOrigin ? "Root" : "Branch")).c_str());
-	std::shared_ptr<GameObject> object;
+	ImGui::SeparatorText("CreateObject");
 
-	if(ImGui::BeginTabBar(("CreateObject##" + std::string(_bOrigin ? "Root" : "Branch")).c_str()))
+	if(ImGui::BeginTabBar("CreateObject"))
 	{
 		static std::string path = "";
 		if (ImGui::BeginTabItem("Custom"))
 		{
 			ImGui::InputText("Name", &path);
-			if (unsigned int state = RegisterComponent::Instance().ImGuiComponentSet(); ImGui::Button("Create"))
+			unsigned int state = RegisterComponent::Instance().ImGuiComponentSet();
+			if (ImGui::Button("Create"))
 			{
-				object = CreateObject(path);
-				object->AddComponents(state);
-				object->SetName(path);
+				if(EditObject().lock())ImGui::OpenPopup("CCreate");
+				else 
+				{
+					std::shared_ptr<GameObject>object = CreateObject(path);
+					object->AddComponents(state);
+					object->SetName(path);
+				}
+			}
+
+			if (ImGui::BeginPopup("CCreate"))
+			{
+				if (ImGui::Selectable("Root"))
+				{
+					std::shared_ptr<GameObject>object = CreateObject(path);
+					object->AddComponents(state);
+					object->SetName(path);
+				}
+				if (ImGui::Selectable("Branch"))
+				{
+					std::shared_ptr<GameObject>object = CreateObject(path);
+					object->AddComponents(state);
+					object->SetName(path);
+					EditObject().lock()->AddChilds(object);
+					object->SetParent(EditObject());
+				}
+				ImGui::EndPopup();
 			}
 			ImGui::EndTabItem();
 		}
@@ -184,22 +199,22 @@ void GameObjectManager::ImGuiCreateObject(bool _bOrigin)
 		{
 			ImGui::InputText("PreSetPath", &path);
 
-			if (ImGui::Button("Create"))
+			
+			if (ImGui::Button("Create")) 
 			{
-				LoadJson(GameObjectManager::GetGameObjectSetPath() + path, _bOrigin);
+				if (EditObject().lock())ImGui::OpenPopup("Create");
+				else LoadJson(GameObjectManager::GetGameObjectSetPath() + path);
 			}
-
+			
+			if (ImGui::BeginPopup("Create"))
+			{
+				if (ImGui::Selectable("Root"))LoadJson(GameObjectManager::GetGameObjectSetPath() + path);
+				if (ImGui::Selectable("Branch"))LoadJson(GameObjectManager::GetGameObjectSetPath() + path, false);
+				
+				ImGui::EndPopup();
+			}
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();
 	}
-
-	if (object == nullptr)return;
-
-	if (EditObject().lock() && !_bOrigin)
-	{
-		EditObject().lock()->AddChilds(object);
-		object->SetParent(EditObject());
-	}
-
 }

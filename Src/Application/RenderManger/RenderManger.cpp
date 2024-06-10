@@ -85,14 +85,19 @@ void RenderManager::DrawSprite()
 std::shared_ptr<KdTexture> RenderManager::CreateBackBuffer()
 {
 	RenderTarget render;
-	PreDraw();
-	Draw();
-	DrawSprite();
-	return render;
+	render.BeginRenderTarget();
+	{
+		PreDraw();
+		Draw();
+		DrawSprite();
+	}
+	render.EndRenderTarget();
+	return render.GetResult();
 }
 
 void RenderTarget::BeginRenderTarget()
 {
+	bCallBegin = true;
 	tex = std::make_shared<KdTexture>();
 	tex->CreateRenderTarget(1280, 720);
 	tex->ClearRenderTarget();

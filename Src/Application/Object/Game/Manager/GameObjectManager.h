@@ -16,6 +16,7 @@ public:
 	void PostUpdate();
 	
 	void ImGuiUpdate();
+	void ImGuiCreateObject();
 	
 	void Load(std::string _path);
 	void Release(std::string _path);
@@ -35,7 +36,6 @@ private:
 
 
 	void LoadJson(std::string _path, bool _bOrigin = true);
-	void ImGuiCreateObject(bool bOrigin = false);
 public:
 	static std::string GetGameObjectPath() { return "GameObject/"; };
 	static std::string GetGameObjectSetPath() { return "GameObject/Set/"; }

@@ -15,21 +15,20 @@ enum DrawType
 class RenderTarget
 {
 public:
-	RenderTarget(){ BeginRenderTarget(); }
-	~RenderTarget()	{
-		assert(bCallEnd && "Error: レンダーターゲットが終了していません");
+	RenderTarget(){}
+	~RenderTarget()
+	{
+		assert(bCallBegin && "Error: レンダーターゲットが生成されてません");
+		if(bCallEnd)assert(bCallEnd && "Error: レンダーターゲットが終了していません");
 	}
 
-	//result返し
-	operator std::shared_ptr<KdTexture>() 
-	{
-		EndRenderTarget();
-		return tex;
-	}
-private:
 	void BeginRenderTarget();
 	void EndRenderTarget();
+
+	std::shared_ptr<KdTexture> GetResult() { return tex; }
+private:
 	std::shared_ptr<KdTexture> tex;
+	bool bCallBegin = false;
 	bool bCallEnd = false;
 };
 

@@ -14,6 +14,7 @@
 #include "TransformLimit/TransformLimit.h"
 #include "Collider/Collider.h"
 #include "Launcher/Launcher.h"
+#include "Bullet/Bullet.h"
 
 
 #define FNCOMPONENT(Tag)											\
@@ -123,6 +124,7 @@ private:
 
 		Register(FNCOMPONENT(Cp_AddRotation));
 		Register(FNCOMPONENT(Cp_BoxCollision));
+		Register(FNCOMPONENT(Cp_Bullet));
 		Register(FNCOMPONENT(Cp_Camera));
 		Register(FNCOMPONENT(Cp_Collider));
 		Register(FNCOMPONENT(Cp_Controller));

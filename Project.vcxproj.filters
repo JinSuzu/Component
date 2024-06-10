@@ -136,6 +136,9 @@
     <Filter Include="Src\Application\Object\Component\SquarePolygon">
       <UniqueIdentifier>{d832c87f-cafe-4f53-a88c-c9bffa6fd06c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Object\Component\Bullet">
+      <UniqueIdentifier>{0ca89cde-b283-45ad-bdf6-37767aea343e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -501,6 +504,9 @@
     <ClInclude Include="Src\Application\Object\Component\ModelData\ModelData.h">
       <Filter>Src\Application\Object\Component\ModelData</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\Bullet\Bullet.h">
+      <Filter>Src\Application\Object\Component\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -700,6 +706,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\ModelData\ModelData.cpp">
       <Filter>Src\Application\Object\Component\ModelData</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\Bullet\Bullet.cpp">
+      <Filter>Src\Application\Object\Component\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

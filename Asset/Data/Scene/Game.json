@@ -63,7 +63,20 @@
                             "path": "RPG-7_Launcher"
                         },
                         {
-                            "IDName": "Launcher"
+                            "IDName": "Launcher",
+                            "bulletPath": "RPG-7_Bullet",
+                            "loadedModelPath": "RPG-7",
+                            "unLoadModelPath": "RPG-7_Launcher"
+                        },
+                        {
+                            "IDName": "Rigidbody",
+                            "deceleration": 0.9800000190734863,
+                            "gravity": 0.0,
+                            "move": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
                         }
                     ],
                     "name": "RPG-7_Launcher",
@@ -77,13 +90,13 @@
                     "matTag": "SRT",
                     "parentMatTag": "SRT",
                     "position": {
-                        "x": -21.46385955810547,
-                        "y": 7.0,
-                        "z": -0.07698747515678406
+                        "x": -67.244873046875,
+                        "y": 71.56053924560547,
+                        "z": -84.20622253417969
                     },
                     "rotation": {
-                        "x": 30.0,
-                        "y": -237.0,
+                        "x": 31.0,
+                        "y": 29.0,
                         "z": 0.0
                     },
                     "scale": {
