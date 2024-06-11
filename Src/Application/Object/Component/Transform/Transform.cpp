@@ -57,7 +57,7 @@ Math::Matrix Cp_Transform::GetMatrix(std::string _matTag)
 
 	auto ReturnMat = [&]()
 		{
-			if (m_mWorld = GetRMat() * GetSMat() * GetTMat(); m_parent.lock() && m_bFollow)return m_mWorld * m_parent.lock()->GetMatrix(m_parentMatTag);
+			if (m_mWorld = GetSMat() * GetRMat() * GetTMat(); m_parent.lock() && m_bFollow)return m_mWorld * m_parent.lock()->GetMatrix(m_parentMatTag);
 			else return  m_mWorld;
 		};
 
@@ -98,7 +98,7 @@ Math::Matrix Cp_Transform::GetMatrix(std::string _matTag)
 		it++;
 	}
 
-	if(m_parent.lock()&& m_bFollow)return m_mWorld * m_parent.lock()->GetMatrix(m_parentMatTag);
+	if(m_parent.lock() && m_bFollow)return m_mWorld * m_parent.lock()->GetMatrix(m_parentMatTag);
 	return m_mWorld;
 }
 

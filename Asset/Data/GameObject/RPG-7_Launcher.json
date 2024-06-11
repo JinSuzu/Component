@@ -3,8 +3,8 @@
     "Parent": {
         "Component": [
             {
-                "matTag": "SRT",
-                "parentMatTag": "SRT",
+                "matTag": "RST",
+                "parentMatTag": "RST",
                 "position": {
                     "x": 0.25,
                     "y": -0.05000000074505806,
@@ -35,16 +35,6 @@
                 "reloadTime": 10,
                 "shotInterval": 10,
                 "unLoadModelPath": "RPG-7_Launcher"
-            },
-            {
-                "IDName": "Rigidbody",
-                "deceleration": 0.9800000190734863,
-                "gravity": 0.0,
-                "move": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
             }
         ],
         "name": "RPG-7_Launcher",

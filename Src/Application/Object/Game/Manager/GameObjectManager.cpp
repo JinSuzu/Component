@@ -55,10 +55,10 @@ void GameObjectManager::Release(std::string _path)
 	nlohmann::json json = nlohmann::json::array();
 	for (auto& object : m_objectList)
 	{
+		if (!object->GetAbleSave())continue;
 		if (object->GetParent().expired()) 
 		{
-			if(object->GetAbleSave())
-			json.push_back(object->OutPutFamilyJson());
+			if(object->GetAbleSave())json.push_back(object->OutPutFamilyJson());
 		}
 	}
 	m_objectList.clear();
@@ -149,11 +149,12 @@ void GameObjectManager::LoadJson(std::string _path, bool _bOrigin)
 	assert(name != json.end() && "not found json");
 	while (name != json.end())
 	{
+		std::weak_ptr<GameObject>  edit = EditObject().lock();
 		std::shared_ptr<GameObject>object = CreateObject(*name);
-		if (auto edit = EditObject().lock(); edit && !_bOrigin)
+		if (edit.lock() && !_bOrigin)
 		{
 			object->SetParent(edit);
-			edit->GetChilds().push_back(object);
+			edit.lock()->GetChilds().push_back(object);
 		}
 		name++;
 	}

@@ -43,6 +43,7 @@ void GameObject::Init(nlohmann::json _json)
 	m_trans = std::make_shared<Cp_Transform>();
 	m_trans->SetOwner(WeakThisPtr(this));
 	m_trans->SetIDName("Transform");
+	if(m_parent.lock())m_trans->SetParent(m_parent.lock()->GetTransform());
 
 	if (_json.is_null())return;
 	m_jsonData = _json["Parent"];
@@ -58,10 +59,7 @@ void GameObject::Init(nlohmann::json _json)
 	{
 		std::shared_ptr<GameObject> object =
 			SceneManager::Instance().GetNowScene().lock()
-			->GetGameObject().CreateObject(child);
-
-		object->SetParent(WeakThisPtr(this));
-		m_childs.push_back(object);
+			->GetGameObject().CreateObject(child, WeakThisPtr(this));
 	}
 }
 
@@ -201,18 +199,14 @@ std::shared_ptr<GameObject> GameObject::Initialize(std::weak_ptr<GameObject> _pa
 }
 #pragma endregion
 
-void GameObject::SetParent(std::weak_ptr<GameObject> _parent)
-{
-	if (_parent.lock() && m_trans)m_trans->SetParent(_parent.lock()->GetTransform());
-	m_parent = _parent;
-}
+void GameObject::SetParent(std::weak_ptr<GameObject> _parent) { m_parent = _parent; }
 
 void GameObject::Destroy()
 {
 	Object::Destroy();
 	for (auto& child : m_childs)
 	{
-		child.lock()->Destroy();
+		if(child.lock())child.lock()->Destroy();
 	}
 }
 
@@ -241,7 +235,8 @@ nlohmann::json GameObject::OutPutFamilyJson()
 	json["Childs"] = nlohmann::json::array();
 	for (auto& child : m_childs)
 	{
-		if(child.lock()->GetAbleSave())json["Childs"].push_back(child.lock()->OutPutFamilyJson());
+		if (child.expired())continue;
+		if (child.lock()->GetAbleSave())json["Childs"].push_back(child.lock()->OutPutFamilyJson());
 	}
 
 	return json;

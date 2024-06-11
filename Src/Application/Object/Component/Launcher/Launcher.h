@@ -7,6 +7,7 @@ class Cp_Launcher
 public:
 	void Start()override;
 	void PreUpdateContents()override;
+	void PostUpdateContents()override;
 
 	void ImGuiUpdate()override;
 	void InitJson()override;

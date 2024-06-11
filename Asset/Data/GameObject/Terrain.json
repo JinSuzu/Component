@@ -25,6 +25,9 @@
                 "IDName": "ModelData",
                 "drawType": 3452816833,
                 "path": "Terrain"
+            },
+            {
+                "IDName": "Collider"
             }
         ],
         "name": "Terrain",

@@ -25,21 +25,6 @@ void Cp_Launcher::PreUpdateContents()
 	if (m_bulletNum > 0)m_state = State::Loaded;
 	else m_state = State::UnLoad;
 
-	if (m_state == State::Loaded)
-	{
-		if (m_bShotStandby)
-		{
-			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-			{
-				GameObjectManager::CreateObject(m_bulletPath, m_owner)->GetTransform();
-				m_bulletNum--;
-
-				m_bShotStandby = false;
-				m_shotIntervalCnt = m_shotInterval;
-			}
-		}
-	}
-
 	if (m_shotIntervalCnt <= 0)
 	{
 		m_bShotStandby = true;
@@ -63,6 +48,24 @@ void Cp_Launcher::PreUpdateContents()
 	}
 
 	m_draw.lock()->SetModelData(m_launcherModel[m_state]);
+}
+
+void Cp_Launcher::PostUpdateContents()
+{
+	if (m_state == State::Loaded)
+	{
+		if (m_bShotStandby)
+		{
+			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+			{
+				GameObjectManager::CreateObject(m_bulletPath, m_owner);
+				m_bulletNum--;
+
+				m_bShotStandby = false;
+				m_shotIntervalCnt = m_shotInterval;
+			}
+		}
+	}
 }
 
 void Cp_Launcher::ImGuiUpdate()

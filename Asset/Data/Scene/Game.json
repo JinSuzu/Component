@@ -6,8 +6,8 @@
                 "Parent": {
                     "Component": [
                         {
-                            "matTag": "SRT",
-                            "parentMatTag": "SRT",
+                            "matTag": "RST",
+                            "parentMatTag": "RST",
                             "position": {
                                 "x": 0.25,
                                 "y": -0.05000000074505806,
@@ -38,16 +38,6 @@
                             "reloadTime": 10,
                             "shotInterval": 10,
                             "unLoadModelPath": "RPG-7_Launcher"
-                        },
-                        {
-                            "IDName": "Rigidbody",
-                            "deceleration": 0.9800000190734863,
-                            "gravity": 0.0,
-                            "move": {
-                                "x": 0.0,
-                                "y": 0.0,
-                                "z": 0.0
-                            }
                         }
                     ],
                     "name": "RPG-7_Launcher",
@@ -81,7 +71,7 @@
                             "IDName": "Camera"
                         }
                     ],
-                    "name": "Camera",
+                    "name": "camera",
                     "tag": 0
                 }
             }
@@ -92,13 +82,13 @@
                     "matTag": "SRT",
                     "parentMatTag": "SRT",
                     "position": {
-                        "x": 27.72820472717285,
-                        "y": 15.720032691955566,
-                        "z": -21.218040466308594
+                        "x": 2.964498281478882,
+                        "y": 14.516157150268555,
+                        "z": -11.349344253540039
                     },
                     "rotation": {
-                        "x": 4.0,
-                        "y": 280.0,
+                        "x": 37.0,
+                        "y": -68.0,
                         "z": 0.0
                     },
                     "scale": {
@@ -109,8 +99,10 @@
                 },
                 {
                     "IDName": "Rigidbody",
+                    "activeGravityFlag": true,
                     "deceleration": 0.0,
                     "gravity": 0.0,
+                    "height": 10.0,
                     "move": {
                         "x": 0.0,
                         "y": 0.0,
@@ -143,7 +135,7 @@
                         "MaxFlg": false,
                         "Min": {
                             "x": -100.0,
-                            "y": 10.0,
+                            "y": -100.0,
                             "z": -100.0
                         },
                         "MinFlg": true,
@@ -232,6 +224,9 @@
                     "IDName": "ModelData",
                     "drawType": 3452816833,
                     "path": "Terrain"
+                },
+                {
+                    "IDName": "Collider"
                 }
             ],
             "name": "Terrain",
