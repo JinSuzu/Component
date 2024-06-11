@@ -14,6 +14,8 @@ class Cp_Transform
 public:
 	Cp_Transform() {}
 	~Cp_Transform()override {}
+	
+	void Start()override;
 
 	void ImGuiUpdate()override;
 	void InitJson()override;
@@ -38,6 +40,7 @@ public:
 	Math::Matrix GetRMat(UINT _shafts = 0);
 
 	void SetParent(std::weak_ptr<Cp_Transform> _parent) { m_parent = _parent; }
+	void DotFollow() { m_bFollow = false; };
 private:
 	Math::Matrix	m_mWorld		= Math::Matrix::Identity;
 
@@ -48,5 +51,7 @@ private:
 	std::string		m_myMatTag		= "SRT";
 	std::string		m_parentMatTag	= "SRT";
 	std::weak_ptr<Cp_Transform>	m_parent;
+	
+	bool m_bFollow = true;
 
 };

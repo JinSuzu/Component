@@ -31,12 +31,8 @@
                         },
                         {
                             "IDName": "Launcher",
-                            "bulletMax": 1,
                             "bulletPath": "RPG-7_Bullet",
-                            "capacity": 0,
                             "loadedModelPath": "RPG-7",
-                            "reloadTime": 10,
-                            "shotInterval": 10,
                             "unLoadModelPath": "RPG-7_Launcher"
                         },
                         {
@@ -92,13 +88,13 @@
                     "matTag": "SRT",
                     "parentMatTag": "SRT",
                     "position": {
-                        "x": 27.72820472717285,
-                        "y": 15.720032691955566,
-                        "z": -21.218040466308594
+                        "x": 61.594200134277344,
+                        "y": 10.0,
+                        "z": -22.158594131469727
                     },
                     "rotation": {
-                        "x": 4.0,
-                        "y": 280.0,
+                        "x": -11.0,
+                        "y": -143.0,
                         "z": 0.0
                     },
                     "scale": {
@@ -202,39 +198,6 @@
                 }
             ],
             "name": "Player",
-            "tag": 0
-        }
-    },
-    {
-        "Childs": [],
-        "Parent": {
-            "Component": [
-                {
-                    "matTag": "SRT",
-                    "parentMatTag": "SRT",
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotation": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    }
-                },
-                {
-                    "IDName": "ModelData",
-                    "drawType": 3452816833,
-                    "path": "Terrain"
-                }
-            ],
-            "name": "Terrain",
             "tag": 0
         }
     }

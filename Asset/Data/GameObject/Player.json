@@ -6,13 +6,13 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": -67.244873046875,
-                    "y": 71.56053924560547,
-                    "z": -84.20622253417969
+                    "x": 27.72820472717285,
+                    "y": 15.720032691955566,
+                    "z": -21.218040466308594
                 },
                 "rotation": {
-                    "x": 31.0,
-                    "y": 29.0,
+                    "x": 4.0,
+                    "y": 280.0,
                     "z": 0.0
                 },
                 "scale": {
@@ -20,9 +20,6 @@
                     "y": 1.0,
                     "z": 1.0
                 }
-            },
-            {
-                "IDName": "Camera"
             },
             {
                 "IDName": "Rigidbody",
@@ -40,6 +37,15 @@
                 "shaft": 7
             },
             {
+                "IDName": "AddRotation",
+                "addPow": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "addType": 2
+            },
+            {
                 "IDName": "TransformLimit",
                 "posLimit": {
                     "ActiveFlg": true,
@@ -51,7 +57,7 @@
                     "MaxFlg": false,
                     "Min": {
                         "x": -100.0,
-                        "y": 7.0,
+                        "y": 10.0,
                         "z": -100.0
                     },
                     "MinFlg": true,
@@ -107,18 +113,9 @@
                     "OffsetFlg": false,
                     "shaft": 0
                 }
-            },
-            {
-                "IDName": "AddRotation",
-                "addPow": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "addType": 2
             }
         ],
-        "name": "PlayerCamera",
+        "name": "Player",
         "tag": 0
     }
 }

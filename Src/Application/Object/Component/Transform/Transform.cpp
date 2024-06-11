@@ -1,6 +1,13 @@
 ﻿#include "Transform.h"
 #include "../../Game/GameObject.h"
 
+void Cp_Transform::Start()
+{
+	std::weak_ptr<GameObject>parent = m_owner.lock()->GetParent();
+	if (parent.expired())return;
+	SetParent(parent.lock()->GetTransform());
+}
+
 void Cp_Transform::ImGuiUpdate()
 {
 	ImGui::DragFloat3("Position", &m_position.x);
@@ -50,7 +57,7 @@ Math::Matrix Cp_Transform::GetMatrix(std::string _matTag)
 
 	auto ReturnMat = [&]()
 		{
-			if (m_mWorld = GetRMat() * GetSMat() * GetTMat(); m_parent.lock())return m_mWorld * m_parent.lock()->GetMatrix(m_parentMatTag);
+			if (m_mWorld = GetRMat() * GetSMat() * GetTMat(); m_parent.lock() && m_bFollow)return m_mWorld * m_parent.lock()->GetMatrix(m_parentMatTag);
 			else return  m_mWorld;
 		};
 
@@ -91,8 +98,8 @@ Math::Matrix Cp_Transform::GetMatrix(std::string _matTag)
 		it++;
 	}
 
-	if(m_parent.expired())return m_mWorld;
-	return m_mWorld * m_parent.lock()->GetMatrix(m_parentMatTag);
+	if(m_parent.lock()&& m_bFollow)return m_mWorld * m_parent.lock()->GetMatrix(m_parentMatTag);
+	return m_mWorld;
 }
 
 Math::Matrix Cp_Transform::GetTMat()

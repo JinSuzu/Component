@@ -59,7 +59,9 @@ public:
 	virtual void Destroy()override;
 
 	//Json係	
+	bool GetAbleSave() const { return m_bSave; }
 	void DotSave() { m_bSave = false; }
+	void EnableSave() { m_bSave = true; }
 	nlohmann::json GetJson();
 	nlohmann::json OutPutFamilyJson();
 #pragma endregion

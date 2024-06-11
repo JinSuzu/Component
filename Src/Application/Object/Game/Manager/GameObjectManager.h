@@ -17,6 +17,7 @@ public:
 	
 	void ImGuiUpdate();
 	void ImGuiCreateObject();
+	static void ImGuiGameObject(std::weak_ptr<GameObject> _object);
 	
 	void Load(std::string _path);
 	void Release(std::string _path);
@@ -26,8 +27,8 @@ public:
 	bool RayHit(const KdCollider::BoxInfo& targetBox, std::list<KdCollider::CollisionResult>* pResults);
 	bool RayHit(const KdCollider::RayInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults);
 
-	static std::shared_ptr<GameObject> CreateObject(std::string _tag, bool bPush = true);
-	static std::shared_ptr<GameObject> CreateObject(nlohmann::json _json, bool bPush = true);
+	static std::shared_ptr<GameObject> CreateObject(std::string _tag,std::weak_ptr<GameObject> _parent = std::weak_ptr<GameObject>(), bool bPush = true);
+	static std::shared_ptr<GameObject> CreateObject(nlohmann::json _json, std::weak_ptr<GameObject> _parent = std::weak_ptr<GameObject>(), bool bPush = true);
 
 	void AddObject(std::shared_ptr<GameObject> _add) { m_objectList.push_back(_add); }
 private:

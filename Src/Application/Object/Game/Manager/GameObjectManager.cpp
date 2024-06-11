@@ -41,11 +41,7 @@ void GameObjectManager::ImGuiUpdate()
 
 	//ImGui::BeginChild("Edit", ImVec2(), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeY);
 	{
-		auto obj = EditObject().lock();
-		ImGui::InputText("Name", obj->WorkName());
-		obj->ImGuiComponents();
-
-		if (std::shared_ptr<Component> compo = RegisterComponent::Instance().ImGuiAddComponent())obj->AddComponent(compo);
+		ImGuiGameObject(EditObject());
 	}
 	//ImGui::EndChild();
 }
@@ -59,7 +55,11 @@ void GameObjectManager::Release(std::string _path)
 	nlohmann::json json = nlohmann::json::array();
 	for (auto& object : m_objectList)
 	{
-		if (object->GetParent().expired())json.push_back(object->OutPutFamilyJson());
+		if (object->GetParent().expired()) 
+		{
+			if(object->GetAbleSave())
+			json.push_back(object->OutPutFamilyJson());
+		}
 	}
 	m_objectList.clear();
 	OutPutJson(json, _path);
@@ -123,13 +123,19 @@ bool GameObjectManager::RayHit(const KdCollider::RayInfo& targetShape, std::list
 	return flg;
 }
 
-std::shared_ptr<GameObject> GameObjectManager::CreateObject(std::string _tag, bool bPush)
+std::shared_ptr<GameObject> GameObjectManager::CreateObject(std::string _tag, std::weak_ptr<GameObject> _parent, bool bPush)
 {
-	return CreateObject(InPutJson(GameObjectManager::GetGameObjectPath() + _tag), bPush);
+	return CreateObject(InPutJson(GameObjectManager::GetGameObjectPath() + _tag), _parent, bPush);
 }
-std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json, bool bPush)
+std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json, std::weak_ptr<GameObject> _parent, bool bPush)
 {
 	auto object = std::make_shared<GameObject>();
+	if (_parent.lock())
+	{
+		object->SetParent(_parent);
+		_parent.lock()->AddChilds(object);
+	}
+
 	object->Init(_json);
 	if (bPush)SceneManager::Instance().GetNowScene().lock()->GetGameObject().m_objectList.push_back(object);
 
@@ -156,7 +162,7 @@ void GameObjectManager::ImGuiCreateObject()
 {
 	ImGui::SeparatorText("CreateObject");
 
-	if(ImGui::BeginTabBar("CreateObject"))
+	if (ImGui::BeginTabBar("CreateObject"))
 	{
 		static std::string path = "";
 		if (ImGui::BeginTabItem("Custom"))
@@ -165,8 +171,8 @@ void GameObjectManager::ImGuiCreateObject()
 			unsigned int state = RegisterComponent::Instance().ImGuiComponentSet();
 			if (ImGui::Button("Create"))
 			{
-				if(EditObject().lock())ImGui::OpenPopup("CCreate");
-				else 
+				if (EditObject().lock())ImGui::OpenPopup("CCreate");
+				else
 				{
 					std::shared_ptr<GameObject>object = CreateObject(path);
 					object->AddComponents(state);
@@ -199,22 +205,30 @@ void GameObjectManager::ImGuiCreateObject()
 		{
 			ImGui::InputText("PreSetPath", &path);
 
-			
-			if (ImGui::Button("Create")) 
+
+			if (ImGui::Button("Create"))
 			{
 				if (EditObject().lock())ImGui::OpenPopup("Create");
 				else LoadJson(GameObjectManager::GetGameObjectSetPath() + path);
 			}
-			
+
 			if (ImGui::BeginPopup("Create"))
 			{
 				if (ImGui::Selectable("Root"))LoadJson(GameObjectManager::GetGameObjectSetPath() + path);
 				if (ImGui::Selectable("Branch"))LoadJson(GameObjectManager::GetGameObjectSetPath() + path, false);
-				
+
 				ImGui::EndPopup();
 			}
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();
 	}
+}
+
+void GameObjectManager::ImGuiGameObject(std::weak_ptr<GameObject> _object)
+{
+	ImGui::InputText("Name", _object.lock()->WorkName());
+	_object.lock()->ImGuiComponents();
+
+	if (std::shared_ptr<Component> compo = RegisterComponent::Instance().ImGuiAddComponent())_object.lock()->AddComponent(compo);
 }

@@ -203,7 +203,7 @@ std::shared_ptr<GameObject> GameObject::Initialize(std::weak_ptr<GameObject> _pa
 
 void GameObject::SetParent(std::weak_ptr<GameObject> _parent)
 {
-	if (_parent.lock())m_trans->SetParent(_parent.lock()->GetTransform());
+	if (_parent.lock() && m_trans)m_trans->SetParent(_parent.lock()->GetTransform());
 	m_parent = _parent;
 }
 
@@ -241,7 +241,7 @@ nlohmann::json GameObject::OutPutFamilyJson()
 	json["Childs"] = nlohmann::json::array();
 	for (auto& child : m_childs)
 	{
-		json["Childs"].push_back(child.lock()->OutPutFamilyJson());
+		if(child.lock()->GetAbleSave())json["Childs"].push_back(child.lock()->OutPutFamilyJson());
 	}
 
 	return json;

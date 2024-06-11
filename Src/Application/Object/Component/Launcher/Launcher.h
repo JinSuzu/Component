@@ -26,5 +26,17 @@ private:
 	std::string m_bulletPath = "RPG-7_Bullet";
 	std::shared_ptr<GameObject> m_bullet;
 
-	int m_capacity = 1;
+	//弾数
+	int m_bulletNum = 1;
+	int m_bulletMax = 1;
+	
+	//発射間隔係
+	bool m_bShotStandby    = false;
+	int  m_shotInterval    = 3;
+	int  m_shotIntervalCnt = 0;
+
+	//リロード係
+	bool m_bReloading    = false;
+	int  m_reloadTime    = 10;
+	int  m_reloadTimeCnt = 0;
 };
