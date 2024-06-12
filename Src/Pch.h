@@ -51,6 +51,7 @@
 #include <typeinfo>
 #include <typeindex>
 
+
 //===============================================
 //
 // Direct3D11
@@ -108,6 +109,8 @@
 
 /////json/////
 #include "../Library/tinygltf/nlohmann/json.hpp"
+////magic_enum///
+#include "../Library/magic_enum/magic_enum.hpp"
 
 //===============================================
 // 文字コード変換
@@ -161,7 +164,7 @@ nlohmann::json InPutJson(std::string _path);
 bool ImGuiWindowCenterButton(std::string label);
 bool ImGuiTreeCenterButton(std::string label);
 
-void ImGuiCheckBoxBit(std::string _name, unsigned int& _ID, unsigned int _checkID);
+bool ImGuiCheckBoxBit(std::string _name, unsigned int& _ID, unsigned int _checkID);
 
 /*
 template<class T>

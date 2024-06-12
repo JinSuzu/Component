@@ -113,10 +113,11 @@ bool ImGuiTreeCenterButton(std::string label)
 	return ImGui::Button(label.c_str());
 }
 
-void ImGuiCheckBoxBit(std::string _name, unsigned int& _ID, unsigned int _checkID)
+bool ImGuiCheckBoxBit(std::string _name, unsigned int& _ID, unsigned int _checkID)
 {
 	bool flg = _ID & _checkID;
-	ImGui::Checkbox(_name.c_str(), &flg);
+	bool chenge = ImGui::Checkbox(_name.c_str(), &flg);
 	if (flg) _ID |= _checkID;
 		else _ID &= (~_checkID);
+	return chenge;
 }

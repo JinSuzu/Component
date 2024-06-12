@@ -15,6 +15,7 @@
 #include "Collider/Collider.h"
 #include "Launcher/Launcher.h"
 #include "Bullet/Bullet.h"
+#include "Player/Player.h"
 
 
 #define FNCOMPONENT(Tag)											\
@@ -134,6 +135,7 @@ private:
 		Register(FNCOMPONENT(Cp_SquarePolygon));
 		Register(FNCOMPONENT(Cp_Texture));
 		Register(FNCOMPONENT(Cp_TransformLimit));
+		Register(FNCOMPONENT(Cp_Player));
 	};
 
 };

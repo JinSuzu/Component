@@ -133,11 +133,17 @@
     <Filter Include="Src\Application\Object\Component\ModelData">
       <UniqueIdentifier>{2bc74d83-3605-4227-a186-3be9826830af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Object\Component\Player">
+      <UniqueIdentifier>{47aa41f1-4377-4443-b0d8-5b649141986b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\Bullet">
+      <UniqueIdentifier>{48b561cc-63fe-4b96-b96a-58115aac531a}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Src\Application\Object\Component\SquarePolygon">
       <UniqueIdentifier>{d832c87f-cafe-4f53-a88c-c9bffa6fd06c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\Object\Component\Bullet">
-      <UniqueIdentifier>{0ca89cde-b283-45ad-bdf6-37767aea343e}</UniqueIdentifier>
+    <Filter Include="Library\magic_enum">
+      <UniqueIdentifier>{1e09aa52-7842-43ee-b9b9-4ef70aea085e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -504,8 +510,38 @@
     <ClInclude Include="Src\Application\Object\Component\ModelData\ModelData.h">
       <Filter>Src\Application\Object\Component\ModelData</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\Player\Player.h">
+      <Filter>Src\Application\Object\Component\Player</Filter>
+    </ClInclude>
     <ClInclude Include="Src\Application\Object\Component\Bullet\Bullet.h">
       <Filter>Src\Application\Object\Component\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\magic_enum\magic_enum.hpp">
+      <Filter>Library\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\magic_enum\magic_enum_all.hpp">
+      <Filter>Library\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\magic_enum\magic_enum_containers.hpp">
+      <Filter>Library\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\magic_enum\magic_enum_flags.hpp">
+      <Filter>Library\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\magic_enum\magic_enum_format.hpp">
+      <Filter>Library\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\magic_enum\magic_enum_fuse.hpp">
+      <Filter>Library\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\magic_enum\magic_enum_iostream.hpp">
+      <Filter>Library\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\magic_enum\magic_enum_switch.hpp">
+      <Filter>Library\magic_enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\magic_enum\magic_enum_utility.hpp">
+      <Filter>Library\magic_enum</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -706,6 +742,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\ModelData\ModelData.cpp">
       <Filter>Src\Application\Object\Component\ModelData</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\Player\Player.cpp">
+      <Filter>Src\Application\Object\Component\Player</Filter>
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\Bullet\Bullet.cpp">
       <Filter>Src\Application\Object\Component\Bullet</Filter>

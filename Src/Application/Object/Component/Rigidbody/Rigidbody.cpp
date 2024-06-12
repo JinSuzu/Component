@@ -10,31 +10,31 @@ void Cp_Rigidbody::Start()
 	m_trans = m_owner.lock()->GetTransform();
 }
 
+void Cp_Rigidbody::PreUpdateContents()
+{
+	if(m_bActiveGravity && m_gravity < 2.5)m_gravity -= m_gravityPow;
+}
+
 void Cp_Rigidbody::UpdateContents()
 {
-	Math::Vector3 postPos = m_move;
-	if (m_bActiveGravity)
-	{
-		postPos.y += Gravity();
-	}
+	if(m_bActiveGravity)m_move.y = Gravity();
+	m_trans.lock()->SetPosition(m_trans.lock()->GetPosition() + m_move);
 
-	m_trans.lock()->SetPosition(m_trans.lock()->GetPosition() + postPos);
 	m_move *= m_deceleration;
 }
 
 
 void Cp_Rigidbody::ImGuiUpdate()
 {
-	ImGui::DragFloat3("move", &m_move.x);
+	ImGui::DragFloat3("Move", &m_move.x);
 
-	if (ImGui::Checkbox("gravity", &m_bActiveGravity); m_bActiveGravity)
+	if (ImGui::Checkbox("Gravity", &m_bActiveGravity); m_bActiveGravity)
 	{
-		ImGui::DragFloat("gravity", &m_gravityPow);
-		ImGui::DragFloat("height", &m_height);
+		ImGui::DragFloat("GravityPow", &m_gravityPow);
+		ImGui::DragFloat("Height", &m_height);
 	}
 
-
-	ImGui::DragFloat("deceleration", &m_deceleration);
+	ImGui::DragFloat("Deceleration", &m_deceleration);
 }
 
 void Cp_Rigidbody::InitJson()
@@ -62,17 +62,17 @@ nlohmann::json Cp_Rigidbody::GetJson()
 
 float Cp_Rigidbody::Gravity()
 {
-	m_gravity -= m_gravityPow;
-
+	Math::Vector3 pos = m_owner.lock()->GetTransform().lock()->GetPosition();
+	pos.y -= m_height;
 	KdCollider::RayInfo rayInfo(
 		KdCollider::Type::TypeGround,
-		m_owner.lock()->GetTransform().lock()->GetPosition(),
+		pos,
 		{ 0,-1,0 },
-		abs(m_gravity) + m_height
+		abs(m_gravity + m_move.y)
 	);
 
 	//重力と床判定
-	bool standingGroundFlg = false;
+	m_bLanding = false;
 	std::list<KdCollider::CollisionResult>	results;
 	KdCollider::CollisionResult				effectResult;
 	float									hitRange = 0.0f;
@@ -80,20 +80,22 @@ float Cp_Rigidbody::Gravity()
 	SceneManager::Instance().GetNowScene().lock()->GetGameObject().RayHit(rayInfo, &results);
 	for (auto& result : results)
 	{
-		if (hitRange > Math::Vector3::Distance(result.m_hitPos, m_trans.lock()->GetPosition()) || !standingGroundFlg)
+		int targetRange = Math::Vector3::Distance(result.m_hitPos, m_trans.lock()->GetPosition());
+		if (hitRange > targetRange|| !m_bLanding)
 		{
-			standingGroundFlg = true;
+			hitRange = targetRange;
 			effectResult = result;
+			m_bLanding = true;
 		}
 	}
 
-	float gravityPow = m_gravity;
-	if (standingGroundFlg)
+	float futureGravityPow = m_gravity + m_move.y;
+	if (m_bLanding)
 	{
 		Math::Vector3 overMove = effectResult.m_overlapDistance * effectResult.m_hitDir;
-		gravityPow += overMove.y;
+		futureGravityPow += overMove.y;
 		m_gravity = 0;
 	}
-	
-	return gravityPow;
+
+	return futureGravityPow;
 }

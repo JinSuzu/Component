@@ -6,13 +6,13 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": -11.143060684204102,
-                    "y": 14.516157150268555,
-                    "z": 5.31325101852417
+                    "x": 3.6992745399475098,
+                    "y": 5.0,
+                    "z": -1.548210859298706
                 },
                 "rotation": {
-                    "x": 32.0,
-                    "y": 133.0,
+                    "x": 65.0,
+                    "y": -259.0,
                     "z": 0.0
                 },
                 "scale": {
@@ -24,19 +24,19 @@
             {
                 "IDName": "Rigidbody",
                 "activeGravityFlag": true,
-                "deceleration": 0.0,
-                "gravity": 0.0,
-                "height": 10.0,
+                "deceleration": 0.800000011920929,
+                "gravity": 0.02500000037252903,
+                "height": 5.0,
                 "move": {
-                    "x": 0.0,
+                    "x": 5.400343258514517e-14,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": -1.0497198000159608e-14
                 }
             },
             {
                 "IDName": "Controller",
-                "movePow": 1.0,
-                "shaft": 7
+                "movePow": 0.25,
+                "shaft": 6
             },
             {
                 "IDName": "AddRotation",
@@ -115,6 +115,11 @@
                     "OffsetFlg": false,
                     "shaft": 0
                 }
+            },
+            {
+                "AccelerationTime": 10,
+                "IDName": "Player",
+                "jumpFlg": 0.25
             }
         ],
         "name": "Player",

@@ -13,6 +13,7 @@ public:
 	void InitJson()override;
 	nlohmann::json GetJson()override;
 
+	std::weak_ptr<KdTexture>GetTexture() { return m_tex; };
 private:
 	std::string					m_path;
 	std::shared_ptr<KdTexture>	m_tex;

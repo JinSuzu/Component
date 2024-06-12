@@ -41,8 +41,9 @@
             {
                 "AccelerationTime": 30,
                 "IDName": "Bullet",
+                "LandingPath": "",
                 "ShotRange": 100.0,
-                "SpeedPow": 0.0,
+                "SpeedPow": 1.0,
                 "SpeedUpSection": 45,
                 "StartPos": {
                     "x": 0.0,

@@ -12,6 +12,8 @@ public:
 	void ImGuiUpdate()override;
 	void InitJson()override;
 	nlohmann::json GetJson()override;
+
+	std::weak_ptr<KdSquarePolygon>GetSquarePolygon() { return m_squarePolygon; };
 private:
 	UINT								m_drawType;
 
@@ -20,7 +22,7 @@ private:
 
 	std::weak_ptr<class Cp_Transform> m_trans;
 
-	int							m_split[2] = {1,1};
+	int							m_split[2] = { 1,1 };
 	std::shared_ptr<class Animation2D>	m_animation;
 
 	std::shared_ptr<std::function<void(UINT)>> m_draw3D;

@@ -82,13 +82,13 @@
                     "matTag": "SRT",
                     "parentMatTag": "SRT",
                     "position": {
-                        "x": 2.964498281478882,
-                        "y": 14.516157150268555,
-                        "z": -11.349344253540039
+                        "x": 3.6992745399475098,
+                        "y": 5.0,
+                        "z": -1.548210859298706
                     },
                     "rotation": {
-                        "x": 37.0,
-                        "y": -68.0,
+                        "x": 65.0,
+                        "y": -259.0,
                         "z": 0.0
                     },
                     "scale": {
@@ -100,19 +100,19 @@
                 {
                     "IDName": "Rigidbody",
                     "activeGravityFlag": true,
-                    "deceleration": 0.0,
-                    "gravity": 0.0,
-                    "height": 10.0,
+                    "deceleration": 0.800000011920929,
+                    "gravity": 0.02500000037252903,
+                    "height": 5.0,
                     "move": {
-                        "x": 0.0,
+                        "x": 1.0650293147396184e-10,
                         "y": 0.0,
-                        "z": 0.0
+                        "z": -2.070206679694042e-11
                     }
                 },
                 {
                     "IDName": "Controller",
-                    "movePow": 1.0,
-                    "shaft": 7
+                    "movePow": 0.25,
+                    "shaft": 6
                 },
                 {
                     "IDName": "AddRotation",
@@ -191,6 +191,11 @@
                         "OffsetFlg": false,
                         "shaft": 0
                     }
+                },
+                {
+                    "AccelerationTime": 10,
+                    "IDName": "Player",
+                    "jumpFlg": 0.25
                 }
             ],
             "name": "Player",
@@ -226,7 +231,10 @@
                     "path": "Terrain"
                 },
                 {
-                    "IDName": "Collider"
+                    "ColliderShape": 1,
+                    "ColliderType": 3452816845,
+                    "IDName": "Collider",
+                    "Radius": 0.0
                 }
             ],
             "name": "Terrain",

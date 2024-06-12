@@ -12,11 +12,6 @@ void Cp_Launcher::Start()
 
 	m_draw = m_owner.lock()->GetComponent<Cp_ModelData>();
 	assert(m_draw.lock() && "modeldataコンポーネントが見かりませんでした by Launcher");
-
-	m_bullet = GameObjectManager::CreateObject(m_bulletPath, m_owner, false);
-	m_bullet->SetActive(false);
-	m_bullet->SetHideFlg(true);
-	m_bullet->DotSave();
 }
 
 void Cp_Launcher::PreUpdateContents()

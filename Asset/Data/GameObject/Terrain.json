@@ -27,7 +27,10 @@
                 "path": "Terrain"
             },
             {
-                "IDName": "Collider"
+                "ColliderShape": 1,
+                "ColliderType": 3452816845,
+                "IDName": "Collider",
+                "Radius": 0.0
             }
         ],
         "name": "Terrain",

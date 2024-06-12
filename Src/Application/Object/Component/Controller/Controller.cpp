@@ -6,27 +6,26 @@
 void Cp_Controller::Start()
 {
 	m_rigitbody = m_owner.lock()->GetComponent<Cp_Rigidbody>();
-	assert(m_rigitbody.lock()&&"rigitbodyが取れなかった！byコントローラー");
+	assert(m_rigitbody.lock() && "rigitbodyが取れなかった！byコントローラー");
 }
 
 void Cp_Controller::PreUpdateContents()
 {
-	if (m_rigitbody.expired()) 
+	if (m_rigitbody.expired())
 	{
 		Destroy();
 		return;
 	}
 
-	//視点を前にしたベクトルを取る
-	Math::Matrix mat = m_owner.lock()->GetTransform().lock()->GetRMat(m_shaft);
+	//視点を前としたベクトルを取る
 	Math::Vector3 vec = Math::Vector3::Zero;
-	
-	if(GetAsyncKeyState('W') & 0x8000)vec += mat.Backward();	
-	if(GetAsyncKeyState('S') & 0x8000)vec += mat.Forward();
-	if(GetAsyncKeyState('D') & 0x8000)vec += mat.Right();
-	if(GetAsyncKeyState('A') & 0x8000)vec += mat.Left();
-	
-	m_rigitbody.lock()->SetMove(vec * m_movePow);
+	Math::Matrix mat = m_owner.lock()->GetTransform().lock()->GetRMat(m_shaft);
+	if (GetAsyncKeyState('W') & 0x8000)vec += mat.Backward();
+	if (GetAsyncKeyState('S') & 0x8000)vec += mat.Forward();
+	if (GetAsyncKeyState('D') & 0x8000)vec += mat.Right();
+	if (GetAsyncKeyState('A') & 0x8000)vec += mat.Left();
+
+	m_rigitbody.lock()->AddMove(vec * m_movePow);
 }
 
 void Cp_Controller::ImGuiUpdate()

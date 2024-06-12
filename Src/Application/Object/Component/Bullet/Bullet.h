@@ -25,6 +25,10 @@ private:
 	float m_shotRange = 10;
 	Math::Vector3 m_startPoint;
 
+	//着弾処理
+	std::string m_landingPath = "";
+	std::shared_ptr<GameObject> m_landingObject;
+
 	float m_speedPow = 0.1f;
 	std::weak_ptr<class Cp_Rigidbody>m_rigid;
 	std::weak_ptr<class Cp_Transform>m_trans;
