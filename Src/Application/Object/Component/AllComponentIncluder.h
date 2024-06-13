@@ -125,17 +125,22 @@ private:
 
 		Register(FNCOMPONENT(Cp_AddRotation));
 		Register(FNCOMPONENT(Cp_BoxCollision));
-		Register(FNCOMPONENT(Cp_Bullet));
 		Register(FNCOMPONENT(Cp_Camera));
 		Register(FNCOMPONENT(Cp_Collider));
-		Register(FNCOMPONENT(Cp_Controller));
-		Register(FNCOMPONENT(Cp_ModelData));
-		Register(FNCOMPONENT(Cp_Rigidbody));
 		Register(FNCOMPONENT(Cp_Launcher));
+
+		Register(FNCOMPONENT(Cp_Rigidbody));
+		{
+			Register(FNCOMPONENT(Cp_Player));
+			Register(FNCOMPONENT(Cp_Controller));
+			Register(FNCOMPONENT(Cp_Bullet));
+		}
+
+		Register(FNCOMPONENT(Cp_ModelData));
 		Register(FNCOMPONENT(Cp_SquarePolygon));
 		Register(FNCOMPONENT(Cp_Texture));
+
 		Register(FNCOMPONENT(Cp_TransformLimit));
-		Register(FNCOMPONENT(Cp_Player));
 	};
 
 };

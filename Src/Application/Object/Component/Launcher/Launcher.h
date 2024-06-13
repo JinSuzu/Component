@@ -24,8 +24,7 @@ private:
 	std::shared_ptr<KdModelData> m_launcherModel[2];
 	std::weak_ptr<class Cp_ModelData> m_draw;
 	
-	std::string m_bulletPath = "RPG-7_Bullet";
-	std::shared_ptr<GameObject> m_bullet;
+	std::shared_ptr<class CreateObject> m_bullet;
 
 	//弾数
 	int m_bulletNum = 1;

@@ -1,5 +1,6 @@
 ﻿#include "RenderManger.h"
 #include "../Object/Component/Texture/Texture.h"
+#include "../main.h"
 
 void RenderManager::PreDraw()
 {
@@ -82,13 +83,35 @@ void RenderManager::DrawSprite()
 	KdShaderManager::Instance().m_spriteShader.End();
 }
 
+void RenderManager::DrawDebug()
+{
+	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
+	{
+		std::list<std::weak_ptr<std::function<void()>>>::iterator drawDebug = m_drawDebugList.begin();
+		while (drawDebug != m_drawDebugList.end())
+		{
+			if (drawDebug->expired())
+			{
+				drawDebug = m_drawDebugList.erase(drawDebug);
+				continue;
+			}
+
+			(*drawDebug->lock())();
+			drawDebug++;
+		}
+	}
+	KdShaderManager::Instance().m_StandardShader.EndUnLit();
+}
+
 std::shared_ptr<KdTexture> RenderManager::CreateBackBuffer()
 {
 	RenderTarget render;
 	render.BeginRenderTarget();
 	{
 		PreDraw();
+		DrawDebug();
 		Draw();
+		Application::Instance().PostDraw();
 		DrawSprite();
 	}
 	render.EndRenderTarget();

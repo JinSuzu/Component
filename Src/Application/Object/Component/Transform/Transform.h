@@ -22,6 +22,7 @@ public:
 	nlohmann::json GetJson();
 
 	Math::Vector3 GetPosition() const { return m_position; }
+	Math::Vector3& RefPosition() { return m_position; }
 	Math::Vector3 GetRotation() const
 	{
 		if (m_parent.lock())return m_rotation + m_parent.lock()->GetRotation();

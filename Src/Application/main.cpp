@@ -58,7 +58,7 @@ void Application::KdBeginUpdate()
 {
 	// 入力状況の更新
 	KdInputManager::Instance().Update();
-
+	
 	// 空間環境の更新
 	KdShaderManager::Instance().WorkAmbientController().Update();
 }
@@ -138,6 +138,7 @@ void Application::Draw()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::PostDraw()
 {
+	RenderManager::Instance().DrawDebug();
 	// 画面のぼかしや被写界深度処理の実施
 	KdShaderManager::Instance().m_postProcessShader.PostEffectProcess();
 }
@@ -291,14 +292,14 @@ void Application::Execute()
 			break;
 		}
 
-		if (GetAsyncKeyState(VK_ESCAPE))
-		{
-			//			if (MessageBoxA(m_window.GetWndHandle(), "本当にゲームを終了しますか？",
-			//				"終了確認", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES)
-			{
-				End();
-			}
-		}
+		//if (GetAsyncKeyState(VK_ESCAPE))
+		//{
+		//	//			if (MessageBoxA(m_window.GetWndHandle(), "本当にゲームを終了しますか？",
+		//	//				"終了確認", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES)
+		//	{
+		//		End();
+		//	}
+		//}
 		//=========================================
 		//
 		// アプリケーション更新処理

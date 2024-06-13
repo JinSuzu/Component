@@ -12,6 +12,8 @@ public:
 	nlohmann::json GetJson()override;
 
 	void Destroy()override;
+
+	
 private:
 	void Shot();
 	//初期位置
@@ -26,8 +28,8 @@ private:
 	Math::Vector3 m_startPoint;
 
 	//着弾処理
-	std::string m_landingPath = "";
-	std::shared_ptr<GameObject> m_landingObject;
+	float m_radius = 0.0f;
+	std::shared_ptr<class CreateObject> m_landingObject;
 
 	float m_speedPow = 0.1f;
 	std::weak_ptr<class Cp_Rigidbody>m_rigid;

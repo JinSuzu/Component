@@ -8,13 +8,23 @@
 #include "../ModelData/ModelData.h"
 #include "../SquarePolygon/SquarePolygon.h"
 
+#include "../../../RenderManger/RenderManger.h"
+
 void Cp_Collider::Start()
 {
-	m_collider = std::make_unique<KdCollider>();
 	RegisterCollider();
 
 	SceneManager::Instance().GetNowScene().lock()
 		->GetGameObject().AddColliderList(WeakThisPtr(this));
+
+	m_debugWireFrame = std::make_shared<KdDebugWireFrame>();
+	m_drawDebug = std::make_shared<std::function<void()>>([&]() {DrawDebug(); });
+	RenderManager::Instance().AddDrawDebug(m_drawDebug);
+}
+
+void Cp_Collider::UpdateContents()
+{
+	if (m_colliderShape & ColliderShape::Sphere)m_debugWireFrame->AddDebugSphere(m_owner.lock()->GetTransform().lock()->RefPosition(), m_radius);
 }
 
 void Cp_Collider::ImGuiUpdate()
@@ -38,7 +48,7 @@ void Cp_Collider::ImGuiUpdate()
 		for (int i = 0; i < std::log2((double)ColliderShape::Max); i++)
 		{
 			ColliderShape shape = static_cast<ColliderShape>(1 << i);
-			ImGui::RadioButton(magic_enum::enum_name(shape).data(), (int*)&m_colliderShape, shape);
+			chenge |= ImGui::RadioButton(magic_enum::enum_name(shape).data(), (int*)&m_colliderShape, shape);
 		}
 		ImGui::EndPopup();
 	}
@@ -59,8 +69,10 @@ void Cp_Collider::InitJson()
 {
 	m_colliderShape = m_jsonData["ColliderShape"];
 	m_colliderType = m_jsonData["ColliderType"];
+	RegisterCollider();
 
 	m_radius = m_jsonData["Radius"];
+
 }
 
 nlohmann::json Cp_Collider::GetJson()
@@ -85,10 +97,17 @@ bool Cp_Collider::Intersects(const KdCollider::RayInfo& targetShape, std::list<K
 	return m_collider->Intersects(targetShape, m_owner.lock()->GetTransform().lock()->GetMatrix(), pResults);
 }
 
+void Cp_Collider::DrawDebug()
+{
+	if (m_debugWireFrame)m_debugWireFrame->Draw();
+}
+
 void Cp_Collider::RegisterCollider()
 {
+	m_collider = std::make_unique<KdCollider>();
+
 	int i = 0;
-	if (m_colliderType & ColliderShape::Asset)
+	if (m_colliderShape & ColliderShape::Asset)
 	{
 		for (auto& it : m_owner.lock()->GetComponents<Cp_ModelData>())
 		{
@@ -110,17 +129,17 @@ void Cp_Collider::RegisterCollider()
 		return;
 	}
 
-	if (m_colliderType & ColliderShape::Cube)
+	if (m_colliderShape & ColliderShape::Cube)
 	{
 		//未対応
 		assert(false && "Cubeコリジョン未開発");
 		return;
 	}
-	if (m_colliderType & ColliderShape::Sphere)
+	if (m_colliderShape & ColliderShape::Sphere)
 	{
 		m_collider->RegisterCollisionShape(
 			"ObjectCollition" + std::to_string(i++),
-			m_owner.lock()->GetTransform().lock()->GetPosition(),
+			m_owner.lock()->GetTransform().lock()->RefPosition(),
 			m_radius,
 			m_colliderType
 		);

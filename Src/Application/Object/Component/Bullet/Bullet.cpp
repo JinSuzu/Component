@@ -2,8 +2,8 @@
 #include "../../Game/GameObject.h"
 #include "../Rigidbody/Rigidbody.h"
 #include "../Transform/Transform.h"
-#include "../../Game/Manager/GameObjectManager.h"
-#include "Bullet.h"
+
+#include "../../../Utility/CreateObject/CreateObject.h"
 
 void Cp_Bullet::Start()
 {
@@ -12,6 +12,8 @@ void Cp_Bullet::Start()
 	m_owner.lock()->DotSave();
 
 	assert(m_rigid.lock() && "リジットボディが無いよ by Bullet");
+
+	m_landingObject = std::make_shared<CreateObject>(m_owner);
 }
 
 void Cp_Bullet::PreUpdateContents()
@@ -23,7 +25,11 @@ void Cp_Bullet::PreUpdateContents()
 	m_rigid.lock()->AddMove((move * (m_speedPow * m_accelerationTimeCnt / (float)m_accelerationTime)));
 
 	float movingDistance = Math::Vector3::Distance(m_trans.lock()->GetPosition(), m_startPoint);
-	if (movingDistance > m_shotRange)m_owner.lock()->Destroy();
+	if (movingDistance > m_shotRange) 
+	{
+		m_owner.lock()->Destroy();
+		m_owner.lock()->GetChilds().clear();
+	}
 }
 
 void Cp_Bullet::ImGuiUpdate()
@@ -34,30 +40,7 @@ void Cp_Bullet::ImGuiUpdate()
 	ImGui::DragFloat("SpeedPow", &m_speedPow);
 	ImGui::DragFloat("ShotRange", &m_shotRange);
 
-	ImGui::InputText("LandingPath", &m_landingPath);
-	if (ImGui::SameLine(); ImGui::Button("Input"))
-	{
-		m_landingObject = GameObjectManager::CreateObject(m_landingPath, m_owner, false);
-		m_landingObject->SetActive(false);
-		m_landingObject->SetHideFlg(true);
-		m_landingObject->DotSave();
-	}
-
-	static bool edit = false;
-	if (ImGui::Button("LandingObjectEdit"))ImGui::OpenPopup(("LandingObjectEdit##" + std::to_string(m_instanceID)).c_str());
-	if (ImGui::BeginPopup(("LandingObjectEdit##" + std::to_string(m_instanceID)).c_str()))
-	{
-		edit = true;
-		GameObjectManager::ImGuiGameObject(m_landingObject);
-		ImGui::EndPopup();
-	}
-	else if (edit)
-	{
-		m_landingObject->EnableSave();
-		m_landingObject->Release();
-		m_landingObject->DotSave();
-		edit = false;
-	}
+	m_landingObject->ImGuiUpdate();
 
 }
 
@@ -70,12 +53,7 @@ void Cp_Bullet::InitJson()
 	m_shotRange = m_jsonData["ShotRange"];
 
 	if (m_rigid.lock())Shot();
-	if (!m_landingPath.empty())
-	{
-		m_landingObject = GameObjectManager::CreateObject(m_landingPath, m_owner, false);
-		m_landingObject->DotSave();
-		m_landingObject->SetActive(false);
-	}
+	m_landingObject->SetJson(m_jsonData);
 }
 
 nlohmann::json Cp_Bullet::GetJson()
@@ -86,8 +64,7 @@ nlohmann::json Cp_Bullet::GetJson()
 	m_jsonData["SpeedPow"] = m_speedPow;
 	m_jsonData["ShotRange"] = m_shotRange;
 
-	m_jsonData["LandingPath"] = m_landingPath;
-
+	m_landingObject->OutJson(m_jsonData);
 	return m_jsonData;
 }
 
@@ -96,8 +73,7 @@ void Cp_Bullet::Destroy()
 	Object::Destroy();
 	//爆風発生処理
 	//ランチャーみてぇな生成仕方にして何でも生成出来るようにする
-	if(!m_landingPath.empty())GameObjectManager::CreateObject(m_landingPath, m_owner);
-	m_landingObject->DotSave();
+	m_landingObject->Create();
 }
 
 void Cp_Bullet::Shot()

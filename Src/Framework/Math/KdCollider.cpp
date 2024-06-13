@@ -101,6 +101,7 @@ bool KdCollider::Intersects(const SphereInfo& targetShape, const Math::Matrix& o
 			// 詳細な衝突結果を必要としない場合は1つでも接触して返す
 			if (!pResults) { break; }
 
+			tmpRes.m_objectPos = ownerMatrix.Translation();
 			pResults->push_back(tmpRes);
 		}
 	}

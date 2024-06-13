@@ -30,13 +30,14 @@
                             "path": "RPG-7_Launcher"
                         },
                         {
+                            "CreatePath": "RPG-7_Bullet",
                             "IDName": "Launcher",
                             "bulletMax": 1,
                             "bulletPath": "RPG-7_Bullet",
                             "capacity": 0,
                             "loadedModelPath": "RPG-7",
                             "reloadTime": 10,
-                            "shotInterval": 10,
+                            "shotInterval": 0,
                             "unLoadModelPath": "RPG-7_Launcher"
                         }
                     ],
@@ -82,13 +83,13 @@
                     "matTag": "SRT",
                     "parentMatTag": "SRT",
                     "position": {
-                        "x": 3.6992745399475098,
-                        "y": 5.0,
-                        "z": -1.548210859298706
+                        "x": -27.327285766601563,
+                        "y": 12.0,
+                        "z": 1.6096901893615723
                     },
                     "rotation": {
-                        "x": 65.0,
-                        "y": -259.0,
+                        "x": 14.0,
+                        "y": 78.0,
                         "z": 0.0
                     },
                     "scale": {
@@ -100,13 +101,13 @@
                 {
                     "IDName": "Rigidbody",
                     "activeGravityFlag": true,
-                    "deceleration": 0.800000011920929,
+                    "deceleration": 0.9200000166893005,
                     "gravity": 0.02500000037252903,
-                    "height": 5.0,
+                    "height": 12.0,
                     "move": {
-                        "x": 1.0650293147396184e-10,
+                        "x": -9.586258002680648e-12,
                         "y": 0.0,
-                        "z": -2.070206679694042e-11
+                        "z": 8.817712532360744e-11
                     }
                 },
                 {
@@ -195,6 +196,7 @@
                 {
                     "AccelerationTime": 10,
                     "IDName": "Player",
+                    "ReflectPow": 6.0,
                     "jumpFlg": 0.25
                 }
             ],
@@ -232,12 +234,46 @@
                 },
                 {
                     "ColliderShape": 1,
-                    "ColliderType": 3452816845,
+                    "ColliderType": 1,
                     "IDName": "Collider",
                     "Radius": 0.0
                 }
             ],
             "name": "Terrain",
+            "tag": 0
+        }
+    },
+    {
+        "Childs": [],
+        "Parent": {
+            "Component": [
+                {
+                    "matTag": "SRT",
+                    "parentMatTag": "SRT",
+                    "position": {
+                        "x": 0.0,
+                        "y": 5.0,
+                        "z": 0.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "ColliderShape": 4,
+                    "ColliderType": 4,
+                    "IDName": "Collider",
+                    "Radius": 8.0
+                }
+            ],
+            "name": "Sphere",
             "tag": 0
         }
     }

@@ -27,13 +27,14 @@
                 "path": "RPG-7_Launcher"
             },
             {
+                "CreatePath": "RPG-7_Bullet",
                 "IDName": "Launcher",
                 "bulletMax": 1,
                 "bulletPath": "RPG-7_Bullet",
                 "capacity": 0,
                 "loadedModelPath": "RPG-7",
                 "reloadTime": 10,
-                "shotInterval": 10,
+                "shotInterval": 0,
                 "unLoadModelPath": "RPG-7_Launcher"
             }
         ],

@@ -7,7 +7,7 @@
                 "parentMatTag": "SRT",
                 "position": {
                     "x": 0.0,
-                    "y": 0.0,
+                    "y": 5.0,
                     "z": 0.0
                 },
                 "rotation": {
@@ -22,18 +22,13 @@
                 }
             },
             {
-                "IDName": "ModelData",
-                "drawType": 3452816833,
-                "path": "Terrain"
-            },
-            {
-                "ColliderShape": 1,
-                "ColliderType": 1,
+                "ColliderShape": 4,
+                "ColliderType": 4,
                 "IDName": "Collider",
-                "Radius": 0.0
+                "Radius": 8.0
             }
         ],
-        "name": "Terrain",
+        "name": "Sphere",
         "tag": 0
     }
 }

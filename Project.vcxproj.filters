@@ -145,6 +145,9 @@
     <Filter Include="Library\magic_enum">
       <UniqueIdentifier>{1e09aa52-7842-43ee-b9b9-4ef70aea085e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Utility\CreateObject">
+      <UniqueIdentifier>{7c5cbfd8-8a09-40f8-885e-882ec4100476}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -543,6 +546,9 @@
     <ClInclude Include="..\Library\magic_enum\magic_enum_utility.hpp">
       <Filter>Library\magic_enum</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Utility\CreateObject\CreateObject.h">
+      <Filter>Src\Application\Utility\CreateObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -748,6 +754,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\Bullet\Bullet.cpp">
       <Filter>Src\Application\Object\Component\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Utility\CreateObject\CreateObject.cpp">
+      <Filter>Src\Application\Utility\CreateObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

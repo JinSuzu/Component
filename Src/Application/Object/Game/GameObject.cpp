@@ -204,6 +204,11 @@ void GameObject::SetParent(std::weak_ptr<GameObject> _parent) { m_parent = _pare
 void GameObject::Destroy()
 {
 	Object::Destroy();
+
+	for (auto& cmp : m_cpList) 
+	{
+		if(cmp)cmp->Destroy();
+	}
 	for (auto& child : m_childs)
 	{
 		if(child.lock())child.lock()->Destroy();

@@ -16,12 +16,15 @@ public:
 	nlohmann::json GetJson()override;
 
 	void AddMove(Math::Vector3 _move) { m_move += _move; }
+	Math::Vector3 GetMove()	const	  { return m_move; }
 	void SetMove(Math::Vector3 _move) { m_move = _move; }
 	void ResetMove()				  { m_move = Math::Vector3::Zero; }
 
 	float GetGravity() const		  { return m_gravityPow; }
 	void  SetGravity(float _gravity)  { m_gravity = _gravity; }
 	bool GetLanding() const			  { return m_bLanding; }
+
+	float GetHeight() const { return m_height; }
 private:	
 	float Gravity();
 

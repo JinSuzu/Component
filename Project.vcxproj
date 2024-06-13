@@ -237,6 +237,7 @@
     <ClInclude Include="Src\Application\SceneBase\SceneBase.h" />
     <ClInclude Include="Src\Application\SceneBase\Titile\TitleScene.h" />
     <ClInclude Include="Src\Application\Utility\Animation2D\Animation2D.h" />
+    <ClInclude Include="Src\Application\Utility\CreateObject\CreateObject.h" />
     <ClInclude Include="Src\Application\Utility\Timer.h" />
     <ClInclude Include="Src\Framework\Direct3D\KdMaterial.h" />
     <ClInclude Include="Src\Framework\Direct3D\Polygon\KdPolygon.h" />
@@ -310,6 +311,7 @@
     <ClCompile Include="Src\Application\SceneBase\SceneBase.cpp" />
     <ClCompile Include="Src\Application\SceneBase\Titile\TitleScene.cpp" />
     <ClCompile Include="Src\Application\Utility\Animation2D\Animation2D.cpp" />
+    <ClCompile Include="Src\Application\Utility\CreateObject\CreateObject.cpp" />
     <ClCompile Include="Src\Framework\Direct3D\KdMaterial.cpp">
       <SubType>
       </SubType>
