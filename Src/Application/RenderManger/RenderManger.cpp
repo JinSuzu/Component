@@ -87,16 +87,17 @@ void RenderManager::DrawDebug()
 {
 	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
 	{
-		std::list<std::weak_ptr<std::function<void()>>>::iterator drawDebug = m_drawDebugList.begin();
-		while (drawDebug != m_drawDebugList.end())
+		std::list<std::weak_ptr<KdDebugWireFrame>>::iterator drawDebug = m_debugWireFrameList.begin();
+		while (drawDebug != m_debugWireFrameList.end())
 		{
 			if (drawDebug->expired())
 			{
-				drawDebug = m_drawDebugList.erase(drawDebug);
+				drawDebug = m_debugWireFrameList.erase(drawDebug);
 				continue;
 			}
 
-			(*drawDebug->lock())();
+			drawDebug->lock()->Draw();
+			m_m_debugWireFrame.Draw();
 			drawDebug++;
 		}
 	}

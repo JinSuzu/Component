@@ -35,19 +35,10 @@ void Cp_Player::PreUpdateContents()
 		}
 	}
 
-	KdCollider::SphereInfo sphereInfo
-	(
-		KdCollider::Type::TypeDamage,
-		m_trans.lock()->GetPosition(),
-		m_rigid.lock()->GetHeight()
-	);
-
-	std::list<KdCollider::CollisionResult> results;
-	SceneManager::Instance().GetNowScene().lock()->GetGameObject().RayHit(sphereInfo, &results);
-	for (auto& result : results)
+	for (auto& result : m_rigid.lock()->GetHitResult())
 	{
 		//Math::Vector3 overMove = (result.m_hitPos - result.m_objectPos);
-		Math::Vector3 overMove = (m_trans.lock()->GetPosition() - result.m_objectPos);
+		Math::Vector3 overMove = (m_trans.lock()->GetPosition() + m_rigid.lock()->GetOffestPos() - result.m_objectPos);
 		overMove.Normalize();
 
 		Math::Vector3 move = m_rigid.lock()->GetMove();

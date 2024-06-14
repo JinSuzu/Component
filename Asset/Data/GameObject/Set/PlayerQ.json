@@ -83,13 +83,13 @@
                     "matTag": "SRT",
                     "parentMatTag": "SRT",
                     "position": {
-                        "x": 25.447784423828125,
+                        "x": -3.322307825088501,
                         "y": 11.0,
-                        "z": -8.271527290344238
+                        "z": 12.144845962524414
                     },
                     "rotation": {
-                        "x": 67.0,
-                        "y": 270.0,
+                        "x": 71.0,
+                        "y": 58.0,
                         "z": 0.0
                     },
                     "scale": {
@@ -110,16 +110,16 @@
                         "y": 3.0,
                         "z": 1.0
                     },
-                    "Shape": 0,
+                    "Shape": 1,
                     "Tag": 4,
                     "activeGravityFlag": true,
                     "deceleration": 0.9200000166893005,
                     "gravity": 0.02500000037252903,
                     "height": 12.0,
                     "move": {
-                        "x": 4.9301212129648775e-05,
+                        "x": -4.098666393261008e-14,
                         "y": 0.0,
-                        "z": 0.0003321152471471578
+                        "z": 6.559240184420695e-14
                     }
                 },
                 {
@@ -213,79 +213,6 @@
                 }
             ],
             "name": "Player",
-            "tag": 0
-        }
-    },
-    {
-        "Childs": [],
-        "Parent": {
-            "Component": [
-                {
-                    "matTag": "SRT",
-                    "parentMatTag": "SRT",
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotation": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    }
-                },
-                {
-                    "IDName": "ModelData",
-                    "drawType": 3452816833,
-                    "path": "Terrain"
-                },
-                {
-                    "ColliderShape": 1,
-                    "ColliderType": 1,
-                    "IDName": "Collider",
-                    "Radius": 0.0
-                }
-            ],
-            "name": "Terrain",
-            "tag": 0
-        }
-    },
-    {
-        "Childs": [],
-        "Parent": {
-            "Component": [
-                {
-                    "matTag": "SRT",
-                    "parentMatTag": "SRT",
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotation": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    }
-                },
-                {
-                    "ColliderShape": 4,
-                    "ColliderType": 4,
-                    "IDName": "Collider",
-                    "Radius": 10.0
-                }
-            ],
-            "name": "Sphere",
             "tag": 0
         }
     }

@@ -18,8 +18,7 @@ void Cp_Collider::Start()
 		->GetGameObject().AddColliderList(WeakThisPtr(this));
 
 	m_debugWireFrame = std::make_shared<KdDebugWireFrame>();
-	m_drawDebug = std::make_shared<std::function<void()>>([&]() {DrawDebug(); });
-	RenderManager::Instance().AddDrawDebug(m_drawDebug);
+	RenderManager::Instance().AddDebugWireFrame(m_debugWireFrame);
 }
 
 void Cp_Collider::UpdateContents()
@@ -29,7 +28,7 @@ void Cp_Collider::UpdateContents()
 
 void Cp_Collider::ImGuiUpdate()
 {
-	int i = 0;
+	//int i = 0;
 	bool chenge = false;
 	if (ImGui::Button("ColliderType"))ImGui::OpenPopup(("ColliderType##" + std::to_string(m_instanceID)).c_str());
 	if (ImGui::BeginPopup(("ColliderType##" + std::to_string(m_instanceID)).c_str()))
@@ -56,31 +55,33 @@ void Cp_Collider::ImGuiUpdate()
 	if (m_colliderShape & ColliderShape::Sphere)
 	{
 		ImGui::SeparatorText("Sphere");
-		ImGui::DragFloat("Radius", &m_radius);
+		chenge |= ImGui::DragFloat("Radius", &m_radius);
 	}
 
 	if (chenge)
 	{
 		RegisterCollider();
+		chenge = false;
 	}
+
 }
 
 void Cp_Collider::InitJson()
 {
 	m_colliderShape = m_jsonData["ColliderShape"];
 	m_colliderType = m_jsonData["ColliderType"];
-	RegisterCollider();
-
 	m_radius = m_jsonData["Radius"];
 
+
+	RegisterCollider();
 }
 
 nlohmann::json Cp_Collider::GetJson()
 {
 	m_jsonData["ColliderShape"] = m_colliderShape;
 	m_jsonData["ColliderType"] = m_colliderType;
-
 	m_jsonData["Radius"] = m_radius;
+
 	return m_jsonData;
 }
 
@@ -95,11 +96,6 @@ bool Cp_Collider::Intersects(const KdCollider::BoxInfo& targetBox, std::list<KdC
 bool Cp_Collider::Intersects(const KdCollider::RayInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults)
 {
 	return m_collider->Intersects(targetShape, m_owner.lock()->GetTransform().lock()->GetMatrix(), pResults);
-}
-
-void Cp_Collider::DrawDebug()
-{
-	if (m_debugWireFrame)m_debugWireFrame->Draw();
 }
 
 void Cp_Collider::RegisterCollider()

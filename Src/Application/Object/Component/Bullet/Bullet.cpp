@@ -41,16 +41,15 @@ void Cp_Bullet::ImGuiUpdate()
 	ImGui::DragFloat("ShotRange", &m_shotRange);
 
 	m_landingObject->ImGuiUpdate();
-
 }
 
 void Cp_Bullet::InitJson()
 {
 	m_startPos = JsonToVec3(m_jsonData["StartPos"]);
 
-	m_accelerationTime = m_jsonData["AccelerationTime"];
-	m_speedPow = m_jsonData["SpeedPow"];
-	m_shotRange = m_jsonData["ShotRange"];
+	m_accelerationTime	= m_jsonData["AccelerationTime"];
+	m_speedPow			= m_jsonData["SpeedPow"];
+	m_shotRange			= m_jsonData["ShotRange"];
 
 	if (m_rigid.lock())Shot();
 	m_landingObject->SetJson(m_jsonData);

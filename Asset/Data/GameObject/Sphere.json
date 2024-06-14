@@ -7,7 +7,7 @@
                 "parentMatTag": "SRT",
                 "position": {
                     "x": 0.0,
-                    "y": 5.0,
+                    "y": 0.0,
                     "z": 0.0
                 },
                 "rotation": {
@@ -25,7 +25,7 @@
                 "ColliderShape": 4,
                 "ColliderType": 4,
                 "IDName": "Collider",
-                "Radius": 8.0
+                "Radius": 10.0
             }
         ],
         "name": "Sphere",

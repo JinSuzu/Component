@@ -45,15 +45,16 @@ public:
 	void AddPreDraw(std::weak_ptr<std::function<void()>>   _add) { m_preDrawList.push_back(_add);}
 	void AddDraw3D(std::weak_ptr<std::function<void(UINT)>>_add) { m_draw3DList.push_back(_add); }
 	void AddDraw2D(std::weak_ptr<std::function<void()>>	   _add) { m_draw2DList.push_back(_add); }
-	void AddDrawDebug(std::weak_ptr<std::function<void()>> _add) { m_drawDebugList.push_back(_add); }
+	void AddDebugWireFrame(std::weak_ptr<KdDebugWireFrame> _add) { m_debugWireFrameList.push_back(_add); }
 
 
 	
+	KdDebugWireFrame m_m_debugWireFrame;
 private:
 	std::list<std::weak_ptr<std::function<void()>>>		m_preDrawList;
 	std::list<std::weak_ptr<std::function<void(UINT)>>>	m_draw3DList;
 	std::list<std::weak_ptr<std::function<void()>>>		m_draw2DList;
-	std::list<std::weak_ptr<std::function<void()>>>		m_drawDebugList;
+	std::list<std::weak_ptr<KdDebugWireFrame>>		m_debugWireFrameList;
 
 
 	RenderManager()
