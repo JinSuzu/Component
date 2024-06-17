@@ -7,7 +7,7 @@
 //============================================================
 class Application
 {
-// メンバ
+	// メンバ
 public:
 
 	// アプリケーション実行
@@ -38,6 +38,8 @@ public:
 	void PostDraw();
 	void DrawSprite();
 	void KdPostDraw();
+
+	bool GetBuildFlg()const { return m_buildFlg; };
 private:
 
 	// アプリケーション初期化
@@ -57,18 +59,23 @@ private:
 
 	Math::Vector2 m_windowSize;
 
+	
+	bool m_buildFlg = true;
+	//CameraBuild
+	std::shared_ptr<class GameObject> m_buildCamera;
+
 	void ImGuiProcess();
 	void ImGuiUpdate();
-//=====================================================
-// シングルトンパターン
-//=====================================================
+	//=====================================================
+	// シングルトンパターン
+	//=====================================================
 private:
-	
+
 	Application() {}
 
 
 public:
-	static Application &Instance(){
+	static Application& Instance() {
 		static Application Instance;
 		return Instance;
 	}

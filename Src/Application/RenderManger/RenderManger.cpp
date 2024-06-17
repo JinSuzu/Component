@@ -1,5 +1,6 @@
 ﻿#include "RenderManger.h"
 #include "../Object/Component/Texture/Texture.h"
+#include "../Object/Component/Camera/Camera.h"
 #include "../main.h"
 
 void RenderManager::PreDraw()
@@ -15,6 +16,26 @@ void RenderManager::PreDraw()
 
 		(*preDraw->lock())();
 		preDraw++;
+	}
+
+	std::map<int, std::list<std::weak_ptr<class Cp_Camera>>>::iterator camera = m_cameraMap.begin();
+	while (camera != m_cameraMap.end())
+	{
+		std::list < std::weak_ptr<class Cp_Camera>>::iterator it = camera->second.begin();
+		while (it != camera->second.end())
+		{
+			if (it->lock())
+			{
+				it->lock()->PreDraw();
+				if(it->lock()->GetActive())return;
+				it++;
+			}
+			else
+			{
+				it = camera->second.erase(it);
+			}
+		}
+		camera++;
 	}
 }
 
@@ -63,6 +84,7 @@ void RenderManager::Draw()
 	}
 	KdShaderManager::Instance().m_postProcessShader.EndBright();
 }
+
 void RenderManager::DrawSprite()
 {
 	KdShaderManager::Instance().m_spriteShader.Begin();
@@ -87,21 +109,30 @@ void RenderManager::DrawDebug()
 {
 	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
 	{
-		std::list<std::weak_ptr<KdDebugWireFrame>>::iterator drawDebug = m_debugWireFrameList.begin();
-		while (drawDebug != m_debugWireFrameList.end())
+		std::list<std::weak_ptr<std::function<void()>>>::iterator drawDebug = m_drawDebugList.begin();
+		while (drawDebug != m_drawDebugList.end())
 		{
 			if (drawDebug->expired())
 			{
-				drawDebug = m_debugWireFrameList.erase(drawDebug);
+				drawDebug = m_drawDebugList.erase(drawDebug);
 				continue;
 			}
 
-			drawDebug->lock()->Draw();
-			m_m_debugWireFrame.Draw();
+			(*drawDebug->lock())();
 			drawDebug++;
 		}
 	}
 	KdShaderManager::Instance().m_StandardShader.EndUnLit();
+}
+
+void RenderManager::AddCamera(int _priority, std::weak_ptr<class Cp_Camera> _camera)
+{
+	std::map<int, std::list<std::weak_ptr<class Cp_Camera>>>::iterator map = m_cameraMap.find(_priority);
+	if (map == m_cameraMap.end())
+	{
+		m_cameraMap[_priority] = std::list<std::weak_ptr<class Cp_Camera>>();
+	}
+	m_cameraMap[_priority].push_back(_camera);
 }
 
 std::shared_ptr<KdTexture> RenderManager::CreateBackBuffer()
@@ -110,7 +141,6 @@ std::shared_ptr<KdTexture> RenderManager::CreateBackBuffer()
 	render.BeginRenderTarget();
 	{
 		PreDraw();
-		DrawDebug();
 		Draw();
 		Application::Instance().PostDraw();
 		DrawSprite();

@@ -20,7 +20,7 @@ public:
 	static void ImGuiGameObject(std::weak_ptr<GameObject> _object);
 	
 	void Load(std::string _path);
-	void Release(std::string _path);
+	void Release(std::string _path,bool _enableSave);
 
 	void AddColliderList(std::weak_ptr<Cp_Collider> _add) { m_colliderList.push_back(_add); }
 	bool RayHit(const KdCollider::SphereInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults);

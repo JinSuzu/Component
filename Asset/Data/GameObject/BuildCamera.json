@@ -1,0 +1,72 @@
+{
+    "Childs": [],
+    "Parent": {
+        "Component": [
+            {
+                "Follow": true,
+                "matTag": "SRT",
+                "parentMatTag": "SRT",
+                "position": {
+                    "x": -4.7765655517578125,
+                    "y": 12.754179954528809,
+                    "z": -33.97236251831055
+                },
+                "rotation": {
+                    "x": 10.0,
+                    "y": -15.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            {
+                "IDName": "Camera",
+                "Priority": 0
+            },
+            {
+                "CollisionBody": false,
+                "IDName": "Rigidbody",
+                "OffsetPos": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Radius": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Shape": -842150451,
+                "Tag": 1,
+                "activeGravityFlag": false,
+                "deceleration": 0.0,
+                "gravity": 1.0,
+                "height": 0.0,
+                "move": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            {
+                "IDName": "Controller",
+                "movePow": 1.0,
+                "shaft": 7
+            },
+            {
+                "IDName": "AddRotation",
+                "addPow": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "addType": 2
+            }
+        ],
+        "name": "BuildCamera",
+        "tag": 0
+    }
+}

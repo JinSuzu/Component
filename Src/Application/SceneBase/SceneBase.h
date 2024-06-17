@@ -19,6 +19,7 @@ public:
 	virtual void ImGuiUpdate();
 
 	virtual GameObjectManager& GetGameObject() final { return m_objectMgr; }
+	virtual std::string GetName() final { return  m_name; }
 protected:
 	std::string m_name;
 	Math::Matrix				m_world;

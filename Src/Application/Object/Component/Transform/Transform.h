@@ -21,28 +21,27 @@ public:
 	void InitJson()override;
 	nlohmann::json GetJson();
 
-	Math::Vector3 GetPosition() const { return m_position; }
+	Math::Vector3 GetPosition(bool _PushFollow = false) const;
 	Math::Vector3& RefPosition() { return m_position; }
-	Math::Vector3 GetRotation() const
-	{
-		if (m_parent.lock())return m_rotation + m_parent.lock()->GetRotation();
-		return m_rotation;
-	}
-	Math::Vector3 GetScale()	const { return m_scale; }
+	Math::Vector3 GetRotation(bool _PushFollow = false) const;
+	Math::Vector3 GetScale(bool _PushFollow = false)	const;
 
 	void SetPosition(Math::Vector3 _pos) { m_position = _pos; }
 	void SetRotation(Math::Vector3 _rota) { m_rotation = _rota; }
 	void SetScale(Math::Vector3 _scal) { m_scale = _scal; }
 
+	//_matTag : "S""T""R"で行列計算を入れ替えられる
+	//_PushFollow : followフラグを無視する
+	Math::Matrix GetMatrix(std::string _matTag = std::string(),bool _PushFollow = false);
+	Math::Matrix GetMatrix(bool _PushFollow);
 
-	Math::Matrix GetMatrix(std::string _matTag = std::string());
-	Math::Matrix GetTMat();
-	Math::Matrix GetSMat();
+	Math::Matrix GetTMat() const;
+	Math::Matrix GetSMat() const;
 	Math::Matrix GetRMat(UINT _shafts = 0);
 
 	std::weak_ptr<Cp_Transform> GetParent() { return m_parent; }
 	void SetParent(std::weak_ptr<Cp_Transform> _parent) { m_parent = _parent; }
-	void DotFollow() { m_bFollow = false; };
+	void UnFollow() { m_bFollow = false; };
 private:
 	Math::Matrix	m_mWorld = Math::Matrix::Identity;
 

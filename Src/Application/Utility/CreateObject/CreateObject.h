@@ -12,6 +12,7 @@ public:
 	CreateObject(std::weak_ptr<GameObject> _obj)
 		:m_parentObject(_obj)
 		, m_id((int)(this))
+		,m_edit(false)
 	{}
 
 	std::shared_ptr<GameObject> Create();
@@ -24,5 +25,6 @@ private:
 	CreateSet m_createSet;
 	std::weak_ptr<GameObject> m_parentObject;
 
-	UINT m_id;
+	UINT m_id = 0;
+	bool m_edit;
 };

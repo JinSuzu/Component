@@ -7,6 +7,7 @@ class Cp_Bullet
 public:
 	void Start()override;
 	void PreUpdateContents()override;
+	void UpdateContents()override;
 	void ImGuiUpdate()override;
 	void InitJson()override;
 	nlohmann::json GetJson()override;
@@ -15,10 +16,6 @@ public:
 
 	
 private:
-	void Shot();
-	//初期位置
-	Math::Vector3 m_startPos;
-
 	//加速時間
 	int m_accelerationTime = 60;
 	int m_accelerationTimeCnt = 0;

@@ -15,11 +15,11 @@ enum DrawType
 class RenderTarget
 {
 public:
-	RenderTarget(){}
+	RenderTarget() {}
 	~RenderTarget()
 	{
 		assert(bCallBegin && "Error: レンダーターゲットが生成されてません");
-		if(bCallEnd)assert(bCallEnd && "Error: レンダーターゲットが終了していません");
+		if (bCallEnd)assert(bCallEnd && "Error: レンダーターゲットが終了していません");
 	}
 
 	void BeginRenderTarget();
@@ -40,28 +40,25 @@ public:
 	void DrawSprite();
 	void DrawDebug();
 
-	std::shared_ptr<KdTexture> CreateBackBuffer();
-
-	void AddPreDraw(std::weak_ptr<std::function<void()>>   _add) { m_preDrawList.push_back(_add);}
+	void AddPreDraw(std::weak_ptr<std::function<void()>>   _add) { m_preDrawList.push_back(_add); }
 	void AddDraw3D(std::weak_ptr<std::function<void(UINT)>>_add) { m_draw3DList.push_back(_add); }
 	void AddDraw2D(std::weak_ptr<std::function<void()>>	   _add) { m_draw2DList.push_back(_add); }
-	void AddDebugWireFrame(std::weak_ptr<KdDebugWireFrame> _add) { m_debugWireFrameList.push_back(_add); }
+	void AddDrawDebug(std::weak_ptr<std::function<void()>> _add) { m_drawDebugList.push_back(_add); }
+	void AddCamera(int _priority, std::weak_ptr<class Cp_Camera> _camera);
 
+	std::shared_ptr<KdTexture> CreateBackBuffer();
 
-	
-	KdDebugWireFrame m_m_debugWireFrame;
 private:
 	std::list<std::weak_ptr<std::function<void()>>>		m_preDrawList;
 	std::list<std::weak_ptr<std::function<void(UINT)>>>	m_draw3DList;
 	std::list<std::weak_ptr<std::function<void()>>>		m_draw2DList;
-	std::list<std::weak_ptr<KdDebugWireFrame>>		m_debugWireFrameList;
+	std::list<std::weak_ptr<std::function<void()>>>		m_drawDebugList;
+	std::map<int, std::list<std::weak_ptr<class Cp_Camera>>> m_cameraMap;
 
 
-	RenderManager()
-	{
-	};
+	RenderManager() {};
 public:
-	static RenderManager& Instance() 
+	static RenderManager& Instance()
 	{
 		static RenderManager inst;
 		return inst;

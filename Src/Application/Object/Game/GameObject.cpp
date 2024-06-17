@@ -95,7 +95,7 @@ void GameObject::ImGuiUpdate(int num)
 }
 void GameObject::ImGuiOpenOption()
 {
-	std::string ImGuiID = "##" + std::to_string(m_instanceID);
+	std::string ImGuiID = "##" + std::to_string(GetInstanceID());
 	if (ImGui::SmallButton((m_name + ImGuiID).c_str()))ImGui::OpenPopup(("Option" + ImGuiID).c_str());
 	if (!ImGui::BeginPopup(("Option" + ImGuiID).c_str())) return;
 	{
@@ -203,6 +203,7 @@ void GameObject::SetParent(std::weak_ptr<GameObject> _parent) { m_parent = _pare
 
 void GameObject::Destroy()
 {
+	if (m_bDestroy)return;
 	Object::Destroy();
 
 	for (auto& cmp : m_cpList) 
@@ -284,7 +285,7 @@ void GameObject::ImGuiComponents()
 	}
 
 
-	int num = 0;
+	int num = 0; bool deleteFlg = false;
 	for (auto&& it : m_cpList)
 	{
 		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
@@ -292,6 +293,7 @@ void GameObject::ImGuiComponents()
 		bool flg = ImGui::TreeNode(ImGui.c_str());
 		if (ImGui::SameLine(); ImGui::SmallButton(("Remove##" + ImGui).c_str()))
 		{
+			deleteFlg = true;
 			it->Destroy();
 		}
 
@@ -302,6 +304,27 @@ void GameObject::ImGuiComponents()
 			(*it).ImGuiUpdate();
 			ImGui::TreePop();
 		}
+	}
+
+	if (deleteFlg == false)return;
+	auto it = m_cpList.begin();
+	while (it != m_cpList.end())
+	{
+		if ((*it)->GetDestroy())
+		{
+			it = m_cpList.erase(it);
+			continue;
+		}
+		it++;
+	}
+}
+
+void GameObject::SetActive(bool _flg)
+{
+	Object::SetActive(_flg);
+	for (auto& it : m_cpList) 
+	{
+		it->SetActive(_flg);
 	}
 }
 

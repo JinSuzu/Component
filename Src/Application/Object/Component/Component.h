@@ -32,7 +32,7 @@ public:
 
 	//Json係
 	virtual void InitJson() {};
-	virtual nlohmann::json GetJson() { return nlohmann::json(); }
+	virtual nlohmann::json GetJson() { return m_jsonData; }
 	virtual void SetJson(nlohmann::json _json) { m_jsonData = _json; }
 
 protected:

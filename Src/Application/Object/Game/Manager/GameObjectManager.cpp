@@ -50,19 +50,23 @@ void GameObjectManager::Load(std::string _path)
 {
 	LoadJson(_path);
 }
-void GameObjectManager::Release(std::string _path)
+void GameObjectManager::Release(std::string _path, bool _enableSave)
 {
-	nlohmann::json json = nlohmann::json::array();
-	for (auto& object : m_objectList)
+	if (_enableSave)
 	{
-		if (!object->GetAbleSave())continue;
-		if (object->GetParent().expired()) 
+		nlohmann::json json = nlohmann::json::array();
+		for (auto& object : m_objectList)
 		{
-			if(object->GetAbleSave())json.push_back(object->OutPutFamilyJson());
+			if (!object->GetAbleSave())continue;
+			if (object->GetParent().expired())
+			{
+				if (object->GetAbleSave())json.push_back(object->OutPutFamilyJson());
+			}
 		}
+		OutPutJson(json, _path);
 	}
+
 	m_objectList.clear();
-	OutPutJson(json, _path);
 }
 
 bool GameObjectManager::RayHit(const KdCollider::SphereInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults)
@@ -133,7 +137,7 @@ std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json
 	if (_parent.lock())
 	{
 		object->SetParent(_parent);
-		_parent.lock()->AddChilds(object);
+		if (bPush)_parent.lock()->AddChilds(object);
 	}
 
 	object->Init(_json);

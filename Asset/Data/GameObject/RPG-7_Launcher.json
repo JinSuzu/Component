@@ -3,11 +3,12 @@
     "Parent": {
         "Component": [
             {
+                "Follow": true,
                 "matTag": "RST",
                 "parentMatTag": "RST",
                 "position": {
                     "x": 0.25,
-                    "y": -0.05000000074505806,
+                    "y": 0.0,
                     "z": 0.0
                 },
                 "rotation": {

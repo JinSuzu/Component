@@ -3,16 +3,17 @@
     "Parent": {
         "Component": [
             {
+                "Follow": false,
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -21.101503372192383,
+                    "y": 5.211989402770996,
+                    "z": 24.36295509338379
                 },
                 "rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
+                    "x": 104.0,
+                    "y": -502.0,
                     "z": 0.0
                 },
                 "scale": {
@@ -22,10 +23,40 @@
                 }
             },
             {
+                "FormInheritPos": true,
+                "FormInheritRota": true,
+                "FormInheritScale": true,
+                "IDName": "TransFormInherit",
+                "StartPos": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "StartRota": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "StartScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            {
                 "ColliderShape": 4,
                 "ColliderType": 4,
                 "IDName": "Collider",
-                "Radius": 10.0
+                "OffsetPos": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Radius": 5.0
+            },
+            {
+                "DeleteTime": 30,
+                "IDName": "Particle"
             }
         ],
         "name": "Sphere",

@@ -34,15 +34,17 @@ void Cp_Player::PreUpdateContents()
 			m_accelerationTimeCnt++;
 		}
 	}
+}
 
+void Cp_Player::UpdateContents()
+{
 	for (auto& result : m_rigid.lock()->GetHitResult())
 	{
 		//Math::Vector3 overMove = (result.m_hitPos - result.m_objectPos);
-		Math::Vector3 overMove = (m_trans.lock()->GetPosition() + m_rigid.lock()->GetOffestPos() - result.m_objectPos);
+		Math::Vector3 overMove = (m_trans.lock()->GetPosition() + m_rigid.lock()->GetOffsetPos() - result.m_objectPos);
 		overMove.Normalize();
 
 		Math::Vector3 move = m_rigid.lock()->GetMove();
-		move.y = 0;
 		m_rigid.lock()->SetMove(move);
 		m_rigid.lock()->AddMove(overMove * m_reflectPow);
 		m_rigid.lock()->SetGravity(0);

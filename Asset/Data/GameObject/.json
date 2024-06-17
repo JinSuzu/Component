@@ -21,25 +21,9 @@
                     "y": 1.0,
                     "z": 1.0
                 }
-            },
-            {
-                "IDName": "ModelData",
-                "drawType": 3452816833,
-                "path": "Terrain"
-            },
-            {
-                "ColliderShape": 1,
-                "ColliderType": 1,
-                "IDName": "Collider",
-                "OffsetPos": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Radius": 0.0
             }
         ],
-        "name": "Terrain",
+        "name": "",
         "tag": 0
     }
 }

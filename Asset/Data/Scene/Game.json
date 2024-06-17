@@ -6,11 +6,12 @@
                 "Parent": {
                     "Component": [
                         {
-                            "matTag": "RST",
+                            "Follow": true,
+                            "matTag": "STR",
                             "parentMatTag": "RST",
                             "position": {
                                 "x": 0.25,
-                                "y": -0.05000000074505806,
+                                "y": 0.0,
                                 "z": 0.0
                             },
                             "rotation": {
@@ -50,6 +51,7 @@
                 "Parent": {
                     "Component": [
                         {
+                            "Follow": true,
                             "matTag": "SRT",
                             "parentMatTag": "SRT",
                             "position": {
@@ -69,7 +71,8 @@
                             }
                         },
                         {
-                            "IDName": "Camera"
+                            "IDName": "Camera",
+                            "Priority": 1
                         }
                     ],
                     "name": "camera",
@@ -80,16 +83,17 @@
         "Parent": {
             "Component": [
                 {
+                    "Follow": true,
                     "matTag": "SRT",
                     "parentMatTag": "SRT",
                     "position": {
-                        "x": 25.447784423828125,
-                        "y": 11.0,
-                        "z": -8.271527290344238
+                        "x": -16.65177345275879,
+                        "y": 6.0,
+                        "z": -13.82547664642334
                     },
                     "rotation": {
-                        "x": 67.0,
-                        "y": 270.0,
+                        "x": 44.0,
+                        "y": -208.0,
                         "z": 0.0
                     },
                     "scale": {
@@ -99,10 +103,11 @@
                     }
                 },
                 {
+                    "CollisionBody": true,
                     "IDName": "Rigidbody",
                     "OffsetPos": {
                         "x": 0.0,
-                        "y": -8.0,
+                        "y": 1.0,
                         "z": 0.0
                     },
                     "Radius": {
@@ -113,13 +118,13 @@
                     "Shape": 0,
                     "Tag": 4,
                     "activeGravityFlag": true,
-                    "deceleration": 0.9200000166893005,
+                    "deceleration": 0.8799999952316284,
                     "gravity": 0.02500000037252903,
-                    "height": 12.0,
+                    "height": 6.0,
                     "move": {
-                        "x": 4.9301212129648775e-05,
+                        "x": -3.1737740907589185e-11,
                         "y": 0.0,
-                        "z": 0.0003321152471471578
+                        "z": 5.920631346301164e-11
                     }
                 },
                 {
@@ -221,6 +226,7 @@
         "Parent": {
             "Component": [
                 {
+                    "Follow": true,
                     "matTag": "SRT",
                     "parentMatTag": "SRT",
                     "position": {
@@ -248,44 +254,15 @@
                     "ColliderShape": 1,
                     "ColliderType": 1,
                     "IDName": "Collider",
+                    "OffsetPos": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
                     "Radius": 0.0
                 }
             ],
             "name": "Terrain",
-            "tag": 0
-        }
-    },
-    {
-        "Childs": [],
-        "Parent": {
-            "Component": [
-                {
-                    "matTag": "SRT",
-                    "parentMatTag": "SRT",
-                    "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "rotation": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    },
-                    "scale": {
-                        "x": 1.0,
-                        "y": 1.0,
-                        "z": 1.0
-                    }
-                },
-                {
-                    "ColliderShape": 4,
-                    "ColliderType": 4,
-                    "IDName": "Collider",
-                    "Radius": 10.0
-                }
-            ],
-            "name": "Sphere",
             "tag": 0
         }
     }

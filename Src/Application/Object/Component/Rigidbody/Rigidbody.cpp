@@ -9,6 +9,8 @@
 void Cp_Rigidbody::Start()
 {
 	m_trans = m_owner.lock()->GetTransform();
+	m_debugDraw = std::make_shared<std::function<void()>>([this]() {DrawDebug(); });
+	RenderManager::Instance().AddDrawDebug(m_debugDraw);
 }
 
 void Cp_Rigidbody::PreUpdateContents()
@@ -19,9 +21,12 @@ void Cp_Rigidbody::PreUpdateContents()
 void Cp_Rigidbody::UpdateContents()
 {
 	if (m_bActiveGravity)m_move.y = Gravity();
-	m_trans.lock()->SetPosition(m_trans.lock()->GetPosition() + m_move);
-	MakeResults();
+	if (m_collisionBody)MakeResults();
+}
 
+void Cp_Rigidbody::PostUpdateContents()
+{
+	m_trans.lock()->SetPosition(m_trans.lock()->GetPosition() + m_move);
 	m_move *= m_deceleration;
 }
 
@@ -29,14 +34,17 @@ void Cp_Rigidbody::UpdateContents()
 void Cp_Rigidbody::ImGuiUpdate()
 {
 	ImGui::DragFloat3("Move", &m_move.x);
+	ImGui::DragFloat("Deceleration", &m_deceleration);
 
 	if (ImGui::Checkbox("Gravity", &m_bActiveGravity); m_bActiveGravity)
 	{
 		ImGui::DragFloat("GravityPow", &m_gravityPow);
+		ImGui::DragFloat("Height", &m_height);
 	}
 
-	if (ImGui::Button("ShapeBody"))ImGui::OpenPopup(("ShapeBody##" + std::to_string(m_instanceID)).c_str());
-	if (ImGui::BeginPopup(("ShapeBody##" + std::to_string(m_instanceID)).c_str()))
+	if (ImGui::Checkbox("CollisionBody", &m_collisionBody); !m_collisionBody)return;
+	if (ImGui::Button("ShapeBody"))ImGui::OpenPopup(("ShapeBody##" + std::to_string(GetInstanceID())).c_str());
+	if (ImGui::BeginPopup(("ShapeBody##" + std::to_string(GetInstanceID())).c_str()))
 	{
 		for (int i = 0; i < Shape::Max; i++)
 		{
@@ -45,6 +53,7 @@ void Cp_Rigidbody::ImGuiUpdate()
 		}
 		ImGui::EndPopup();
 	}
+
 	switch (m_shape)
 	{
 	case Cp_Rigidbody::Sphere:
@@ -59,9 +68,10 @@ void Cp_Rigidbody::ImGuiUpdate()
 	default:
 		break;
 	}
-	ImGui::DragFloat3("OffsetPos", &m_shapeDate.offestPos.x);
-	if (ImGui::Button("ColliderType"))ImGui::OpenPopup(("ColliderType##" + std::to_string(m_instanceID)).c_str());
-	if (ImGui::BeginPopup(("ColliderType##" + std::to_string(m_instanceID)).c_str()))
+
+	ImGui::DragFloat3("OffsetPos", &m_shapeDate.offsetPos.x);
+	if (ImGui::Button("ColliderType"))ImGui::OpenPopup(("ColliderType##" + std::to_string(GetInstanceID())).c_str());
+	if (ImGui::BeginPopup(("ColliderType##" + std::to_string(GetInstanceID())).c_str()))
 	{
 		for (int i = 0; i < std::log2((double)KdCollider::Type::TypeMax); i++)
 		{
@@ -71,49 +81,92 @@ void Cp_Rigidbody::ImGuiUpdate()
 		ImGui::EndPopup();
 	}
 
-	ImGui::DragFloat("Deceleration", &m_deceleration);
 }
 
 void Cp_Rigidbody::InitJson()
 {
 	m_move = JsonToVec3(m_jsonData["move"]);
+	m_deceleration = m_jsonData["deceleration"];
 
 	m_bActiveGravity = m_jsonData["activeGravityFlag"];
 	m_gravityPow = m_jsonData["gravity"];
+	if (m_jsonData["height"].is_number_float())m_height = m_jsonData["height"];
 
-	m_deceleration = m_jsonData["deceleration"];
-
+	if (m_jsonData["CollisionBody"].is_boolean())m_collisionBody = m_jsonData["CollisionBody"];
 	if (m_jsonData["Shape"].is_number()) m_shape = m_jsonData["Shape"];
 	m_shapeDate.radius = JsonToVec3(m_jsonData["Radius"]);
-	m_shapeDate.offestPos = JsonToVec3(m_jsonData["OffsetPos"]);
+	m_shapeDate.offsetPos = JsonToVec3(m_jsonData["OffsetPos"]);
 	m_shapeDate.tag = m_jsonData["Tag"];
 }
-
 nlohmann::json Cp_Rigidbody::GetJson()
 {
 	m_jsonData["move"] = Vec3ToJson(m_move);
+	m_jsonData["deceleration"] = m_deceleration;
 
 	m_jsonData["activeGravityFlag"] = m_bActiveGravity;
 	m_jsonData["gravity"] = m_gravityPow;
+	m_jsonData["height"] = m_height;
 
-	m_jsonData["deceleration"] = m_deceleration;
 
+	m_jsonData["CollisionBody"] = m_collisionBody;
 	m_jsonData["Shape"] = m_shape;
 	m_jsonData["Radius"] = Vec3ToJson(m_shapeDate.radius);
-	m_jsonData["OffsetPos"] = Vec3ToJson(m_shapeDate.offestPos);
+	m_jsonData["OffsetPos"] = Vec3ToJson(m_shapeDate.offsetPos);
 	m_jsonData["Tag"] = m_shapeDate.tag;
 	return m_jsonData;
 }
 
+void Cp_Rigidbody::DrawDebug()
+{
+	if (!m_bActive)return;
+	KdDebugWireFrame debugWireFrame;
+	if (m_shape == Cp_Rigidbody::Shape::Sphere)
+	{
+		KdCollider::SphereInfo SphereInfo
+		(
+			m_shapeDate.tag,
+			m_trans.lock()->GetPosition() + m_shapeDate.offsetPos,
+			m_shapeDate.radius.y
+		);
+		debugWireFrame.AddDebugSphere(SphereInfo.m_sphere.Center, SphereInfo.m_sphere.Radius);
+	}
+
+	else if (m_shape == Cp_Rigidbody::Shape::Box)
+	{
+		KdCollider::BoxInfo BoxInfo
+		(
+			m_shapeDate.tag,
+			m_trans.lock()->GetMatrix(),
+			m_shapeDate.offsetPos,
+			m_shapeDate.radius,
+			false
+		);
+		debugWireFrame.AddDebugBox(m_trans.lock()->GetMatrix(), m_shapeDate.radius, m_shapeDate.offsetPos);
+	}
+
+	else if (m_shape == Cp_Rigidbody::Shape::Ray)
+	{
+		KdCollider::RayInfo rayInfo
+		(
+			m_shapeDate.tag,
+			m_trans.lock()->GetPosition() + m_shapeDate.offsetPos,
+			m_trans.lock()->GetPosition() + m_shapeDate.offsetPos + m_move
+		);
+		debugWireFrame.AddDebugLine(rayInfo.m_pos, rayInfo.m_dir, rayInfo.m_range);
+	}
+	debugWireFrame.Draw();
+}
+
 float Cp_Rigidbody::Gravity()
 {
+	if (m_gravity == 0.f)return m_gravity + m_move.y;
+
 	Math::Vector3 pos = m_owner.lock()->GetTransform().lock()->GetPosition();
-	pos.y -= m_shapeDate.radius.y;
-	pos.y += m_shapeDate.offestPos.y;
+	pos.y -= m_height;
 	KdCollider::RayInfo rayInfo(
 		KdCollider::Type::TypeGround,
 		pos,
-		{ 0,-1,0 },
+		{ 0,abs(m_gravity + m_move.y) / (m_gravity + m_move.y),0 },
 		abs(m_gravity + m_move.y)
 	);
 
@@ -126,7 +179,7 @@ float Cp_Rigidbody::Gravity()
 	SceneManager::Instance().GetNowScene().lock()->GetGameObject().RayHit(rayInfo, &results);
 	for (auto& result : results)
 	{
-		int targetRange = Math::Vector3::Distance(result.m_hitPos, m_trans.lock()->GetPosition());
+		float targetRange = Math::Vector3::Distance(result.m_hitPos, m_trans.lock()->GetPosition());
 		if (hitRange > targetRange || !m_bLanding)
 		{
 			hitRange = targetRange;
@@ -150,43 +203,39 @@ void Cp_Rigidbody::MakeResults()
 {
 	m_shapeDate.pResults.clear();
 
-	if (m_shape == Cp_Rigidbody::Sphere)
+	if (m_shape == Cp_Rigidbody::Shape::Sphere)
 	{
 		KdCollider::SphereInfo SphereInfo
 		(
 			m_shapeDate.tag,
-			m_trans.lock()->GetPosition() + m_shapeDate.offestPos,
+			m_trans.lock()->GetPosition() + m_shapeDate.offsetPos,
 			m_shapeDate.radius.y
 		);
 		SceneManager::Instance().GetNowScene().lock()->GetGameObject().RayHit(SphereInfo, &m_shapeDate.pResults);
-		RenderManager::Instance().m_m_debugWireFrame.AddDebugSphere(m_trans.lock()->GetPosition() + m_shapeDate.offestPos, m_shapeDate.radius.y);
 	}
 
-	else if (m_shape == Cp_Rigidbody::Box)
+	else if (m_shape == Cp_Rigidbody::Shape::Box)
 	{
 		KdCollider::BoxInfo BoxInfo
 		(
 			m_shapeDate.tag,
 			m_trans.lock()->GetMatrix(),
-			m_shapeDate.offestPos,
+			m_shapeDate.offsetPos,
 			m_shapeDate.radius,
 			false
 		);
 		SceneManager::Instance().GetNowScene().lock()->GetGameObject().RayHit(BoxInfo, &m_shapeDate.pResults);
-		RenderManager::Instance().m_m_debugWireFrame.AddDebugBox(m_trans.lock()->GetMatrix(), m_shapeDate.radius, m_shapeDate.offestPos);
 	}
 
-	else if (m_shape == Cp_Rigidbody::Ray)
+	else if (m_shape == Cp_Rigidbody::Shape::Ray)
 	{
 		KdCollider::RayInfo rayInfo
 		(
 			m_shapeDate.tag,
-			m_trans.lock()->GetPosition() + m_shapeDate.offestPos,
-			m_trans.lock()->GetPosition() + m_shapeDate.offestPos + m_move,
-			m_move.Length()
+			m_trans.lock()->GetPosition() + m_shapeDate.offsetPos,
+			m_trans.lock()->GetPosition() + m_shapeDate.offsetPos + m_move
 		);
-		SceneManager::Instance().GetNowScene().lock()->GetGameObject().RayHit(rayInfo, &m_shapeDate.pResults);
-		RenderManager::Instance().m_m_debugWireFrame.AddDebugLine(rayInfo.m_pos, rayInfo.m_dir, rayInfo.m_range);
+		if (rayInfo.m_range)SceneManager::Instance().GetNowScene().lock()->GetGameObject().RayHit(rayInfo, &m_shapeDate.pResults);
 	}
 
 }

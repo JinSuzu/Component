@@ -15,7 +15,7 @@ class Cp_Rigidbody
 	struct ShapeDate
 	{
 		UINT tag = KdCollider::Type::TypeGround;
-		Math::Vector3 offestPos;
+		Math::Vector3 offsetPos;
 		Math::Vector3 radius;
 
 		std::list<KdCollider::CollisionResult> pResults;
@@ -25,6 +25,7 @@ public:
 
 	void PreUpdateContents()override;
 	void UpdateContents()override;
+	void PostUpdateContents()override;
 
 	void ImGuiUpdate()override;
 
@@ -46,8 +47,13 @@ public:
 		return m_shapeDate.radius.Length();
 	}
 
-	std::list<KdCollider::CollisionResult>& GetHitResult() { return m_shapeDate.pResults; }
-	Math::Vector3 GetOffestPos() const { return m_shapeDate.offestPos; }
+	std::list<KdCollider::CollisionResult>& GetHitResult()
+	{
+		return m_shapeDate.pResults;
+	}
+	Math::Vector3 GetOffsetPos() const { return m_shapeDate.offsetPos; }
+
+	void DrawDebug();
 private:
 	float Gravity();
 	void MakeResults();
@@ -55,14 +61,17 @@ private:
 	Math::Vector3 m_move = { 0,0,0 };
 
 	bool  m_bActiveGravity = true;
-	bool  m_bLanding = false;
 	float m_gravity = 0.0f;
 	float m_gravityPow = 1.0f;
+	float m_height = 0.0f;
+	bool  m_bLanding = false;
 
 	float m_deceleration = 0.98f;
 
+	bool m_collisionBody = false;
 	Shape m_shape;
 	ShapeDate m_shapeDate;
 
+	std::shared_ptr<std::function<void()>>m_debugDraw;
 	std::weak_ptr<class Cp_Transform> m_trans;
 };

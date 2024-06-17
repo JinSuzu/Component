@@ -1,5 +1,6 @@
 ﻿#include "SceneBase.h"
 #include "../Object/Game/Manager/GameObjectManager.h"
+#include "../main.h"
 
 void SceneBase::PreUpdate()
 {
@@ -28,7 +29,7 @@ void SceneBase::Release()
 {
 	if (!m_bLoad)return;//リリース済みreturn
 	m_bLoad = false;
-	m_objectMgr.Release("Scene/" + m_name);
+	m_objectMgr.Release("Scene/" + m_name, Application::Instance().GetBuildFlg());
 	ReleaseContent();
 }
 

@@ -25,8 +25,8 @@ Math::Vector2 JsonToVec2(nlohmann::json _other)
 {
 	return Math::Vector2
 	(
-		atof(std::string(_other["x"]).c_str()),
-		atof(std::string(_other["y"]).c_str())
+		(float)atof(std::string(_other["x"]).c_str()),
+		(float)atof(std::string(_other["y"]).c_str())
 	);
 }
 Math::Rectangle JsonToRect(nlohmann::json _other)

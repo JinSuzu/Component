@@ -2,6 +2,7 @@
 #include "SceneBase/Manager/SceneManager.h"
 #include "SceneBase/SceneBase.h"
 #include "Object/Game/Manager/GameObjectManager.h"
+#include "Object/Game/GameObject.h"
 #include "RenderManger/RenderManger.h"
 #include "Utility/Timer.h"
 
@@ -58,7 +59,7 @@ void Application::KdBeginUpdate()
 {
 	// 入力状況の更新
 	KdInputManager::Instance().Update();
-	
+
 	// 空間環境の更新
 	KdShaderManager::Instance().WorkAmbientController().Update();
 }
@@ -234,6 +235,7 @@ bool Application::Init(int w, int h)
 		io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msgothic.ttc", 13.0f, &config, glyphRangesJapanese);
 	}
 
+	m_buildCamera = GameObjectManager::CreateObject(std::string("BuildCamera"), std::weak_ptr<GameObject>(), false);
 	SceneManager::Instance().Init();
 
 	return true;
@@ -251,7 +253,7 @@ void Application::Execute()
 	// 初期設定(ウィンドウ作成、Direct3D初期化など)
 	//===================================================================
 	m_windowSize = { (float)atoi(sizeData[0].c_str()) ,(float)atoi(sizeData[1].c_str()) };
-	if (Application::Instance().Init(m_windowSize.x, m_windowSize.y) == false) {
+	if (Application::Instance().Init((int)m_windowSize.x, (int)m_windowSize.y) == false) {
 		return;
 	}
 
@@ -306,13 +308,22 @@ void Application::Execute()
 		//
 		//=========================================
 
+
 		KdBeginUpdate();
 		{
-			PreUpdate();
+			m_buildCamera->SetActive(m_buildFlg);
+			m_buildCamera->PreUpdate();
+			m_buildCamera->Update();
+			m_buildCamera->PostUpdate();
 
-			Update();
+			if (!m_buildFlg)
+			{
+				PreUpdate();
 
-			PostUpdate();
+				Update();
+
+				PostUpdate();
+			}
 		}
 		KdPostUpdate();
 
@@ -323,16 +334,14 @@ void Application::Execute()
 		//=========================================
 		KdBeginDraw();
 		{
-			PreDraw();
-
-			Draw();
+			//Draw();
+			RenderManager::Instance().Draw();
 
 			PostDraw();
 
 			DrawSprite();
 
 			ImGuiProcess();
-
 		}
 		KdPostDraw();
 		//---------------------
@@ -401,12 +410,18 @@ void Application::ImGuiUpdate()
 	ImGui::ShowDemoWindow(nullptr);
 	ImGui::Begin("Debug Window", 0, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
 	UINT childFlg = ImGuiChildFlags_AlwaysAutoResize | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY;
-	ImGui::BeginChild("Test",ImVec2(), childFlg);
+	ImGui::BeginChild("Test", ImVec2(), childFlg);
 	{
 		{//MenuBar
 			ImGui::Text("FPS : %d", m_fpsController.m_nowfps); ImGui::SameLine();
-			ImGui::Text("ThreadMax : %d", std::hardware_constructive_interference_size); ImGui::SameLine();
-			ImGui::Text("%.2f,%.2f", GetMouse().x, GetMouse().y);
+			ImGui::Text("%.2f,%.2f", GetMouse().x, GetMouse().y); ImGui::SameLine();
+
+			if (ImGuiWindowCenterButton(m_buildFlg ? "StartRun" : "StartBuild"))
+			{
+				SceneManager::Instance().ReLoad();
+				m_buildFlg = !m_buildFlg;
+			}
+			//ImGui::Text("ThreadMax : %d", std::hardware_constructive_interference_size); ImGui::SameLine();
 		}
 
 		ImGui::BeginChild("OneLine", ImVec2(), childFlg);
@@ -422,7 +437,7 @@ void Application::ImGuiUpdate()
 			}
 			ImGui::EndChild();
 
-			ImGui::BeginChild("Scene",ImVec2(), ImGuiChildFlags_Border | childFlg);
+			ImGui::BeginChild("Scene", ImVec2(), ImGuiChildFlags_Border | childFlg);
 			{//Scene
 				SceneManager::Instance().ImGuiUpdate();
 				int SceneNum = SceneManager::Instance().GetNowSceneNum();
@@ -430,9 +445,9 @@ void Application::ImGuiUpdate()
 				if (ImGui::Button("ReLoad"))SceneManager::Instance().ReLoad();
 			}
 			ImGui::EndChild();
-			
+
 			ImGui::SameLine();
-			ImGui::BeginChild("CreateObject",ImVec2(), ImGuiChildFlags_Border | childFlg);
+			ImGui::BeginChild("CreateObject", ImVec2(), ImGuiChildFlags_Border | childFlg);
 			{//PreHubもどき
 				SceneManager::Instance().GetNowScene().lock()->GetGameObject().ImGuiCreateObject();
 			}
@@ -442,7 +457,7 @@ void Application::ImGuiUpdate()
 
 		{//ObjectEditor
 			ImGui::SameLine();
-			ImGui::BeginChild("Editor",ImVec2(450,685) , ImGuiWindowFlags_NoResize);
+			ImGui::BeginChild("Editor", ImVec2(450, 685), ImGuiWindowFlags_NoResize);
 			SceneManager::Instance().GetNowScene().lock()->GetGameObject().ImGuiUpdate();
 			ImGui::EndChild();
 		}

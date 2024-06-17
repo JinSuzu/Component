@@ -19,7 +19,7 @@ public:
 	virtual void Destroy() { m_bDestroy = true; }
 	virtual bool GetDestroy() const { return m_bDestroy; }
 
-	const int m_instanceID = (int)(this);
+	virtual int GetInstanceID() final { return (int)this; }
 protected:
 	bool m_bDestroy = false;
 	bool m_bActive = true;

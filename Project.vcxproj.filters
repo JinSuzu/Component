@@ -148,6 +148,18 @@
     <Filter Include="Src\Application\Utility\CreateObject">
       <UniqueIdentifier>{7c5cbfd8-8a09-40f8-885e-882ec4100476}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Object\Component\Particle">
+      <UniqueIdentifier>{02fe68f3-ee69-4ccb-9ed9-1cfd07a5c48f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\System">
+      <UniqueIdentifier>{20b5ea99-f795-470a-9948-b8dd2bfe2bbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\System\KeyConfig">
+      <UniqueIdentifier>{496c1dd9-2458-47e0-ac80-31fa88a3d9c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\TransFormInherit">
+      <UniqueIdentifier>{9c3c605e-4406-473f-93a2-b8b21924c673}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -549,6 +561,13 @@
     <ClInclude Include="Src\Application\Utility\CreateObject\CreateObject.h">
       <Filter>Src\Application\Utility\CreateObject</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\Particle\Particle.h">
+      <Filter>Src\Application\Object\Component\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\System\KeyConfig\KeyConfig.h" />
+    <ClInclude Include="Src\Application\Object\Component\TransFormInherit\TransFormInherit.h">
+      <Filter>Src\Application\Object\Component\TransFormInherit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -757,6 +776,13 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Utility\CreateObject\CreateObject.cpp">
       <Filter>Src\Application\Utility\CreateObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\Particle\Particle.cpp">
+      <Filter>Src\Application\Object\Component\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\System\KeyConfig\KeyConfig.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\TransFormInherit\TransFormInherit.cpp">
+      <Filter>Src\Application\Object\Component\TransFormInherit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

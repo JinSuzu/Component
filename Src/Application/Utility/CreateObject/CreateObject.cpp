@@ -19,21 +19,23 @@ void CreateObject::ImGuiUpdate()
 		m_createSet.object->DotSave();
 	}
 
-	static bool edit = false;
+	bool DoneEdit = true;
 	if (ImGui::Button("ObjectEdit"))ImGui::OpenPopup(("ObjectEdit##" + std::to_string(m_id)).c_str());
 	if (!m_createSet.object)return;
 	if (ImGui::BeginPopup(("ObjectEdit##" + std::to_string(m_id)).c_str()))
 	{
-		edit = true;
+		m_edit = true;
+		DoneEdit = false;
 		GameObjectManager::ImGuiGameObject(m_createSet.object);
 		ImGui::EndPopup();
 	}
-	else if (edit)
+
+	if (m_edit && DoneEdit)
 	{
 		m_createSet.object->EnableSave();
 		m_createSet.object->Release();
 		m_createSet.object->DotSave();
-		edit = false;
+		m_edit = false;
 	}
 }
 

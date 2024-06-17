@@ -8,6 +8,7 @@ public:
 	void Start()override;
 
 	void PreUpdateContents()override;
+	void UpdateContents()override;
 	void PostUpdateContents()override;
 
 	void ImGuiUpdate()override;
