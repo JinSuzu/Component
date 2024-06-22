@@ -20,6 +20,7 @@
 #include "Particle/Particle.h"
 #include "HitResult/HitResultBlock/HitResultBlock.h"
 #include "HitResult/HitResultReflect/HitResultReflect.h"
+#include "SceneActive/SceneActive.h"
 
 
 #define FNCOMPONENT(Tag)											\
@@ -68,6 +69,8 @@ class RegisterComponent
 		Register(FNCOMPONENT(Cp_Particle));
 		Register(FNCOMPONENT(Cp_TransformLimit));
 		Register(FNCOMPONENT(Cp_TransFormInherit));
+
+		Register(FNCOMPONENT(Cp_SceneActive));
 	};
 public:
 	/*UINT NameToBit(std::string _tag) { return m_nameToBitMap.find(PickName(_tag, '_'))->second; }

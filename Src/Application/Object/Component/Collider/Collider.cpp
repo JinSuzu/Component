@@ -12,8 +12,7 @@
 
 void Cp_Collider::Start()
 {
-	SceneManager::Instance().GetNowScene().lock()
-		->GetGameObject().AddColliderList(WeakThisPtr(this));
+	SceneManager::Instance().m_objectMgr->AddColliderList(WeakThisPtr(this));
 	m_trans = m_owner.lock()->GetTransform();
 
 	m_drawDebug = std::make_shared<std::function<void()>>([this]() {DrawDebug(); });

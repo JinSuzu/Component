@@ -99,6 +99,7 @@ public:
 	void ImGuiComponents();
 
 	void SetActive(bool _flg)override;
+	bool GetActive()override;
 private:
 	void ComponentInit(std::shared_ptr<Component>& _addCp, nlohmann::json _json);
 public:

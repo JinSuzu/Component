@@ -5,7 +5,7 @@ class SceneBase
 {
 public:
 	SceneBase()
-		:m_name()
+		:m_name("Scene")
 		, m_bLoad(false)
 	{}
 	~SceneBase() {}

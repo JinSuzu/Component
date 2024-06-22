@@ -11,19 +11,20 @@
 
 void GameObject::PreUpdate()
 {
-	if (!m_bActive)return;
+	if (!GetActive())return;
 
-	auto it = m_cpList.begin();
-	while (it != m_cpList.end())
+	auto cmp = m_cpList.begin();
+	while (cmp != m_cpList.end())
 	{
-		if ((*it)->GetDestroy())
+		if ((*cmp)->GetDestroy())
 		{
-			it = m_cpList.erase(it);
+			cmp = m_cpList.erase(cmp);
 			continue;
 		}
-		(*it)->PreUpdate();
-		it++;
+		(*cmp)->PreUpdate();
+		cmp++;
 	}
+
 }
 void GameObject::Update()
 {
@@ -59,8 +60,8 @@ void GameObject::Init(nlohmann::json _json)
 	for (auto& child : _json["Childs"])
 	{
 		std::shared_ptr<GameObject> object =
-			SceneManager::Instance().GetNowScene().lock()
-			->GetGameObject().CreateObject(child, WeakThisPtr(this));
+			SceneManager::Instance().m_objectMgr
+			->CreateObject(child, WeakThisPtr(this));
 	}
 }
 
@@ -189,7 +190,7 @@ std::shared_ptr<GameObject> GameObject::Initialize(std::weak_ptr<GameObject> _pa
 	std::shared_ptr<GameObject>	clone = std::make_shared<GameObject>();
 	nlohmann::json json;
 
-	SceneManager::Instance().GetNowScene().lock()->GetGameObject().AddObject(clone);
+	SceneManager::Instance().m_objectMgr->AddObject(clone);
 	if (_parent.lock())
 	{
 		clone->SetParent(_parent);
@@ -327,6 +328,21 @@ void GameObject::SetActive(bool _flg)
 	{
 		it->SetActive(_flg);
 	}
+
+	for (auto& child : m_childs) 
+	{
+		if (child.expired())continue;
+		child.lock()->SetActive(_flg);
+	}
+}
+
+bool GameObject::GetActive()
+{
+	if (m_parent.lock()) 
+	{
+		m_bActive = m_bActive && m_parent.lock()->GetActive();
+	}
+	return m_bActive;
 }
 
 void GameObject::Release()

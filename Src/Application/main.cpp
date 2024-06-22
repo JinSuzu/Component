@@ -440,9 +440,10 @@ void Application::ImGuiUpdate()
 
 			ImGui::BeginChild("Scene", ImVec2(), ImGuiChildFlags_Border | childFlg);
 			{//Scene
+				ImGui::InputText("ScenePhase", &SceneManager::Instance().m_nowPhaseName);
 				SceneManager::Instance().ImGuiUpdate();
 				int SceneNum = SceneManager::Instance().GetNowSceneNum();
-				ImGui::SliderInt("SceneNum", &SceneNum, 0, SceneID::Max - 1); SceneManager::Instance().ShiftScene((SceneID)SceneNum);
+				if(ImGui::SliderInt("SceneNum", &SceneNum, 0, SceneID::Max - 1)) SceneManager::Instance().ShiftScene((SceneID)SceneNum);
 				if (ImGui::Button("ReLoad"))SceneManager::Instance().ReLoad();
 			}
 			ImGui::EndChild();
@@ -450,7 +451,7 @@ void Application::ImGuiUpdate()
 			ImGui::SameLine();
 			ImGui::BeginChild("CreateObject", ImVec2(), ImGuiChildFlags_Border | childFlg);
 			{//PreHubもどき
-				SceneManager::Instance().GetNowScene().lock()->GetGameObject().ImGuiCreateObject();
+				SceneManager::Instance().m_objectMgr->ImGuiCreateObject();
 			}
 			ImGui::EndChild();
 		}
@@ -460,7 +461,7 @@ void Application::ImGuiUpdate()
 			ImGui::SameLine();
 			ImGui::BeginChild("Editor", ImVec2(450, 680), ImGuiWindowFlags_NoResize);
 			//GameObjectManager::ImGuiGameObject(m_buildCamera);
-			SceneManager::Instance().GetNowScene().lock()->GetGameObject().ImGuiUpdate();
+			SceneManager::Instance().m_objectMgr->ImGuiUpdate();
 			ImGui::EndChild();
 		}
 		/*if (ImGui::BeginTabBar("CreateObject"))

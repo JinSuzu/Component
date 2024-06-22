@@ -13,7 +13,7 @@ class Object
 	:public std::enable_shared_from_this<Object>
 {
 public:
-	virtual bool GetActive() const { return m_bActive; }
+	virtual bool GetActive(){ return m_bActive; }
 	virtual void SetActive(bool _active) { m_bActive = _active; }
 
 	virtual void Destroy() { m_bDestroy = true; }

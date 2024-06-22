@@ -14,99 +14,49 @@ m_registerScene[SceneID::##NAME] = ([=]() {return std::make_shared<NAME##Scene>(
 
 void SceneManager::PreUpdate()
 {
-	if (m_scene == nullptr)return;
-	m_scene->PreUpdate();
+	if (m_objectMgr == nullptr)return;
+	m_objectMgr->PreUpdate();
 }
 void SceneManager::Update()
 {
-	if (m_scene == nullptr)return;
-	m_scene->Update();
+	if (m_objectMgr == nullptr)return;
+	m_objectMgr->Update();
 }
 
 void SceneManager::PostUpdate()
 {
-	if (m_scene == nullptr)return;
-	m_scene->PostUpdate();
+	if (m_objectMgr == nullptr)return;
+	m_objectMgr->PostUpdate();
 }
 
 void SceneManager::Init()
 {
-	m_registerScene[SceneID::Title]		= ([=]() {return std::make_shared<TitleScene>(); });
-	m_registerScene[SceneID::Game]		= ([=]() {return std::make_shared<GameScene>(); });
-	m_registerScene[SceneID::Result]	= ([=]() {return std::make_shared<ResultScene>(); });
-	MAKESCENE(Kurosaki)
-	MAKESCENE(Yamamoto)
-	MAKESCENE(Motoori)
-
-	m_nowSceneNum = SceneID::Game;
-	auto newScene = m_registerScene[m_nowSceneNum]();
-	m_scene = newScene;
-	newScene->Init();
-	newScene->Load();
+	m_nowSceneNum = SceneID::Scene;
+	m_objectMgr = std::make_shared<GameObjectManager>();
+	std::string NowSceneName = magic_enum::enum_name<SceneID>(m_nowSceneNum).data();
+	m_objectMgr->Load("Scene/" + NowSceneName);
 }
 
 void SceneManager::ImGuiUpdate()
 {
-	if (m_scene == nullptr)return;
-	m_scene->ImGuiUpdate();
+	if (m_objectMgr == nullptr)return;
+	//m_objectMgr->ImGuiUpdate();
 }
 
 void SceneManager::ShiftScene(SceneID _toSceneNum)
 {
 	if (m_nowSceneNum == _toSceneNum)return;
+	std::string NowSceneName = magic_enum::enum_name<SceneID>(m_nowSceneNum).data();
+	std::string NextSceneName = magic_enum::enum_name<SceneID>(_toSceneNum).data();
 
-	//Release前処理
-	auto temp = m_registerScene[_toSceneNum]();
-	temp->Init();
-	m_scene->Release();
-
-	//Release後処理
 	m_nowSceneNum = _toSceneNum;
-	m_scene = temp;
-	
-	//bool flg = true;
-	auto Fn = [temp]() {temp->Load(); };
-	Fn();
-	/*std::thread mask(&SceneManager::DrawLoad, this, std::ref(flg));
-	std::thread load(Fn);
-
-	load.join();
-	flg = false;
-	mask.join();*/
-
-}
-
-void SceneManager::DrawLoad(bool& flg)
-{
-	while (flg)
-	{
-		/*
-		continue;
-		static auto load =
-		{
-			GameObjectManager::Instance().CreateObject("Back",false) ,
-			GameObjectManager::Instance().CreateObject("Load",false) ,
-			GameObjectManager::Instance().CreateObject("Loading",false)
-		};
-
-
-		for (auto&& it : load)it->Update();
-		Application::Instance().KdBeginDraw(false);
-		{
-			KdShaderManager::Instance().m_spriteShader.Begin();
-			{
-				for (auto&& it : load)it->Draw();
-			}
-			KdShaderManager::Instance().m_spriteShader.End();
-		}
-		Application::Instance().KdPostDraw();
-		std::this_thread::sleep_for(std::chrono::milliseconds(16));
-		*/
-	}
+	m_objectMgr->Release("Scene/" + NowSceneName, Application::Instance().GetBuildFlg());
+	m_objectMgr->Load("Scene/" + NextSceneName);
 }
 
 void SceneManager::ReLoad()
 {
-	m_scene->Release();
-	m_scene->Load();
+	std::string SceneName = magic_enum::enum_name<SceneID>(m_nowSceneNum).data();
+	m_objectMgr->Release("Scene/" + SceneName, Application::Instance().GetBuildFlg());
+	m_objectMgr->Load("Scene/" + SceneName);
 }

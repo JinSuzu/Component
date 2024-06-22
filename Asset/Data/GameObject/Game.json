@@ -21,6 +21,10 @@
                     "y": 1.0,
                     "z": 1.0
                 }
+            },
+            {
+                "IDName": "SceneActive",
+                "SceneName": "Game"
             }
         ],
         "name": "Game",

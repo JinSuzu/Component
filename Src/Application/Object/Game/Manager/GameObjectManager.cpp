@@ -147,7 +147,7 @@ std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json
 	}
 
 	object->Init(_json);
-	if (bPush)SceneManager::Instance().GetNowScene().lock()->GetGameObject().m_objectList.push_back(object);
+	if (bPush)SceneManager::Instance().m_objectMgr->m_objectList.push_back(object);
 
 	return object;
 }

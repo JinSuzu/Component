@@ -3,12 +3,8 @@
 class SceneBase;
 enum SceneID
 {
-	Title,
-	Game,
-	Result,
-	Kurosaki,
-	Yamamoto,
-	Motoori,
+	Scene,
+	PreSet,
 	Max
 };
 
@@ -26,20 +22,15 @@ public:
 
 	void ShiftScene(SceneID _toSceneNum);
 
-	void DrawLoad(bool& flg);
-
 	int GetNowSceneNum() const { return m_nowSceneNum; }
-	std::weak_ptr<SceneBase> GetNowScene() { return m_scene; }
+	std::shared_ptr<class GameObjectManager> m_objectMgr;
+	std::string m_nowPhaseName;
 private:
 
-	std::shared_ptr<SceneBase> m_scene;
-	std::map<SceneID,std::function<std::shared_ptr<SceneBase>()>> m_registerScene;
 	SceneID m_nowSceneNum;
 
 	SceneManager()
-		:m_scene()
-		,m_registerScene()
-		,m_nowSceneNum()
+		:m_nowSceneNum()
 	{}
 public:
 	static SceneManager& Instance()

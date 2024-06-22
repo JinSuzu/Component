@@ -4,8 +4,8 @@
 
 void KeyConfig::AddKeyBind(std::string _name, UINT KeyID)
 {
-	auto key = m_keyConfigs[SceneManager::Instance().GetNowScene().lock()->GetName()].find(_name);
-	if (key != m_keyConfigs[SceneManager::Instance().GetNowScene().lock()->GetName()].end())return;
+	//auto key = m_keyConfigs[SceneManager::Instance().GetNowScene().lock()->GetName()].find(_name);
+	//if (key != m_keyConfigs[SceneManager::Instance().GetNowScene().lock()->GetName()].end())return;
 	//m_keyConfigs[SceneManager::Instance().GetNowScene().lock()->GetName()].({ _name,  KeyID });
 }
 
