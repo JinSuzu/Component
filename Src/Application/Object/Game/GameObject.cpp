@@ -44,6 +44,7 @@ void GameObject::Init(nlohmann::json _json)
 	m_trans->SetOwner(WeakThisPtr(this));
 	m_trans->SetIDName("Transform");
 	if(m_parent.lock())m_trans->SetParent(m_parent.lock()->GetTransform());
+	m_trans->Start();
 
 	if (_json.is_null())return;
 	m_jsonData = _json["Parent"];

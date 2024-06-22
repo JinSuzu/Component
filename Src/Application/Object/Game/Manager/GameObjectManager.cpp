@@ -28,10 +28,16 @@ void GameObjectManager::ImGuiUpdate()
 	ImGui::SeparatorText(("ObjectList" + std::to_string(m_objectList.size())).c_str());
 	ImGui::BeginChild("##ObjectChild", ImVec2(425, 250), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeY);
 	{
-		int obNum = 0;
-		for (auto& object : m_objectList)
+		int obNum = 0; std::list<std::shared_ptr<GameObject>>::iterator it = m_objectList.begin();
+		while (it != m_objectList.end())
 		{
-			if (object->GetParent().expired())object->ImGuiUpdate(obNum++);
+			if ((*it)->GetDestroy()) 
+			{
+				it = m_objectList.erase(it);
+				continue;
+			}
+			if ((*it)->GetParent().expired())(*it)->ImGuiUpdate(obNum++);
+			it++;
 		}
 	}
 	ImGui::EndChild();
@@ -195,11 +201,9 @@ void GameObjectManager::ImGuiCreateObject()
 				}
 				if (ImGui::Selectable("Branch"))
 				{
-					std::shared_ptr<GameObject>object = CreateObject(path);
+					std::shared_ptr<GameObject>object = CreateObject(path, EditObject());
 					object->AddComponents(state);
 					object->SetName(path);
-					EditObject().lock()->AddChilds(object);
-					object->SetParent(EditObject());
 				}
 				ImGui::EndPopup();
 			}

@@ -38,42 +38,33 @@ void Cp_Player::PreUpdateContents()
 
 void Cp_Player::UpdateContents()
 {
-	for (auto& result : m_rigid.lock()->GetHitResult())
-	{
-		//Math::Vector3 overMove = (result.m_hitPos - result.m_objectPos);
-		Math::Vector3 overMove = (m_trans.lock()->GetPosition() + m_rigid.lock()->GetOffsetPos() - result.m_objectPos);
-		overMove.Normalize();
-
-		Math::Vector3 move = m_rigid.lock()->GetMove();
-		m_rigid.lock()->SetMove(move);
-		m_rigid.lock()->AddMove(overMove * m_reflectPow);
-		m_rigid.lock()->SetGravity(0);
-	}
 }
 
 void Cp_Player::PostUpdateContents()
 {
 	if (m_accelerationTimeCnt == m_accelerationTime) m_jumpFlg = !m_rigid.lock()->GetLanding();
+	for (auto& result : m_rigid.lock()->GetHitResult())
+	{
+		if (!(result.m_type & (UINT)KdCollider::Type::TypeBlock)) continue;
+		m_trans.lock()->SetPosition(result.m_hitPos);
+	}
 }
 
 void Cp_Player::ImGuiUpdate()
 {
 	ImGui::DragFloat("JumpPow", &m_jumpPow);
 	ImGui::DragInt("AccelerationTime", &m_accelerationTime);
-	ImGui::DragFloat("ReflectPow", &m_reflectPow);
 }
 
 void Cp_Player::InitJson()
 {
 	m_jumpPow = m_jsonData["jumpFlg"];
 	m_accelerationTime = m_jsonData["AccelerationTime"];
-	if(m_jsonData["ReflectPow"].is_number_float())m_reflectPow = m_jsonData["ReflectPow"];
 }
 
 nlohmann::json Cp_Player::GetJson()
 {
 	m_jsonData["jumpFlg"] = m_jumpPow;
 	m_jsonData["AccelerationTime"] = m_accelerationTime;
-	m_jsonData["ReflectPow"] = m_reflectPow;
 	return m_jsonData;
 }

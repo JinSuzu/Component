@@ -7,19 +7,19 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": -21.101503372192383,
-                    "y": 5.211989402770996,
-                    "z": 24.36295509338379
+                    "x": 287.0584411621094,
+                    "y": 9.0,
+                    "z": -684.5142211914063
                 },
                 "rotation": {
-                    "x": 104.0,
-                    "y": -502.0,
+                    "x": 0.0,
+                    "y": 556.0,
                     "z": 0.0
                 },
                 "scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                    "x": 50.0,
+                    "y": 50.0,
+                    "z": 50.0
                 }
             },
             {
@@ -38,21 +38,63 @@
                     "z": 0.0
                 },
                 "StartScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                    "x": 50.0,
+                    "y": 50.0,
+                    "z": 50.0
                 }
             },
             {
                 "ColliderShape": 4,
-                "ColliderType": 4,
+                "ColliderType": 64,
                 "IDName": "Collider",
                 "OffsetPos": {
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
                 },
-                "Radius": 5.0
+                "Radius": 0.5
+            },
+            {
+                "Animation": {
+                    "animeList": [
+                        {
+                            "frames": [
+                                {
+                                    "h": 0,
+                                    "w": 2
+                                },
+                                {
+                                    "h": 0,
+                                    "w": 3
+                                },
+                                {
+                                    "h": 0,
+                                    "w": 4
+                                },
+                                {
+                                    "h": 0,
+                                    "w": 5
+                                },
+                                {
+                                    "h": 0,
+                                    "w": 6
+                                },
+                                {
+                                    "h": 0,
+                                    "w": 7
+                                }
+                            ],
+                            "interval": 5,
+                            "name": "Explosion"
+                        }
+                    ],
+                    "nowAnime": "Explosion"
+                },
+                "IDName": "SquarePolygon",
+                "drawType": 3452816833,
+                "path": "Effect/Explosion",
+                "splitH": 1,
+                "splitW": 8
             },
             {
                 "DeleteTime": 30,

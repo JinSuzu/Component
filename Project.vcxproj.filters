@@ -160,6 +160,15 @@
     <Filter Include="Src\Application\Object\Component\TransFormInherit">
       <UniqueIdentifier>{9c3c605e-4406-473f-93a2-b8b21924c673}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Object\Component\HitResult">
+      <UniqueIdentifier>{5ea6a24a-d6e0-4b6a-b806-dec5ebc19cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\HitResult\HitResultBlock">
+      <UniqueIdentifier>{e39d4ff2-93de-490c-893f-752b012d94af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\HitResult\HitResultReflect">
+      <UniqueIdentifier>{4378ca3c-b84e-4d06-8c23-bad578a50647}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -564,9 +573,20 @@
     <ClInclude Include="Src\Application\Object\Component\Particle\Particle.h">
       <Filter>Src\Application\Object\Component\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\System\KeyConfig\KeyConfig.h" />
     <ClInclude Include="Src\Application\Object\Component\TransFormInherit\TransFormInherit.h">
       <Filter>Src\Application\Object\Component\TransFormInherit</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\System\KeyConfig\KeyConfig.h">
+      <Filter>Src\Application\System\KeyConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\HitResult\HitResult.h">
+      <Filter>Src\Application\Object\Component\HitResult</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\HitResult\HitResultReflect\HitResultReflect.h">
+      <Filter>Src\Application\Object\Component\HitResult\HitResultReflect</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\HitResult\HitResultBlock\HitResultBlock.h">
+      <Filter>Src\Application\Object\Component\HitResult\HitResultBlock</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -780,9 +800,20 @@
     <ClCompile Include="Src\Application\Object\Component\Particle\Particle.cpp">
       <Filter>Src\Application\Object\Component\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\System\KeyConfig\KeyConfig.cpp" />
     <ClCompile Include="Src\Application\Object\Component\TransFormInherit\TransFormInherit.cpp">
       <Filter>Src\Application\Object\Component\TransFormInherit</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\System\KeyConfig\KeyConfig.cpp">
+      <Filter>Src\Application\System\KeyConfig</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\HitResult\HitResult.cpp">
+      <Filter>Src\Application\Object\Component\HitResult</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\HitResult\HitResultReflect\HitResultReflect.cpp">
+      <Filter>Src\Application\Object\Component\HitResult\HitResultReflect</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\HitResult\HitResultBlock\HitResultBlock.cpp">
+      <Filter>Src\Application\Object\Component\HitResult\HitResultBlock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

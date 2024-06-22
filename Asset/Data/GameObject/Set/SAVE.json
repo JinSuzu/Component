@@ -1,0 +1,247 @@
+[
+    {
+        "Childs": [
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": true,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": -4.699999809265137
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 14.0,
+                                "y": 5.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "Animation": {
+                                "animeList": [],
+                                "nowAnime": ""
+                            },
+                            "IDName": "SquarePolygon",
+                            "drawType": 3452816833,
+                            "path": "Block/Wall",
+                            "splitH": 1,
+                            "splitW": 1
+                        },
+                        {
+                            "ColliderShape": 0,
+                            "ColliderType": 0,
+                            "IDName": "Collider",
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "Radius": 0.0
+                        }
+                    ],
+                    "name": "Wall",
+                    "tag": 0
+                }
+            },
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": true,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 3.049999952316284,
+                                "y": 0.0,
+                                "z": -3.5999999046325684
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 9.5,
+                                "y": 5.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "Animation": {
+                                "animeList": [],
+                                "nowAnime": ""
+                            },
+                            "IDName": "SquarePolygon",
+                            "drawType": 3452816833,
+                            "path": "Block/Wall",
+                            "splitH": 1,
+                            "splitW": 1
+                        },
+                        {
+                            "ColliderShape": 0,
+                            "ColliderType": 0,
+                            "IDName": "Collider",
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "Radius": 0.0
+                        }
+                    ],
+                    "name": "Wall",
+                    "tag": 0
+                }
+            },
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": true,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": -1.7000000476837158,
+                                "y": 0.0,
+                                "z": 3.4000000953674316
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 90.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 14.0,
+                                "y": 5.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "Animation": {
+                                "animeList": [],
+                                "nowAnime": ""
+                            },
+                            "IDName": "SquarePolygon",
+                            "drawType": 3452816833,
+                            "path": "Block/Wall",
+                            "splitH": 1,
+                            "splitW": 1
+                        },
+                        {
+                            "ColliderShape": 0,
+                            "ColliderType": 0,
+                            "IDName": "Collider",
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "Radius": 0.0
+                        }
+                    ],
+                    "name": "Wall",
+                    "tag": 0
+                }
+            },
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": true,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": -2.859999895095825,
+                                "y": 0.0,
+                                "z": 2.299999952316284
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 90.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 14.0,
+                                "y": 5.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "Animation": {
+                                "animeList": [],
+                                "nowAnime": ""
+                            },
+                            "IDName": "SquarePolygon",
+                            "drawType": 3452816833,
+                            "path": "Block/Wall",
+                            "splitH": 1,
+                            "splitW": 1
+                        },
+                        {
+                            "ColliderShape": 0,
+                            "ColliderType": 0,
+                            "IDName": "Collider",
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "Radius": 0.0
+                        }
+                    ],
+                    "name": "Wall",
+                    "tag": 0
+                }
+            }
+        ],
+        "Parent": {
+            "Component": [
+                {
+                    "Follow": true,
+                    "matTag": "SRT",
+                    "parentMatTag": "SRT",
+                    "position": {
+                        "x": -85.5999984741211,
+                        "y": 0.0,
+                        "z": -138.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 8.5,
+                        "y": 8.5,
+                        "z": 8.5
+                    }
+                },
+                {
+                    "Animation": {
+                        "animeList": [],
+                        "nowAnime": ""
+                    },
+                    "IDName": "SquarePolygon",
+                    "drawType": 3452816845,
+                    "path": "Block/Wall",
+                    "splitH": 1,
+                    "splitW": 1
+                }
+            ],
+            "name": "ClearkWall",
+            "tag": 0
+        }
+    }
+]

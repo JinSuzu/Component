@@ -1,0 +1,34 @@
+{
+    "Childs": [],
+    "Parent": {
+        "Component": [
+            {
+                "Follow": true,
+                "matTag": "SRT",
+                "parentMatTag": "SRT",
+                "position": {
+                    "x": 2.0,
+                    "y": 0.0,
+                    "z": -146.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 10.0,
+                    "y": 10.0,
+                    "z": 10.0
+                }
+            },
+            {
+                "IDName": "ModelData",
+                "drawType": 3452816833,
+                "path": "road_slantHigh"
+            }
+        ],
+        "name": "road_slantHigh",
+        "tag": 0
+    }
+}

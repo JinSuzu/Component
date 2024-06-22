@@ -1,0 +1,34 @@
+{
+    "Childs": [],
+    "Parent": {
+        "Component": [
+            {
+                "Follow": true,
+                "matTag": "SRT",
+                "parentMatTag": "SRT",
+                "position": {
+                    "x": -48.0,
+                    "y": 0.0,
+                    "z": -50.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 10.0,
+                    "y": 10.0,
+                    "z": 10.0
+                }
+            },
+            {
+                "IDName": "ModelData",
+                "drawType": 3452816833,
+                "path": "road_crossing"
+            }
+        ],
+        "name": "road_crossing",
+        "tag": 0
+    }
+}

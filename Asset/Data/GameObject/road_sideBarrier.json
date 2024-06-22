@@ -1,0 +1,34 @@
+{
+    "Childs": [],
+    "Parent": {
+        "Component": [
+            {
+                "Follow": true,
+                "matTag": "SRT",
+                "parentMatTag": "SRT",
+                "position": {
+                    "x": 0.75,
+                    "y": 0.0,
+                    "z": -0.75
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 90.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            {
+                "IDName": "ModelData",
+                "drawType": 3452816833,
+                "path": "road_sideBarrier"
+            }
+        ],
+        "name": "road_sideBarrier",
+        "tag": 0
+    }
+}

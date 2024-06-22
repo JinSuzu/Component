@@ -76,7 +76,7 @@ void Cp_Rigidbody::ImGuiUpdate()
 		for (int i = 0; i < std::log2((double)KdCollider::Type::TypeMax); i++)
 		{
 			KdCollider::Type type = static_cast<KdCollider::Type>(1 << i);
-			ImGuiCheckBoxBit(magic_enum::enum_name(type).data(), m_shapeDate.tag, type);
+			ImGuiCheckBoxBit(magic_enum::enum_name(type).data(), m_shapeDate.tag, (UINT)type);
 		}
 		ImGui::EndPopup();
 	}
@@ -125,7 +125,7 @@ void Cp_Rigidbody::DrawDebug()
 		KdCollider::SphereInfo SphereInfo
 		(
 			m_shapeDate.tag,
-			m_trans.lock()->GetPosition() + m_shapeDate.offsetPos,
+			m_trans.lock()->GetMatrix().Translation() + m_shapeDate.offsetPos,
 			m_shapeDate.radius.y
 		);
 		debugWireFrame.AddDebugSphere(SphereInfo.m_sphere.Center, SphereInfo.m_sphere.Radius);
@@ -149,8 +149,8 @@ void Cp_Rigidbody::DrawDebug()
 		KdCollider::RayInfo rayInfo
 		(
 			m_shapeDate.tag,
-			m_trans.lock()->GetPosition() + m_shapeDate.offsetPos,
-			m_trans.lock()->GetPosition() + m_shapeDate.offsetPos + m_move
+			m_trans.lock()->GetMatrix().Translation() + m_shapeDate.offsetPos,
+			m_trans.lock()->GetMatrix().Translation() + m_shapeDate.offsetPos + m_move
 		);
 		debugWireFrame.AddDebugLine(rayInfo.m_pos, rayInfo.m_dir, rayInfo.m_range);
 	}
@@ -164,7 +164,7 @@ float Cp_Rigidbody::Gravity()
 	Math::Vector3 pos = m_owner.lock()->GetTransform().lock()->GetPosition();
 	pos.y -= m_height;
 	KdCollider::RayInfo rayInfo(
-		KdCollider::Type::TypeGround,
+		(UINT)KdCollider::Type::TypeGround,
 		pos,
 		{ 0,abs(m_gravity + m_move.y) / (m_gravity + m_move.y),0 },
 		abs(m_gravity + m_move.y)
@@ -208,7 +208,7 @@ void Cp_Rigidbody::MakeResults()
 		KdCollider::SphereInfo SphereInfo
 		(
 			m_shapeDate.tag,
-			m_trans.lock()->GetPosition() + m_shapeDate.offsetPos,
+			m_trans.lock()->GetMatrix().Translation() + m_shapeDate.offsetPos,
 			m_shapeDate.radius.y
 		);
 		SceneManager::Instance().GetNowScene().lock()->GetGameObject().RayHit(SphereInfo, &m_shapeDate.pResults);
@@ -232,8 +232,8 @@ void Cp_Rigidbody::MakeResults()
 		KdCollider::RayInfo rayInfo
 		(
 			m_shapeDate.tag,
-			m_trans.lock()->GetPosition() + m_shapeDate.offsetPos,
-			m_trans.lock()->GetPosition() + m_shapeDate.offsetPos + m_move
+			m_trans.lock()->GetMatrix().Translation() + m_shapeDate.offsetPos,
+			m_trans.lock()->GetMatrix().Translation() + m_shapeDate.offsetPos + m_move
 		);
 		if (rayInfo.m_range)SceneManager::Instance().GetNowScene().lock()->GetGameObject().RayHit(rayInfo, &m_shapeDate.pResults);
 	}

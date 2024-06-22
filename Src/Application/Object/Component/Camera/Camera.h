@@ -9,6 +9,7 @@ public:
 	void ImGuiUpdate()override;
 
 	void PreDraw(); 
+	void PostUpdateContents(); 
 
 	void InitJson()override;
 	nlohmann::json GetJson()override;

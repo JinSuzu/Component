@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "../Component.h"
 
+//もどき : 移動量管理
+//		 : 当たる側の当たり判定設定
 class Cp_Rigidbody
 	:public Component
 {
@@ -14,7 +16,7 @@ class Cp_Rigidbody
 
 	struct ShapeDate
 	{
-		UINT tag = KdCollider::Type::TypeGround;
+		UINT tag = (UINT)KdCollider::Type::TypeGround;
 		Math::Vector3 offsetPos;
 		Math::Vector3 radius;
 
@@ -65,6 +67,7 @@ private:
 	float m_gravityPow = 1.0f;
 	float m_height = 0.0f;
 	bool  m_bLanding = false;
+
 
 	float m_deceleration = 0.98f;
 

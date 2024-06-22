@@ -102,6 +102,7 @@ bool KdCollider::Intersects(const SphereInfo& targetShape, const Math::Matrix& o
 			if (!pResults) { break; }
 
 			tmpRes.m_objectPos = ownerMatrix.Translation();
+			tmpRes.m_type = collisionShape.second->GetType();
 			pResults->push_back(tmpRes);
 		}
 	}
@@ -137,7 +138,7 @@ bool KdCollider::Intersects(const BoxInfo& targetShape, const Math::Matrix& owne
 
 			// 詳細な衝突結果を必要としない場合は1つでも接触して返す
 			if (!pResults) { break; }
-
+			tmpRes.m_type = collisionShape.second->GetType();
 			pResults->push_back(tmpRes);
 		}
 	}
@@ -179,7 +180,7 @@ bool KdCollider::Intersects(const RayInfo& targetShape, const Math::Matrix& owne
 
 			// 詳細な衝突結果を必要としない場合は1つでも接触して返す
 			if (!pResults) { break; }
-
+			tmpRes.m_type = collisionShape.second->GetType();
 			pResults->push_back(tmpRes);
 		}
 	}

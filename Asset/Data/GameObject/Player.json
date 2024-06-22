@@ -7,13 +7,13 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": -14.972027778625488,
-                    "y": 6.0,
-                    "z": -11.87827205657959
+                    "x": 288.0,
+                    "y": 9.0,
+                    "z": -685.0
                 },
                 "rotation": {
-                    "x": 4.0,
-                    "y": -31.0,
+                    "x": 0.0,
+                    "y": 278.0,
                     "z": 0.0
                 },
                 "scale": {
@@ -36,20 +36,20 @@
                     "z": 1.0
                 },
                 "Shape": 0,
-                "Tag": 4,
+                "Tag": 192,
                 "activeGravityFlag": true,
                 "deceleration": 0.8799999952316284,
                 "gravity": 0.02500000037252903,
                 "height": 6.0,
                 "move": {
-                    "x": 6.565363719346351e-07,
+                    "x": -3.1737740907589185e-11,
                     "y": 0.0,
-                    "z": -1.0926602271865704e-06
+                    "z": 5.920631346301164e-11
                 }
             },
             {
                 "IDName": "Controller",
-                "movePow": 0.25,
+                "movePow": 0.10000000149011612,
                 "shaft": 6
             },
             {
@@ -135,6 +135,15 @@
                 "IDName": "Player",
                 "ReflectPow": 6.0,
                 "jumpFlg": 0.25
+            },
+            {
+                "ColType": 128,
+                "IDName": "HitResultBlock"
+            },
+            {
+                "ColType": 64,
+                "IDName": "HitResultReflect",
+                "ReflectPow": 10.0
             }
         ],
         "name": "Player",

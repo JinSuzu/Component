@@ -2,12 +2,12 @@
 
 std::shared_ptr<KdTexture> AssetManager::GetKdTexture(std::string _assetPath)
 {
-	if (m_texList[_assetPath].expired())
+	if (m_texList[_assetPath] == nullptr)
 	{
 		std::shared_ptr<KdTexture> tex = std::make_shared<KdTexture>();
 		static std::string path = "Asset/Textures/";
 		bool flg = tex->Load(path + _assetPath + ".png");
-		
+
 		assert(flg && "Pathミス！！");
 
 		m_texList[_assetPath] = tex;
@@ -16,14 +16,14 @@ std::shared_ptr<KdTexture> AssetManager::GetKdTexture(std::string _assetPath)
 	}
 
 
-	assert(m_texList[_assetPath].lock() && "Asset Load Missing!!!");
-	return m_texList[_assetPath].lock();
+	assert(m_texList[_assetPath] && "Asset Load Missing!!!");
+	return m_texList[_assetPath];
 
 }
 
 std::shared_ptr<KdModelData> AssetManager::GetModelData(std::string _assetPath)
 {
-	if (m_modelDataList[_assetPath].expired())
+	if (m_modelDataList[_assetPath] == nullptr)
 	{
 		std::shared_ptr<KdModelData> modelData = std::make_shared<KdModelData>();
 		static std::string path = "Asset/Data/Model/";
@@ -37,13 +37,13 @@ std::shared_ptr<KdModelData> AssetManager::GetModelData(std::string _assetPath)
 	}
 
 
-	assert(m_modelDataList[_assetPath].lock() && "Asset Load Missing!!!");
-	return m_modelDataList[_assetPath].lock();
+	assert(m_modelDataList[_assetPath] && "Asset Load Missing!!!");
+	return m_modelDataList[_assetPath];
 }
 
 std::shared_ptr<KdSquarePolygon> AssetManager::GetSquarePolygon(std::string _assetPath)
 {
-	if (m_squarePolygonList[_assetPath].expired())
+	if (m_squarePolygonList[_assetPath] == nullptr)
 	{
 		std::shared_ptr<KdSquarePolygon> squarePolygon = std::make_shared<KdSquarePolygon>();
 		static std::string path = "Asset/Textures/";
@@ -54,7 +54,7 @@ std::shared_ptr<KdSquarePolygon> AssetManager::GetSquarePolygon(std::string _ass
 		return squarePolygon;
 	}
 
-	assert(m_squarePolygonList[_assetPath].lock() && "Asset Load Missing!!!");
-	return m_squarePolygonList[_assetPath].lock();
+	assert(m_squarePolygonList[_assetPath] && "Asset Load Missing!!!");
+	return m_squarePolygonList[_assetPath];
 }
 

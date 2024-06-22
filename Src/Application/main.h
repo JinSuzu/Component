@@ -40,6 +40,7 @@ public:
 	void KdPostDraw();
 
 	bool GetBuildFlg()const { return m_buildFlg; };
+	bool m_debugFlg = true;
 private:
 
 	// アプリケーション初期化

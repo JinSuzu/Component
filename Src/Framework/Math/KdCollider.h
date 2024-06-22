@@ -15,15 +15,18 @@ class KdCollider
 public:
 
 	// 衝突タイプBitフラグ：用途によって使い分ける・Bitフラグなので複数のタイプを付与可能
-	enum Type
+	enum class Type
+		:int
 	{
 		TypeGround		= 1 << 0,	// 地形：上に乗れるオブジェクトに対して付与する
 		TypeBump		= 1 << 1,	// 衝突：横方向で重なりを防止したいオブジェクトに対して付与する
 		TypeDamage		= 1 << 2,	// 攻撃：球形の攻撃判定を受けるオブジェクトに対して付与する
 		TypeDamageLine	= 1 << 3,	// 攻撃：線形の攻撃判定を受けるオブジェクトに対して付与する
 		TypeSight		= 1 << 4,	// 視界：敵がプレイヤーを発見するかどうかなど視界判定を受けるオブジェクトに付与する
-		TypeEvent		= 1 << 5,	// イベント：イベント特有の判定形状が欲しい場合にイベントを所有しているオブジェクトに付与する
-		TypeMax			= 1 << 6
+		TypeEvent		= 1 << 5,	// イベント ：イベント特有の判定形状が欲しい場合にイベントを所有しているオブジェクトに付与する
+		TypeBound		= 1 << 6,   // 跳ね返り : 相手を跳ね飛ばすオブジェクトに付与する
+		TypeBlock		= 1 << 7, 
+		TypeMax			= 1 << 8
 	};
 
 	// 球形の当たり判定情報：当たる側専用
@@ -139,7 +142,9 @@ public:
 		Math::Vector3 m_hitDir;			// 対象からの方向ベクトル（押し返しなどに使う
 		float m_overlapDistance = 0.0f; // 重なり量
 
+		//後付け
 		Math::Vector3 m_objectPos;      //当たったオブジェクトの座標
+		UINT m_type;
 	};
 
 	KdCollider() {}

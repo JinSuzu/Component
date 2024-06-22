@@ -46,10 +46,7 @@ void Cp_Launcher::PreUpdateContents()
 	}
 
 	m_draw.lock()->SetModelData(m_launcherModel[m_state]);
-}
 
-void Cp_Launcher::PostUpdateContents()
-{
 	if (m_state == State::Loaded)
 	{
 		if (m_bShotStandby)

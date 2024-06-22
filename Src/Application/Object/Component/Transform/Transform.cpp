@@ -26,6 +26,7 @@ void Cp_Transform::ImGuiUpdate()
 		ImGui::Checkbox("Follow", &m_bFollow);
 	}
 	ImGui::TreePop();
+	
 }
 
 void Cp_Transform::InitJson()
@@ -51,17 +52,6 @@ nlohmann::json Cp_Transform::GetJson()
 	return m_jsonData;
 }
 
-Math::Vector3 Cp_Transform::GetPosition(bool _PushFollow) const
-{
-	if (m_parent.lock())
-	{
-		if (m_bFollow || _PushFollow)
-		{
-			return m_position + m_parent.lock()->GetPosition();
-		}
-	}
-	return m_position;
-}
 
 Math::Vector3 Cp_Transform::GetRotation(bool _PushFollow) const
 {
@@ -143,17 +133,6 @@ Math::Matrix Cp_Transform::GetMatrix(std::string _matTag, bool _PushFollow)
 Math::Matrix Cp_Transform::GetMatrix(bool _PushFollow)
 {
 	return GetMatrix(std::string(), _PushFollow);
-}
-
-Math::Matrix Cp_Transform::GetTMat() const
-{
-	Math::Matrix mat(Math::Matrix::CreateTranslation(m_position));
-	return mat;
-}
-
-Math::Matrix Cp_Transform::GetSMat() const
-{
-	return Math::Matrix::CreateScale(m_scale);
 }
 
 Math::Matrix Cp_Transform::GetRMat(UINT _shafts)

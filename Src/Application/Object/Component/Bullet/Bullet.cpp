@@ -18,6 +18,8 @@ void Cp_Bullet::Start()
 
 void Cp_Bullet::PreUpdateContents()
 {
+	if (m_startPoint == Math::Vector3::Zero)m_startPoint = m_trans.lock()->GetPosition();
+
 	Math::Vector3 move = m_trans.lock()->GetRMat().Backward();
 	move.Normalize();
 
@@ -34,12 +36,12 @@ void Cp_Bullet::UpdateContents()
 	float range = 0.0f;
 	for (auto& result : m_rigid.lock()->GetHitResult())
 	{
-		if (!flg || range > result.m_overlapDistance)
+		if (range > result.m_overlapDistance || !flg)
 		{
 			range = result.m_overlapDistance;
 			m_trans.lock()->SetPosition(result.m_hitPos);
+			flg = true;
 		}
-		flg = true;
 	}
 	if (flg)m_owner.lock()->Destroy();
 }

@@ -335,6 +335,7 @@ void Application::Execute()
 		KdBeginDraw();
 		{
 			//Draw();
+			RenderManager::Instance().PreDraw();
 			RenderManager::Instance().Draw();
 
 			PostDraw();
@@ -384,12 +385,10 @@ void Application::Release()
 
 void Application::ImGuiProcess()
 {
-	static bool flg = true;
+	if (GetAsyncKeyState(VK_UP) & 0x8000)m_debugFlg = true;
+	else if (GetAsyncKeyState(VK_DOWN) & 0x8000)m_debugFlg = false;
 
-	if (GetAsyncKeyState(VK_UP) & 0x8000)flg = true;
-	else if (GetAsyncKeyState(VK_DOWN) & 0x8000)flg = false;
-
-	if (!flg)return;
+	if (!m_debugFlg)return;
 
 	// ImGui開始
 	ImGui_ImplDX11_NewFrame();
@@ -408,10 +407,14 @@ void Application::ImGuiUpdate()
 	//ImGui::SetNextWindowSize(ImVec2(500, 300), ImGuiSetCond_Once);
 	// デバッグウィンドウ
 	ImGui::ShowDemoWindow(nullptr);
-	ImGui::Begin("Debug Window", 0, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
-	UINT childFlg = ImGuiChildFlags_AlwaysAutoResize | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY;
-	ImGui::BeginChild("Test", ImVec2(), childFlg);
+	ImGui::SetNextWindowPos(ImVec2(0, 0));
+	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+	ImGui::Begin("Fullscreen Window", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar);
 	{
+		//ImGui::Begin("Debug Window", 0, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+		UINT childFlg = ImGuiChildFlags_AlwaysAutoResize | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY;
+
+
 		{//MenuBar
 			ImGui::Text("FPS : %d", m_fpsController.m_nowfps); ImGui::SameLine();
 			ImGui::Text("%.2f,%.2f", GetMouse().x, GetMouse().y); ImGui::SameLine();
@@ -423,11 +426,9 @@ void Application::ImGuiUpdate()
 			}
 			//ImGui::Text("ThreadMax : %d", std::hardware_constructive_interference_size); ImGui::SameLine();
 		}
-
 		ImGui::BeginChild("OneLine", ImVec2(), childFlg);
 		{
-			ImGui::BeginChild("OneLine", ImVec2()
-				, childFlg);
+			ImGui::BeginChild("OneLine", ImVec2(), childFlg);
 			{//GameScreen
 
 				Math::Vector2 vec = Math::Vector2(1280, 720) * 0.625;
@@ -457,7 +458,8 @@ void Application::ImGuiUpdate()
 
 		{//ObjectEditor
 			ImGui::SameLine();
-			ImGui::BeginChild("Editor", ImVec2(450, 685), ImGuiWindowFlags_NoResize);
+			ImGui::BeginChild("Editor", ImVec2(450, 680), ImGuiWindowFlags_NoResize);
+			//GameObjectManager::ImGuiGameObject(m_buildCamera);
 			SceneManager::Instance().GetNowScene().lock()->GetGameObject().ImGuiUpdate();
 			ImGui::EndChild();
 		}
@@ -480,7 +482,7 @@ void Application::ImGuiUpdate()
 			}
 			ImGui::EndTabBar();
 		}*/
+
 	}
-	ImGui::EndChild();
 	ImGui::End();
 }

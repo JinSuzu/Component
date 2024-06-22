@@ -58,7 +58,7 @@ void KdDebugWireFrame::AddDebugLineFromMatrix(const Math::Matrix& mat, float sca
 }
 
 // デバッグスフィアの描画
-void KdDebugWireFrame::AddDebugSphere(const Math::Vector3& pos, float radius, const Math::Color& col)
+void KdDebugWireFrame::AddDebugSphere(const Math::Vector3& pos, float radius, const Math::Vector3& scale, const Math::Color& col)
 {
 	KdPolygon::Vertex v;
 	v.UV = Math::Vector2::Zero;
@@ -69,35 +69,35 @@ void KdDebugWireFrame::AddDebugSphere(const Math::Vector3& pos, float radius, co
 	{
 		// XZ面
 		v.pos = pos;
-		v.pos.x += cos((float)i * (360 / detail) * KdToRadians) * radius;
-		v.pos.z += sin((float)i * (360 / detail) * KdToRadians) * radius;
+		v.pos.z += sin((float)i * (360 / detail) * KdToRadians) * radius * scale.z;
+		v.pos.x += cos((float)i * (360 / detail) * KdToRadians) * radius * scale.x;
 		m_debugVertices.push_back(v);
 
 		v.pos = pos;
-		v.pos.x += cos((float)(i + 1) * (360 / detail) * KdToRadians) * radius;
-		v.pos.z += sin((float)(i + 1) * (360 / detail) * KdToRadians) * radius;
+		v.pos.x += cos((float)(i + 1) * (360 / detail) * KdToRadians) * radius * scale.x;
+		v.pos.z += sin((float)(i + 1) * (360 / detail) * KdToRadians) * radius * scale.z;
 		m_debugVertices.push_back(v);
 
 		// XY面
 		v.pos = pos;
-		v.pos.x += cos((float)i * (360 / detail) * KdToRadians) * radius;
-		v.pos.y += sin((float)i * (360 / detail) * KdToRadians) * radius;
+		v.pos.x += cos((float)i * (360 / detail) * KdToRadians) * radius * scale.x;
+		v.pos.y += sin((float)i * (360 / detail) * KdToRadians) * radius * scale.y;
 		m_debugVertices.push_back(v);
 
 		v.pos = pos;
-		v.pos.x += cos((float)(i + 1) * (360 / detail) * KdToRadians) * radius;
-		v.pos.y += sin((float)(i + 1) * (360 / detail) * KdToRadians) * radius;
+		v.pos.x += cos((float)(i + 1) * (360 / detail) * KdToRadians) * radius * scale.x;
+		v.pos.y += sin((float)(i + 1) * (360 / detail) * KdToRadians) * radius * scale.y;
 		m_debugVertices.push_back(v);
 
 		// YZ面
 		v.pos = pos;
-		v.pos.y += cos((float)i * (360 / detail) * KdToRadians) * radius;
-		v.pos.z += sin((float)i * (360 / detail) * KdToRadians) * radius;
+		v.pos.y += cos((float)i * (360 / detail) * KdToRadians) * radius * scale.y;
+		v.pos.z += sin((float)i * (360 / detail) * KdToRadians) * radius * scale.z;
 		m_debugVertices.push_back(v);
 
 		v.pos = pos;
-		v.pos.y += cos((float)(i + 1) * (360 / detail) * KdToRadians) * radius;
-		v.pos.z += sin((float)(i + 1) * (360 / detail) * KdToRadians) * radius;
+		v.pos.y += cos((float)(i + 1) * (360 / detail) * KdToRadians) * radius * scale.y;
+		v.pos.z += sin((float)(i + 1) * (360 / detail) * KdToRadians) * radius * scale.z;
 		m_debugVertices.push_back(v);
 	}
 }
@@ -129,7 +129,7 @@ void KdDebugWireFrame::AddDebugBox(const Math::Matrix& matrix, const Math::Vecto
 		obb.Extents = size;
 
 		obb.GetCorners(corners);
-	}	
+	}
 
 	// 底辺定義
 	{

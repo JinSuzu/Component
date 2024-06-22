@@ -219,6 +219,9 @@
     <ClInclude Include="Src\Application\Object\Component\Collider\Collider.h" />
     <ClInclude Include="Src\Application\Object\Component\Component.h" />
     <ClInclude Include="Src\Application\Object\Component\Controller\Controller.h" />
+    <ClInclude Include="Src\Application\Object\Component\HitResult\HitResult.h" />
+    <ClInclude Include="Src\Application\Object\Component\HitResult\HitResultBlock\HitResultBlock.h" />
+    <ClInclude Include="Src\Application\Object\Component\HitResult\HitResultReflect\HitResultReflect.h" />
     <ClInclude Include="Src\Application\Object\Component\Launcher\Launcher.h" />
     <ClInclude Include="Src\Application\Object\Component\ModelData\ModelData.h" />
     <ClInclude Include="Src\Application\Object\Component\Particle\Particle.h" />
@@ -296,6 +299,9 @@
     <ClCompile Include="Src\Application\Object\Component\Collider\Collider.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Component.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Controller\Controller.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\HitResult\HitResult.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\HitResult\HitResultBlock\HitResultBlock.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\HitResult\HitResultReflect\HitResultReflect.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Launcher\Launcher.cpp" />
     <ClCompile Include="Src\Application\Object\Component\ModelData\ModelData.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Particle\Particle.cpp" />

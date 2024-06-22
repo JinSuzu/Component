@@ -21,8 +21,6 @@ private:
 
 	bool  m_jumpFlg = false;
 	float m_jumpPow = 1.0f;
-
-	float m_reflectPow = 0.0f;
 	
 	//加速時間
 	int m_accelerationTime = 60;

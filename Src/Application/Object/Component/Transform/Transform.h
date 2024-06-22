@@ -21,22 +21,22 @@ public:
 	void InitJson()override;
 	nlohmann::json GetJson();
 
-	Math::Vector3 GetPosition(bool _PushFollow = false) const;
+	Math::Vector3 GetPosition() const { return m_position; };
 	Math::Vector3& RefPosition() { return m_position; }
 	Math::Vector3 GetRotation(bool _PushFollow = false) const;
 	Math::Vector3 GetScale(bool _PushFollow = false)	const;
 
 	void SetPosition(Math::Vector3 _pos) { m_position = _pos; }
 	void SetRotation(Math::Vector3 _rota) { m_rotation = _rota; }
-	void SetScale(Math::Vector3 _scal) { m_scale = _scal; }
+	void SetScale(Math::Vector3 _scale) { m_scale = _scale; }
 
 	//_matTag : "S""T""R"で行列計算を入れ替えられる
 	//_PushFollow : followフラグを無視する
-	Math::Matrix GetMatrix(std::string _matTag = std::string(),bool _PushFollow = false);
+	Math::Matrix GetMatrix(std::string _matTag = std::string(), bool _PushFollow = false);
 	Math::Matrix GetMatrix(bool _PushFollow);
 
-	Math::Matrix GetTMat() const;
-	Math::Matrix GetSMat() const;
+	Math::Matrix GetTMat() const { return Math::Matrix::CreateTranslation(m_position); };
+	Math::Matrix GetSMat() const { return Math::Matrix::CreateScale(m_scale); }
 	Math::Matrix GetRMat(UINT _shafts = 0);
 
 	std::weak_ptr<Cp_Transform> GetParent() { return m_parent; }

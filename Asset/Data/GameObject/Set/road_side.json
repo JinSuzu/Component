@@ -1,0 +1,71 @@
+[
+    {
+        "Childs": [
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": true,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 0.75,
+                                "y": 0.0,
+                                "z": -0.75
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 90.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "IDName": "ModelData",
+                            "drawType": 3452816833,
+                            "path": "road_sideBarrier"
+                        }
+                    ],
+                    "name": "road_sideBarrier",
+                    "tag": 0
+                }
+            }
+        ],
+        "Parent": {
+            "Component": [
+                {
+                    "Follow": true,
+                    "matTag": "SRT",
+                    "parentMatTag": "SRT",
+                    "position": {
+                        "x": 25.0,
+                        "y": 0.0,
+                        "z": -131.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 10.0,
+                        "y": 10.0,
+                        "z": 10.0
+                    }
+                },
+                {
+                    "IDName": "ModelData",
+                    "drawType": 3452816833,
+                    "path": "road_side"
+                }
+            ],
+            "name": "road_side",
+            "tag": 0
+        }
+    }
+]

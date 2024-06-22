@@ -29,7 +29,7 @@ void Cp_Collider::ImGuiUpdate()
 		for (int i = 0; i < std::log2((double)KdCollider::Type::TypeMax); i++)
 		{
 			KdCollider::Type type = static_cast<KdCollider::Type>(1 << i);
-			change |= ImGuiCheckBoxBit(magic_enum::enum_name(type).data(), m_colliderType, type);
+			change |= ImGuiCheckBoxBit(magic_enum::enum_name(type).data(), m_colliderType, (UINT)type);
 		}
 		ImGui::EndPopup();
 	}
@@ -106,7 +106,7 @@ void Cp_Collider::DrawDebug()
 {
 	if (!m_bActive)return;
 	KdDebugWireFrame debugWireFrame;
-	if (m_colliderShape & ColliderShape::Sphere)debugWireFrame.AddDebugSphere(m_trans.lock()->GetPosition() + m_offsetPos, m_radius);
+	if (m_colliderShape & ColliderShape::Sphere)debugWireFrame.AddDebugSphere(m_trans.lock()->GetPosition() + m_offsetPos, m_radius, m_trans.lock()->GetScale());
 	debugWireFrame.Draw();
 }
 
@@ -119,6 +119,7 @@ void Cp_Collider::RegisterCollider(bool _forcePush)
 	{
 		for (auto& it : m_owner.lock()->GetComponents<Cp_ModelData>())
 		{
+			if (it.lock()->GetModelData().expired())continue;
 			m_collider->RegisterCollisionShape(
 				"ObjectCollision" + std::to_string(i++),
 				it.lock()->GetModelData().lock(),
@@ -128,6 +129,7 @@ void Cp_Collider::RegisterCollider(bool _forcePush)
 
 		for (auto& it : m_owner.lock()->GetComponents<Cp_SquarePolygon>())
 		{
+			if (it.lock()->GetSquarePolygon().expired())continue;
 			m_collider->RegisterCollisionShape(
 				"ObjectCollision" + std::to_string(i++),
 				it.lock()->GetSquarePolygon().lock(),

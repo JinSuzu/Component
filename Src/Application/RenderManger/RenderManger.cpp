@@ -5,6 +5,7 @@
 
 void RenderManager::PreDraw()
 {
+	/*
 	std::list<std::weak_ptr<std::function<void()>>>::iterator preDraw = m_preDrawList.begin();
 	while (preDraw != m_preDrawList.end())
 	{
@@ -17,17 +18,21 @@ void RenderManager::PreDraw()
 		(*preDraw->lock())();
 		preDraw++;
 	}
+	*/
 
 	std::map<int, std::list<std::weak_ptr<class Cp_Camera>>>::iterator camera = m_cameraMap.begin();
 	while (camera != m_cameraMap.end())
 	{
-		std::list < std::weak_ptr<class Cp_Camera>>::iterator it = camera->second.begin();
+		std::list <std::weak_ptr<class Cp_Camera>>::iterator it = camera->second.begin();
 		while (it != camera->second.end())
 		{
 			if (it->lock())
 			{
-				it->lock()->PreDraw();
-				if(it->lock()->GetActive())return;
+				if (it->lock()->GetActive())
+				{
+					it->lock()->PreDraw();
+					return;
+				}
 				it++;
 			}
 			else
@@ -107,6 +112,7 @@ void RenderManager::DrawSprite()
 
 void RenderManager::DrawDebug()
 {
+	if (!Application::Instance().m_debugFlg)return;
 	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
 	{
 		std::list<std::weak_ptr<std::function<void()>>>::iterator drawDebug = m_drawDebugList.begin();

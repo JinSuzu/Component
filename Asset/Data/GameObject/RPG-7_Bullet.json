@@ -7,13 +7,13 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": -16.534801483154297,
-                    "y": 5.305341720581055,
-                    "z": -14.577983856201172
+                    "x": 287.0584411621094,
+                    "y": 9.0,
+                    "z": -684.5142211914063
                 },
                 "rotation": {
-                    "x": 44.0,
-                    "y": -208.0,
+                    "x": 0.0,
+                    "y": 278.0,
                     "z": 0.0
                 },
                 "scale": {
@@ -74,11 +74,11 @@
                 }
             },
             {
-                "AccelerationTime": 30,
+                "AccelerationTime": 15,
                 "CreatePath": "Sphere",
                 "IDName": "Bullet",
-                "ShotRange": 100.0,
-                "SpeedPow": 0.10000000149011612
+                "ShotRange": 1000.0,
+                "SpeedPow": 1.0
             }
         ],
         "name": "RPG-7_Bullet",

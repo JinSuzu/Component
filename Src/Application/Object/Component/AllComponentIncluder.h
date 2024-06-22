@@ -18,6 +18,8 @@
 #include "Bullet/Bullet.h"
 #include "Player/Player.h"
 #include "Particle/Particle.h"
+#include "HitResult/HitResultBlock/HitResultBlock.h"
+#include "HitResult/HitResultReflect/HitResultReflect.h"
 
 
 #define FNCOMPONENT(Tag)											\
@@ -46,9 +48,15 @@ class RegisterComponent
 
 		Register(FNCOMPONENT(Cp_Rigidbody));
 		{
-			Register(FNCOMPONENT(Cp_Player));
-			Register(FNCOMPONENT(Cp_Controller));
 			Register(FNCOMPONENT(Cp_Bullet));
+			Register(FNCOMPONENT(Cp_Controller));
+			Register(FNCOMPONENT(Cp_Player));
+
+			//HitResult
+			{
+				Register(FNCOMPONENT(Cp_HitResultBlock));
+				Register(FNCOMPONENT(Cp_HitResultReflect));
+			}
 		}
 
 		Register(FNCOMPONENT(Cp_ModelData));
