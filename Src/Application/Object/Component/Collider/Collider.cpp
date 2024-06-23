@@ -105,7 +105,7 @@ void Cp_Collider::DrawDebug()
 {
 	if (!m_bActive)return;
 	KdDebugWireFrame debugWireFrame;
-	if (m_colliderShape & ColliderShape::Sphere)debugWireFrame.AddDebugSphere(m_trans.lock()->GetPosition() + m_offsetPos, m_radius, m_trans.lock()->GetScale());
+	if (m_colliderShape & ColliderShape::Sphere)debugWireFrame.AddDebugSphere(m_trans.lock()->GetMatrix().Translation() + m_offsetPos, m_radius, m_trans.lock()->GetScale());
 	debugWireFrame.Draw();
 }
 

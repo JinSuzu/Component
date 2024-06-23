@@ -440,7 +440,7 @@ void Application::ImGuiUpdate()
 
 			ImGui::BeginChild("Scene", ImVec2(), ImGuiChildFlags_Border | childFlg);
 			{//Scene
-				ImGui::InputText("ScenePhase", &SceneManager::Instance().m_nowPhaseName);
+				ImGui::InputText("ScenePhase", &SceneManager::Instance().RefScenePhase());
 				SceneManager::Instance().ImGuiUpdate();
 				int SceneNum = SceneManager::Instance().GetNowSceneNum();
 				if(ImGui::SliderInt("SceneNum", &SceneNum, 0, SceneID::Max - 1)) SceneManager::Instance().ShiftScene((SceneID)SceneNum);

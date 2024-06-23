@@ -18,9 +18,8 @@ void Cp_Camera::ImGuiUpdate()
 
 void Cp_Camera::PreDraw()
 {
-	if (m_bActive)
+	if (m_bActive && m_owner.lock()->GetActive())
 	{
-		this;
 		m_camera->SetCameraMatrix(m_owner.lock()->GetTransform().lock()->GetMatrix());
 		m_camera->SetToShader();
 	}

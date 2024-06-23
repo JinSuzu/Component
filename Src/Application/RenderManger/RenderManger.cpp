@@ -1,6 +1,7 @@
 ﻿#include "RenderManger.h"
 #include "../Object/Component/Texture/Texture.h"
 #include "../Object/Component/Camera/Camera.h"
+#include "../Object/Game/GameObject.h"
 #include "../main.h"
 
 void RenderManager::PreDraw()
@@ -28,7 +29,7 @@ void RenderManager::PreDraw()
 		{
 			if (it->lock())
 			{
-				if (it->lock()->GetActive())
+				if (it->lock()->GetActive() && it->lock()->GetOwner().lock()->GetActive())
 				{
 					it->lock()->PreDraw();
 					return;

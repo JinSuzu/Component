@@ -10,7 +10,7 @@ void Cp_SquarePolygon::Draw3D(UINT _type)
 	if (m_owner.lock()->GetHideFlg())return;
 	if (m_drawType & _type)
 	{
-		KdShaderManager::Instance().m_StandardShader.DrawPolygon(*m_squarePolygon, m_trans.lock()->GetMatrix());
+		KdShaderManager::Instance().m_StandardShader.DrawPolygon(*m_squarePolygon, m_trans.lock()->GetMatrix(),m_color);
 	}
 }
 

@@ -8,11 +8,11 @@
                 "parentMatTag": "SRT",
                 "position": {
                     "x": 200.0,
-                    "y": 500.0,
+                    "y": 200.0,
                     "z": -500.0
                 },
                 "rotation": {
-                    "x": 90.0,
+                    "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
                 },
@@ -23,11 +23,11 @@
                 }
             },
             {
-                "IDName": "Camera",
-                "Priority": 1
+                "IDName": "SceneActive",
+                "SceneName": "Title"
             }
         ],
-        "name": "camera",
+        "name": "Title",
         "tag": 0
     }
 }

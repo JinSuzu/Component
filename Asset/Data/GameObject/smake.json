@@ -17,51 +17,28 @@
                     "z": 0.0
                 },
                 "scale": {
-                    "x": 50.0,
-                    "y": 50.0,
-                    "z": 50.0
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
                 }
             },
             {
-                "ActivePos": 7,
-                "ActiveRota": 2,
-                "ActiveScale": 7,
-                "FormInheritPos": true,
-                "FormInheritRota": true,
-                "FormInheritScale": true,
-                "IDName": "TransFormInherit",
-                "StartPos": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "StartRota": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "StartScale": {
-                    "x": 50.0,
-                    "y": 50.0,
-                    "z": 50.0
-                }
-            },
-            {
-                "ColliderShape": 4,
-                "ColliderType": 64,
-                "IDName": "Collider",
-                "OffsetPos": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Radius": 0.5
+                "DeleteTime": 20,
+                "IDName": "Particle"
             },
             {
                 "Animation": {
                     "animeList": [
                         {
                             "frames": [
+                                {
+                                    "h": 0,
+                                    "w": 0
+                                },
+                                {
+                                    "h": 0,
+                                    "w": 1
+                                },
                                 {
                                     "h": 0,
                                     "w": 2
@@ -85,26 +62,54 @@
                                 {
                                     "h": 0,
                                     "w": 7
+                                },
+                                {
+                                    "h": 0,
+                                    "w": 8
+                                },
+                                {
+                                    "h": 0,
+                                    "w": 9
                                 }
                             ],
-                            "interval": 5,
-                            "name": "Explosion"
+                            "interval": 2,
+                            "name": "def"
                         }
                     ],
-                    "nowAnime": "Explosion"
+                    "nowAnime": "def"
                 },
                 "IDName": "SquarePolygon",
                 "drawType": 3452816833,
-                "path": "Effect/Explosion",
+                "path": "Effect/smake",
                 "splitH": 1,
-                "splitW": 8
+                "splitW": 10
             },
             {
-                "DeleteTime": 30,
-                "IDName": "Particle"
+                "ActivePos": 7,
+                "ActiveRota": 7,
+                "ActiveScale": 7,
+                "FormInheritPos": true,
+                "FormInheritRota": true,
+                "FormInheritScale": true,
+                "IDName": "TransFormInherit",
+                "StartPos": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "StartRota": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "StartScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
             }
         ],
-        "name": "Sphere",
+        "name": "smake",
         "tag": 0
     }
 }

@@ -45,7 +45,140 @@
         }
     },
     {
-        "Childs": [],
+        "Childs": [
+            {
+                "Childs": [
+                    {
+                        "Childs": [],
+                        "Parent": {
+                            "Component": [
+                                {
+                                    "Follow": true,
+                                    "matTag": "SRT",
+                                    "parentMatTag": "SRT",
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 1.0,
+                                        "z": 3.0
+                                    },
+                                    "rotation": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "scale": {
+                                        "x": 5.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    }
+                                },
+                                {
+                                    "Animation": {
+                                        "animeList": [],
+                                        "nowAnime": ""
+                                    },
+                                    "IDName": "SquarePolygon",
+                                    "drawType": 283927202,
+                                    "path": "Title/Title",
+                                    "splitH": 1,
+                                    "splitW": 1
+                                }
+                            ],
+                            "name": "Broad",
+                            "tag": 0
+                        }
+                    },
+                    {
+                        "Childs": [],
+                        "Parent": {
+                            "Component": [
+                                {
+                                    "Follow": true,
+                                    "matTag": "SRT",
+                                    "parentMatTag": "SRT",
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": -5.0,
+                                        "z": 12.0
+                                    },
+                                    "rotation": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "scale": {
+                                        "x": 15.0,
+                                        "y": 2.0,
+                                        "z": 1.0
+                                    }
+                                },
+                                {
+                                    "Animation": {
+                                        "animeList": [],
+                                        "nowAnime": ""
+                                    },
+                                    "IDName": "SquarePolygon",
+                                    "drawType": 283927202,
+                                    "path": "Title/Go",
+                                    "splitH": 1,
+                                    "splitW": 1
+                                },
+                                {
+                                    "IDName": "SinCurveAlpha",
+                                    "addAngle": 0.0,
+                                    "addPow": 1.0
+                                },
+                                {
+                                    "IDName": "EnterToScene",
+                                    "NextScene": "Game"
+                                }
+                            ],
+                            "name": "Enter",
+                            "tag": 0
+                        }
+                    }
+                ],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": true,
+                            "matTag": "STR",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "rotation": {
+                                "x": 30.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "IDName": "Camera",
+                            "Priority": 1
+                        },
+                        {
+                            "IDName": "AddRotation",
+                            "addPow": {
+                                "x": 0.0,
+                                "y": 0.10000000149011612,
+                                "z": 0.0
+                            },
+                            "addType": 1
+                        }
+                    ],
+                    "name": "camera",
+                    "tag": 0
+                }
+            }
+        ],
         "Parent": {
             "Component": [
                 {
@@ -53,9 +186,9 @@
                     "matTag": "SRT",
                     "parentMatTag": "SRT",
                     "position": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
+                        "x": 200.0,
+                        "y": 200.0,
+                        "z": -500.0
                     },
                     "rotation": {
                         "x": 0.0,
@@ -70,10 +203,10 @@
                 },
                 {
                     "IDName": "SceneActive",
-                    "SceneName": "Ttile"
+                    "SceneName": "Title"
                 }
             ],
-            "name": "Ttile",
+            "name": "Title",
             "tag": 0
         }
     },
@@ -109,6 +242,17 @@
                                     "IDName": "ModelData",
                                     "drawType": 3452816833,
                                     "path": "goalFlag"
+                                },
+                                {
+                                    "ColliderShape": 1,
+                                    "ColliderType": 256,
+                                    "IDName": "Collider",
+                                    "OffsetPos": {
+                                        "x": 0.0,
+                                        "y": 17.0,
+                                        "z": 0.0
+                                    },
+                                    "Radius": 6.0
                                 }
                             ],
                             "name": "goalFlag",
@@ -3872,7 +4016,7 @@
                                 "z": 1.0
                             },
                             "Shape": 0,
-                            "Tag": 192,
+                            "Tag": 448,
                             "activeGravityFlag": true,
                             "deceleration": 0.8799999952316284,
                             "gravity": 0.02500000037252903,
@@ -3980,6 +4124,10 @@
                             "ColType": 64,
                             "IDName": "HitResultReflect",
                             "ReflectPow": 10.0
+                        },
+                        {
+                            "IDName": "HitResultScene",
+                            "NextScene": "Result"
                         }
                     ],
                     "name": "Player",
@@ -4019,7 +4167,91 @@
         }
     },
     {
-        "Childs": [],
+        "Childs": [
+            {
+                "Childs": [
+                    {
+                        "Childs": [],
+                        "Parent": {
+                            "Component": [
+                                {
+                                    "Follow": true,
+                                    "matTag": "SRT",
+                                    "parentMatTag": "SRT",
+                                    "position": {
+                                        "x": 12.0,
+                                        "y": -8.0,
+                                        "z": 16.0
+                                    },
+                                    "rotation": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": 0.0
+                                    },
+                                    "scale": {
+                                        "x": 8.0,
+                                        "y": 3.0,
+                                        "z": 1.0
+                                    }
+                                },
+                                {
+                                    "Animation": {
+                                        "animeList": [],
+                                        "nowAnime": ""
+                                    },
+                                    "IDName": "SquarePolygon",
+                                    "drawType": 283927202,
+                                    "path": "Result/Enter",
+                                    "splitH": 1,
+                                    "splitW": 1
+                                },
+                                {
+                                    "IDName": "SinCurveAlpha",
+                                    "addAngle": 0.0,
+                                    "addPow": 1.0
+                                },
+                                {
+                                    "IDName": "EnterToScene",
+                                    "NextScene": "Title"
+                                }
+                            ],
+                            "name": "Enter",
+                            "tag": 0
+                        }
+                    }
+                ],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": true,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 200.0,
+                                "y": 500.0,
+                                "z": -500.0
+                            },
+                            "rotation": {
+                                "x": 90.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "IDName": "Camera",
+                            "Priority": 1
+                        }
+                    ],
+                    "name": "camera",
+                    "tag": 0
+                }
+            }
+        ],
         "Parent": {
             "Component": [
                 {

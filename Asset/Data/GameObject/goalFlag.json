@@ -26,6 +26,17 @@
                 "IDName": "ModelData",
                 "drawType": 3452816833,
                 "path": "goalFlag"
+            },
+            {
+                "ColliderShape": 1,
+                "ColliderType": 256,
+                "IDName": "Collider",
+                "OffsetPos": {
+                    "x": 0.0,
+                    "y": 17.0,
+                    "z": 0.0
+                },
+                "Radius": 6.0
             }
         ],
         "name": "goalFlag",

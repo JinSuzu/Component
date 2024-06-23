@@ -4,19 +4,19 @@
 
 void Cp_SceneActive::Start()
 {
-	bool nowFlg = m_sceneName == SceneManager::Instance().m_nowPhaseName;
+	/*bool nowFlg = m_sceneName == SceneManager::Instance().m_nowPhaseName;
 	m_flg = nowFlg;
 	for (auto& it : m_owner.lock()->GetChilds())
 	{
 		if (it.expired())continue;
 		it.lock()->SetActive(m_flg);
-	}
+	}*/
+	m_flg = false;
 }
 
 void Cp_SceneActive::PreUpdateContents()
 {
-	bool nowFlg = m_sceneName == SceneManager::Instance().m_nowPhaseName;
-	if (m_flg == nowFlg)return;
+	bool nowFlg = m_sceneName == SceneManager::Instance().GetScenePhase();
 	m_flg = nowFlg;
 	for (auto& it : m_owner.lock()->GetChilds())
 	{

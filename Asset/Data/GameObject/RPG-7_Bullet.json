@@ -28,6 +28,9 @@
                 "path": "RPG-7_Bullet"
             },
             {
+                "ActivePos": 7,
+                "ActiveRota": 7,
+                "ActiveScale": 7,
                 "FormInheritPos": true,
                 "FormInheritRota": true,
                 "FormInheritScale": true,
@@ -79,6 +82,11 @@
                 "IDName": "Bullet",
                 "ShotRange": 1000.0,
                 "SpeedPow": 1.0
+            },
+            {
+                "CreatePath": "smake",
+                "IDName": "MoveLocus",
+                "Interval": 1
             }
         ],
         "name": "RPG-7_Bullet",

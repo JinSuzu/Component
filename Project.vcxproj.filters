@@ -172,6 +172,18 @@
     <Filter Include="Src\Application\Object\Component\SceneActive">
       <UniqueIdentifier>{3a6744da-a390-4e32-9a3f-7956ba501986}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Object\Component\SinCurveAlpha">
+      <UniqueIdentifier>{7cb8d830-43c9-4e51-bfac-5ac6aa4d0d6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\EnterToScene">
+      <UniqueIdentifier>{3ed04ec8-b482-4361-b398-62cd692a5c46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\HitResult\HitResultScene">
+      <UniqueIdentifier>{3dbb884c-9896-45c2-bc3d-f94d236696ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\MoveLocus">
+      <UniqueIdentifier>{35c994b5-0b00-4613-a2c6-aa0095ed5aac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -594,6 +606,18 @@
     <ClInclude Include="Src\Application\Object\Component\SceneActive\SceneActive.h">
       <Filter>Src\Application\Object\Component\SceneActive</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\SinCurveAlpha\SinCurveAlpha.h">
+      <Filter>Src\Application\Object\Component\SinCurveAlpha</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\EnterToScene\EnterToScene.h">
+      <Filter>Src\Application\Object\Component\EnterToScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\HitResult\HitResultScene\HitResultScene.h">
+      <Filter>Src\Application\Object\Component\HitResult\HitResultScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\MoveLocus\MoveLocus.h">
+      <Filter>Src\Application\Object\MoveLocus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -823,6 +847,18 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\SceneActive\SceneActive.cpp">
       <Filter>Src\Application\Object\Component\SceneActive</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\SinCurveAlpha\SinCurveAlpha.cpp">
+      <Filter>Src\Application\Object\Component\SinCurveAlpha</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\EnterToScene\EnterToScene.cpp">
+      <Filter>Src\Application\Object\Component\EnterToScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\HitResult\HitResultScene\HitResultScene.cpp">
+      <Filter>Src\Application\Object\Component\HitResult\HitResultScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\MoveLocus\MoveLocus.cpp">
+      <Filter>Src\Application\Object\MoveLocus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

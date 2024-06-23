@@ -24,10 +24,16 @@ public:
 
 	int GetNowSceneNum() const { return m_nowSceneNum; }
 	std::shared_ptr<class GameObjectManager> m_objectMgr;
-	std::string m_nowPhaseName;
+
+	std::string GetScenePhase() { return m_nowPhaseName; }
+	std::string& RefScenePhase() { return m_nowPhaseName; }
+	void SetScenePhase(std::string _name);
 private:
 
 	SceneID m_nowSceneNum;
+	std::string m_nowPhaseName;
+
+	bool bReLoad = false;
 
 	SceneManager()
 		:m_nowSceneNum()

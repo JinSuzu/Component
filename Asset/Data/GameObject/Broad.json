@@ -7,27 +7,34 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": 200.0,
-                    "y": 500.0,
-                    "z": -500.0
+                    "x": 0.0,
+                    "y": 1.0,
+                    "z": 3.0
                 },
                 "rotation": {
-                    "x": 90.0,
+                    "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
                 },
                 "scale": {
-                    "x": 1.0,
+                    "x": 5.0,
                     "y": 1.0,
                     "z": 1.0
                 }
             },
             {
-                "IDName": "Camera",
-                "Priority": 1
+                "Animation": {
+                    "animeList": [],
+                    "nowAnime": ""
+                },
+                "IDName": "SquarePolygon",
+                "drawType": 283927202,
+                "path": "Title/Title",
+                "splitH": 1,
+                "splitW": 1
             }
         ],
-        "name": "camera",
+        "name": "Broad",
         "tag": 0
     }
 }

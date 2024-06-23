@@ -14,11 +14,14 @@ public:
 	nlohmann::json GetJson()override;
 
 	std::weak_ptr<KdSquarePolygon>GetSquarePolygon() { return m_squarePolygon; };
+	void SetColor(Math::Color _color) { m_color = _color; }
+	Math::Color GetColor() const { return m_color; }
 private:
 	UINT								m_drawType;
 
 	std::string							m_path;
 	std::shared_ptr<KdSquarePolygon>	m_squarePolygon;
+	Math::Color							m_color = kWhiteColor;
 
 	std::weak_ptr<class Cp_Transform> m_trans;
 

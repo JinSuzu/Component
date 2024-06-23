@@ -32,7 +32,7 @@ void Animation2D::ImGuiUpdate()
 
 		static std::string name;
 		ImGui::InputText("Name", &name);
-		if (ImGui::SameLine(); ImGui::Button("add"))
+		if (ImGui::Button("add"))
 		{
 			AnimeSet temp;
 			temp.name = name;

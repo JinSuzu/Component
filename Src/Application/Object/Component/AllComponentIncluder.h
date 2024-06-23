@@ -20,7 +20,11 @@
 #include "Particle/Particle.h"
 #include "HitResult/HitResultBlock/HitResultBlock.h"
 #include "HitResult/HitResultReflect/HitResultReflect.h"
+#include "HitResult/HitResultScene/HitResultScene.h"
 #include "SceneActive/SceneActive.h"
+#include "SinCurveAlpha/SinCurveAlpha.h"
+#include "EnterToScene/EnterToScene.h"
+#include "MoveLocus/MoveLocus.h"
 
 
 #define FNCOMPONENT(Tag)											\
@@ -57,11 +61,14 @@ class RegisterComponent
 			{
 				Register(FNCOMPONENT(Cp_HitResultBlock));
 				Register(FNCOMPONENT(Cp_HitResultReflect));
+				Register(FNCOMPONENT(Cp_HitResultScene));
+				Register(FNCOMPONENT(Cp_MoveLocus));
 			}
 		}
 
 		Register(FNCOMPONENT(Cp_ModelData));
 		Register(FNCOMPONENT(Cp_SquarePolygon));
+		Register(FNCOMPONENT(Cp_SinCurveAlpha));
 		Register(FNCOMPONENT(Cp_Texture));
 
 		Register(FNCOMPONENT(Cp_AddRotation));
@@ -71,6 +78,7 @@ class RegisterComponent
 		Register(FNCOMPONENT(Cp_TransFormInherit));
 
 		Register(FNCOMPONENT(Cp_SceneActive));
+		Register(FNCOMPONENT(Cp_EnterToScene));
 	};
 public:
 	/*UINT NameToBit(std::string _tag) { return m_nameToBitMap.find(PickName(_tag, '_'))->second; }

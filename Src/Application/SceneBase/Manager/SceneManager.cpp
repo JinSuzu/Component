@@ -15,6 +15,13 @@ m_registerScene[SceneID::##NAME] = ([=]() {return std::make_shared<NAME##Scene>(
 void SceneManager::PreUpdate()
 {
 	if (m_objectMgr == nullptr)return;
+
+	if (bReLoad) 
+	{
+		ReLoad();
+		bReLoad = false;
+	}
+
 	m_objectMgr->PreUpdate();
 }
 void SceneManager::Update()
@@ -32,6 +39,7 @@ void SceneManager::PostUpdate()
 void SceneManager::Init()
 {
 	m_nowSceneNum = SceneID::Scene;
+	m_nowPhaseName = "Title";
 	m_objectMgr = std::make_shared<GameObjectManager>();
 	std::string NowSceneName = magic_enum::enum_name<SceneID>(m_nowSceneNum).data();
 	m_objectMgr->Load("Scene/" + NowSceneName);
@@ -52,6 +60,15 @@ void SceneManager::ShiftScene(SceneID _toSceneNum)
 	m_nowSceneNum = _toSceneNum;
 	m_objectMgr->Release("Scene/" + NowSceneName, Application::Instance().GetBuildFlg());
 	m_objectMgr->Load("Scene/" + NextSceneName);
+}
+
+void SceneManager::SetScenePhase(std::string _name)
+{
+	m_nowPhaseName = _name;
+	if (m_nowPhaseName == "Title")
+	{
+		bReLoad = true;
+	}
 }
 
 void SceneManager::ReLoad()
