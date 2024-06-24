@@ -14,6 +14,7 @@ void Cp_HitResultScene::UpdateContents()
 	{
 		if (!((UINT)KdCollider::Type::TypeScene & result.m_type))continue;
 		SceneManager::Instance().SetScenePhase(m_nextScene);
+		KdAudioManager::Instance().Play("Asset/Sounds/Clear.wav");
 		break;
 	}
 }

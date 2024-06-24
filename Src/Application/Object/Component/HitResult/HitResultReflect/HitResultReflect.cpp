@@ -4,8 +4,6 @@
 #include "../../Rigidbody/Rigidbody.h"
 #include "../../Transform/Transform.h"
 
-
-
 void Cp_HitResultReflect::UpdateContents()
 {
 	for (auto& result : m_rigid.lock()->GetHitResult())
@@ -18,6 +16,16 @@ void Cp_HitResultReflect::UpdateContents()
 		m_rigid.lock()->SetMove(move);
 		m_rigid.lock()->AddMove(overMove * m_reflectPow);
 		m_rigid.lock()->SetGravity(0);
+		m_bFlying = true;
+	}
+
+	if (m_bFlying) 
+	{
+		if (!m_bPlay) 
+		{
+			KdAudioManager::Instance().Play("Asset/Sounds/Flging.wav");
+			m_bPlay = true;
+		}
 	}
 }
 

@@ -17,8 +17,10 @@ void Cp_AddRotation::UpdateContents()
 
 	if (m_addType == AddType::Normal)rota += m_addPow;
 
-	if (m_addType == AddType::FollowMouse && !Application::Instance().Application::Instance().GetBuildFlg())
+	if (m_addType == AddType::FollowMouse)
 	{
+		if (Application::Instance().m_debugFlg && !(GetAsyncKeyState(VK_RBUTTON) & 0x8000))return;
+
 		Math::Vector2 nowMouseMove = Application::Instance().GetMouse() - m_mouseMove;
 		Math::Vector2 windowSize = Application::Instance().GetWindowSize();
 

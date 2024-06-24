@@ -53,6 +53,7 @@ void Cp_Launcher::PreUpdateContents()
 		{
 			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 			{
+				KdAudioManager::Instance().Play("Asset/Sounds/Shot.wav");
 				m_bullet->Create();
 				m_bulletNum--;
 
@@ -61,6 +62,7 @@ void Cp_Launcher::PreUpdateContents()
 			}
 		}
 	}
+
 }
 
 void Cp_Launcher::ImGuiUpdate()

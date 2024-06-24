@@ -7,13 +7,13 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": 287.0584411621094,
-                    "y": 9.0,
-                    "z": -684.5142211914063
+                    "x": 317.9023132324219,
+                    "y": 5.25,
+                    "z": -686.054931640625
                 },
                 "rotation": {
                     "x": 0.0,
-                    "y": 278.0,
+                    "y": 166.0,
                     "z": 0.0
                 },
                 "scale": {
@@ -26,6 +26,7 @@
                 "ActivePos": 7,
                 "ActiveRota": 2,
                 "ActiveScale": 7,
+                "CameraFormInheritRota": false,
                 "FormInheritPos": true,
                 "FormInheritRota": true,
                 "FormInheritScale": true,
@@ -100,7 +101,7 @@
                 "splitW": 8
             },
             {
-                "DeleteTime": 30,
+                "DeleteTime": 24,
                 "IDName": "Particle"
             }
         ],

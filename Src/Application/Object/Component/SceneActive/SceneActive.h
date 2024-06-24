@@ -13,5 +13,8 @@ public:
 
 private:
 	std::string m_sceneName;
-	bool m_flg;
+
+	std::string m_sceneBGMPath;
+
+	bool m_flg = false;
 };

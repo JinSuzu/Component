@@ -11,5 +11,7 @@ public:
 	nlohmann::json GetJson()override;
 
 private:
+	bool m_bFlying = false;
+	bool m_bPlay = false;
 	float m_reflectPow = 0.0f;
 };

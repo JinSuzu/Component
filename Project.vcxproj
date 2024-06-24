@@ -226,6 +226,7 @@
     <ClInclude Include="Src\Application\Object\Component\HitResult\HitResultScene\HitResultScene.h" />
     <ClInclude Include="Src\Application\Object\Component\Launcher\Launcher.h" />
     <ClInclude Include="Src\Application\Object\Component\ModelData\ModelData.h" />
+    <ClInclude Include="Src\Application\Object\Component\MoveLimit\MoveLimit.h" />
     <ClInclude Include="Src\Application\Object\Component\MoveLocus\MoveLocus.h" />
     <ClInclude Include="Src\Application\Object\Component\Particle\Particle.h" />
     <ClInclude Include="Src\Application\Object\Component\Player\Player.h" />
@@ -311,6 +312,7 @@
     <ClCompile Include="Src\Application\Object\Component\HitResult\HitResultScene\HitResultScene.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Launcher\Launcher.cpp" />
     <ClCompile Include="Src\Application\Object\Component\ModelData\ModelData.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\MoveLimit\MoveLimit.cpp" />
     <ClCompile Include="Src\Application\Object\Component\MoveLocus\MoveLocus.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Particle\Particle.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Player\Player.cpp" />

@@ -7,13 +7,13 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": -97.5,
+                    "x": -14.0,
                     "y": 0.0,
-                    "z": -93.0
+                    "z": -94.0
                 },
                 "rotation": {
                     "x": 0.0,
-                    "y": 90.0,
+                    "y": 0.0,
                     "z": 0.0
                 },
                 "scale": {
@@ -26,17 +26,6 @@
                 "IDName": "ModelData",
                 "drawType": 3452816833,
                 "path": "road_end"
-            },
-            {
-                "ColliderShape": 0,
-                "ColliderType": 1,
-                "IDName": "Collider",
-                "OffsetPos": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Radius": 0.0
             }
         ],
         "name": "road_end",

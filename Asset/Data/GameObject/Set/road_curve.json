@@ -31,7 +31,7 @@
                             "path": "road_curveBarrier"
                         }
                     ],
-                    "name": "road_curveBarrier",
+                    "name": "road_bendBarrier",
                     "tag": 0
                 }
             }
@@ -43,9 +43,9 @@
                     "matTag": "SRT",
                     "parentMatTag": "SRT",
                     "position": {
-                        "x": -15.0,
+                        "x": -110.0,
                         "y": 0.0,
-                        "z": -68.0
+                        "z": -161.0
                     },
                     "rotation": {
                         "x": 0.0,
@@ -54,7 +54,7 @@
                     },
                     "scale": {
                         "x": 10.0,
-                        "y": 10.0,
+                        "y": 1.0,
                         "z": 10.0
                     }
                 },
@@ -62,6 +62,17 @@
                     "IDName": "ModelData",
                     "drawType": 3452816833,
                     "path": "road_curve"
+                },
+                {
+                    "ColliderShape": 1,
+                    "ColliderType": 1,
+                    "IDName": "Collider",
+                    "OffsetPos": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Radius": 0.0
                 }
             ],
             "name": "road_curve",

@@ -52,7 +52,7 @@
             },
             {
                 "IDName": "Controller",
-                "movePow": 1.0,
+                "movePow": 10.0,
                 "shaft": 7
             },
             {

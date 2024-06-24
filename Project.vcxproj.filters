@@ -184,6 +184,9 @@
     <Filter Include="Src\Application\Object\MoveLocus">
       <UniqueIdentifier>{35c994b5-0b00-4613-a2c6-aa0095ed5aac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Object\Component\MoveLimit">
+      <UniqueIdentifier>{c77bf64d-b876-4c15-8a21-762f5b4e516f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -618,6 +621,9 @@
     <ClInclude Include="Src\Application\Object\Component\MoveLocus\MoveLocus.h">
       <Filter>Src\Application\Object\MoveLocus</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\MoveLimit\MoveLimit.h">
+      <Filter>Src\Application\Object\Component\MoveLimit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -859,6 +865,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\MoveLocus\MoveLocus.cpp">
       <Filter>Src\Application\Object\MoveLocus</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\MoveLimit\MoveLimit.cpp">
+      <Filter>Src\Application\Object\Component\MoveLimit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

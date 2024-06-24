@@ -307,22 +307,17 @@ void Application::Execute()
 		//
 		//=========================================
 
-
+		ShowCursor(m_buildFlg || m_debugFlg);
 		KdBeginUpdate();
 		{
 			m_buildCamera->SetActive(m_buildFlg);
 			m_buildCamera->PreUpdate();
 			m_buildCamera->Update();
 			m_buildCamera->PostUpdate();
-			ShowCursor(m_buildFlg);
-			if (!m_buildFlg)
-			{
-				PreUpdate();
 
-				Update();
-
-				PostUpdate();
-			}
+			PreUpdate();
+			Update();
+			PostUpdate();
 		}
 		KdPostUpdate();
 
@@ -428,6 +423,7 @@ void Application::ImGuiUpdate()
 			{
 				if (GetAsyncKeyState(VK_F5) & 0x8000)
 				{
+					SceneManager::Instance().ReLoad();
 					m_buildFlg = !m_buildFlg;
 				}
 			}
@@ -435,6 +431,7 @@ void Application::ImGuiUpdate()
 			{
 				if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
 				{
+					SceneManager::Instance().ReLoad();
 					m_buildFlg = !m_buildFlg;
 				}
 

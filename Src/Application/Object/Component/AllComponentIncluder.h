@@ -25,6 +25,7 @@
 #include "SinCurveAlpha/SinCurveAlpha.h"
 #include "EnterToScene/EnterToScene.h"
 #include "MoveLocus/MoveLocus.h"
+#include "MoveLimit/MoveLimit.h"
 
 
 #define FNCOMPONENT(Tag)											\
@@ -63,6 +64,7 @@ class RegisterComponent
 				Register(FNCOMPONENT(Cp_HitResultReflect));
 				Register(FNCOMPONENT(Cp_HitResultScene));
 				Register(FNCOMPONENT(Cp_MoveLocus));
+				Register(FNCOMPONENT(Cp_MoveLimit));
 			}
 		}
 

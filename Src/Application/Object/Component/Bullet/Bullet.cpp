@@ -18,7 +18,6 @@ void Cp_Bullet::Start()
 
 void Cp_Bullet::PreUpdateContents()
 {
-	if (m_startPoint == Math::Vector3::Zero)m_startPoint = m_trans.lock()->GetPosition();
 
 	Math::Vector3 move = m_trans.lock()->GetRMat().Backward();
 	move.Normalize();
@@ -26,6 +25,7 @@ void Cp_Bullet::PreUpdateContents()
 	if (m_accelerationTime != m_accelerationTimeCnt)m_accelerationTimeCnt++;
 	m_rigid.lock()->AddMove((move * (m_speedPow * m_accelerationTimeCnt / (float)m_accelerationTime)));
 
+	if (m_startPoint == Math::Vector3::Zero)m_startPoint = m_trans.lock()->GetPosition();
 	float movingDistance = Math::Vector3::Distance(m_trans.lock()->GetPosition(), m_startPoint);
 	if (movingDistance > m_shotRange)m_owner.lock()->Destroy();
 }
@@ -77,7 +77,7 @@ nlohmann::json Cp_Bullet::GetJson()
 void Cp_Bullet::Destroy()
 {
 	Object::Destroy();
-
+	KdAudioManager::Instance().Play("Asset/Sounds/Explosion.wav");
 	//爆風発生処理
 	m_landingObject->Create();
 	m_owner.lock()->GetChilds().clear();

@@ -10,6 +10,7 @@ void Cp_EnterToScene::PreUpdateContents()
 		if (!Pushing)
 		{
 			SceneManager::Instance().SetScenePhase(m_nextScene);
+			KdAudioManager::Instance().Play("Asset/Sounds/ToGame.wav");
 			Pushing = true;
 		}
 		return;

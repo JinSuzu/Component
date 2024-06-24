@@ -7,9 +7,9 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": -105.0,
+                    "x": -10.0,
                     "y": 0.0,
-                    "z": -166.0
+                    "z": -50.0
                 },
                 "rotation": {
                     "x": 0.0,
@@ -26,17 +26,6 @@
                 "IDName": "ModelData",
                 "drawType": 3452816833,
                 "path": "road_bendSidewalk"
-            },
-            {
-                "ColliderShape": 1,
-                "ColliderType": 1,
-                "IDName": "Collider",
-                "OffsetPos": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Radius": 0.0
             }
         ],
         "name": "road_bendSidewalk",

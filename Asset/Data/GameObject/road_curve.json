@@ -7,9 +7,9 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": -92.5,
+                    "x": -102.5,
                     "y": 0.0,
-                    "z": -78.0
+                    "z": -1.5
                 },
                 "rotation": {
                     "x": 0.0,
@@ -18,7 +18,7 @@
                 },
                 "scale": {
                     "x": 10.0,
-                    "y": 10.0,
+                    "y": 1.0,
                     "z": 10.0
                 }
             },
@@ -26,6 +26,17 @@
                 "IDName": "ModelData",
                 "drawType": 3452816833,
                 "path": "road_curve"
+            },
+            {
+                "ColliderShape": 1,
+                "ColliderType": 1,
+                "IDName": "Collider",
+                "OffsetPos": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Radius": 0.0
             }
         ],
         "name": "road_curve",

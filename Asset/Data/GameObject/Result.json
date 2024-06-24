@@ -24,6 +24,7 @@
             },
             {
                 "IDName": "SceneActive",
+                "SceneBGM": "",
                 "SceneName": "Result"
             }
         ],

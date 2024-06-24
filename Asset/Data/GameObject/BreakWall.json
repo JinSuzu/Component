@@ -7,9 +7,9 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": -105.0,
+                    "x": -95.0,
                     "y": 0.0,
-                    "z": -115.0
+                    "z": -85.0
                 },
                 "rotation": {
                     "x": 0.0,
@@ -72,6 +72,10 @@
                 "CreatePath": "smake",
                 "IDName": "MoveLocus",
                 "Interval": 5
+            },
+            {
+                "IDName": "MoveLimit",
+                "ShotRange": 5000.0
             }
         ],
         "name": "BreakWall",

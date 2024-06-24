@@ -25,7 +25,7 @@
             {
                 "IDName": "ModelData",
                 "drawType": 3452816833,
-                "path": "road_bendBarrier"
+                "path": "road_curveBarrier"
             }
         ],
         "name": "road_bendBarrier",
