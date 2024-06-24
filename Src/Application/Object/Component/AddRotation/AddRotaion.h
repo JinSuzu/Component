@@ -12,6 +12,8 @@ public:
 
 	void InitJson()override;
 	nlohmann::json GetJson()override;
+
+	void SetActive(bool _flg);
 private:
 	enum AddType
 	{

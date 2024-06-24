@@ -7,6 +7,8 @@
 #include "../../../SceneBase/SceneBase.h"
 #include "../../Game/Manager/GameObjectManager.h"
 
+#include "../../../main.h"
+
 void Cp_Player::Start()
 {
 	m_trans = m_owner.lock()->GetTransform();

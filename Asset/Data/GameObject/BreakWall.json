@@ -67,6 +67,11 @@
                     "z": 0.0
                 },
                 "Radius": 0.0
+            },
+            {
+                "CreatePath": "smake",
+                "IDName": "MoveLocus",
+                "Interval": 5
             }
         ],
         "name": "BreakWall",

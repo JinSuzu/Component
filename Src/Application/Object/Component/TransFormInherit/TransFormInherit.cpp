@@ -1,5 +1,8 @@
 ﻿#include "TransFormInherit.h"
 #include "../../Game/GameObject.h"
+
+#include "../Camera/Camera.h"
+#include "../../../RenderManger/RenderManger.h"
 #include "../Transform/Transform.h"
 
 void Cp_TransFormInherit::Start()
@@ -57,6 +60,7 @@ void Cp_TransFormInherit::InitJson()
 	m_startPos = JsonToVec3(m_jsonData["StartPos"]);
 
 	m_formInheritRota = m_jsonData["FormInheritRota"];
+	if (m_jsonData["CameraFormInheritRota"].is_boolean())m_cameraFormInherit = m_jsonData["CameraFormInheritRota"];
 	if (m_jsonData["ActiveRota"].is_number()) m_activeRota = m_jsonData["ActiveRota"];
 	m_startRota = JsonToVec3(m_jsonData["StartRota"]);
 
@@ -87,7 +91,7 @@ void Cp_TransFormInherit::InitJson()
 		};
 
 	if (m_formInheritPos)mTrans.lock()->SetPosition(AddCheck(m_activePos, pos));
-	if (m_formInheritRota)mTrans.lock()->SetRotation(AddCheck(m_activeRota, rota));
+	if (m_formInheritRota)mTrans.lock()->SetRotation(m_cameraFormInherit ? RenderManager::Instance().GetCamera().lock()->GetOwner().lock()->GetTransform().lock()->GetRotation() : AddCheck(m_activeRota, rota));
 	if (m_formInheritScale)mTrans.lock()->SetScale(AddCheck(m_activeScale, scale));
 
 	mTrans.lock()->UnFollow();
@@ -100,6 +104,7 @@ nlohmann::json Cp_TransFormInherit::GetJson()
 	m_jsonData["StartPos"] = Vec3ToJson(m_startPos);
 
 	m_jsonData["FormInheritRota"] = m_formInheritRota;
+	m_jsonData["CameraFormInheritRota"] = m_cameraFormInherit;
 	m_jsonData["ActiveRota"] = m_activeRota;
 	m_jsonData["StartRota"] = Vec3ToJson(m_startRota);
 

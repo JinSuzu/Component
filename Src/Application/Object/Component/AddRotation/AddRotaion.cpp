@@ -17,7 +17,7 @@ void Cp_AddRotation::UpdateContents()
 
 	if (m_addType == AddType::Normal)rota += m_addPow;
 
-	if (m_addType == AddType::FollowMouse && GetAsyncKeyState(VK_RBUTTON) & 0x8000)
+	if (m_addType == AddType::FollowMouse && !Application::Instance().Application::Instance().GetBuildFlg())
 	{
 		Math::Vector2 nowMouseMove = Application::Instance().GetMouse() - m_mouseMove;
 		Math::Vector2 windowSize = Application::Instance().GetWindowSize();
@@ -40,12 +40,12 @@ void Cp_AddRotation::UpdateContents()
 
 void Cp_AddRotation::ImGuiUpdate()
 {
-	ImGui::DragFloat3("addPow",&m_addPow.x);
+	ImGui::DragFloat3("addPow", &m_addPow.x);
 
 	bool bNormal = m_addType & AddType::Normal;
 	if (ImGui::Checkbox("Normal", &bNormal))m_addType = AddType::Normal; ImGui::SameLine();
 	bool bFollowMouse = m_addType & AddType::FollowMouse;
-	if (ImGui::Checkbox("FollowMouse",&bFollowMouse))m_addType = AddType::FollowMouse;
+	if (ImGui::Checkbox("FollowMouse", &bFollowMouse))m_addType = AddType::FollowMouse;
 }
 
 void Cp_AddRotation::InitJson()
@@ -55,7 +55,20 @@ void Cp_AddRotation::InitJson()
 }
 nlohmann::json Cp_AddRotation::GetJson()
 {
-	m_jsonData["addPow"]  = Vec3ToJson(m_addPow);
+	m_jsonData["addPow"] = Vec3ToJson(m_addPow);
 	m_jsonData["addType"] = m_addType;
 	return m_jsonData;
+}
+
+void Cp_AddRotation::SetActive(bool _flg)
+{
+	bool nowFlg = m_bActive;
+	Component::SetActive(_flg);
+	if (nowFlg == _flg)return;
+	if (_flg && !Application::Instance().GetBuildFlg() && m_addType == AddType::FollowMouse)
+	{
+		POINT test{ 640,360 };
+		ClientToScreen(Application::Instance().GetWindowHandle(), &test);
+		SetCursorPos(test.x, test.y);
+	}
 }

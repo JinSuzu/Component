@@ -10,7 +10,7 @@ void Cp_SquarePolygon::Draw3D(UINT _type)
 	if (m_owner.lock()->GetHideFlg())return;
 	if (m_drawType & _type)
 	{
-		KdShaderManager::Instance().m_StandardShader.DrawPolygon(*m_squarePolygon, m_trans.lock()->GetMatrix(),m_color);
+		KdShaderManager::Instance().m_StandardShader.DrawPolygon(*m_squarePolygon, m_trans.lock()->GetMatrix(), m_color);
 	}
 }
 
@@ -56,7 +56,7 @@ void Cp_SquarePolygon::InitJson()
 	m_path = m_jsonData["path"];
 	m_squarePolygon = AssetManager::Instance().GetSquarePolygon(m_path);
 	m_drawType = m_jsonData["drawType"];
-	
+
 	m_split[0] = m_jsonData["splitW"];
 	m_split[1] = m_jsonData["splitH"];
 
@@ -71,7 +71,7 @@ nlohmann::json Cp_SquarePolygon::GetJson()
 
 	m_jsonData["splitW"] = m_split[0];
 	m_jsonData["splitH"] = m_split[1];
-						   
+
 	m_jsonData["Animation"] = m_animation->GetJson();
 	return m_jsonData;
 }

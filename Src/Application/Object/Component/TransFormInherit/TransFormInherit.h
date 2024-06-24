@@ -16,6 +16,7 @@ private:
 	Math::Vector3 m_startPos = Math::Vector3::Zero;
 
 	bool m_formInheritRota = false;
+	bool m_cameraFormInherit = false;
 	UINT m_activeRota = 0;
 	Math::Vector3 m_startRota = Math::Vector3::Zero;
 

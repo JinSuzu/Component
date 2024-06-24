@@ -31,6 +31,7 @@
                 "ActivePos": 7,
                 "ActiveRota": 7,
                 "ActiveScale": 7,
+                "CameraFormInheritRota": false,
                 "FormInheritPos": true,
                 "FormInheritRota": true,
                 "FormInheritScale": true,
@@ -84,7 +85,7 @@
                 "SpeedPow": 1.0
             },
             {
-                "CreatePath": "smake",
+                "CreatePath": "RocketSmake",
                 "IDName": "MoveLocus",
                 "Interval": 1
             }

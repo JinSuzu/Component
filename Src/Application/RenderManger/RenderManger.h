@@ -48,6 +48,8 @@ public:
 
 	std::shared_ptr<KdTexture> CreateBackBuffer();
 
+	std::weak_ptr<class Cp_Camera> GetCamera();
+
 private:
 	std::list<std::weak_ptr<std::function<void()>>>		m_preDrawList;
 	std::list<std::weak_ptr<std::function<void(UINT)>>>	m_draw3DList;

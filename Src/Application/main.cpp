@@ -161,7 +161,7 @@ bool Application::Init(int w, int h)
 	//===================================================================
 	// ウィンドウ作成
 	//===================================================================
-	if (m_window.Create(w, h, "Dust Magic", "Window") == false) {
+	if (m_window.Create(w, h, "Rocket Burst Breaker", "Window") == false) {
 		MessageBoxA(nullptr, "ウィンドウ作成に失敗", "エラー", MB_OK);
 		return false;
 	}
@@ -263,14 +263,13 @@ void Application::Execute()
 
 	// 時間
 	m_fpsController.Init();
-
 	// ループ
 	while (1)
 	{
 		// 処理開始時間Get
 		m_fpsController.UpdateStartTime();
 
-		std::string titlebar = "Dust Magic	fps : " + std::to_string(m_fpsController.m_nowfps);
+		std::string titlebar = "Rocket Burst Breaker	fps : " + std::to_string(m_fpsController.m_nowfps);
 		SetWindowTextA(GetWindowHandle(), titlebar.c_str());
 
 		// ゲーム終了指定があるときはループ終了
@@ -315,7 +314,7 @@ void Application::Execute()
 			m_buildCamera->PreUpdate();
 			m_buildCamera->Update();
 			m_buildCamera->PostUpdate();
-
+			ShowCursor(m_buildFlg);
 			if (!m_buildFlg)
 			{
 				PreUpdate();
@@ -424,6 +423,23 @@ void Application::ImGuiUpdate()
 				SceneManager::Instance().ReLoad();
 				m_buildFlg = !m_buildFlg;
 			}
+
+			if (m_buildFlg)
+			{
+				if (GetAsyncKeyState(VK_F5) & 0x8000)
+				{
+					m_buildFlg = !m_buildFlg;
+				}
+			}
+			else
+			{
+				if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+				{
+					m_buildFlg = !m_buildFlg;
+				}
+
+			}
+
 			//ImGui::Text("ThreadMax : %d", std::hardware_constructive_interference_size); ImGui::SameLine();
 		}
 		ImGui::BeginChild("OneLine", ImVec2(), childFlg);
@@ -443,7 +459,7 @@ void Application::ImGuiUpdate()
 				ImGui::InputText("ScenePhase", &SceneManager::Instance().RefScenePhase());
 				SceneManager::Instance().ImGuiUpdate();
 				int SceneNum = SceneManager::Instance().GetNowSceneNum();
-				if(ImGui::SliderInt("SceneNum", &SceneNum, 0, SceneID::Max - 1)) SceneManager::Instance().ShiftScene((SceneID)SceneNum);
+				if (ImGui::SliderInt("SceneNum", &SceneNum, 0, SceneID::Max - 1)) SceneManager::Instance().ShiftScene((SceneID)SceneNum);
 				if (ImGui::Button("ReLoad"))SceneManager::Instance().ReLoad();
 			}
 			ImGui::EndChild();

@@ -156,6 +156,34 @@ std::shared_ptr<KdTexture> RenderManager::CreateBackBuffer()
 	return render.GetResult();
 }
 
+std::weak_ptr<Cp_Camera> RenderManager::GetCamera()
+{
+	std::map<int, std::list<std::weak_ptr<class Cp_Camera>>>::iterator camera = m_cameraMap.begin();
+	while (camera != m_cameraMap.end())
+	{
+		std::list <std::weak_ptr<class Cp_Camera>>::iterator it = camera->second.begin();
+		while (it != camera->second.end())
+		{
+			if (it->lock())
+			{
+				if (it->lock()->GetActive() && it->lock()->GetOwner().lock()->GetActive())
+				{
+					return *it;
+				}
+				it++;
+			}
+			else
+			{
+				it = camera->second.erase(it);
+			}
+		}
+		camera++;
+	}
+
+	return std::weak_ptr<class Cp_Camera>();
+
+}
+
 void RenderTarget::BeginRenderTarget()
 {
 	bCallBegin = true;

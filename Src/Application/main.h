@@ -40,7 +40,7 @@ public:
 	void KdPostDraw();
 
 	bool GetBuildFlg()const { return m_buildFlg; };
-	bool m_debugFlg = true;
+	bool m_debugFlg = false;
 private:
 
 	// アプリケーション初期化
@@ -61,7 +61,7 @@ private:
 	Math::Vector2 m_windowSize;
 
 	
-	bool m_buildFlg = true;
+	bool m_buildFlg = false;
 	//CameraBuild
 	std::shared_ptr<class GameObject> m_buildCamera;
 
