@@ -7,9 +7,9 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": 12.0,
-                    "y": -8.0,
-                    "z": 16.0
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 1.0
                 },
                 "rotation": {
                     "x": 0.0,
@@ -17,8 +17,8 @@
                     "z": 0.0
                 },
                 "scale": {
-                    "x": 8.0,
-                    "y": 3.0,
+                    "x": 0.05000000074505806,
+                    "y": 0.05000000074505806,
                     "z": 1.0
                 }
             },
@@ -29,22 +29,13 @@
                 },
                 "CameraFocus": false,
                 "IDName": "SquarePolygon",
-                "drawType": 283927202,
-                "path": "Result/Enter",
+                "drawType": 2,
+                "path": "chara/sight",
                 "splitH": 1,
                 "splitW": 1
-            },
-            {
-                "IDName": "SinCurveAlpha",
-                "addAngle": 0.0,
-                "addPow": 1.0
-            },
-            {
-                "IDName": "EnterToScene",
-                "NextScene": "Title"
             }
         ],
-        "name": "Enter",
+        "name": "sight",
         "tag": 0
     }
 }

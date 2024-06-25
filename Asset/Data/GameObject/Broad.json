@@ -27,6 +27,7 @@
                     "animeList": [],
                     "nowAnime": ""
                 },
+                "CameraFocus": false,
                 "IDName": "SquarePolygon",
                 "drawType": 283927202,
                 "path": "Title/Title",

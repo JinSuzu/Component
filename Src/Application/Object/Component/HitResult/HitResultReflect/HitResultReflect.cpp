@@ -12,9 +12,9 @@ void Cp_HitResultReflect::UpdateContents()
 		Math::Vector3 overMove = (m_trans.lock()->GetMatrix().Translation() + m_rigid.lock()->GetOffsetPos() - result.m_objectPos);
 		overMove.Normalize();
 
-		Math::Vector3 move = m_rigid.lock()->GetMove();
-		m_rigid.lock()->SetMove(move);
-		m_rigid.lock()->AddMove(overMove * m_reflectPow);
+		Math::Vector3 move = overMove * m_reflectPow;
+		move.y = abs(move.y);
+		m_rigid.lock()->AddMove(move);
 		m_rigid.lock()->SetGravity(0);
 		m_bFlying = true;
 	}

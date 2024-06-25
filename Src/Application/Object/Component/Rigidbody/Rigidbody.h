@@ -66,6 +66,7 @@ private:
 	float m_gravity = 0.0f;
 	float m_gravityPow = 1.0f;
 	float m_height = 0.0f;
+	float m_offsetHeight = 0.0f;
 	bool  m_bLanding = false;
 
 

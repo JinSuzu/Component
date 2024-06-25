@@ -30,6 +30,7 @@
             {
                 "CollisionBody": true,
                 "IDName": "Rigidbody",
+                "OffsetHeight": 0.0,
                 "OffsetPos": {
                     "x": 0.0,
                     "y": 56.0,

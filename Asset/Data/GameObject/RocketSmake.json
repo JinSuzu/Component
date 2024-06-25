@@ -8,7 +8,7 @@
                 "parentMatTag": "SRT",
                 "position": {
                     "x": 317.9023132324219,
-                    "y": 5.25,
+                    "y": 21.25,
                     "z": -686.054931640625
                 },
                 "rotation": {
@@ -82,6 +82,7 @@
                     ],
                     "nowAnime": "def"
                 },
+                "CameraFocus": true,
                 "IDName": "SquarePolygon",
                 "drawType": 3452816833,
                 "path": "Effect/smake",

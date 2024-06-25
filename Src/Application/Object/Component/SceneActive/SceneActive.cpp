@@ -18,10 +18,18 @@ void Cp_SceneActive::Start()
 
 void Cp_SceneActive::PreUpdateContents()
 {
-	static std::shared_ptr<KdSoundInstance> m_sceneBGM;
 	bool nowFlg = m_sceneName == SceneManager::Instance().GetScenePhase();
 	if (Application::Instance().GetBuildFlg())nowFlg = false;
 	
+	if (m_flg)
+	{
+		if (!m_sceneBGM && !m_sceneBGMPath.empty())m_sceneBGM = KdAudioManager::Instance().Play("Asset/Sounds/" + m_sceneBGMPath + ".wav", true);
+	}
+	else if (m_sceneBGM)
+	{
+		m_sceneBGM->Stop();
+		m_sceneBGM = nullptr;
+	}
 
 	if (m_flg == nowFlg)return;
 
@@ -30,16 +38,6 @@ void Cp_SceneActive::PreUpdateContents()
 	{
 		if (it.expired())continue;
 		it.lock()->SetActive(m_flg);
-	}
-
-	if (m_flg)
-	{
-		if (m_sceneBGM)m_sceneBGM->Stop();
-		if(!m_sceneBGMPath.empty())m_sceneBGM = KdAudioManager::Instance().Play("Asset/Sounds/" + m_sceneBGMPath + ".wav", true);
-	}
-	else if (m_sceneBGM)
-	{
-		m_sceneBGM->Stop();
 	}
 }
 

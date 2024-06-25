@@ -40,6 +40,7 @@ void Cp_Rigidbody::ImGuiUpdate()
 	{
 		ImGui::DragFloat("GravityPow", &m_gravityPow);
 		ImGui::DragFloat("Height", &m_height);
+		ImGui::DragFloat("OffsetHeight", &m_offsetHeight);
 	}
 
 	if (ImGui::Checkbox("CollisionBody", &m_collisionBody); !m_collisionBody)return;
@@ -91,6 +92,7 @@ void Cp_Rigidbody::InitJson()
 	m_bActiveGravity = m_jsonData["activeGravityFlag"];
 	m_gravityPow = m_jsonData["gravity"];
 	if (m_jsonData["height"].is_number_float())m_height = m_jsonData["height"];
+	if (m_jsonData["OffsetHeight"].is_number_float())m_offsetHeight = m_jsonData["OffsetHeight"];
 
 	if (m_jsonData["CollisionBody"].is_boolean())m_collisionBody = m_jsonData["CollisionBody"];
 	if (m_jsonData["Shape"].is_number()) m_shape = m_jsonData["Shape"];
@@ -106,6 +108,7 @@ nlohmann::json Cp_Rigidbody::GetJson()
 	m_jsonData["activeGravityFlag"] = m_bActiveGravity;
 	m_jsonData["gravity"] = m_gravityPow;
 	m_jsonData["height"] = m_height;
+	m_jsonData["OffsetHeight"] = m_offsetHeight;
 
 
 	m_jsonData["CollisionBody"] = m_collisionBody;
@@ -154,6 +157,21 @@ void Cp_Rigidbody::DrawDebug()
 		);
 		debugWireFrame.AddDebugLine(rayInfo.m_pos, rayInfo.m_dir, rayInfo.m_range);
 	}
+
+	if (m_gravity)
+	{
+		Math::Vector3 pos = m_owner.lock()->GetTransform().lock()->GetPosition();
+		pos.y -= m_height;
+		pos.y += m_offsetHeight;
+		KdCollider::RayInfo rayInfo(
+			(UINT)KdCollider::Type::TypeGround,
+			pos,
+			{ 0,abs(m_gravity + m_move.y) / (m_gravity + m_move.y),0 },
+			abs(m_gravity + m_move.y) + abs(m_offsetHeight)
+		);
+		debugWireFrame.AddDebugLine(rayInfo.m_pos, rayInfo.m_dir, rayInfo.m_range);
+	}
+
 	debugWireFrame.Draw();
 }
 
@@ -163,11 +181,12 @@ float Cp_Rigidbody::Gravity()
 
 	Math::Vector3 pos = m_owner.lock()->GetTransform().lock()->GetPosition();
 	pos.y -= m_height;
+	pos.y += m_offsetHeight;
 	KdCollider::RayInfo rayInfo(
 		(UINT)KdCollider::Type::TypeGround,
 		pos,
-		{ 0,abs(m_gravity + m_move.y) / (m_gravity + m_move.y),0 },
-		abs(m_gravity + m_move.y)
+		{ 0,-1,0 },
+		abs(m_gravity + m_move.y) + m_offsetHeight
 	);
 
 	//重力と床判定

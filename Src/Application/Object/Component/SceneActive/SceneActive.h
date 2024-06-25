@@ -15,6 +15,7 @@ private:
 	std::string m_sceneName;
 
 	std::string m_sceneBGMPath;
+	std::shared_ptr<KdSoundInstance>m_sceneBGM;
 
 	bool m_flg = false;
 };

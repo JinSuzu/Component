@@ -9,6 +9,7 @@ public:
 
 	void Start()override;
 	void PreUpdateContents()override;
+	void PostUpdateContents()override;
 	void ImGuiUpdate()override;
 	void InitJson()override;
 	nlohmann::json GetJson()override;
@@ -22,6 +23,8 @@ private:
 	std::string							m_path;
 	std::shared_ptr<KdSquarePolygon>	m_squarePolygon;
 	Math::Color							m_color = kWhiteColor;
+
+	bool								m_cameraFocus = false;
 
 	std::weak_ptr<class Cp_Transform> m_trans;
 
