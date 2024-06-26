@@ -412,6 +412,12 @@ void Application::ImGuiUpdate()
 		{//MenuBar
 			ImGui::Text("FPS : %d", m_fpsController.m_nowfps); ImGui::SameLine();
 			ImGui::Text("%.2f,%.2f", GetMouse().x, GetMouse().y); ImGui::SameLine();
+			if (ImGui::SmallButton("Timer"))ImGui::OpenPopup("Timer"); ImGui::SameLine();
+			if (ImGui::BeginPopup("Timer")) 
+			{
+				Timer::Instance().ImGuiUpdate();
+				ImGui::EndPopup();
+			}
 
 			if (ImGuiWindowCenterButton(m_buildFlg ? "StartRun" : "StartBuild"))
 			{

@@ -187,6 +187,27 @@
     <Filter Include="Src\Application\Object\Component\MoveLimit">
       <UniqueIdentifier>{c77bf64d-b876-4c15-8a21-762f5b4e516f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Object\Component\TimerDisplay">
+      <UniqueIdentifier>{003e60e6-c0ec-4a48-8b8c-d8a8c9448282}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\SceneChanger">
+      <UniqueIdentifier>{e2d9a213-36b7-4a3e-a46b-62840ee5ccf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\HitResultDestroy">
+      <UniqueIdentifier>{62a77845-23ed-44a1-83e0-88b4c3a2df13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\Counter">
+      <UniqueIdentifier>{ca32cdd7-3fa8-4274-a93d-f2467fde21c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Score">
+      <UniqueIdentifier>{da39d5a8-6762-4506-9b37-4826481d7cc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\ChildCnt">
+      <UniqueIdentifier>{0bad39a2-15d8-43b7-aabc-a87c3b6392ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\ScoreCounter">
+      <UniqueIdentifier>{4239988b-b6e1-4a3b-b78c-73d476364c71}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -624,6 +645,27 @@
     <ClInclude Include="Src\Application\Object\Component\MoveLimit\MoveLimit.h">
       <Filter>Src\Application\Object\Component\MoveLimit</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\TimerDisplay\TimerDisplay.h">
+      <Filter>Src\Application\Object\Component\TimerDisplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\SceneChanger\SceneChanger.h">
+      <Filter>Src\Application\Object\Component\SceneChanger</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\HitResult\HitResultDestroy\HitResultDestroy.h">
+      <Filter>Src\Application\Object\Component\HitResultDestroy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\Counter\Counter.h">
+      <Filter>Src\Application\Object\Component\Counter</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Score\Score.h">
+      <Filter>Src\Application\Score</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\ChildCnt\ChildCnt.h">
+      <Filter>Src\Application\Object\Component\ChildCnt</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\ScoreCounter\ScoreCounter.h">
+      <Filter>Src\Application\Object\Component\ScoreCounter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -868,6 +910,27 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\MoveLimit\MoveLimit.cpp">
       <Filter>Src\Application\Object\Component\MoveLimit</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\TimerDisplay\TimerDisplay.cpp">
+      <Filter>Src\Application\Object\Component\TimerDisplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\SceneChanger\SceneChanger.cpp">
+      <Filter>Src\Application\Object\Component\SceneChanger</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\HitResult\HitResultDestroy\HitResultDestroy.cpp">
+      <Filter>Src\Application\Object\Component\HitResultDestroy</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\Counter\Counter.cpp">
+      <Filter>Src\Application\Object\Component\Counter</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Score\Score.cpp">
+      <Filter>Src\Application\Score</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\ChildCnt\ChildCnt.cpp">
+      <Filter>Src\Application\Object\Component\ChildCnt</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\ScoreCounter\ScoreCounter.cpp">
+      <Filter>Src\Application\Object\Component\ScoreCounter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

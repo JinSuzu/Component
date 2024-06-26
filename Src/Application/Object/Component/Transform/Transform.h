@@ -32,8 +32,10 @@ public:
 
 	//_matTag : "S""T""R"で行列計算を入れ替えられる
 	//_PushFollow : followフラグを無視する
-	Math::Matrix GetMatrix(std::string _matTag = std::string(), bool _PushFollow = false);
+	Math::Matrix GetMatrix(std::string _matTag = std::string(), bool _PushFollow = false
+		,const Math::Matrix& _offsetT = Math::Matrix::Identity,const Math::Matrix& _offsetR = Math::Matrix::Identity,const Math::Matrix& _offsetS = Math::Matrix::Identity);
 	Math::Matrix GetMatrix(bool _PushFollow);
+	Math::Matrix GetMatrix(const Math::Matrix& _offsetT, const Math::Matrix& _offsetR = Math::Matrix::Identity, const Math::Matrix& _offsetS = Math::Matrix::Identity);
 
 	Math::Matrix GetTMat() const { return Math::Matrix::CreateTranslation(m_position); };
 	Math::Matrix GetSMat() const { return Math::Matrix::CreateScale(m_scale); }

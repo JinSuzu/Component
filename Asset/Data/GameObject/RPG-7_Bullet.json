@@ -7,13 +7,13 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": 317.9023132324219,
+                    "x": 669.6253662109375,
                     "y": 21.25,
-                    "z": -686.054931640625
+                    "z": -834.0089721679688
                 },
                 "rotation": {
                     "x": 0.0,
-                    "y": 166.0,
+                    "y": 320.0,
                     "z": 0.0
                 },
                 "scale": {
@@ -55,6 +55,7 @@
             {
                 "CollisionBody": true,
                 "IDName": "Rigidbody",
+                "OffsetHeight": 0.0,
                 "OffsetPos": {
                     "x": 0.0,
                     "y": 0.0,

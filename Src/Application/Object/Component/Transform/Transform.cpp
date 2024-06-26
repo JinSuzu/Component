@@ -77,14 +77,15 @@ Math::Vector3 Cp_Transform::GetScale(bool _PushFollow) const
 	return m_scale;
 }
 
-Math::Matrix Cp_Transform::GetMatrix(std::string _matTag, bool _PushFollow)
+Math::Matrix Cp_Transform::GetMatrix(std::string _matTag, bool _PushFollow
+	,const Math::Matrix& _offsetT, const Math::Matrix& _offsetR, const Math::Matrix& _offsetS)
 {
 	std::string::iterator it = (_matTag.empty() ? m_myMatTag : _matTag).begin();
 	std::string::iterator end = (_matTag.empty() ? m_myMatTag : _matTag).end();
 
 	auto ReturnMat = [&]()
 		{
-			m_mWorld = GetSMat() * GetRMat() * GetTMat();
+			m_mWorld = GetSMat() * _offsetS * GetRMat() * _offsetR * GetTMat() * _offsetT;
 			if (m_parent.lock() && (m_bFollow || _PushFollow))return m_mWorld * m_parent.lock()->GetMatrix(m_parentMatTag);
 			return m_mWorld;
 		};
@@ -94,13 +95,13 @@ Math::Matrix Cp_Transform::GetMatrix(std::string _matTag, bool _PushFollow)
 	switch (*it)
 	{
 	case 'T':
-		m_mWorld = GetTMat();
+		m_mWorld = GetTMat() * _offsetT;
 		break;
 	case 'R':
-		m_mWorld = GetRMat();
+		m_mWorld = GetRMat() * _offsetR;
 		break;
 	case 'S':
-		m_mWorld = GetSMat();
+		m_mWorld = GetSMat() * _offsetS;
 		break;
 	default:
 		return m_mWorld = ReturnMat();
@@ -112,13 +113,13 @@ Math::Matrix Cp_Transform::GetMatrix(std::string _matTag, bool _PushFollow)
 		switch (*it)
 		{
 		case 'T':
-			m_mWorld *= GetTMat();
+			m_mWorld *= GetTMat() * _offsetT;
 			break;
 		case 'R':
-			m_mWorld *= GetRMat();
+			m_mWorld *= GetRMat() * _offsetR;
 			break;
 		case 'S':
-			m_mWorld *= GetSMat();
+			m_mWorld *= GetSMat() * _offsetS;
 			break;
 		default:
 			return ReturnMat();
@@ -133,6 +134,11 @@ Math::Matrix Cp_Transform::GetMatrix(std::string _matTag, bool _PushFollow)
 Math::Matrix Cp_Transform::GetMatrix(bool _PushFollow)
 {
 	return GetMatrix(std::string(), _PushFollow);
+}
+
+Math::Matrix Cp_Transform::GetMatrix(const Math::Matrix& _offsetT, const Math::Matrix& _offsetR, const Math::Matrix& _offsetS)
+{
+	return GetMatrix(std::string(), false, _offsetT, _offsetR, _offsetS);
 }
 
 Math::Matrix Cp_Transform::GetRMat(UINT _shafts)

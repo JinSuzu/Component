@@ -18,7 +18,7 @@ void Animation2D::PreUpdate(KdSquarePolygon* _asset)
 	{
 		if (anime.name == m_nowAnime)
 		{
-			anime.Animation(_asset);
+			m_nowFrame = anime.Animation(_asset);
 			break;
 		}
 	}
@@ -47,7 +47,8 @@ void Animation2D::ImGuiUpdate()
 
 				ImGui::TreePop();
 			}
-			else if (ImGui::SameLine(); ImGui::SmallButton("Remove"))
+
+			if (ImGui::SameLine(); ImGui::SmallButton("Remove"))
 			{
 				anime = m_animeList.erase(anime);
 				continue;
@@ -104,21 +105,21 @@ void Animation2D::AnimeSet::Animation(Math::Rectangle& _rect)
 	_rect.x = frames[nowFrame].w * _rect.width;
 	_rect.y = frames[nowFrame].h * _rect.height;
 }
-void Animation2D::AnimeSet::Animation(KdSquarePolygon* _asset)
+Animation2D::AnimeFrame Animation2D::AnimeSet::Animation(KdSquarePolygon* _asset)
 {
-	if (frames.empty())return;
+	if (frames.empty())return Animation2D::AnimeFrame();
 	if (Timer::Instance().GetAlarm(interval))
 	{
 		nowFrame *= ++nowFrame < frames.size();
 	}
 	_asset->SetUVRect(frames[nowFrame].w, frames[nowFrame].h);
+	return frames[nowFrame];
 }
-
 void Animation2D::AnimeSet::ImGuiUpdate()
 {
 	static AnimeFrame addKoma;
 	ImGui::InputInt("interval", &interval);
-	ImGui::InputInt2("AnimeFrame w/h", &addKoma.w); ImGui::SameLine();
+	ImGui::InputInt2("AnimeFrame w/h", &addKoma.w);
 	if (ImGui::Button("Add"))frames.push_back(addKoma);
 
 	ImGui::BeginChild("frame", { 0,0 }, ImGuiChildFlags_Border | ImGuiChildFlags_AlwaysAutoResize | ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AutoResizeY);
@@ -127,7 +128,7 @@ void Animation2D::AnimeSet::ImGuiUpdate()
 	while (frame != frames.end())
 	{
 		ImGui::DragInt2(std::to_string(i++).c_str(), &frame->w);
-		if (ImGui::SameLine(); ImGui::Button("Remove")) 
+		if (ImGui::SameLine(); ImGui::Button("Remove"))
 		{
 			frames.erase(frame);
 			continue;

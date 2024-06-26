@@ -92,7 +92,7 @@ bool ImGuiWindowCenterButton(std::string label)
 
 	// 位置を設定してボタンを描画
 	ImGui::SetCursorPosX(x_pos);
-	return ImGui::Button(label.c_str());
+	return ImGui::SmallButton(label.c_str());
 }
 
 bool ImGuiTreeCenterButton(std::string label)

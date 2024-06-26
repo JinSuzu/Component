@@ -5,6 +5,8 @@ class Cp_SceneActive
 	:public Component
 {
 public:
+	~Cp_SceneActive();
+
 	void Start()override;
 	void PreUpdateContents()override;
 	void ImGuiUpdate()override;

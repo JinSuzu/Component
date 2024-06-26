@@ -166,6 +166,7 @@ bool ImGuiTreeCenterButton(std::string label);
 
 bool ImGuiCheckBoxBit(std::string _name, unsigned int& _ID, unsigned int _checkID);
 
+#include "../Src/Application/Score/Score.h"
 /*
 template<class T>
 static nlohmann::json SearchJson(nlohmann::json& _json,std::string _key,T _data)

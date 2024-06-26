@@ -47,6 +47,7 @@ public:
 	void SetParent(std::weak_ptr<GameObject> _parent);
 
 	std::list<std::weak_ptr<GameObject>>& GetChilds() { return m_childs; }
+	std::list<std::weak_ptr<GameObject>>* WorkChilds() { return &m_childs; }
 	void AddChilds(std::weak_ptr<GameObject> _child)
 	{
 		_child.lock()->SetParent(WeakThisPtr(this));

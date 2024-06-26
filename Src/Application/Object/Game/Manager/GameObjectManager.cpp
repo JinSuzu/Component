@@ -54,6 +54,7 @@ void GameObjectManager::ImGuiUpdate()
 
 void GameObjectManager::Load(std::string _path)
 {
+	Score::Instance().Reset();
 	LoadJson(_path);
 }
 void GameObjectManager::Release(std::string _path, bool _enableSave)

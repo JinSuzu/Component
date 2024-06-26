@@ -3,16 +3,6 @@
 class Animation2D
 {
 public:
-	void PreUpdate(Math::Rectangle& _rect);
-	void PreUpdate(KdSquarePolygon* _asset);
-
-	void ImGuiUpdate();
-
-	void ChangeAnime(std::string _nowAnime);
-
-	nlohmann::json GetJson();
-	void SetJson(nlohmann::json _json);
-private:
 	struct AnimeFrame
 	{
 		int w = 0;
@@ -34,12 +24,12 @@ private:
 	struct AnimeSet
 	{
 		std::string name;
-		int	interval;
+		int	interval = 0;
 		std::vector<AnimeFrame> frames;
 		int	nowFrame = 0;
 
 		void Animation(Math::Rectangle& _rect);
-		void Animation(KdSquarePolygon* _rect);
+		AnimeFrame Animation(KdSquarePolygon* _asset);
 		void ImGuiUpdate();
 
 		void InitJson(nlohmann::json _json)
@@ -66,9 +56,23 @@ private:
 			return json;
 		}
 	};
+public:
+	void PreUpdate(Math::Rectangle& _rect);
+	void PreUpdate(KdSquarePolygon* _asset);
+
+	void ImGuiUpdate();
+
+	void ChangeAnime(std::string _nowAnime);
+	AnimeFrame GetAnimeFrame() const { return m_nowFrame; };
+
+
+	nlohmann::json GetJson();
+	void SetJson(nlohmann::json _json);
+private:
 
 	AnimeFrame			m_split;
 	std::list<AnimeSet> m_animeList;
+	AnimeFrame			m_nowFrame;
 
 	std::string			m_nowAnime;
 };

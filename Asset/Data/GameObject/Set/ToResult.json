@@ -1,0 +1,1386 @@
+[
+    {
+        "Childs": [
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": false,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": -85.0,
+                                "y": 6.0,
+                                "z": -91.0
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 190.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 10.0,
+                                "y": 10.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "CollisionBody": true,
+                            "IDName": "Rigidbody",
+                            "OffsetHeight": 0.0,
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 3.0,
+                                "z": 0.0
+                            },
+                            "Radius": {
+                                "x": 0.0,
+                                "y": 10.0,
+                                "z": 0.0
+                            },
+                            "Shape": 0,
+                            "Tag": 256,
+                            "activeGravityFlag": false,
+                            "deceleration": 0.9800000190734863,
+                            "gravity": 1.0,
+                            "height": 0.0,
+                            "move": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
+                        },
+                        {
+                            "ColType": 256,
+                            "IDName": "HitResultDestroy",
+                            "SEPath": "Get"
+                        },
+                        {
+                            "Animation": {
+                                "animeList": [],
+                                "nowAnime": ""
+                            },
+                            "CameraFocus": false,
+                            "IDName": "SquarePolygon",
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "drawType": 1,
+                            "path": "Block/Medal",
+                            "splitH": 1,
+                            "splitW": 1
+                        },
+                        {
+                            "IDName": "AddRotation",
+                            "addPow": {
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 0.0
+                            },
+                            "addType": 1
+                        }
+                    ],
+                    "name": "Medal",
+                    "tag": 0
+                }
+            },
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": false,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 66.0,
+                                "y": 4.0,
+                                "z": -258.0
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 190.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 10.0,
+                                "y": 10.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "CollisionBody": true,
+                            "IDName": "Rigidbody",
+                            "OffsetHeight": 0.0,
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 3.0,
+                                "z": 0.0
+                            },
+                            "Radius": {
+                                "x": 0.0,
+                                "y": 10.0,
+                                "z": 0.0
+                            },
+                            "Shape": 0,
+                            "Tag": 256,
+                            "activeGravityFlag": false,
+                            "deceleration": 0.9800000190734863,
+                            "gravity": 1.0,
+                            "height": 0.0,
+                            "move": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
+                        },
+                        {
+                            "ColType": 256,
+                            "IDName": "HitResultDestroy",
+                            "SEPath": "Get"
+                        },
+                        {
+                            "Animation": {
+                                "animeList": [],
+                                "nowAnime": ""
+                            },
+                            "CameraFocus": false,
+                            "IDName": "SquarePolygon",
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "drawType": 1,
+                            "path": "Block/Medal",
+                            "splitH": 1,
+                            "splitW": 1
+                        },
+                        {
+                            "IDName": "AddRotation",
+                            "addPow": {
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 0.0
+                            },
+                            "addType": 1
+                        }
+                    ],
+                    "name": "Medal",
+                    "tag": 0
+                }
+            },
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": false,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 79.0,
+                                "y": 6.0,
+                                "z": -117.0
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 190.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 10.0,
+                                "y": 10.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "CollisionBody": true,
+                            "IDName": "Rigidbody",
+                            "OffsetHeight": 0.0,
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 3.0,
+                                "z": 0.0
+                            },
+                            "Radius": {
+                                "x": 0.0,
+                                "y": 10.0,
+                                "z": 0.0
+                            },
+                            "Shape": 0,
+                            "Tag": 256,
+                            "activeGravityFlag": false,
+                            "deceleration": 0.9800000190734863,
+                            "gravity": 1.0,
+                            "height": 0.0,
+                            "move": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
+                        },
+                        {
+                            "ColType": 256,
+                            "IDName": "HitResultDestroy",
+                            "SEPath": "Get"
+                        },
+                        {
+                            "Animation": {
+                                "animeList": [],
+                                "nowAnime": ""
+                            },
+                            "CameraFocus": false,
+                            "IDName": "SquarePolygon",
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "drawType": 1,
+                            "path": "Block/Medal",
+                            "splitH": 1,
+                            "splitW": 1
+                        },
+                        {
+                            "IDName": "AddRotation",
+                            "addPow": {
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 0.0
+                            },
+                            "addType": 1
+                        }
+                    ],
+                    "name": "Medal",
+                    "tag": 0
+                }
+            },
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": false,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 70.0,
+                                "y": 6.0,
+                                "z": -651.0
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 190.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 10.0,
+                                "y": 10.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "CollisionBody": true,
+                            "IDName": "Rigidbody",
+                            "OffsetHeight": 0.0,
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 3.0,
+                                "z": 0.0
+                            },
+                            "Radius": {
+                                "x": 0.0,
+                                "y": 10.0,
+                                "z": 0.0
+                            },
+                            "Shape": 0,
+                            "Tag": 256,
+                            "activeGravityFlag": false,
+                            "deceleration": 0.9800000190734863,
+                            "gravity": 1.0,
+                            "height": 0.0,
+                            "move": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
+                        },
+                        {
+                            "ColType": 256,
+                            "IDName": "HitResultDestroy",
+                            "SEPath": "Get"
+                        },
+                        {
+                            "Animation": {
+                                "animeList": [],
+                                "nowAnime": ""
+                            },
+                            "CameraFocus": false,
+                            "IDName": "SquarePolygon",
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "drawType": 1,
+                            "path": "Block/Medal",
+                            "splitH": 1,
+                            "splitW": 1
+                        },
+                        {
+                            "IDName": "AddRotation",
+                            "addPow": {
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 0.0
+                            },
+                            "addType": 1
+                        }
+                    ],
+                    "name": "Medal",
+                    "tag": 0
+                }
+            },
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": false,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 294.0,
+                                "y": 6.0,
+                                "z": -873.0
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 190.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 10.0,
+                                "y": 10.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "CollisionBody": true,
+                            "IDName": "Rigidbody",
+                            "OffsetHeight": 0.0,
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 3.0,
+                                "z": 0.0
+                            },
+                            "Radius": {
+                                "x": 0.0,
+                                "y": 10.0,
+                                "z": 0.0
+                            },
+                            "Shape": 0,
+                            "Tag": 256,
+                            "activeGravityFlag": false,
+                            "deceleration": 0.9800000190734863,
+                            "gravity": 1.0,
+                            "height": 0.0,
+                            "move": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
+                        },
+                        {
+                            "ColType": 256,
+                            "IDName": "HitResultDestroy",
+                            "SEPath": "Get"
+                        },
+                        {
+                            "Animation": {
+                                "animeList": [],
+                                "nowAnime": ""
+                            },
+                            "CameraFocus": false,
+                            "IDName": "SquarePolygon",
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "drawType": 1,
+                            "path": "Block/Medal",
+                            "splitH": 1,
+                            "splitW": 1
+                        },
+                        {
+                            "IDName": "AddRotation",
+                            "addPow": {
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 0.0
+                            },
+                            "addType": 1
+                        }
+                    ],
+                    "name": "Medal",
+                    "tag": 0
+                }
+            },
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": false,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 495.0,
+                                "y": 6.0,
+                                "z": -750.0
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 190.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 10.0,
+                                "y": 10.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "CollisionBody": true,
+                            "IDName": "Rigidbody",
+                            "OffsetHeight": 0.0,
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 3.0,
+                                "z": 0.0
+                            },
+                            "Radius": {
+                                "x": 0.0,
+                                "y": 10.0,
+                                "z": 0.0
+                            },
+                            "Shape": 0,
+                            "Tag": 256,
+                            "activeGravityFlag": false,
+                            "deceleration": 0.9800000190734863,
+                            "gravity": 1.0,
+                            "height": 0.0,
+                            "move": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
+                        },
+                        {
+                            "ColType": 256,
+                            "IDName": "HitResultDestroy",
+                            "SEPath": "Get"
+                        },
+                        {
+                            "Animation": {
+                                "animeList": [],
+                                "nowAnime": ""
+                            },
+                            "CameraFocus": false,
+                            "IDName": "SquarePolygon",
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "drawType": 1,
+                            "path": "Block/Medal",
+                            "splitH": 1,
+                            "splitW": 1
+                        },
+                        {
+                            "IDName": "AddRotation",
+                            "addPow": {
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 0.0
+                            },
+                            "addType": 1
+                        }
+                    ],
+                    "name": "Medal",
+                    "tag": 0
+                }
+            },
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": false,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 426.0,
+                                "y": 3.0,
+                                "z": -426.0
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 190.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 10.0,
+                                "y": 10.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "CollisionBody": true,
+                            "IDName": "Rigidbody",
+                            "OffsetHeight": 0.0,
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 3.0,
+                                "z": 0.0
+                            },
+                            "Radius": {
+                                "x": 0.0,
+                                "y": 10.0,
+                                "z": 0.0
+                            },
+                            "Shape": 0,
+                            "Tag": 256,
+                            "activeGravityFlag": false,
+                            "deceleration": 0.9800000190734863,
+                            "gravity": 1.0,
+                            "height": 0.0,
+                            "move": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
+                        },
+                        {
+                            "ColType": 256,
+                            "IDName": "HitResultDestroy",
+                            "SEPath": "Get"
+                        },
+                        {
+                            "Animation": {
+                                "animeList": [],
+                                "nowAnime": ""
+                            },
+                            "CameraFocus": false,
+                            "IDName": "SquarePolygon",
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "drawType": 1,
+                            "path": "Block/Medal",
+                            "splitH": 1,
+                            "splitW": 1
+                        },
+                        {
+                            "IDName": "AddRotation",
+                            "addPow": {
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 0.0
+                            },
+                            "addType": 1
+                        }
+                    ],
+                    "name": "Medal",
+                    "tag": 0
+                }
+            },
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": false,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 401.0,
+                                "y": 72.0,
+                                "z": -74.0
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": -125.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 10.0,
+                                "y": 10.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "CollisionBody": true,
+                            "IDName": "Rigidbody",
+                            "OffsetHeight": 0.0,
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 3.0,
+                                "z": 0.0
+                            },
+                            "Radius": {
+                                "x": 0.0,
+                                "y": 10.0,
+                                "z": 0.0
+                            },
+                            "Shape": 0,
+                            "Tag": 256,
+                            "activeGravityFlag": false,
+                            "deceleration": 0.9800000190734863,
+                            "gravity": 1.0,
+                            "height": 0.0,
+                            "move": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
+                        },
+                        {
+                            "ColType": 256,
+                            "IDName": "HitResultDestroy",
+                            "SEPath": "Get"
+                        },
+                        {
+                            "Animation": {
+                                "animeList": [],
+                                "nowAnime": ""
+                            },
+                            "CameraFocus": true,
+                            "IDName": "SquarePolygon",
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "drawType": 1,
+                            "path": "Block/Medal",
+                            "splitH": 1,
+                            "splitW": 1
+                        },
+                        {
+                            "IDName": "AddRotation",
+                            "addPow": {
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 0.0
+                            },
+                            "addType": 1
+                        }
+                    ],
+                    "name": "Medal",
+                    "tag": 0
+                }
+            },
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": false,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 293.0,
+                                "y": 6.0,
+                                "z": 14.0
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 190.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 10.0,
+                                "y": 10.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "CollisionBody": true,
+                            "IDName": "Rigidbody",
+                            "OffsetHeight": 0.0,
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 3.0,
+                                "z": 0.0
+                            },
+                            "Radius": {
+                                "x": 0.0,
+                                "y": 10.0,
+                                "z": 0.0
+                            },
+                            "Shape": 0,
+                            "Tag": 256,
+                            "activeGravityFlag": false,
+                            "deceleration": 0.9800000190734863,
+                            "gravity": 1.0,
+                            "height": 0.0,
+                            "move": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
+                        },
+                        {
+                            "ColType": 256,
+                            "IDName": "HitResultDestroy",
+                            "SEPath": "Get"
+                        },
+                        {
+                            "Animation": {
+                                "animeList": [],
+                                "nowAnime": ""
+                            },
+                            "CameraFocus": false,
+                            "IDName": "SquarePolygon",
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "drawType": 1,
+                            "path": "Block/Medal",
+                            "splitH": 1,
+                            "splitW": 1
+                        },
+                        {
+                            "IDName": "AddRotation",
+                            "addPow": {
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 0.0
+                            },
+                            "addType": 1
+                        }
+                    ],
+                    "name": "Medal",
+                    "tag": 0
+                }
+            },
+            {
+                "Childs": [],
+                "Parent": {
+                    "Component": [
+                        {
+                            "Follow": false,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": -48.0,
+                                "y": 6.0,
+                                "z": -864.0
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 190.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 10.0,
+                                "y": 10.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "CollisionBody": true,
+                            "IDName": "Rigidbody",
+                            "OffsetHeight": 0.0,
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 3.0,
+                                "z": 0.0
+                            },
+                            "Radius": {
+                                "x": 0.0,
+                                "y": 10.0,
+                                "z": 0.0
+                            },
+                            "Shape": 0,
+                            "Tag": 256,
+                            "activeGravityFlag": false,
+                            "deceleration": 0.9800000190734863,
+                            "gravity": 1.0,
+                            "height": 0.0,
+                            "move": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
+                        },
+                        {
+                            "ColType": 256,
+                            "IDName": "HitResultDestroy",
+                            "SEPath": "Get"
+                        },
+                        {
+                            "Animation": {
+                                "animeList": [],
+                                "nowAnime": ""
+                            },
+                            "CameraFocus": false,
+                            "IDName": "SquarePolygon",
+                            "OffsetPos": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "drawType": 1,
+                            "path": "Block/Medal",
+                            "splitH": 1,
+                            "splitW": 1
+                        },
+                        {
+                            "IDName": "AddRotation",
+                            "addPow": {
+                                "x": 0.0,
+                                "y": 1.0,
+                                "z": 0.0
+                            },
+                            "addType": 1
+                        }
+                    ],
+                    "name": "Medal",
+                    "tag": 0
+                }
+            }
+        ],
+        "Parent": {
+            "Component": [
+                {
+                    "Follow": true,
+                    "matTag": "SRT",
+                    "parentMatTag": "SRT",
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.5,
+                        "z": 1.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 0.25,
+                        "y": 0.25,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "IDName": "SceneChanger",
+                    "NextSceneName": "Result",
+                    "SEPath": "Clear"
+                },
+                {
+                    "Animation": {
+                        "animeList": [
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 0
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "0"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 1
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "1"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 2
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "2"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 3
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "3"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 4
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "4"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 5
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "5"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 6
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "6"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 7
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "7"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 8
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "8"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 9
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "9"
+                            }
+                        ],
+                        "nowAnime": "0"
+                    },
+                    "CameraFocus": false,
+                    "IDName": "SquarePolygon",
+                    "OffsetPos": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "drawType": 2,
+                    "path": "UI/Cnt",
+                    "splitH": 1,
+                    "splitW": 10
+                },
+                {
+                    "Animation": {
+                        "animeList": [
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 0
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "0"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 1
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "1"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 2
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "2"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 3
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "3"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 4
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "4"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 5
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "5"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 6
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "6"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 7
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "7"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 8
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "8"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 9
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "9"
+                            }
+                        ],
+                        "nowAnime": "1"
+                    },
+                    "CameraFocus": false,
+                    "IDName": "SquarePolygon",
+                    "OffsetPos": {
+                        "x": -0.10000000149011612,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "drawType": 2,
+                    "path": "UI/Cnt",
+                    "splitH": 1,
+                    "splitW": 10
+                },
+                {
+                    "Animation": {
+                        "animeList": [],
+                        "nowAnime": "0"
+                    },
+                    "CameraFocus": false,
+                    "IDName": "SquarePolygon",
+                    "OffsetPos": {
+                        "x": -0.25,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "drawType": 2,
+                    "path": "UI/Semicolon",
+                    "splitH": 1,
+                    "splitW": 1
+                },
+                {
+                    "Animation": {
+                        "animeList": [
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 0
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "0"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 1
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "1"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 2
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "2"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 3
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "3"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 4
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "4"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 5
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "5"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 6
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "6"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 7
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "7"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 8
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "8"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 9
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "9"
+                            }
+                        ],
+                        "nowAnime": "0"
+                    },
+                    "CameraFocus": false,
+                    "IDName": "SquarePolygon",
+                    "OffsetPos": {
+                        "x": -0.3499999940395355,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "drawType": 2,
+                    "path": "UI/Cnt",
+                    "splitH": 1,
+                    "splitW": 10
+                },
+                {
+                    "Animation": {
+                        "animeList": [
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 0
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "0"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 1
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "1"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 2
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "2"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 3
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "3"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 4
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "4"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 5
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "5"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 6
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "6"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 7
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "7"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 8
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "8"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 9
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "9"
+                            }
+                        ],
+                        "nowAnime": "0"
+                    },
+                    "CameraFocus": false,
+                    "IDName": "SquarePolygon",
+                    "OffsetPos": {
+                        "x": -0.5,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "drawType": 2,
+                    "path": "UI/Cnt",
+                    "splitH": 1,
+                    "splitW": 10
+                }
+            ],
+            "name": "ToResult",
+            "tag": 0
+        }
+    }
+]

@@ -1,0 +1,423 @@
+[
+    {
+        "Childs": [],
+        "Parent": {
+            "Component": [
+                {
+                    "Follow": true,
+                    "matTag": "SRT",
+                    "parentMatTag": "SRT",
+                    "position": {
+                        "x": 0.5,
+                        "y": 0.10999999940395355,
+                        "z": 1.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 0.25,
+                        "y": 0.25,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "Animation": {
+                        "animeList": [
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 0
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "0"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 1
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "1"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 2
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "2"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 3
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "3"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 4
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "4"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 5
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "5"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 6
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "6"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 7
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "7"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 8
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "8"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 9
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "9"
+                            }
+                        ],
+                        "nowAnime": "0"
+                    },
+                    "CameraFocus": false,
+                    "IDName": "SquarePolygon",
+                    "OffsetPos": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "drawType": 2,
+                    "path": "UI/Cnt",
+                    "splitH": 1,
+                    "splitW": 10
+                },
+                {
+                    "Animation": {
+                        "animeList": [
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 0
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "0"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 1
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "1"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 2
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "2"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 3
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "3"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 4
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "4"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 5
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "5"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 6
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "6"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 7
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "7"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 8
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "8"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 9
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "9"
+                            }
+                        ],
+                        "nowAnime": "0"
+                    },
+                    "CameraFocus": false,
+                    "IDName": "SquarePolygon",
+                    "OffsetPos": {
+                        "x": -0.15000000596046448,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "drawType": 2,
+                    "path": "UI/Cnt",
+                    "splitH": 1,
+                    "splitW": 10
+                },
+                {
+                    "Animation": {
+                        "animeList": [
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 0
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "0"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 1
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "1"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 2
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "2"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 3
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "3"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 4
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "4"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 5
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "5"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 6
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "6"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 7
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "7"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 8
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "8"
+                            },
+                            {
+                                "frames": [
+                                    {
+                                        "h": 0,
+                                        "w": 9
+                                    }
+                                ],
+                                "interval": 0,
+                                "name": "9"
+                            }
+                        ],
+                        "nowAnime": "0"
+                    },
+                    "CameraFocus": false,
+                    "IDName": "SquarePolygon",
+                    "OffsetPos": {
+                        "x": -0.3499999940395355,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "drawType": 2,
+                    "path": "UI/Cnt",
+                    "splitH": 1,
+                    "splitW": 10
+                },
+                {
+                    "Animation": {
+                        "animeList": [],
+                        "nowAnime": ""
+                    },
+                    "CameraFocus": false,
+                    "IDName": "SquarePolygon",
+                    "OffsetPos": {
+                        "x": -0.25,
+                        "y": 0.014999999664723873,
+                        "z": 0.0
+                    },
+                    "drawType": 2,
+                    "path": "UI/Semicolon",
+                    "splitH": 1,
+                    "splitW": 1
+                },
+                {
+                    "IDName": "TimerDisplay",
+                    "sceneTag": "Game"
+                },
+                {
+                    "Animation": {
+                        "animeList": [],
+                        "nowAnime": ""
+                    },
+                    "CameraFocus": false,
+                    "IDName": "SquarePolygon",
+                    "OffsetPos": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "drawType": 260849552,
+                    "path": "",
+                    "splitH": 1,
+                    "splitW": 1
+                }
+            ],
+            "name": "TimeCnt",
+            "tag": 0
+        }
+    }
+]

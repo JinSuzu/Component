@@ -13,7 +13,9 @@ void Cp_SquarePolygon::Draw3D(UINT _type)
 	if (!Application::Instance().GetBuildFlg() && !m_bActive)return;
 	if (m_drawType & _type)
 	{
-		KdShaderManager::Instance().m_StandardShader.DrawPolygon(*m_squarePolygon, m_trans.lock()->GetMatrix(), m_color);
+		Animation2D::AnimeFrame frame = m_animation->GetAnimeFrame();
+		m_squarePolygon->SetUVRect(frame.w, frame.h);
+		KdShaderManager::Instance().m_StandardShader.DrawPolygon(*m_squarePolygon, m_trans.lock()->GetMatrix(Math::Matrix::CreateTranslation(m_offsetPos)),m_color);
 	}
 }
 
@@ -58,6 +60,7 @@ void Cp_SquarePolygon::ImGuiUpdate()
 		ImGui::EndPopup();
 	}
 
+	ImGui::DragFloat3("OffsetPos", &m_offsetPos.x);
 	ImGui::Checkbox("CameraFocus", &m_cameraFocus);
 
 	ImGui::InputInt2("Split w/h", m_split);
@@ -75,6 +78,7 @@ void Cp_SquarePolygon::InitJson()
 
 	m_animation->SetJson(m_jsonData["Animation"]);
 
+	if (m_jsonData["OffsetPos"].is_object())m_offsetPos = JsonToVec3(m_jsonData["OffsetPos"]);
 	if (m_jsonData["CameraFocus"].is_boolean())m_cameraFocus = m_jsonData["CameraFocus"];
 }
 
@@ -88,6 +92,12 @@ nlohmann::json Cp_SquarePolygon::GetJson()
 
 	m_jsonData["Animation"] = m_animation->GetJson();
 
+	m_jsonData["OffsetPos"] = Vec3ToJson(m_offsetPos);
 	m_jsonData["CameraFocus"] = m_cameraFocus;
 	return m_jsonData;
+}
+
+void Cp_SquarePolygon::SetAnimeName(std::string _name)
+{
+	m_animation->ChangeAnime(_name);
 }

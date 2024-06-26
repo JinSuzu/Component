@@ -29,6 +29,11 @@
                 },
                 "CameraFocus": false,
                 "IDName": "SquarePolygon",
+                "OffsetPos": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
                 "drawType": 283927202,
                 "path": "Result/Enter",
                 "splitH": 1,
