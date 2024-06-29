@@ -1,10 +1,11 @@
 ﻿#include "GameObject.h"
+#include "Manager/GameObjectManager.h"
+#include "../Component/Transform/Transform.h"
+#include "../Component/AllComponentIncluder.h"
 #include "../../SceneBase/Manager/SceneManager.h"
 #include "../../SceneBase/SceneBase.h"
 #include "../../Object/Component/Component.h"
-#include "Manager/GameObjectManager.h"
-#include "../../Object/Component/Transform/Transform.h"
-#include "../../Object/Component/AllComponentIncluder.h"
+#include "../../ImGuiHelper/ImGuiEditor.h"
 
 #define ITERATOR(x) for (auto&& it : m_cpList)if(it.get() != nullptr)it->
 
@@ -44,7 +45,7 @@ void GameObject::Init(nlohmann::json _json)
 	m_trans = std::make_shared<Cp_Transform>();
 	m_trans->SetOwner(WeakThisPtr(this));
 	m_trans->SetIDName("Transform");
-	if(m_parent.lock())m_trans->SetParent(m_parent.lock()->GetTransform());
+	if (m_parent.lock())m_trans->SetParent(m_parent.lock()->GetTransform());
 	m_trans->Start();
 
 	if (_json.is_null())return;
@@ -59,26 +60,22 @@ void GameObject::Init(nlohmann::json _json)
 
 	for (auto& child : _json["Childs"])
 	{
-		std::shared_ptr<GameObject> object =
-			SceneManager::Instance().m_objectMgr
-			->CreateObject(child, WeakThisPtr(this));
+		SceneManager::Instance().m_objectMgr->CreateObject(child, WeakThisPtr(this));
 	}
 }
 
 void GameObject::ImGuiUpdate(int num)
 {
-	if (m_childs.empty())
-	{
-		ImGui::Text(("   " + std::to_string(num) + " :").c_str()); ImGui::SameLine();
-		ImGuiOpenOption();
-		return;
-	}
-	else
-	{
-		bool flg = ImGui::TreeNode((std::to_string(num) + " :").c_str());
-		ImGui::SameLine(); ImGuiOpenOption();
-		if (!flg)return;
+	int treeFlg = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
+	if (m_childs.empty())treeFlg = ImGuiTreeNodeFlags_Leaf;
 
+	bool flg = ImGui::TreeNodeEx((std::to_string(num) + " :" + m_name + "##" + std::to_string(GetInstanceID())).c_str(), treeFlg);
+	if ((ImGui::IsItemClicked(0) || ImGui::IsItemClicked(1)))GameObjectManager::EditObject() = WeakThisPtr(this);
+	if (Editor::SourceGameObject(WeakThisPtr(this)));
+	else  Editor::TargetGameObject(WeakThisPtr(this));
+
+	if (flg)
+	{
 		int i = 0;
 		std::list<std::weak_ptr<GameObject>>::iterator child = m_childs.begin();
 		while (child != m_childs.end())
@@ -94,27 +91,6 @@ void GameObject::ImGuiUpdate(int num)
 		}
 		ImGui::TreePop();
 	}
-}
-void GameObject::ImGuiOpenOption()
-{
-	std::string ImGuiID = "##" + std::to_string(GetInstanceID());
-	if (ImGui::SmallButton((m_name + ImGuiID).c_str()))ImGui::OpenPopup(("Option" + ImGuiID).c_str());
-	if (!ImGui::BeginPopup(("Option" + ImGuiID).c_str())) return;
-	{
-		if (ImGui::MenuItem("Edit"))GameObjectManager::EditObject() = WeakThisPtr(this);
-
-		static std::string path;
-		ImGui::InputText("##Path", &path);
-		if (ImGui::SameLine(); ImGui::Button("Save"))
-		{
-			nlohmann::json json = nlohmann::json::array();
-			json.push_back(OutPutFamilyJson());
-			OutPutJson(json, GameObjectManager::GetGameObjectSetPath() + path);
-			ImGui::CloseCurrentPopup();
-		}
-		if (ImGui::MenuItem("Remove"))Destroy();
-	}
-	ImGui::EndPopup();
 }
 
 #pragma region ComponentFns
@@ -200,21 +176,49 @@ std::shared_ptr<GameObject> GameObject::Initialize(std::weak_ptr<GameObject> _pa
 	return clone;
 }
 #pragma endregion
+void GameObject::SetUpParent(std::weak_ptr<GameObject> _parent, bool _push)
+{
+	std::weak_ptr<GameObject> me = WeakThisPtr(this);
+	if (m_parent.lock())
+	{
+		std::list<std::weak_ptr<GameObject>>::iterator it = m_parent.lock()->GetChilds().begin();
+		while (it != m_parent.lock()->GetChilds().end())
+		{
+			if ((*it).lock() == me.lock())
+			{
+				m_parent.lock()->GetChilds().erase(it);
+				break;
+			}
+			it++;
+		}
 
-void GameObject::SetParent(std::weak_ptr<GameObject> _parent) { m_parent = _parent; }
+	}
+
+	if (_parent.lock())_parent.lock()->AddChilds(me);
+
+	m_parent = _parent;
+	m_trans->SetParent(m_parent.lock() ? m_parent.lock()->GetTransform() : std::weak_ptr<Cp_Transform>());
+}
+
+void GameObject::AddChilds(std::weak_ptr<GameObject> _child)
+{
+	m_addFamily = true;
+	_child.lock()->SetParent(WeakThisPtr(this));
+	m_childs.push_back(_child);
+}
 
 void GameObject::Destroy()
 {
 	if (m_bDestroy)return;
 	Object::Destroy();
 
-	for (auto& cmp : m_cpList) 
+	for (auto& cmp : m_cpList)
 	{
-		if(cmp)cmp->Destroy();
+		if (cmp)cmp->Destroy();
 	}
 	for (auto& child : m_childs)
 	{
-		if(child.lock())child.lock()->Destroy();
+		if (child.lock())child.lock()->Destroy();
 	}
 }
 
@@ -233,14 +237,15 @@ nlohmann::json GameObject::GetJson()
 	m_jsonData["tag"] = m_tag;
 	m_jsonData["Component"] = component;
 	m_jsonData["name"] = m_name;
-	return m_jsonData;
+	nlohmann::json json;
+	json["Parent"] = m_jsonData;
+	json["Childs"] = nlohmann::json::array();
+	return json;
 }
 
 nlohmann::json GameObject::OutPutFamilyJson()
 {
-	nlohmann::json json;
-	json["Parent"] = GetJson();
-	json["Childs"] = nlohmann::json::array();
+	nlohmann::json json = GetJson();
 	for (auto& child : m_childs)
 	{
 		if (child.expired())continue;
@@ -278,14 +283,11 @@ std::list<std::shared_ptr<Component>> GameObject::SearchTags(std::string _tag)
 void GameObject::ImGuiComponents()
 {
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-
-	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode(m_trans->GetIDName().c_str()))
 	{
 		m_trans->ImGuiUpdate();
 		ImGui::TreePop();
 	}
-
 
 	int num = 0; bool deleteFlg = false;
 	for (auto&& it : m_cpList)
@@ -298,7 +300,6 @@ void GameObject::ImGuiComponents()
 			deleteFlg = true;
 			it->Destroy();
 		}
-
 
 		if (flg)
 		{
@@ -324,12 +325,12 @@ void GameObject::ImGuiComponents()
 void GameObject::SetActive(bool _flg)
 {
 	Object::SetActive(_flg);
-	for (auto& it : m_cpList) 
+	for (auto& it : m_cpList)
 	{
 		it->SetActive(_flg);
 	}
 
-	for (auto& child : m_childs) 
+	for (auto& child : m_childs)
 	{
 		if (child.expired())continue;
 		child.lock()->SetActive(_flg);
@@ -338,19 +339,9 @@ void GameObject::SetActive(bool _flg)
 
 bool GameObject::GetActive()
 {
-	if (m_parent.lock()) 
+	if (m_parent.lock())
 	{
 		m_bActive = m_bActive && m_parent.lock()->GetActive();
 	}
 	return m_bActive;
-}
-
-void GameObject::Release()
-{
-	if (!m_bSave)return;
-
-	nlohmann::json json;
-	json["Parent"] = GetJson();
-	json["Childs"] = nlohmann::json::array();
-	OutPutJson(json, GameObjectManager::GetGameObjectPath() + m_name);
 }

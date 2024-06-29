@@ -23,46 +23,39 @@ class GameObject
 	:public Object
 {
 public:
-	GameObject() {}
-	~GameObject() { Release(); }
 
 	void PreUpdate();
 	void Update();
 	void PostUpdate();
 
 	void Init(nlohmann::json _json);
-	void Release();
 
 	void ImGuiUpdate(int num);
-	void ImGuiOpenOption();
 	#pragma region Get/SetFunction
-	std::string GetName() { return m_name; };
-	std::string* WorkName() { return &m_name; };
+	std::string GetName()			{ return m_name; };
+	std::string* WorkName()			{ return &m_name; };
 	void SetName(std::string _name) { m_name = _name; };
 
-	ObjectTag GetTag() const { return m_tag; };
+	ObjectTag GetTag() const	{ return m_tag; };
 	void SetTag(ObjectTag _tag) { m_tag = _tag; };
 
-	std::weak_ptr<GameObject> GetParent()	{ return m_parent; }
-	void SetParent(std::weak_ptr<GameObject> _parent);
+	std::weak_ptr<GameObject> GetParent()									{ return m_parent; }
+	void SetParent(std::weak_ptr<GameObject> _parent)						{ m_parent = _parent; };
+	void SetUpParent(std::weak_ptr<GameObject> _parent, bool _push = true);
 
-	std::list<std::weak_ptr<GameObject>>& GetChilds() { return m_childs; }
-	std::list<std::weak_ptr<GameObject>>* WorkChilds() { return &m_childs; }
-	void AddChilds(std::weak_ptr<GameObject> _child)
-	{
-		_child.lock()->SetParent(WeakThisPtr(this));
-		m_childs.push_back(_child); 
-	}
+	std::list<std::weak_ptr<GameObject>>& GetChilds()	{ return m_childs; }
+	std::list<std::weak_ptr<GameObject>>* WorkChilds()	{ return &m_childs; }
+	void AddChilds(std::weak_ptr<GameObject> _child);
 
-	bool GetHideFlg() { return m_bHide; };
-	void SetHideFlg(bool _flg) { m_bHide = _flg; };
+	bool GetHideFlg()			{ return m_bHide; };
+	void SetHideFlg(bool _flg)	{ m_bHide = _flg; };
 
 	virtual void Destroy()override;
 
 	//Json係	
-	bool GetAbleSave() const { return m_bSave; }
-	void DotSave() { m_bSave = false; }
-	void EnableSave() { m_bSave = true; }
+	bool GetAbleSave() const	{ return m_bSave; }
+	void DotSave()				{ m_bSave = false; }
+	void EnableSave()			{ m_bSave = true; }
 	nlohmann::json GetJson();
 	nlohmann::json OutPutFamilyJson();
 #pragma endregion
@@ -108,19 +101,20 @@ public:
 
 	std::shared_ptr<GameObject>Initialize(std::weak_ptr<GameObject> _parent);
 private:
-	std::string									m_name;
-	ObjectTag									m_tag = ObjectTag::Untagged;
+	std::string									m_name	= "GameObject";
+	ObjectTag									m_tag	= ObjectTag::Untagged;
 	bool										m_bHide = false;
 
 	//親子関係＆家族関係
 	std::weak_ptr<GameObject>					m_parent;
 	std::list<std::weak_ptr<GameObject>>		m_childs;
+	bool										m_addFamily = false;
 
-	//前提コンポども
+	//コンポども
 	std::shared_ptr<Cp_Transform>				m_trans;
 	std::weak_ptr<Cp_Camera>					m_camera;
-
 	std::list<std::shared_ptr<Component>>		m_cpList;
+
 
 	//Json係
 	bool										m_bSave = true;

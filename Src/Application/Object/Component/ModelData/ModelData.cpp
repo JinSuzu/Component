@@ -1,8 +1,10 @@
 ﻿#include "ModelData.h"
+#include "../Transform/Transform.h"
 #include "../../Game/GameObject.h"
+
 #include "../../../AssetManager/AssetManager.h"
 #include "../../../RenderManger/RenderManger.h"
-#include "../Transform/Transform.h"
+#include "../../../ImGuiHelper/ImGuiHelper.h"
 
 void Cp_ModelData::Draw3D(UINT _type)
 {
@@ -24,20 +26,12 @@ void Cp_ModelData::Start()
 
 void Cp_ModelData::ImGuiUpdate()
 {
-	ImGui::InputText("Path", &m_path);
-	if (ImGui::SameLine(); ImGui::Button("Load"))
-	{
-		m_modelData = AssetManager::Instance().GetModelData(m_path);
-	}
+	MyImGui::SelectModelData(m_modelData, m_path);
 
 	if (ImGui::Button("DrawType"))ImGui::OpenPopup("Types");
 	if (ImGui::BeginPopup("Types"))
 	{
-		ImGuiCheckBoxBit("Lit", m_drawType, DrawType::Lit);
-		ImGuiCheckBoxBit("UnLit", m_drawType, DrawType::UnLit);
-		ImGuiCheckBoxBit("Bright", m_drawType, DrawType::Bright);
-		ImGuiCheckBoxBit("UI", m_drawType, DrawType::UI);
-		ImGuiCheckBoxBit("DepthOfShadow", m_drawType, DrawType::DepthOfShadow);
+		MyImGui::CheckBoxAllBit<DrawType>(m_drawType);
 
 		ImGui::EndPopup();
 	}

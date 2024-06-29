@@ -2,11 +2,12 @@
 #include "../../Game/GameObject.h"
 #include "../Transform/Transform.h"
 #include "../Camera/Camera.h"
+
 #include "../../../AssetManager/AssetManager.h"
+#include "../../../ImGuiHelper/ImGuiHelper.h"
 #include "../../../Utility/Animation2D/Animation2D.h"
 #include "../../../RenderManger/RenderManger.h"
 #include "../../../main.h"
-
 void Cp_SquarePolygon::Draw3D(UINT _type)
 {
 	if (m_owner.lock()->GetHideFlg())return;
@@ -45,18 +46,12 @@ void Cp_SquarePolygon::PostUpdateContents()
 
 void Cp_SquarePolygon::ImGuiUpdate()
 {
-	ImGui::InputText("Path", &m_path);
-	if (ImGui::SameLine(); ImGui::Button("Load"))m_squarePolygon = AssetManager::Instance().GetSquarePolygon(m_path);
+	MyImGui::SelectSquarePolygon(m_squarePolygon,m_path);
 
 	if (ImGui::Button("DrawType"))ImGui::OpenPopup("Types");
 	if (ImGui::BeginPopup("Types"))
 	{
-		ImGuiCheckBoxBit("Lit", m_drawType, DrawType::Lit);
-		ImGuiCheckBoxBit("UnLit", m_drawType, DrawType::UnLit);
-		ImGuiCheckBoxBit("Bright", m_drawType, DrawType::Bright);
-		ImGuiCheckBoxBit("UI", m_drawType, DrawType::UI);
-		ImGuiCheckBoxBit("DepthOfShadow", m_drawType, DrawType::DepthOfShadow);
-
+		MyImGui::CheckBoxAllBit<DrawType>(m_drawType);
 		ImGui::EndPopup();
 	}
 
@@ -78,7 +73,7 @@ void Cp_SquarePolygon::InitJson()
 
 	m_animation->SetJson(m_jsonData["Animation"]);
 
-	if (m_jsonData["OffsetPos"].is_object())m_offsetPos = JsonToVec3(m_jsonData["OffsetPos"]);
+	if (m_jsonData["OffsetPos"].is_object())m_offsetPos = MyJson::InPutVec3(m_jsonData["OffsetPos"]);
 	if (m_jsonData["CameraFocus"].is_boolean())m_cameraFocus = m_jsonData["CameraFocus"];
 }
 
@@ -92,7 +87,7 @@ nlohmann::json Cp_SquarePolygon::GetJson()
 
 	m_jsonData["Animation"] = m_animation->GetJson();
 
-	m_jsonData["OffsetPos"] = Vec3ToJson(m_offsetPos);
+	m_jsonData["OffsetPos"] = MyJson::OutPutVec3(m_offsetPos);
 	m_jsonData["CameraFocus"] = m_cameraFocus;
 	return m_jsonData;
 }

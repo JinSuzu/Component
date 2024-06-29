@@ -2,6 +2,8 @@
 #include "../../Game/GameObject.h"
 #include "../Transform/Transform.h"
 #include "../Rigidbody/Rigidbody.h"
+#include "../Rigidbody/Rigidbody.h"
+#include "../../../ImGuiHelper/ImGuiHelper.h"
 
 void Cp_Controller::Start()
 {
@@ -33,9 +35,7 @@ void Cp_Controller::ImGuiUpdate()
 	if (ImGui::Button("shaft"))ImGui::OpenPopup("MShafts");
 	if (ImGui::BeginPopup("MShafts"))
 	{
-		ImGuiCheckBoxBit("X", m_shaft, Shaft::X);
-		ImGuiCheckBoxBit("Y", m_shaft, Shaft::Y);
-		ImGuiCheckBoxBit("Z", m_shaft, Shaft::Z);
+		MyImGui::CheckBoxAllBit<Shaft>(m_shaft);
 		ImGui::EndPopup();
 	}
 

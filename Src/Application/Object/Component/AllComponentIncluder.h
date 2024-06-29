@@ -148,12 +148,13 @@ public:
 	}
 	std::shared_ptr<Component> ImGuiAddComponent()
 	{
-		if (ImGuiTreeCenterButton("AddComponent"))ImGui::OpenPopup("Components");
+		if (ImGui::SmallButton("AddComponent"))ImGui::OpenPopup("Components");
 		std::shared_ptr<Component> cmp;
 		if (!ImGui::BeginPopup("Components"))return cmp;
 
 		ImGui::SeparatorText("Component");
 		auto it = m_createMap.begin();
+
 		while (it != m_createMap.end())
 		{
 			if (ImGui::MenuItem(it->first.c_str()))

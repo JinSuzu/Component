@@ -15,7 +15,8 @@ private:
 		Null = 0,
 		X = 1 << 0,
 		Y = 1 << 1,
-		Z = 1 << 2
+		Z = 1 << 2,
+		Max = 1 << 3
 	};
 
 	struct LimitSet

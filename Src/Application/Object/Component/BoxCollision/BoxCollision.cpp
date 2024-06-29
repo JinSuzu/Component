@@ -15,7 +15,7 @@ void Cp_BoxCollision::InitJson()
 	Component::InitJson();
 	if (m_jsonData.is_object())
 	{
-		m_rad = JsonToVec3(m_jsonData["rad"]);
+		m_rad = MyJson::InPutVec3(m_jsonData["rad"]);
 		m_bTrigger = m_jsonData["bTrigger"];
 	}
 }
@@ -56,7 +56,7 @@ void Cp_BoxCollision::ImGuiUpdate()
 
 nlohmann::json Cp_BoxCollision::GetJson()
 {
-	m_jsonData["rad"] = Vec3ToJson(m_rad);
+	m_jsonData["rad"] = MyJson::OutPutVec3(m_rad);
 	m_jsonData["bTrigger"] = m_bTrigger;
 	return m_jsonData;
 }

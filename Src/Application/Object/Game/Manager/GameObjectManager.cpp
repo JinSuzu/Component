@@ -2,6 +2,7 @@
 #include "../../Component/AllComponentIncluder.h"
 #include "../../../SceneBase/Manager/SceneManager.h"
 #include "../../../SceneBase/SceneBase.h"
+#include "../../../ImGuiHelper/ImGuiEditor.h"
 #include "../GameObject.h"
 
 void GameObjectManager::PreUpdate()
@@ -31,7 +32,7 @@ void GameObjectManager::ImGuiUpdate()
 		int obNum = 0; std::list<std::shared_ptr<GameObject>>::iterator it = m_objectList.begin();
 		while (it != m_objectList.end())
 		{
-			if ((*it)->GetDestroy()) 
+			if ((*it)->GetDestroy())
 			{
 				it = m_objectList.erase(it);
 				continue;
@@ -41,15 +42,35 @@ void GameObjectManager::ImGuiUpdate()
 		}
 	}
 	ImGui::EndChild();
+	if (ImGui::IsItemClicked(1))ImGui::OpenPopup("CreateObject");
+	Editor::TargetGameObject(std::weak_ptr<GameObject>());
+	if (ImGui::BeginPopup("CreateObject"))
+	{
+		if (EditObject().lock())
+		{
+			static std::string path;
+			ImGui::InputText("##Path", &path);
+			if (ImGui::SameLine(); ImGui::Button("Save"))
+			{
+				nlohmann::json json = nlohmann::json::array();
+				json.push_back(EditObject().lock()->OutPutFamilyJson());
+				MyJson::OutPutJson(json, path);
+				ImGui::CloseCurrentPopup();
+			}
+			if (ImGui::MenuItem("Remove"))EditObject().lock()->Destroy();
+		}
+		ImGuiCreateObject();
+		ImGui::EndPopup();
+	}
 
-	if (EditObject().expired())return;
 	ImGui::SeparatorText("EditObject");
 
-	//ImGui::BeginChild("Edit", ImVec2(), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeY);
+	ImGui::BeginChild("Edit", ImVec2(), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeY);
 	{
+		if (EditObject().lock())
 		ImGuiGameObject(EditObject());
 	}
-	//ImGui::EndChild();
+	ImGui::EndChild();
 }
 
 void GameObjectManager::Load(std::string _path)
@@ -70,7 +91,7 @@ void GameObjectManager::Release(std::string _path, bool _enableSave)
 				if (object->GetAbleSave())json.push_back(object->OutPutFamilyJson());
 			}
 		}
-		OutPutJson(json, _path);
+		MyJson::OutPutJson(json, _path);
 	}
 
 	m_objectList.clear();
@@ -136,7 +157,7 @@ bool GameObjectManager::RayHit(const KdCollider::RayInfo& targetShape, std::list
 
 std::shared_ptr<GameObject> GameObjectManager::CreateObject(std::string _tag, std::weak_ptr<GameObject> _parent, bool bPush)
 {
-	return CreateObject(InPutJson(GameObjectManager::GetGameObjectPath() + _tag), _parent, bPush);
+	return CreateObject(MyJson::InPutJson(_tag), _parent, bPush);
 }
 std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json, std::weak_ptr<GameObject> _parent, bool bPush)
 {
@@ -155,7 +176,7 @@ std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json
 
 void GameObjectManager::LoadJson(std::string _path, bool _bOrigin)
 {
-	nlohmann::json json = InPutJson(_path);
+	nlohmann::json json = MyJson::InPutJson(_path);
 	auto name = json.begin();
 	assert(name != json.end() && "not found json");
 	while (name != json.end())
@@ -188,7 +209,7 @@ void GameObjectManager::ImGuiCreateObject()
 				{
 					std::shared_ptr<GameObject>object = CreateObject(path);
 					object->AddComponents(state);
-					object->SetName(path);
+					//object->SetName(path);
 				}
 			}
 
@@ -198,13 +219,13 @@ void GameObjectManager::ImGuiCreateObject()
 				{
 					std::shared_ptr<GameObject>object = CreateObject(path);
 					object->AddComponents(state);
-					object->SetName(path);
+					//object->SetName(path);
 				}
 				if (ImGui::Selectable("Branch"))
 				{
 					std::shared_ptr<GameObject>object = CreateObject(path, EditObject());
 					object->AddComponents(state);
-					object->SetName(path);
+					//object->SetName(path);
 				}
 				ImGui::EndPopup();
 			}
@@ -219,13 +240,13 @@ void GameObjectManager::ImGuiCreateObject()
 			if (ImGui::Button("Create"))
 			{
 				if (EditObject().lock())ImGui::OpenPopup("Create");
-				else LoadJson(GameObjectManager::GetGameObjectSetPath() + path);
+				else LoadJson(path);
 			}
 
 			if (ImGui::BeginPopup("Create"))
 			{
-				if (ImGui::Selectable("Root"))LoadJson(GameObjectManager::GetGameObjectSetPath() + path);
-				if (ImGui::Selectable("Branch"))LoadJson(GameObjectManager::GetGameObjectSetPath() + path, false);
+				if (ImGui::Selectable("Root"))LoadJson(path);
+				if (ImGui::Selectable("Branch"))LoadJson(path, false);
 
 				ImGui::EndPopup();
 			}

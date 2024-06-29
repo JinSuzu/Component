@@ -38,9 +38,6 @@ private:
 
 	void LoadJson(std::string _path, bool _bOrigin = true);
 public:
-	static std::string GetGameObjectPath() { return "GameObject/"; };
-	static std::string GetGameObjectSetPath() { return "GameObject/Set/"; }
-
 
 	static std::weak_ptr<GameObject>& EditObject() 
 	{

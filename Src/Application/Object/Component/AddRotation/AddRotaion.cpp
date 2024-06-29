@@ -19,17 +19,17 @@ void Cp_AddRotation::UpdateContents()
 
 	if (m_addType == AddType::FollowMouse)
 	{
-		if (Application::Instance().m_debugFlg && !(GetAsyncKeyState(VK_RBUTTON) & 0x8000))return;
 
 		Math::Vector2 nowMouseMove = Application::Instance().GetMouse() - m_mouseMove;
 		Math::Vector2 windowSize = Application::Instance().GetWindowSize();
 
 		POINT test{ 640,360 };
 		ClientToScreen(Application::Instance().GetWindowHandle(), &test);
-		SetCursorPos(test.x, test.y);
-
+		if (!Application::Instance().GetDebugFlg())SetCursorPos(test.x, test.y);
 		m_mouseMove = Application::Instance().GetMouse();
 
+
+		if (Application::Instance().GetDebugFlg() && !(GetAsyncKeyState(VK_RBUTTON) & 0x8000))return;
 		nowMouseMove = nowMouseMove * m_addPow;
 		rota += {-nowMouseMove.y, nowMouseMove.x, 0};
 	}
@@ -52,12 +52,12 @@ void Cp_AddRotation::ImGuiUpdate()
 
 void Cp_AddRotation::InitJson()
 {
-	m_addPow = JsonToVec3(m_jsonData["addPow"]);
+	m_addPow = MyJson::InPutVec3(m_jsonData["addPow"]);
 	m_addType = m_jsonData["addType"];
 }
 nlohmann::json Cp_AddRotation::GetJson()
 {
-	m_jsonData["addPow"] = Vec3ToJson(m_addPow);
+	m_jsonData["addPow"] = MyJson::OutPutVec3(m_addPow);
 	m_jsonData["addType"] = m_addType;
 	return m_jsonData;
 }

@@ -18,6 +18,7 @@ public:
 
 	HWND GetWindowHandle() const { return m_window.GetWndHandle(); }
 	int GetMouseWheelValue() const { return m_window.GetMouseWheelVal(); }
+	KdWindow& GetWindow() { return m_window; }
 
 	int GetNowFPS() const { return m_fpsController.m_nowfps; }
 	int GetMaxFPS() const { return m_fpsController.m_maxFps; }
@@ -40,7 +41,7 @@ public:
 	void KdPostDraw();
 
 	bool GetBuildFlg()const { return m_buildFlg; };
-	bool m_debugFlg = false;
+	bool GetDebugFlg()const { return m_debugFlg; };
 private:
 
 	// アプリケーション初期化
@@ -61,8 +62,9 @@ private:
 	Math::Vector2 m_windowSize;
 
 	
-	bool m_buildFlg = false;
-	//CameraBuild
+	bool m_buildFlg = true;
+	bool m_debugFlg = true;
+
 	std::shared_ptr<class GameObject> m_buildCamera;
 
 	void ImGuiProcess();

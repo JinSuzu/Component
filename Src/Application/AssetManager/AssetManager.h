@@ -56,3 +56,10 @@ public:
 		return instance;
 	}
 };
+
+namespace MyImGui 
+{
+	bool SelectTexture(std::shared_ptr<KdTexture>& _tex,std::string& _path);
+	bool SelectSquarePolygon(std::shared_ptr<KdSquarePolygon>& _poly, std::string& _path);
+	bool SelectModelData(std::shared_ptr<KdModelData>& _modelData, std::string& _path);
+}

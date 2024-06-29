@@ -208,6 +208,12 @@
     <Filter Include="Src\Application\Object\Component\ScoreCounter">
       <UniqueIdentifier>{4239988b-b6e1-4a3b-b78c-73d476364c71}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\ImGuiHelper">
+      <UniqueIdentifier>{ccf54f22-0ab8-4e0f-a0e2-adfbe22719fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\JsonHelper">
+      <UniqueIdentifier>{320cd98c-6c6a-47ec-91d3-6f0f224035c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -666,6 +672,15 @@
     <ClInclude Include="Src\Application\Object\Component\ScoreCounter\ScoreCounter.h">
       <Filter>Src\Application\Object\Component\ScoreCounter</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\ImGuiHelper\ImGuiHelper.h">
+      <Filter>Src\Application\ImGuiHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\ImGuiHelper\ImGuiEditor.h">
+      <Filter>Src\Application\ImGuiHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\JsonHelper\JsonHelper.h">
+      <Filter>Src\Application\JsonHelper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -931,6 +946,15 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\ScoreCounter\ScoreCounter.cpp">
       <Filter>Src\Application\Object\Component\ScoreCounter</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\ImGuiHelper\ImGuiHelper.cpp">
+      <Filter>Src\Application\ImGuiHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\ImGuiHelper\ImGuiEditor.cpp">
+      <Filter>Src\Application\ImGuiHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\JsonHelper\JsonHelper.cpp">
+      <Filter>Src\Application\JsonHelper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

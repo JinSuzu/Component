@@ -9,6 +9,7 @@
 #include "../SquarePolygon/SquarePolygon.h"
 
 #include "../../../RenderManger/RenderManger.h"
+#include "../../../ImGuiHelper/ImGuiHelper.h"
 
 void Cp_Collider::Start()
 {
@@ -25,18 +26,14 @@ void Cp_Collider::ImGuiUpdate()
 	if (ImGui::Button("ColliderType"))ImGui::OpenPopup(("ColliderType##" + std::to_string(GetInstanceID())).c_str());
 	if (ImGui::BeginPopup(("ColliderType##" + std::to_string(GetInstanceID())).c_str()))
 	{
-		for (int i = 0; i < std::log2((double)KdCollider::Type::TypeMax); i++)
-		{
-			KdCollider::Type type = static_cast<KdCollider::Type>(1 << i);
-			change |= ImGuiCheckBoxBit(magic_enum::enum_name(type).data(), m_colliderType, (UINT)type);
-		}
+		change |= MyImGui::CheckBoxAllBit<KdCollider::Type>(m_colliderType);
 		ImGui::EndPopup();
 	}
 
 	if (ImGui::Button("ColliderShape"))ImGui::OpenPopup(("ColliderShape##" + std::to_string(GetInstanceID())).c_str());
 	if (ImGui::BeginPopup(("ColliderShape##" + std::to_string(GetInstanceID())).c_str()))
 	{
-		for (int i = 0; i < std::log2((double)ColliderShape::Max); i++)
+		for (int i = 0; i < magic_enum::enum_count<ColliderShape>(); i++)
 		{
 			ColliderShape shape = static_cast<ColliderShape>(1 << i);
 			change |= ImGui::RadioButton(magic_enum::enum_name(shape).data(), (int*)&m_colliderShape, shape);
@@ -64,7 +61,7 @@ void Cp_Collider::InitJson()
 	m_colliderShape = m_jsonData["ColliderShape"];
 	m_colliderType = m_jsonData["ColliderType"];
 	m_radius = m_jsonData["Radius"];
-	m_offsetPos = JsonToVec3(m_jsonData["OffsetPos"]);
+	m_offsetPos = MyJson::InPutVec3(m_jsonData["OffsetPos"]);
 
 	RegisterCollider(true);
 }
@@ -74,7 +71,7 @@ nlohmann::json Cp_Collider::GetJson()
 	m_jsonData["ColliderShape"] = m_colliderShape;
 	m_jsonData["ColliderType"] = m_colliderType;
 	m_jsonData["Radius"] = m_radius;
-	m_jsonData["OffsetPos"] = Vec3ToJson(m_offsetPos);
+	m_jsonData["OffsetPos"] = MyJson::OutPutVec3(m_offsetPos);
 
 	return m_jsonData;
 }

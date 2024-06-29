@@ -32,5 +32,5 @@ KeyConfig::~KeyConfig()
 
 
 
-	OutPutJson(json, Path);
+	MyJson::OutPutJson(json, Path);
 }

@@ -60,7 +60,7 @@ void RenderManager::Draw()
 				continue;
 			}
 
-			(*draw3D->lock())(DrawType::DepthOfShadow);
+			(*draw3D->lock())((UINT)DrawType::DepthOfShadow);
 			draw3D++;
 		}
 	}
@@ -70,7 +70,7 @@ void RenderManager::Draw()
 	// 陰影のあるオブジェクト(不透明な物体や2Dキャラ)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_StandardShader.BeginLit();
 	{
-		for (auto& draw3D : m_draw3DList)(*draw3D.lock())(DrawType::Lit);
+		for (auto& draw3D : m_draw3DList)(*draw3D.lock())((UINT)DrawType::Lit);
 	}
 	KdShaderManager::Instance().m_StandardShader.EndLit();
 
@@ -78,7 +78,7 @@ void RenderManager::Draw()
 	// 陰影のないオブジェクト(透明な部分を含む物体やエフェクト)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
 	{
-		for (auto& draw3D : m_draw3DList)(*draw3D.lock())(DrawType::UnLit);
+		for (auto& draw3D : m_draw3DList)(*draw3D.lock())((UINT)DrawType::UnLit);
 	}
 	KdShaderManager::Instance().m_StandardShader.EndUnLit();
 
@@ -86,7 +86,7 @@ void RenderManager::Draw()
 	// 光源オブジェクト(自ら光るオブジェクトやエフェクト)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_postProcessShader.BeginBright();
 	{
-		for (auto& draw3D : m_draw3DList)(*draw3D.lock())(DrawType::Bright);
+		for (auto& draw3D : m_draw3DList)(*draw3D.lock())((UINT)DrawType::Bright);
 	}
 	KdShaderManager::Instance().m_postProcessShader.EndBright();
 }
@@ -113,7 +113,7 @@ void RenderManager::DrawSprite()
 
 void RenderManager::DrawDebug()
 {
-	if (!Application::Instance().m_debugFlg)return;
+	if (!Application::Instance().GetDebugFlg())return;
 	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
 	{
 		std::list<std::weak_ptr<std::function<void()>>>::iterator drawDebug = m_drawDebugList.begin();

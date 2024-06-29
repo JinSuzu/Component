@@ -1,6 +1,7 @@
 ﻿#include "TransformLimit.h"
 #include "../Transform/Transform.h"
 #include "../../Game/GameObject.h"
+#include "../../../ImGuiHelper/ImGuiHelper.h"
 
 void Cp_TransformLimit::PostUpdateContents()
 {
@@ -96,9 +97,7 @@ void Cp_TransformLimit::LimitSet::ImGuiUpdate(std::string _name)
 		ImGui::SameLine(); if (ImGui::SmallButton(("SelectShaft##" + _name).c_str()))ImGui::OpenPopup(("Shaft##" + _name).c_str());
 		if (ImGui::BeginPopup(("Shaft##" + _name).c_str()))
 		{
-			ImGuiCheckBoxBit("X", shaft, Shaft::X);
-			ImGui::SameLine(); ImGuiCheckBoxBit("Y", shaft, Shaft::Y);
-			ImGui::SameLine(); ImGuiCheckBoxBit("Z", shaft, Shaft::Z);
+			MyImGui::CheckBoxAllBit<Shaft>(shaft);
 			ImGui::EndPopup();
 		}
 
@@ -133,13 +132,13 @@ void Cp_TransformLimit::LimitSet::InitJson(nlohmann::json _json)
 	shaft	= _json["shaft"];
 
 	bMax = _json["MaxFlg"];
-	Max = JsonToVec3(_json["Max"]);
+	Max = MyJson::InPutVec3(_json["Max"]);
 
 	bMin = _json["MinFlg"];
-	Min = JsonToVec3(_json["Min"]);
+	Min = MyJson::InPutVec3(_json["Min"]);
 	
 	bOffset = _json["OffsetFlg"];
-	Offset = JsonToVec3(_json["Offset"]);
+	Offset = MyJson::InPutVec3(_json["Offset"]);
 }
 
 nlohmann::json Cp_TransformLimit::LimitSet::GetJson()
@@ -149,13 +148,13 @@ nlohmann::json Cp_TransformLimit::LimitSet::GetJson()
 	json["shaft"] = shaft;
 
 	json["MaxFlg"] = bMax;
-	json["Max"] = Vec3ToJson(Max);
+	json["Max"] =MyJson::OutPutVec3(Max);
 
 	json["MinFlg"] = bMin;
-	json["Min"] = Vec3ToJson(Min);
+	json["Min"] =MyJson::OutPutVec3(Min);
 
 	json["OffsetFlg"] = bOffset;
-	json["Offset"] = Vec3ToJson(Offset);
+	json["Offset"] = MyJson::OutPutVec3(Offset);
 
 	return json;
 }

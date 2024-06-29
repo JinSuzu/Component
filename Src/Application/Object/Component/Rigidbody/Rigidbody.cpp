@@ -5,6 +5,7 @@
 #include "../Transform/Transform.h"
 
 #include "../../../RenderManger/RenderManger.h"
+#include "../../../ImGuiHelper/ImGuiHelper.h"
 
 void Cp_Rigidbody::Start()
 {
@@ -74,11 +75,7 @@ void Cp_Rigidbody::ImGuiUpdate()
 	if (ImGui::Button("ColliderType"))ImGui::OpenPopup(("ColliderType##" + std::to_string(GetInstanceID())).c_str());
 	if (ImGui::BeginPopup(("ColliderType##" + std::to_string(GetInstanceID())).c_str()))
 	{
-		for (int i = 0; i < std::log2((double)KdCollider::Type::TypeMax); i++)
-		{
-			KdCollider::Type type = static_cast<KdCollider::Type>(1 << i);
-			ImGuiCheckBoxBit(magic_enum::enum_name(type).data(), m_shapeDate.tag, (UINT)type);
-		}
+		MyImGui::CheckBoxAllBit<KdCollider::Type>(m_shapeDate.tag);
 		ImGui::EndPopup();
 	}
 
@@ -86,7 +83,7 @@ void Cp_Rigidbody::ImGuiUpdate()
 
 void Cp_Rigidbody::InitJson()
 {
-	m_move = JsonToVec3(m_jsonData["move"]);
+	m_move = MyJson::InPutVec3(m_jsonData["move"]);
 	m_deceleration = m_jsonData["deceleration"];
 
 	m_bActiveGravity = m_jsonData["activeGravityFlag"];
@@ -96,13 +93,13 @@ void Cp_Rigidbody::InitJson()
 
 	if (m_jsonData["CollisionBody"].is_boolean())m_collisionBody = m_jsonData["CollisionBody"];
 	if (m_jsonData["Shape"].is_number()) m_shape = m_jsonData["Shape"];
-	m_shapeDate.radius = JsonToVec3(m_jsonData["Radius"]);
-	m_shapeDate.offsetPos = JsonToVec3(m_jsonData["OffsetPos"]);
+	m_shapeDate.radius = MyJson::InPutVec3(m_jsonData["Radius"]);
+	m_shapeDate.offsetPos = MyJson::InPutVec3(m_jsonData["OffsetPos"]);
 	m_shapeDate.tag = m_jsonData["Tag"];
 }
 nlohmann::json Cp_Rigidbody::GetJson()
 {
-	m_jsonData["move"] = Vec3ToJson(m_move);
+	m_jsonData["move"] = MyJson::OutPutVec3(m_move);
 	m_jsonData["deceleration"] = m_deceleration;
 
 	m_jsonData["activeGravityFlag"] = m_bActiveGravity;
@@ -113,8 +110,8 @@ nlohmann::json Cp_Rigidbody::GetJson()
 
 	m_jsonData["CollisionBody"] = m_collisionBody;
 	m_jsonData["Shape"] = m_shape;
-	m_jsonData["Radius"] = Vec3ToJson(m_shapeDate.radius);
-	m_jsonData["OffsetPos"] = Vec3ToJson(m_shapeDate.offsetPos);
+	m_jsonData["Radius"] = MyJson::OutPutVec3(m_shapeDate.radius);
+	m_jsonData["OffsetPos"] = MyJson::OutPutVec3(m_shapeDate.offsetPos);
 	m_jsonData["Tag"] = m_shapeDate.tag;
 	return m_jsonData;
 }

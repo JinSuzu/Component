@@ -3,13 +3,13 @@
     "Parent": {
         "Component": [
             {
-                "Follow": true,
+                "Follow": false,
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": 99.0,
-                    "y": -1.0,
-                    "z": -7.0
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 "rotation": {
                     "x": 0.0,
@@ -23,10 +23,200 @@
                 }
             },
             {
-                "IDName": "ChildCnt"
+                "Animation": {
+                    "animeList": [],
+                    "nowAnime": "0"
+                },
+                "CameraFocus": false,
+                "IDName": "SquarePolygon",
+                "OffsetPos": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "drawType": 0,
+                "path": "No Texture File",
+                "splitH": 1,
+                "splitW": 1
+            },
+            {
+                "IDName": "TransformLimit",
+                "posLimit": {
+                    "ActiveFlg": false,
+                    "Max": {
+                        "x": 100.0,
+                        "y": 100.0,
+                        "z": 100.0
+                    },
+                    "MaxFlg": false,
+                    "Min": {
+                        "x": -100.0,
+                        "y": -100.0,
+                        "z": -100.0
+                    },
+                    "MinFlg": false,
+                    "Offset": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "OffsetFlg": false,
+                    "shaft": 0
+                },
+                "rotationLimit": {
+                    "ActiveFlg": false,
+                    "Max": {
+                        "x": 100.0,
+                        "y": 100.0,
+                        "z": 100.0
+                    },
+                    "MaxFlg": false,
+                    "Min": {
+                        "x": -100.0,
+                        "y": -100.0,
+                        "z": -100.0
+                    },
+                    "MinFlg": false,
+                    "Offset": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "OffsetFlg": false,
+                    "shaft": 0
+                },
+                "scaleLimit": {
+                    "ActiveFlg": false,
+                    "Max": {
+                        "x": 100.0,
+                        "y": 100.0,
+                        "z": 100.0
+                    },
+                    "MaxFlg": false,
+                    "Min": {
+                        "x": -100.0,
+                        "y": -100.0,
+                        "z": -100.0
+                    },
+                    "MinFlg": false,
+                    "Offset": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "OffsetFlg": false,
+                    "shaft": 0
+                }
+            },
+            {
+                "ActivePos": 7,
+                "ActiveRota": 7,
+                "ActiveScale": 7,
+                "CameraFormInheritRota": false,
+                "FormInheritPos": false,
+                "FormInheritRota": false,
+                "FormInheritScale": false,
+                "IDName": "TransFormInherit",
+                "StartPos": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "StartRota": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "StartScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            {
+                "Animation": {
+                    "animeList": [],
+                    "nowAnime": "0"
+                },
+                "CameraFocus": false,
+                "IDName": "SquarePolygon",
+                "OffsetPos": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "drawType": 7143521,
+                "path": "No Texture File",
+                "splitH": 1,
+                "splitW": 1
+            },
+            {
+                "IDName": "ModelData",
+                "drawType": 0,
+                "path": "No Texture File"
+            },
+            {
+                "ColliderShape": 0,
+                "ColliderType": 0,
+                "IDName": "Collider",
+                "OffsetPos": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Radius": 0.0
+            },
+            {
+                "CollisionBody": false,
+                "IDName": "Rigidbody",
+                "OffsetHeight": 0.0,
+                "OffsetPos": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Radius": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Shape": 0,
+                "Tag": 1,
+                "activeGravityFlag": false,
+                "deceleration": 0.9800000190734863,
+                "gravity": 1.0,
+                "height": 0.0,
+                "move": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            {
+                "IDName": "Controller",
+                "movePow": 1.0,
+                "shaft": 0
+            },
+            {
+                "ColType": 64,
+                "IDName": "HitResultBlock"
+            },
+            {
+                "IDName": "Texture",
+                "animation": {
+                    "animeList": [],
+                    "nowAnime": ""
+                },
+                "path": "No Texture File",
+                "rect": {
+                    "height": 64,
+                    "width": 64,
+                    "x": 0,
+                    "y": 0
+                }
             }
         ],
-        "name": "A",
+        "name": "a",
         "tag": 0
     }
 }

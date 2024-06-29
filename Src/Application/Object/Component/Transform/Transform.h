@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../Component.h"
 
-enum Shaft
+enum class Shaft
 {
 	X = 1 << 0,
 	Y = 1 << 1,

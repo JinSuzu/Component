@@ -5,6 +5,8 @@
 #include "Object/Game/GameObject.h"
 #include "RenderManger/RenderManger.h"
 #include "Utility/Timer.h"
+#include "ImGuiHelper/ImGuiHelper.h"
+#include "ImGuiHelper/ImGuiEditor.h"
 
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -390,6 +392,7 @@ void Application::ImGuiProcess()
 	ImGui::NewFrame();
 	// ImGui処理
 	ImGuiUpdate();
+	//ImGui::ShowDemoWindow(nullptr);
 	//リリース時はImGuiの部分は通らないようにする
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -400,7 +403,6 @@ void Application::ImGuiUpdate()
 	//ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiSetCond_Once);
 	//ImGui::SetNextWindowSize(ImVec2(500, 300), ImGuiSetCond_Once);
 	// デバッグウィンドウ
-	ImGui::ShowDemoWindow(nullptr);
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
 	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 	ImGui::Begin("Fullscreen Window", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar);
@@ -412,38 +414,23 @@ void Application::ImGuiUpdate()
 		{//MenuBar
 			ImGui::Text("FPS : %d", m_fpsController.m_nowfps); ImGui::SameLine();
 			ImGui::Text("%.2f,%.2f", GetMouse().x, GetMouse().y); ImGui::SameLine();
-			if (ImGui::SmallButton("Timer"))ImGui::OpenPopup("Timer"); ImGui::SameLine();
-			if (ImGui::BeginPopup("Timer")) 
+			if (ImGui::SmallButton("Timer"))ImGui::OpenPopup("Timer");
+			if (ImGui::BeginPopup("Timer"))
 			{
 				Timer::Instance().ImGuiUpdate();
 				ImGui::EndPopup();
 			}
 
-			if (ImGuiWindowCenterButton(m_buildFlg ? "StartRun" : "StartBuild"))
+			if (MyImGui::WindowCenterSmallButton(m_buildFlg ? "StartRun" : "StartBuild"))
 			{
 				SceneManager::Instance().ReLoad();
 				m_buildFlg = !m_buildFlg;
 			}
-
-			if (m_buildFlg)
+			if (GetAsyncKeyState(m_buildFlg ? VK_F5 : VK_ESCAPE) & 0x8000)
 			{
-				if (GetAsyncKeyState(VK_F5) & 0x8000)
-				{
-					SceneManager::Instance().ReLoad();
-					m_buildFlg = !m_buildFlg;
-				}
+				SceneManager::Instance().ReLoad();
+				m_buildFlg = !m_buildFlg;
 			}
-			else
-			{
-				if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
-				{
-					SceneManager::Instance().ReLoad();
-					m_buildFlg = !m_buildFlg;
-				}
-
-			}
-
-			//ImGui::Text("ThreadMax : %d", std::hardware_constructive_interference_size); ImGui::SameLine();
 		}
 		ImGui::BeginChild("OneLine", ImVec2(), childFlg);
 		{
@@ -457,6 +444,7 @@ void Application::ImGuiUpdate()
 			}
 			ImGui::EndChild();
 
+			/*
 			ImGui::BeginChild("Scene", ImVec2(), ImGuiChildFlags_Border | childFlg);
 			{//Scene
 				ImGui::InputText("ScenePhase", &SceneManager::Instance().RefScenePhase());
@@ -466,21 +454,35 @@ void Application::ImGuiUpdate()
 				if (ImGui::Button("ReLoad"))SceneManager::Instance().ReLoad();
 			}
 			ImGui::EndChild();
+			*/
 
+			static ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_OpenOnArrow;
+			ImGui::BeginChild("Scene", ImVec2(800, 225), ImGuiChildFlags_Border);
+			{//Scene
+
+				static Editor editor;
+				editor.ImGuiUpdate();
+			}
+			ImGui::EndChild();
+
+			/*
 			ImGui::SameLine();
 			ImGui::BeginChild("CreateObject", ImVec2(), ImGuiChildFlags_Border | childFlg);
 			{//PreHubもどき
 				SceneManager::Instance().m_objectMgr->ImGuiCreateObject();
 			}
 			ImGui::EndChild();
+			*/
 		}
 		ImGui::EndChild();
 
 		{//ObjectEditor
 			ImGui::SameLine();
 			ImGui::BeginChild("Editor", ImVec2(450, 680), ImGuiWindowFlags_NoResize);
-			//GameObjectManager::ImGuiGameObject(m_buildCamera);
-			SceneManager::Instance().m_objectMgr->ImGuiUpdate();
+			{
+				//GameObjectManager::ImGuiGameObject(m_buildCamera);
+				SceneManager::Instance().m_objectMgr->ImGuiUpdate();
+			}
 			ImGui::EndChild();
 		}
 		/*if (ImGui::BeginTabBar("CreateObject"))

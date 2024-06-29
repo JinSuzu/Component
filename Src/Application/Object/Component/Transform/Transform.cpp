@@ -31,19 +31,19 @@ void Cp_Transform::ImGuiUpdate()
 
 void Cp_Transform::InitJson()
 {
-	m_position = JsonToVec3(m_jsonData["position"]);
-	m_rotation = JsonToVec3(m_jsonData["rotation"]);
-	m_scale = JsonToVec3(m_jsonData["scale"]);
-
 	m_myMatTag = m_jsonData["matTag"];
 	m_parentMatTag = m_jsonData["parentMatTag"];
 	m_bFollow = m_jsonData["Follow"];
+
+	m_position = MyJson::InPutVec3(m_jsonData["position"]);
+	m_rotation = MyJson::InPutVec3(m_jsonData["rotation"]);
+	m_scale = MyJson::InPutVec3(m_jsonData["scale"]);
 }
 nlohmann::json Cp_Transform::GetJson()
 {
-	m_jsonData["position"] = Vec3ToJson(m_position);
-	m_jsonData["rotation"] = Vec3ToJson(m_rotation);
-	m_jsonData["scale"] = Vec3ToJson(m_scale);
+	m_jsonData["position"] = MyJson::OutPutVec3(m_position);
+	m_jsonData["rotation"] = MyJson::OutPutVec3(m_rotation);
+	m_jsonData["scale"] = MyJson::OutPutVec3(m_scale);
 
 	m_jsonData["matTag"] = m_myMatTag;
 	m_jsonData["parentMatTag"] = m_parentMatTag;
@@ -150,8 +150,8 @@ Math::Matrix Cp_Transform::GetRMat(UINT _shafts)
 		* Math::Matrix::CreateRotationZ(DirectX::XMConvertToRadians(m_rotation.z));
 
 	Math::Matrix rMat;
-	if (_shafts & Shaft::X)rMat *= Math::Matrix::CreateRotationX(DirectX::XMConvertToRadians(m_rotation.x));
-	if (_shafts & Shaft::Y)rMat *= Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_rotation.y));
-	if (_shafts & Shaft::Z)rMat *= Math::Matrix::CreateRotationZ(DirectX::XMConvertToRadians(m_rotation.z));
+	if (_shafts & (UINT)Shaft::X)rMat *= Math::Matrix::CreateRotationX(DirectX::XMConvertToRadians(m_rotation.x));
+	if (_shafts & (UINT)Shaft::Y)rMat *= Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_rotation.y));
+	if (_shafts & (UINT)Shaft::Z)rMat *= Math::Matrix::CreateRotationZ(DirectX::XMConvertToRadians(m_rotation.z));
 	return rMat;
 }

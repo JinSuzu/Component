@@ -18,7 +18,7 @@ private:
 	enum AddType
 	{
 		Normal = 1 << 0,
-		FollowMouse = 1 << 1
+		FollowMouse = 1 << 1,
 	};
 
 	Math::Vector3 m_addPow;

@@ -147,25 +147,8 @@ static std::string PickName(std::string str, const char separator = ' ')
 
 static const char* JpText(const char8_t* _text) { return (const char*)_text; }
 
-Math::Vector3 JsonToVec3(nlohmann::json _value);
-Math::Vector2 JsonToVec2(nlohmann::json _value);
-Math::Rectangle JsonToRect(nlohmann::json _value);
 
-nlohmann::json Vec3ToJson(Math::Vector3 _value);
-nlohmann::json RectToJson(Math::Rectangle _value);
-
-static std::string JsonDataPath(std::string _path) { return "Asset/Data/" + _path + ".json"; }
-static std::string JsonDirectoryPath(std::string _path) { return "Asset/Data/" + _path; }
-
-
-void OutPutJson(nlohmann::json _json, std::string _path);
-nlohmann::json InPutJson(std::string _path);
-
-bool ImGuiWindowCenterButton(std::string label);
-bool ImGuiTreeCenterButton(std::string label);
-
-bool ImGuiCheckBoxBit(std::string _name, unsigned int& _ID, unsigned int _checkID);
-
+#include "../Src/Application/JsonHelper/JsonHelper.h"
 #include "../Src/Application/Score/Score.h"
 /*
 template<class T>

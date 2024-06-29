@@ -73,7 +73,7 @@ private:
 	float m_deceleration = 0.98f;
 
 	bool m_collisionBody = false;
-	Shape m_shape;
+	Shape m_shape = Shape::Sphere;
 	ShapeDate m_shapeDate;
 
 	std::shared_ptr<std::function<void()>>m_debugDraw;

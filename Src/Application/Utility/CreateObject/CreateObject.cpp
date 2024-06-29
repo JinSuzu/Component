@@ -29,14 +29,6 @@ void CreateObject::ImGuiUpdate()
 		GameObjectManager::ImGuiGameObject(m_createSet.object);
 		ImGui::EndPopup();
 	}
-
-	if (m_edit && DoneEdit)
-	{
-		m_createSet.object->EnableSave();
-		m_createSet.object->Release();
-		m_createSet.object->DotSave();
-		m_edit = false;
-	}
 }
 
 void CreateObject::OutJson(nlohmann::json& _json)

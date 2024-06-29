@@ -19,12 +19,12 @@ void Cp_Texture::DrawSprite()
 
 void Cp_Texture::Start()
 {
-	m_tex   = AssetManager::Instance().GetKdTexture("chara/chara");
-	m_rect  = { 0,0,64,64 };
+	m_tex = AssetManager::Instance().GetKdTexture("chara/chara");
+	m_rect = { 0,0,64,64 };
 	m_trans = m_owner.lock()->GetTransform();
 	m_animation = std::make_shared<Animation2D>();
 
-	m_draw2D = std::make_shared<std::function<void()>>([&]() {DrawSprite();});
+	m_draw2D = std::make_shared<std::function<void()>>([&]() {DrawSprite(); });
 	RenderManager::Instance().AddDraw2D(m_draw2D);
 }
 
@@ -35,12 +35,7 @@ void Cp_Texture::PreUpdateContents()
 
 void Cp_Texture::ImGuiUpdate()
 {
-	ImGui::InputText("Path", &m_path);
-	if (ImGui::SameLine();ImGui::Button("Load"))
-	{
-		m_tex = AssetManager::Instance().GetKdTexture(m_path);
-		m_rect = { 0,0,(LONG)m_tex->GetInfo().Width,(LONG)m_tex->GetInfo().Height };
-	}
+	if (MyImGui::SelectTexture(m_tex, m_path))m_rect = { 0,0,(LONG)m_tex->GetInfo().Width,(LONG)m_tex->GetInfo().Height };
 
 	float value[4] = { (float)m_rect.x,(float)m_rect.y ,(float)m_rect.width ,(float)m_rect.height };
 	ImGui::DragFloat4("Rect", value);
@@ -51,8 +46,8 @@ void Cp_Texture::ImGuiUpdate()
 
 void Cp_Texture::InitJson()
 {
-	m_path = m_jsonData["path"] ;
-	m_rect = JsonToRect(m_jsonData["rect"]);
+	m_path = m_jsonData["path"];
+	m_rect = MyJson::InputRect(m_jsonData["rect"]);
 	m_tex = AssetManager::Instance().GetKdTexture(m_path);
 
 	m_animation->SetJson(m_jsonData["animation"]);
@@ -61,7 +56,7 @@ nlohmann::json Cp_Texture::GetJson()
 {
 	nlohmann::json json;
 	m_jsonData["path"] = m_path;
-	m_jsonData["rect"] = RectToJson(m_rect);
+	m_jsonData["rect"] = MyJson::OutPutRect(m_rect);
 
 	m_jsonData["animation"] = m_animation->GetJson();
 	return m_jsonData;

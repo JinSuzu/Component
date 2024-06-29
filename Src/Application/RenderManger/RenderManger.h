@@ -3,7 +3,7 @@ class Cp_Texture;
 class Cp_ModelData;
 class Cp_SquarePolygon;
 
-enum DrawType
+enum class DrawType
 {
 	Lit = 1 << 0,
 	UnLit = 1 << 1,

@@ -5,11 +5,13 @@
 #include "../../../RenderManger/RenderManger.h"
 #include "../Transform/Transform.h"
 
+#include "../../../ImGuiHelper/ImGuiHelper.h"
+
 void Cp_TransFormInherit::Start()
 {
-	m_activePos = Shaft::X | Shaft::Y | Shaft::Z;
-	m_activeRota = Shaft::X | Shaft::Y | Shaft::Z;
-	m_activeScale = Shaft::X | Shaft::Y | Shaft::Z;
+	m_activePos = (UINT)Shaft::X | (UINT)Shaft::Y | (UINT)Shaft::Z;
+	m_activeRota = (UINT)Shaft::X | (UINT)Shaft::Y | (UINT)Shaft::Z;
+	m_activeScale = (UINT)Shaft::X | (UINT)Shaft::Y | (UINT)Shaft::Z;
 }
 
 void Cp_TransFormInherit::ImGuiUpdate()
@@ -20,9 +22,7 @@ void Cp_TransFormInherit::ImGuiUpdate()
 		if (ImGui::Button("ActivePos"))ImGui::OpenPopup("ActivePos");
 		if (ImGui::BeginPopup("ActivePos"))
 		{
-			ImGuiCheckBoxBit("X", m_activePos, Shaft::X);
-			ImGuiCheckBoxBit("Y", m_activePos, Shaft::Y);
-			ImGuiCheckBoxBit("Z", m_activePos, Shaft::Z);
+			MyImGui::CheckBoxAllBit<Shaft>(m_activePos);
 			ImGui::EndPopup();
 		}
 	}
@@ -32,9 +32,7 @@ void Cp_TransFormInherit::ImGuiUpdate()
 		if (ImGui::Button("ActiveRota"))ImGui::OpenPopup("ActiveRota");
 		if (ImGui::BeginPopup("ActiveRota"))
 		{
-			ImGuiCheckBoxBit("X", m_activeRota, Shaft::X);
-			ImGuiCheckBoxBit("Y", m_activeRota, Shaft::Y);
-			ImGuiCheckBoxBit("Z", m_activeRota, Shaft::Z);
+			MyImGui::CheckBoxAllBit< Shaft>(m_activeRota);
 			ImGui::EndPopup();
 		}
 	}
@@ -44,9 +42,7 @@ void Cp_TransFormInherit::ImGuiUpdate()
 		if (ImGui::Button("ActiveScale"))ImGui::OpenPopup("ActiveScale");
 		if (ImGui::BeginPopup("ActiveScale"))
 		{
-			ImGuiCheckBoxBit("X", m_activeScale, Shaft::X);
-			ImGuiCheckBoxBit("Y", m_activeScale, Shaft::Y);
-			ImGuiCheckBoxBit("Z", m_activeScale, Shaft::Z);
+			MyImGui::CheckBoxAllBit<Shaft>(m_activeRota);
 			ImGui::EndPopup();
 		}
 	}
@@ -57,16 +53,16 @@ void Cp_TransFormInherit::InitJson()
 
 	m_formInheritPos = m_jsonData["FormInheritPos"];
 	if (m_jsonData["ActivePos"].is_number())  m_activePos = m_jsonData["ActivePos"];
-	m_startPos = JsonToVec3(m_jsonData["StartPos"]);
+	m_startPos = MyJson::InPutVec3(m_jsonData["StartPos"]);
 
 	m_formInheritRota = m_jsonData["FormInheritRota"];
 	if (m_jsonData["CameraFormInheritRota"].is_boolean())m_cameraFormInherit = m_jsonData["CameraFormInheritRota"];
 	if (m_jsonData["ActiveRota"].is_number()) m_activeRota = m_jsonData["ActiveRota"];
-	m_startRota = JsonToVec3(m_jsonData["StartRota"]);
+	m_startRota = MyJson::InPutVec3(m_jsonData["StartRota"]);
 
 	m_formInheritScale = m_jsonData["FormInheritScale"];
 	if (m_jsonData["ActiveScale"].is_number())m_activeScale = m_jsonData["ActiveScale"];
-	m_startScale = JsonToVec3(m_jsonData["StartScale"]);
+	m_startScale = MyJson::InPutVec3(m_jsonData["StartScale"]);
 
 
 	std::weak_ptr<Cp_Transform>mTrans = m_owner.lock()->GetTransform();
@@ -84,9 +80,9 @@ void Cp_TransFormInherit::InitJson()
 
 	auto AddCheck = [](UINT add, Math::Vector3 pos)
 		{
-			if (!(add & Shaft::X))pos.x = 0.0f;
-			if (!(add & Shaft::Y))pos.y = 0.0f;
-			if (!(add & Shaft::Z))pos.z = 0.0f;
+			if (!(add & (UINT)Shaft::X))pos.x = 0.0f;
+			if (!(add & (UINT)Shaft::Y))pos.y = 0.0f;
+			if (!(add & (UINT)Shaft::Z))pos.z = 0.0f;
 			return pos;
 		};
 
@@ -101,16 +97,16 @@ nlohmann::json Cp_TransFormInherit::GetJson()
 {
 	m_jsonData["FormInheritPos"] = m_formInheritPos;
 	m_jsonData["ActivePos"] = m_activePos;
-	m_jsonData["StartPos"] = Vec3ToJson(m_startPos);
+	m_jsonData["StartPos"] = MyJson::OutPutVec3(m_startPos);
 
 	m_jsonData["FormInheritRota"] = m_formInheritRota;
 	m_jsonData["CameraFormInheritRota"] = m_cameraFormInherit;
 	m_jsonData["ActiveRota"] = m_activeRota;
-	m_jsonData["StartRota"] = Vec3ToJson(m_startRota);
+	m_jsonData["StartRota"] = MyJson::OutPutVec3(m_startRota);
 
 	m_jsonData["FormInheritScale"] = m_formInheritScale;
 	m_jsonData["ActiveScale"] = m_activeScale;
-	m_jsonData["StartScale"] = Vec3ToJson(m_startScale);
+	m_jsonData["StartScale"] = MyJson::OutPutVec3(m_startScale);
 
 	return m_jsonData;
 }

@@ -9,8 +9,7 @@ public:
 	{
 		Asset = 1 << 0,
 		Cube = 1 << 1,
-		Sphere = 1 << 2,
-		Max = 1 << 3
+		Sphere = 1 << 2
 	};
 
 	void Start()override;

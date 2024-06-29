@@ -15,6 +15,5 @@ private:
 	//射程
 	float m_shotRange = 10;
 	Math::Vector3 m_startPoint;
-
 	std::weak_ptr<class Cp_Transform> m_trans;
 };
