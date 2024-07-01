@@ -25,52 +25,17 @@ void GameObjectManager::PostUpdate() { for (auto& object : m_objectList)object->
 
 void GameObjectManager::ImGuiUpdate()
 {
-	//ImGuiCreateObject(true);
-	ImGui::SeparatorText(("ObjectList" + std::to_string(m_objectList.size())).c_str());
-	ImGui::BeginChild("##ObjectChild", ImVec2(425, 250), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeY);
+	int obNum = 0; std::list<std::shared_ptr<GameObject>>::iterator it = m_objectList.begin();
+	while (it != m_objectList.end())
 	{
-		int obNum = 0; std::list<std::shared_ptr<GameObject>>::iterator it = m_objectList.begin();
-		while (it != m_objectList.end())
+		if ((*it)->GetDestroy())
 		{
-			if ((*it)->GetDestroy())
-			{
-				it = m_objectList.erase(it);
-				continue;
-			}
-			if ((*it)->GetParent().expired())(*it)->ImGuiUpdate(obNum++);
-			it++;
+			it = m_objectList.erase(it);
+			continue;
 		}
+		if ((*it)->GetParent().expired())(*it)->ImGuiUpdate(obNum++);
+		it++;
 	}
-	ImGui::EndChild();
-	if (ImGui::IsItemClicked(1))ImGui::OpenPopup("CreateObject");
-	Editor::TargetGameObject(std::weak_ptr<GameObject>());
-	if (ImGui::BeginPopup("CreateObject"))
-	{
-		if (EditObject().lock())
-		{
-			static std::string path;
-			ImGui::InputText("##Path", &path);
-			if (ImGui::SameLine(); ImGui::Button("Save"))
-			{
-				nlohmann::json json = nlohmann::json::array();
-				json.push_back(EditObject().lock()->OutPutFamilyJson());
-				MyJson::OutPutJson(json, path);
-				ImGui::CloseCurrentPopup();
-			}
-			if (ImGui::MenuItem("Remove"))EditObject().lock()->Destroy();
-		}
-		ImGuiCreateObject();
-		ImGui::EndPopup();
-	}
-
-	ImGui::SeparatorText("EditObject");
-
-	ImGui::BeginChild("Edit", ImVec2(), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeY);
-	{
-		if (EditObject().lock())
-		ImGuiGameObject(EditObject());
-	}
-	ImGui::EndChild();
 }
 
 void GameObjectManager::Load(std::string _path)
@@ -181,78 +146,8 @@ void GameObjectManager::LoadJson(std::string _path, bool _bOrigin)
 	assert(name != json.end() && "not found json");
 	while (name != json.end())
 	{
-		std::weak_ptr<GameObject>  edit = EditObject().lock();
 		std::shared_ptr<GameObject>object = CreateObject(*name);
-		if (edit.lock() && !_bOrigin)
-		{
-			object->SetParent(edit);
-			edit.lock()->GetChilds().push_back(object);
-		}
 		name++;
-	}
-}
-void GameObjectManager::ImGuiCreateObject()
-{
-	ImGui::SeparatorText("CreateObject");
-
-	if (ImGui::BeginTabBar("CreateObject"))
-	{
-		static std::string path = "";
-		if (ImGui::BeginTabItem("Custom"))
-		{
-			ImGui::InputText("Name", &path);
-			unsigned int state = RegisterComponent::Instance().ImGuiComponentSet();
-			if (ImGui::Button("Create"))
-			{
-				if (EditObject().lock())ImGui::OpenPopup("CCreate");
-				else
-				{
-					std::shared_ptr<GameObject>object = CreateObject(path);
-					object->AddComponents(state);
-					//object->SetName(path);
-				}
-			}
-
-			if (ImGui::BeginPopup("CCreate"))
-			{
-				if (ImGui::Selectable("Root"))
-				{
-					std::shared_ptr<GameObject>object = CreateObject(path);
-					object->AddComponents(state);
-					//object->SetName(path);
-				}
-				if (ImGui::Selectable("Branch"))
-				{
-					std::shared_ptr<GameObject>object = CreateObject(path, EditObject());
-					object->AddComponents(state);
-					//object->SetName(path);
-				}
-				ImGui::EndPopup();
-			}
-			ImGui::EndTabItem();
-		}
-
-		if (ImGui::BeginTabItem("ImportPreSet"))
-		{
-			ImGui::InputText("PreSetPath", &path);
-
-
-			if (ImGui::Button("Create"))
-			{
-				if (EditObject().lock())ImGui::OpenPopup("Create");
-				else LoadJson(path);
-			}
-
-			if (ImGui::BeginPopup("Create"))
-			{
-				if (ImGui::Selectable("Root"))LoadJson(path);
-				if (ImGui::Selectable("Branch"))LoadJson(path, false);
-
-				ImGui::EndPopup();
-			}
-			ImGui::EndTabItem();
-		}
-		ImGui::EndTabBar();
 	}
 }
 
@@ -260,6 +155,5 @@ void GameObjectManager::ImGuiGameObject(std::weak_ptr<GameObject> _object)
 {
 	ImGui::InputText("Name", _object.lock()->WorkName());
 	_object.lock()->ImGuiComponents();
-
 	if (std::shared_ptr<Component> compo = RegisterComponent::Instance().ImGuiAddComponent())_object.lock()->AddComponent(compo);
 }

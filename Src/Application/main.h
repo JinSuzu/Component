@@ -41,7 +41,10 @@ public:
 	void KdPostDraw();
 
 	bool GetBuildFlg()const { return m_buildFlg; };
+	void TurnBuildFlg() {m_buildFlg = !m_buildFlg; };
 	bool GetDebugFlg()const { return m_debugFlg; };
+
+	std::weak_ptr<class Editor> GetEditor() { return m_editor; }
 private:
 
 	// アプリケーション初期化
@@ -66,6 +69,7 @@ private:
 	bool m_debugFlg = true;
 
 	std::shared_ptr<class GameObject> m_buildCamera;
+	std::shared_ptr<Editor> m_editor;
 
 	void ImGuiProcess();
 	void ImGuiUpdate();

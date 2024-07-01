@@ -99,7 +99,6 @@ private:
 public:
 #pragma endregion
 
-	std::shared_ptr<GameObject>Initialize(std::weak_ptr<GameObject> _parent);
 private:
 	std::string									m_name	= "GameObject";
 	ObjectTag									m_tag	= ObjectTag::Untagged;

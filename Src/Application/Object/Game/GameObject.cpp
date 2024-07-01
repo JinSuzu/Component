@@ -6,6 +6,7 @@
 #include "../../SceneBase/SceneBase.h"
 #include "../../Object/Component/Component.h"
 #include "../../ImGuiHelper/ImGuiEditor.h"
+#include "../../main.h"
 
 #define ITERATOR(x) for (auto&& it : m_cpList)if(it.get() != nullptr)it->
 
@@ -64,13 +65,14 @@ void GameObject::Init(nlohmann::json _json)
 	}
 }
 
+//Inspector用
 void GameObject::ImGuiUpdate(int num)
 {
 	int treeFlg = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 	if (m_childs.empty())treeFlg = ImGuiTreeNodeFlags_Leaf;
 
 	bool flg = ImGui::TreeNodeEx((std::to_string(num) + " :" + m_name + "##" + std::to_string(GetInstanceID())).c_str(), treeFlg);
-	if ((ImGui::IsItemClicked(0) || ImGui::IsItemClicked(1)))GameObjectManager::EditObject() = WeakThisPtr(this);
+	if ((ImGui::IsItemClicked(0) || ImGui::IsItemClicked(1)))Application::Instance().GetEditor().lock()->SetEditObject(WeakThisPtr(this));
 	if (Editor::SourceGameObject(WeakThisPtr(this)));
 	else  Editor::TargetGameObject(WeakThisPtr(this));
 
@@ -161,20 +163,7 @@ void GameObject::ComponentInit(std::shared_ptr<Component>& _addCp, nlohmann::jso
 	_addCp->SetJson(_json);
 	_addCp->InitJson();
 }
-std::shared_ptr<GameObject> GameObject::Initialize(std::weak_ptr<GameObject> _parent)
-{
-	std::shared_ptr<GameObject>	clone = std::make_shared<GameObject>();
-	nlohmann::json json;
 
-	SceneManager::Instance().m_objectMgr->AddObject(clone);
-	if (_parent.lock())
-	{
-		clone->SetParent(_parent);
-		_parent.lock()->AddChilds(clone);
-	}
-
-	return clone;
-}
 #pragma endregion
 void GameObject::SetUpParent(std::weak_ptr<GameObject> _parent, bool _push)
 {
