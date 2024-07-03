@@ -100,8 +100,6 @@ class RegisterComponent
 		Register(FNCOMPONENT(Cp_ScoreCounter));
 	};
 public:
-	/*UINT NameToBit(std::string _tag) { return m_nameToBitMap.find(PickName(_tag, '_'))->second; }
-	std::string GetName(unsigned int _id) { return m_bitToNameMap.find(_id)->second; }*/
 	int GetCompoNum() { return m_createMap.size(); }
 
 	std::shared_ptr<Component>CreateComponent(std::string _name)

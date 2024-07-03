@@ -7,10 +7,10 @@ public:
 	void ImGuiUpdate();
 
 	void MenuBar();
-	void Prefab(    ImVec2 _size,UINT _flg = ImGuiChildFlags_FrameStyle);
-	void Inspector( ImVec2 _size,UINT _flg = ImGuiChildFlags_FrameStyle);
-	void Hierarchy( ImVec2 _size,UINT _flg = ImGuiChildFlags_FrameStyle);
-	void GameScreen(ImVec2 _size,UINT _flg = ImGuiChildFlags_FrameStyle);
+	void Prefab();
+	void Inspector();
+	void Hierarchy();
+	void GameScreen();
 
 	void SetEditObject(std::weak_ptr<GameObject> _obj) { m_editObject = _obj; }
 private:
@@ -19,21 +19,15 @@ private:
 	void DirectoryTree(std::string _name, std::string _path);
 	void DirectoryContents();
 
-	std::string m_openDirectoryPath;
-	bool m_directoryChanged = false;
+	std::string										m_openDirectoryPath;
+	bool											m_directoryChanged = false;
+	std::list<std::pair<std::string, std::string>>	m_favoritePathList;
 
 
-	void ShowRowTabGroup(int _row);
-
-	std::weak_ptr<GameObject> m_editObject;
+	std::weak_ptr<GameObject>					m_editObject;
 	std::map<std::string, std::function<void()>>m_editorWindows;
+	std::list<std::string>						m_tabList;
 
-
-	struct TabGroup
-	{
-		std::list<std::string> contents;
-	};
-	std::vector<std::vector<TabGroup>>m_windows;
 public:
 	static bool SourceGameObject(std::weak_ptr<GameObject> _obj);
 	static void TargetGameObject(std::weak_ptr<GameObject> _parent);
@@ -71,33 +65,25 @@ public:
 	//Render
 	Editor()
 	{
-		/*std::function<void(std::string, std::function<void()>)> Register = [&](std::string _tag, std::function<void()> _function)
+		std::function<void(std::string, std::function<void()>)> Register = [&](std::string _tag, std::function<void()> _function)
 			{
 				m_editorWindows[_tag] = _function;
 			};
 
-		Register("Prefab", [&]() {Prefab(ImVec2()); });
+		Register("Prefab", [&]() {Prefab(); });
 		Register("Inspector", [&]() {Inspector(); });
 		Register("Hierarchy", [&]() {Hierarchy(); });
 		Register("GameScreen", [&]() {GameScreen(); });
 
-		TabGroup tabGroup;
-		std::vector<TabGroup> OneLine;
-		tabGroup.contents.push_back("Hierarchy");
-		OneLine.push_back(tabGroup);
-		tabGroup = TabGroup();
-		tabGroup.contents.push_back("GameScreen");
-		OneLine.push_back(tabGroup);
-		tabGroup = TabGroup();
-		tabGroup.contents.push_back("Inspector");
-		OneLine.push_back(tabGroup);
-		m_windows.push_back(OneLine);
+		m_tabList.push_back("Prefab");
+		m_tabList.push_back("Inspector");
+		m_tabList.push_back("Hierarchy");
+		m_tabList.push_back("GameScreen");
 
-		std::vector<TabGroup> twoLine;
-		tabGroup = TabGroup();
-		tabGroup.contents.push_back("Prefab");
-		twoLine.push_back(tabGroup);
-		m_windows.push_back(twoLine);*/
+		m_favoritePathList.push_back(std::pair<std::string,std::string>("Asset/Data/","PreSet"));
+		m_favoritePathList.push_back(std::pair<std::string,std::string>("Asset/Data/","Model"));
+		m_favoritePathList.push_back(std::pair<std::string,std::string>("Asset/","Textures"));
+		m_favoritePathList.push_back(std::pair<std::string,std::string>("Asset/","Sounds"));
 	}
 };
 

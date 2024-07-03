@@ -228,6 +228,7 @@ bool Application::Init(int w, int h)
 	ImGui_ImplWin32_Init(m_window.GetWndHandle());
 	ImGui_ImplDX11_Init(KdDirect3D::Instance().WorkDev(), KdDirect3D::Instance().WorkDevContext());
 	{
+
 		// 日本語対応
 #include "imgui/ja_glyph_ranges.h"
 		ImGuiIO& io = ImGui::GetIO();
@@ -235,7 +236,10 @@ bool Application::Init(int w, int h)
 		config.MergeMode = true;
 		io.Fonts->AddFontDefault();
 		io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msgothic.ttc", 13.0f, &config, glyphRangesJapanese);
+
 	}
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // ドッキングを有効にする
 
 	m_buildCamera = GameObjectManager::CreateObject(std::string("BuildCamera"), std::weak_ptr<GameObject>(), false);
 	SceneManager::Instance().Init();
@@ -391,23 +395,8 @@ void Application::ImGuiProcess()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 	// ImGui処理
-	ImGuiUpdate();
-	ImGui::ShowDemoWindow(nullptr);
+	m_editor->ImGuiUpdate();
 	//リリース時はImGuiの部分は通らないようにする
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-}
-
-void Application::ImGuiUpdate()
-{
-	//ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiSetCond_Once);
-	//ImGui::SetNextWindowSize(ImVec2(500, 300), ImGuiSetCond_Once);
-	// デバッグウィンドウ
-	ImGui::SetNextWindowPos(ImVec2(0, 0));
-	ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
-	ImGui::Begin("Fullscreen Window", 0, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar);
-	{
-		m_editor->ImGuiUpdate();
-	}
-	ImGui::End();
 }

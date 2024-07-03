@@ -7,25 +7,88 @@
 #include "../Object/Game/Manager/GameObjectManager.h"
 
 #include "../SceneBase/Manager/SceneManager.h"
-
 #include "../RenderManger/RenderManger.h"
+#include "../AssetManager/AssetManager.h"
+
 
 
 void Editor::ImGuiUpdate()
 {
-	MenuBar();
-	ImVec2 size = ImGui::GetWindowSize();
-	size.x *= 0.9875f;
-	size.y -= ImGui::GetItemRectSize().y + 20;
-	ImGui::BeginChild("Editor", size);
+	// デバッグウィンドウ
+	static bool p_open = true;
+	static bool opt_fullscreen = true;
+	static bool opt_padding = false;
+	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+	if (opt_fullscreen)
 	{
-		ImVec2 size = ImGui::GetWindowSize();
-		Hierarchy(ImVec2(size.x * 0.1945, size.y * 0.7)); ImGui::SameLine();
-		GameScreen(ImVec2(size.x * 0.6, size.y * 0.7)); ImGui::SameLine();
-		Inspector(ImVec2(size.x * 0.1945, size.y * 0.7));
-		Prefab(ImVec2(size.x * 0.9995f, size.y * 0.2875));
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImGui::SetNextWindowPos(viewport->WorkPos);
+		ImGui::SetNextWindowSize(viewport->WorkSize);
+		ImGui::SetNextWindowViewport(viewport->ID);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+		window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 	}
-	ImGui::EndChild();
+	else
+	{
+		dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode;
+	}
+
+	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+		window_flags |= ImGuiWindowFlags_NoBackground;
+
+	if (!opt_padding)
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	ImGui::Begin("DockSpace Demo", &p_open, window_flags);
+	if (!opt_padding)
+		ImGui::PopStyleVar();
+
+	if (opt_fullscreen)
+		ImGui::PopStyleVar(2);
+
+	// Submit the DockSpace
+	ImGuiIO& io = ImGui::GetIO();
+	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+	{
+		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+	}
+
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("Options"))
+		{
+			ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
+			ImGui::MenuItem("Padding", NULL, &opt_padding);
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("Flag: NoDockingOverCentralNode", "", (dockspace_flags & ImGuiDockNodeFlags_NoDockingOverCentralNode) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoDockingOverCentralNode; }
+			if (ImGui::MenuItem("Flag: NoDockingSplit", "", (dockspace_flags & ImGuiDockNodeFlags_NoDockingSplit) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoDockingSplit; }
+			if (ImGui::MenuItem("Flag: NoUndocking", "", (dockspace_flags & ImGuiDockNodeFlags_NoUndocking) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoUndocking; }
+			if (ImGui::MenuItem("Flag: NoResize", "", (dockspace_flags & ImGuiDockNodeFlags_NoResize) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoResize; }
+			if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (dockspace_flags & ImGuiDockNodeFlags_AutoHideTabBar) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_AutoHideTabBar; }
+			if (ImGui::MenuItem("Flag: PassthruCentralNode", "", (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode) != 0, opt_fullscreen)) { dockspace_flags ^= ImGuiDockNodeFlags_PassthruCentralNode; }
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("Close", NULL, false))
+				p_open = false;
+			ImGui::EndMenu();
+		}
+		MenuBar();
+		ImGui::EndMenuBar();
+	}
+
+
+	for (auto& tab : m_tabList)
+	{
+		ImGui::Begin(tab.c_str());
+		m_editorWindows[tab]();
+		ImGui::End();
+	}
+	ImGui::End();
 }
 
 void Editor::MenuBar()
@@ -51,46 +114,45 @@ void Editor::MenuBar()
 		Application::Instance().TurnBuildFlg();
 	}
 }
-void Editor::Prefab(ImVec2 _size, UINT _flg)
+void Editor::Prefab()
 {
-	ImGui::BeginChild("Prehab", _size, _flg);
-	{
-		if (ImGui::BeginTable("Prehab", 2)) {
-			ImGui::TableNextRow();
-			ImGui::TableSetColumnIndex(0);
-			ImGui::BeginChild("DirectoryTree");
+	if (ImGui::BeginTable("Prehab", 2)) {
+		ImGui::TableNextRow();
+		ImGui::TableSetColumnIndex(0);
+		ImGui::BeginChild("DirectoryTree");
+		{
+			if (ImGui::TreeNode("favorite"))
 			{
-				DirectoryTree();
+				for (auto& set : m_favoritePathList)DirectoryTree(set.second,set.first);
+				ImGui::TreePop();
 			}
-			ImGui::EndChild();
-			TargetGameObjectSave("");
-
-			m_directoryChanged = false;
-
-			ImGui::TableSetColumnIndex(1);
-			ImGui::BeginChild("DirectoryContents");
-			{
-				DirectoryContents();
-			}
-			ImGui::EndChild();
-			TargetGameObjectSave(m_openDirectoryPath);
-
-			ImGui::EndTable();
+			DirectoryTree();
 		}
+		ImGui::EndChild();
+		TargetGameObjectSave("");
+
+		m_directoryChanged = false;
+
+		ImGui::TableSetColumnIndex(1);
+		ImGui::BeginChild("DirectoryContents");
+		{
+			DirectoryContents();
+		}
+		ImGui::EndChild();
+		TargetGameObjectSave(m_openDirectoryPath);
+
+		ImGui::EndTable();
 	}
-	ImGui::EndChild();
 }
-void Editor::Inspector(ImVec2 _size, UINT _flg)
+void Editor::Inspector()
 {
-	ImGui::BeginChild("Inspector", _size, _flg);
-	{
-		if (m_editObject.lock())GameObjectManager::ImGuiGameObject(m_editObject);
-	}
-	ImGui::EndChild();
+
+	if (m_editObject.lock())GameObjectManager::ImGuiGameObject(m_editObject);
+
 }
-void Editor::Hierarchy(ImVec2 _size, UINT _flg)
+void Editor::Hierarchy()
 {
-	ImGui::BeginChild("##ObjectChild", _size, _flg);
+	ImGui::BeginChild("##ObjectChild");
 	{
 		SceneManager::Instance().m_objectMgr->ImGuiUpdate();
 	}
@@ -117,18 +179,13 @@ void Editor::Hierarchy(ImVec2 _size, UINT _flg)
 	}
 
 }
-void Editor::GameScreen(ImVec2 _size, UINT _flg)
+void Editor::GameScreen()
 {
-	ImGui::BeginChild("OneLine", _size, _flg);
-	{//GameScreen
-
-		//Math::Vector2 vec = Math::Vector2(1280, 720) * 0.625;
-		Math::Vector2 vec = Math::Vector2(1280, 720);
-		static std::shared_ptr<KdTexture> tex;
-		tex = RenderManager::Instance().CreateBackBuffer();
-		ImGui::Image(tex->WorkSRView(), ImGui::GetWindowSize());
-	}
-	ImGui::EndChild();
+	//Math::Vector2 vec = Math::Vector2(1280, 720) * 0.625;
+	Math::Vector2 vec = Math::Vector2(1280, 720);
+	static std::shared_ptr<KdTexture> tex;
+	tex = RenderManager::Instance().CreateBackBuffer();
+	ImGui::Image(tex->WorkSRView(), ImGui::GetWindowSize());
 }
 
 void Editor::DirectoryTree()
@@ -181,11 +238,25 @@ void Editor::DirectoryTree(std::string _name, std::string _path)
 }
 void Editor::DirectoryContents()
 {
+	static std::shared_ptr<KdTexture> IconDocumentIcon = AssetManager::Instance().GetKdTexture("Asset/Textures/UI/DocumentIcon.png");
+	static std::shared_ptr<KdTexture> CloseFolderIcon = AssetManager::Instance().GetKdTexture("Asset/Textures/UI/CloseFolderIcon.png");
+	//static std::shared_ptr<KdTexture> OpenFolderIcon = AssetManager::Instance().GetKdTexture("Asset/Textures/UI/ OpenFolderIcon.png");
+
+	static float thumbnailSize = 64.0f;
+	static float padding = 16.0f;
+	float cellSize = thumbnailSize + padding;
+
+	float panelWidth = ImGui::GetContentRegionAvail().x;
+	int columnCount = (int)(panelWidth / cellSize);
+	if (columnCount < 1)columnCount = 1;
+
+	ImGui::Columns(columnCount, 0, false);
+
 	std::filesystem::path dir(m_openDirectoryPath + ".");
 	if (!std::filesystem::exists(dir))return;
 	for (const auto& entry : std::filesystem::directory_iterator(dir))
 	{
-		ImGui::TreeNodeEx(entry.path().filename().string().c_str(), ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen);
+		ImGui::ImageButton((entry.is_directory() ? CloseFolderIcon : IconDocumentIcon)->WorkSRView(), { thumbnailSize ,thumbnailSize });
 
 		std::string str = entry.path().extension().string();
 		bool flg = entry.is_directory();
@@ -197,36 +268,10 @@ void Editor::DirectoryContents()
 			m_openDirectoryPath = m_openDirectoryPath + entry.path().filename().string() + "/";
 			m_directoryChanged = true;
 		}
+		ImGui::TextWrapped(entry.path().filename().string().c_str());
+		ImGui::NextColumn();
 	}
-}
-
-void Editor::ShowRowTabGroup(int _row)
-{
-	ImVec2 vec2 = ImGui::GetWindowSize();
-	vec2.x /= (float)m_windows[_row].size();
-	vec2.y = (vec2.y / (float)m_windows.size()) * (_row ? 0.7f : 1.125);
-	if (ImGui::BeginTable("Window", m_windows[_row].size(), ImGuiTableFlags_Resizable)) {
-		int column = 0;
-
-		ImGui::TableNextRow(0, vec2.y);
-		for (auto& tabGroup : m_windows[_row])
-		{
-			ImGui::TableSetColumnIndex(column++);
-			ImGui::BeginTabBar(("TabGroup" + std::to_string(column)).c_str());
-			for (auto& tab : tabGroup.contents)
-			{
-				if (ImGui::BeginTabItem(tab.c_str()))
-				{
-					//ImGui::BeginChild((std::to_string(_row) + std::to_string(column)).c_str(), vec2);
-					m_editorWindows[tab]();
-					//ImGui::EndChild();
-					ImGui::EndTabItem();
-				}
-			}
-			ImGui::EndTabBar();
-		}
-		ImGui::EndTable();
-	}
+	ImGui::Columns();
 }
 
 bool Editor::SourceGameObject(std::weak_ptr<GameObject> _obj)
