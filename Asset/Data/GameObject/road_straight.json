@@ -1,0 +1,45 @@
+{
+    "Childs": [],
+    "Parent": {
+        "Component": [
+            {
+                "Follow": true,
+                "matTag": "SRT",
+                "parentMatTag": "SRT",
+                "position": {
+                    "x": -71.5,
+                    "y": 0.0,
+                    "z": 11.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 57.0,
+                    "y": 1.0,
+                    "z": 10.0
+                }
+            },
+            {
+                "IDName": "ModelData",
+                "drawType": 3452816833,
+                "path": "road_straight"
+            },
+            {
+                "ColliderShape": 1,
+                "ColliderType": 1,
+                "IDName": "Collider",
+                "OffsetPos": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Radius": 0.0
+            }
+        ],
+        "name": "road_straight",
+        "tag": 0
+    }
+}

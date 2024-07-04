@@ -181,9 +181,6 @@
     <Filter Include="Src\Application\Object\Component\HitResult\HitResultScene">
       <UniqueIdentifier>{3dbb884c-9896-45c2-bc3d-f94d236696ea}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\Object\MoveLocus">
-      <UniqueIdentifier>{35c994b5-0b00-4613-a2c6-aa0095ed5aac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Src\Application\Object\Component\MoveLimit">
       <UniqueIdentifier>{c77bf64d-b876-4c15-8a21-762f5b4e516f}</UniqueIdentifier>
     </Filter>
@@ -213,6 +210,27 @@
     </Filter>
     <Filter Include="Src\Application\JsonHelper">
       <UniqueIdentifier>{320cd98c-6c6a-47ec-91d3-6f0f224035c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\Component\MoveLocus">
+      <UniqueIdentifier>{35c994b5-0b00-4613-a2c6-aa0095ed5aac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\EditorWindow">
+      <UniqueIdentifier>{87b85e19-9068-4c86-9951-8b516361e32a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\EditorWindow\Base">
+      <UniqueIdentifier>{da2c0945-677f-4295-b51e-680bf8668730}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\EditorWindow\Prefab">
+      <UniqueIdentifier>{95f506ca-5d82-4cf5-8706-f38e81e77277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\EditorWindow\Inspector">
+      <UniqueIdentifier>{c612e7f3-473a-43e3-a43d-01eefb0a5bae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\EditorWindow\Hierarchy">
+      <UniqueIdentifier>{50aae76c-13d6-41d5-9665-4b05d72ba0b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\EditorWindow\GameScreen">
+      <UniqueIdentifier>{def055f4-74c8-4a7d-bfd7-06f456d0732c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -646,7 +664,7 @@
       <Filter>Src\Application\Object\Component\HitResult\HitResultScene</Filter>
     </ClInclude>
     <ClInclude Include="Src\Application\Object\Component\MoveLocus\MoveLocus.h">
-      <Filter>Src\Application\Object\MoveLocus</Filter>
+      <Filter>Src\Application\Object\Component\MoveLocus</Filter>
     </ClInclude>
     <ClInclude Include="Src\Application\Object\Component\MoveLimit\MoveLimit.h">
       <Filter>Src\Application\Object\Component\MoveLimit</Filter>
@@ -680,6 +698,21 @@
     </ClInclude>
     <ClInclude Include="Src\Application\JsonHelper\JsonHelper.h">
       <Filter>Src\Application\JsonHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\EditorWindow\Base\EditorWindowBase.h">
+      <Filter>Src\Application\Object\EditorWindow\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\EditorWindow\Prefab\Prefab.h">
+      <Filter>Src\Application\Object\EditorWindow\Prefab</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\EditorWindow\Inspector\Inspector.h">
+      <Filter>Src\Application\Object\EditorWindow\Inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\EditorWindow\Hierarchy\Hierarchy.h">
+      <Filter>Src\Application\Object\EditorWindow\Hierarchy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\EditorWindow\GameScreen\GameScreen.h">
+      <Filter>Src\Application\Object\EditorWindow\GameScreen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -921,7 +954,7 @@
       <Filter>Src\Application\Object\Component\HitResult\HitResultScene</Filter>
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\MoveLocus\MoveLocus.cpp">
-      <Filter>Src\Application\Object\MoveLocus</Filter>
+      <Filter>Src\Application\Object\Component\MoveLocus</Filter>
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\MoveLimit\MoveLimit.cpp">
       <Filter>Src\Application\Object\Component\MoveLimit</Filter>
@@ -955,6 +988,22 @@
     </ClCompile>
     <ClCompile Include="Src\Application\JsonHelper\JsonHelper.cpp">
       <Filter>Src\Application\JsonHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\EditorWindow\Base\EditorWindowBase.cpp">
+      <Filter>Src\Application\Object\EditorWindow\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\EditorWindow\Prefab\Prefab.cpp">
+      <Filter>Src\Application\Object\EditorWindow\Prefab</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\EditorWindow\Base\EditorWindowBase.cpp" />
+    <ClCompile Include="Src\Application\Object\EditorWindow\Inspector\Inspector.cpp">
+      <Filter>Src\Application\Object\EditorWindow\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\EditorWindow\Hierarchy\Hierarchy.cpp">
+      <Filter>Src\Application\Object\EditorWindow\Hierarchy</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\EditorWindow\GameScreen\GameScreen.cpp">
+      <Filter>Src\Application\Object\EditorWindow\GameScreen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

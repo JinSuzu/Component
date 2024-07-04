@@ -7,9 +7,9 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": 92.0,
-                    "y": -1.0,
-                    "z": -32.0
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 "rotation": {
                     "x": 0.0,
@@ -23,10 +23,12 @@
                 }
             },
             {
-                "IDName": "ChildCnt"
+                "IDName": "SceneActive",
+                "SceneBGM": "GameBGM",
+                "SceneName": "Game"
             }
         ],
-        "name": "C",
+        "name": "Game",
         "tag": 0
     }
 }

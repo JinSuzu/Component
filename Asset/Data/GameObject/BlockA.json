@@ -7,13 +7,13 @@
                 "matTag": "SRT",
                 "parentMatTag": "SRT",
                 "position": {
-                    "x": 92.0,
-                    "y": -1.0,
-                    "z": -32.0
+                    "x": -354.0,
+                    "y": 0.0,
+                    "z": -41.0
                 },
                 "rotation": {
                     "x": 0.0,
-                    "y": 0.0,
+                    "y": 270.0,
                     "z": 0.0
                 },
                 "scale": {
@@ -21,12 +21,9 @@
                     "y": 1.0,
                     "z": 1.0
                 }
-            },
-            {
-                "IDName": "ChildCnt"
             }
         ],
-        "name": "C",
+        "name": "BlockA",
         "tag": 0
     }
 }

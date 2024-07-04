@@ -247,6 +247,11 @@
     <ClInclude Include="Src\Application\Object\Component\TransFormInherit\TransFormInherit.h" />
     <ClInclude Include="Src\Application\Object\Component\TransformLimit\TransformLimit.h" />
     <ClInclude Include="Src\Application\Object\Component\Transform\Transform.h" />
+    <ClInclude Include="Src\Application\Object\EditorWindow\Base\EditorWindowBase.h" />
+    <ClInclude Include="Src\Application\Object\EditorWindow\GameScreen\GameScreen.h" />
+    <ClInclude Include="Src\Application\Object\EditorWindow\Hierarchy\Hierarchy.h" />
+    <ClInclude Include="Src\Application\Object\EditorWindow\Inspector\Inspector.h" />
+    <ClInclude Include="Src\Application\Object\EditorWindow\Prefab\Prefab.h" />
     <ClInclude Include="Src\Application\Object\Game\GameObject.h" />
     <ClInclude Include="Src\Application\Object\Game\Manager\GameObjectManager.h" />
     <ClInclude Include="Src\Application\Object\Object.h" />
@@ -343,6 +348,12 @@
     <ClCompile Include="Src\Application\Object\Component\TransFormInherit\TransFormInherit.cpp" />
     <ClCompile Include="Src\Application\Object\Component\TransformLimit\TransformLimit.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Transform\Transform.cpp" />
+    <ClCompile Include="Src\Application\Object\EditorWindow\Base\EditorWindowBase.cpp" />
+    <ClCompile Include="Src\Application\Object\EditorWindow\Base\EditorWindowBase.cpp" />
+    <ClCompile Include="Src\Application\Object\EditorWindow\GameScreen\GameScreen.cpp" />
+    <ClCompile Include="Src\Application\Object\EditorWindow\Hierarchy\Hierarchy.cpp" />
+    <ClCompile Include="Src\Application\Object\EditorWindow\Inspector\Inspector.cpp" />
+    <ClCompile Include="Src\Application\Object\EditorWindow\Prefab\Prefab.cpp" />
     <ClCompile Include="Src\Application\Object\Game\GameObject.cpp" />
     <ClCompile Include="Src\Application\Object\Game\Manager\GameObjectManager.cpp" />
     <ClCompile Include="Src\Application\Object\Object.cpp" />
