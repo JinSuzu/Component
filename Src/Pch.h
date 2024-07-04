@@ -108,7 +108,7 @@
 #include "imgui/imgui_stdlib.h"
 
 /////json/////
-#include "../Library/tinygltf/nlohmann/json.hpp"
+#include "../Library/nlohmann/json.hpp"
 ////magic_enum///
 #include "../Library/magic_enum/magic_enum.hpp"
 

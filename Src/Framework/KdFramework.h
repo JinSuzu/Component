@@ -65,12 +65,12 @@
 #include "Shader/KdAmbientController.h"
 #include "Shader/KdShaderManager.h"
 
+// デバッグ機能
+#include "Utility/KdDebugWireFrame.h"
+
 // ゲームオブジェクト関連
 #include "GameObject/KdGameObject.h"
 #include "GameObject/KdGameObjectFactory.h"
 
 // Effekseer管理クラス
 #include "Effekseer/KdEffekseerManager.h"
-
-// デバッグ機能
-#include "Utility/KdDebugWireFrame.h"

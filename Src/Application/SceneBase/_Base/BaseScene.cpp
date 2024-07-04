@@ -1,5 +1,4 @@
-﻿#include "TitleScene.h"
-#include "../../Object/Game/GameObject.h"
+﻿#include "../../Object/Game/GameObject.h"
 #include "../../Object/Game/Manager/GameObjectManager.h"
 #include "../../Object/Component/Component.h"
 

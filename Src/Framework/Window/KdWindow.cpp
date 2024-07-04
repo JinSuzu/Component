@@ -2,7 +2,7 @@
 
 #include "KdWindow.h"
 
-// imguiウィンドウメッセージ処理用
+// ImGuiウィンドウメッセージ処理用
 LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 bool KdWindow::Create(int clientWidth, int clientHeight, std::string_view titleName, std::string_view windowClassName)
@@ -27,7 +27,7 @@ bool KdWindow::Create(int clientWidth, int clientHeight, std::string_view titleN
 	wc.hIcon = LoadIcon(nullptr, IDI_APPLICATION);			// ラージアイコン
 	wc.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);		// スモールアイコン 
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);			// マウスカーソル
-	wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);	// 背景色 
+	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);	// 背景色 
 	wc.lpszMenuName = nullptr;								// メインメニュー名
 	wc.lpszClassName = wndClsName.c_str();					// ウィンドウクラス名
 
@@ -133,8 +133,7 @@ LRESULT CALLBACK KdWindow::callWindowProc(HWND hWnd, UINT message, WPARAM wParam
 LRESULT KdWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	// ImGuiにイベント通知
-	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
-	{
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) {
 		return true;
 	}
 

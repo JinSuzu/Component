@@ -33,6 +33,8 @@ public:
 	virtual void DrawBright() {}
 	virtual void DrawSprite() {}
 
+	virtual void DrawDebug();
+
 	virtual void SetAsset(const std::string&) {}
 
 	virtual void SetPos(const Math::Vector3& pos) { m_mWorld.Translation(pos); }
@@ -59,6 +61,11 @@ public:
 	float GetDistSqrFromCamera() const { return m_distSqrFromCamera; }
 
 	UINT GetDrawType() const { return m_drawType; }
+
+	bool Intersects(const KdCollider::SphereInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults);
+	bool Intersects(const KdCollider::BoxInfo& targetBox, std::list<KdCollider::CollisionResult>* pResults);
+	bool Intersects(const KdCollider::RayInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults);
+
 protected:
 
 	void Release() {}
@@ -77,4 +84,7 @@ protected:
 
 	// 当たり判定クラス
 	std::unique_ptr<KdCollider> m_pCollider = nullptr;
+
+	// デバッグ情報クラス
+	std::unique_ptr<KdDebugWireFrame> m_pDebugWire = nullptr;
 };

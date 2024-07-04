@@ -21,7 +21,7 @@ public:
 	virtual void SetCameraMatrix(const DirectX::SimpleMath::Matrix& mCam) { m_mCam = mCam; m_mView = m_mCam.Invert(); }
 
 	// 射影行列の設定
-	void SetProjectionMatrix(float fov, float maxRange = 20000, float minRange = 0.01f, float aspectRatio = 0.0f);
+	void SetProjectionMatrix(float fov, float maxRange = 2000, float minRange = 0.01f, float aspectRatio = 0.0f);
 	void SetProjectionMatrix(const DirectX::SimpleMath::Matrix& rProj);
 
 	// 焦点距離を設定
