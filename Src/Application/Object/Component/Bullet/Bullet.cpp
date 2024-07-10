@@ -55,23 +55,24 @@ void Cp_Bullet::ImGuiUpdate()
 	m_landingObject->ImGuiUpdate();
 }
 
-void Cp_Bullet::InitJson()
+void Cp_Bullet::LoadJson(nlohmann::json _json)
 {
-	m_accelerationTime = m_jsonData["AccelerationTime"];
-	m_speedPow = m_jsonData["SpeedPow"];
-	m_shotRange = m_jsonData["ShotRange"];
+	m_accelerationTime = _json["AccelerationTime"];
+	m_speedPow		   = _json["SpeedPow"];
+	m_shotRange		   = _json["ShotRange"];
 
-	m_landingObject->SetJson(m_jsonData);
+	m_landingObject->SetJson(_json);
 }
 
 nlohmann::json Cp_Bullet::GetJson()
 {
-	m_jsonData["AccelerationTime"] = m_accelerationTime;
-	m_jsonData["SpeedPow"] = m_speedPow;
-	m_jsonData["ShotRange"] = m_shotRange;
-	m_landingObject->OutJson(m_jsonData);
+	nlohmann::json json;
+	json["AccelerationTime"] = m_accelerationTime;
+	json["SpeedPow"] = m_speedPow;
+	json["ShotRange"] = m_shotRange;
+	m_landingObject->OutJson(json);
 
-	return m_jsonData;
+	return json;
 }
 
 void Cp_Bullet::Destroy()

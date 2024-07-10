@@ -31,22 +31,15 @@ public:
 	virtual bool CheckIDName(std::string _tag)	final	{return m_idName == _tag;}
 
 	//Json係
-	virtual void InitJson() {};
-	virtual nlohmann::json GetJson() { return m_jsonData; }
-	virtual void SetJson(nlohmann::json _json) { m_jsonData = _json; }
+	virtual nlohmann::json GetJson() { return nlohmann::json(); }
+	virtual void LoadJson(nlohmann::json _json) {}
 
 protected:
-	std::weak_ptr<GameObject>				m_owner;
-
-	std::shared_ptr<std::function<void()>>	m_spDraw2D;
-	std::shared_ptr<std::function<void()>>	m_spUpdate;
-
-	std::string								m_name;
-
 	std::string								m_idName;
 	UINT									m_id = 0;
 
-	nlohmann::json							m_jsonData;
+	std::weak_ptr<GameObject>				m_owner;
+	std::weak_ptr<class Cp_Transform>		m_trans;
 
 protected:
 	virtual void PreUpdateContents() {}

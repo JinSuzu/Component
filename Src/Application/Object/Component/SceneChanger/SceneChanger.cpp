@@ -29,15 +29,16 @@ void Cp_SceneChanger::ImGuiUpdate()
 	ImGui::InputText("SEPath", &m_sePath);
 }
 
-void Cp_SceneChanger::InitJson()
+void Cp_SceneChanger::LoadJson(nlohmann::json _json)
 {
-	if (m_jsonData["NextSceneName"].is_string())m_nextSceneName = m_jsonData["NextSceneName"];
-	if (m_jsonData["SEPath"].is_string())m_sePath = m_jsonData["SEPath"];
+	if (_json["NextSceneName"].is_string())m_nextSceneName = _json["NextSceneName"];
+	if (_json["SEPath"].is_string())m_sePath = _json["SEPath"];
 }
 
 nlohmann::json Cp_SceneChanger::GetJson()
 {
-	m_jsonData["NextSceneName"] = m_nextSceneName;
-	m_jsonData["SEPath"] = m_sePath;
-	return m_jsonData;
+	nlohmann::json json;
+	json["NextSceneName"] = m_nextSceneName;
+	json["SEPath"] = m_sePath;
+	return json;
 }

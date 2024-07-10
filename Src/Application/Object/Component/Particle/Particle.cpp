@@ -23,13 +23,14 @@ void Cp_Particle::ImGuiUpdate()
 	ImGui::DragInt("DeleteTimeCnt", &m_deleteTime);
 }
 
-void Cp_Particle::InitJson()
+void Cp_Particle::LoadJson(nlohmann::json _json)
 {
-	if (m_jsonData["DeleteTime"].is_number())m_deleteTime = m_jsonData["DeleteTime"];
+	if (_json["DeleteTime"].is_number())m_deleteTime = _json["DeleteTime"];
 }
 
 nlohmann::json Cp_Particle::GetJson()
 {
-	m_jsonData["DeleteTime"] = m_deleteTime;
-	return m_jsonData;
+	nlohmann::json json;
+	json["DeleteTime"] = m_deleteTime;
+	return json;
 }

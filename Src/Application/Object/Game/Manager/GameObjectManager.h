@@ -15,7 +15,6 @@ public:
 	void Update();
 	void PostUpdate();
 
-	void ImGuiUpdate();
 	static void ImGuiGameObject(std::weak_ptr<GameObject> _object);
 
 	void Load(std::string _path);
@@ -37,5 +36,4 @@ private:
 
 
 	void LoadJson(std::string _path, bool _bOrigin = true);
-public:
 };

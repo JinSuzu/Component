@@ -58,18 +58,6 @@
     <Filter Include="Library\imgui">
       <UniqueIdentifier>{4a041644-8c5d-42b5-9683-f28b8c790f4f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\GameObject">
-      <UniqueIdentifier>{c8eeed44-235a-4eda-9689-532350b60789}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\GameObject\Camera">
-      <UniqueIdentifier>{781882e7-a4ba-44ae-b14e-75844a3802df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\GameObject\Camera\FPSCamera">
-      <UniqueIdentifier>{cab66d5f-b9d3-40bd-ae9d-57120eb6c79c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\GameObject\Camera\TPSCamera">
-      <UniqueIdentifier>{c8cf7720-4d00-4c0b-a1cf-bc64280b295f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Library\magic_enum">
       <UniqueIdentifier>{fc167977-0af2-4b10-84a8-a9fba6c3ed3c}</UniqueIdentifier>
     </Filter>
@@ -231,6 +219,21 @@
     </Filter>
     <Filter Include="Src\Application\Object\Component\HitResult\HitResultScene">
       <UniqueIdentifier>{e7475cdc-580a-416c-abe7-c781d12d7404}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\EditorWindow\DebugLog">
+      <UniqueIdentifier>{b648c5c2-4890-4183-9cb1-2ae867b3ddc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject">
+      <UniqueIdentifier>{c8eeed44-235a-4eda-9689-532350b60789}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Camera">
+      <UniqueIdentifier>{781882e7-a4ba-44ae-b14e-75844a3802df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Camera\FPSCamera">
+      <UniqueIdentifier>{cab66d5f-b9d3-40bd-ae9d-57120eb6c79c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Camera\TPSCamera">
+      <UniqueIdentifier>{c8cf7720-4d00-4c0b-a1cf-bc64280b295f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -711,6 +714,9 @@
     <ClInclude Include="Src\Application\Object\Component\AddRotation\AddRotaion.h">
       <Filter>Src\Application\Object\Component\AddRotation</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Object\EditorWindow\DebugLog\DebugLog.h">
+      <Filter>Src\Application\Object\EditorWindow\DebugLog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -997,6 +1003,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\AddRotation\AddRotaion.cpp">
       <Filter>Src\Application\Object\Component\AddRotation</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\EditorWindow\DebugLog\DebugLog.cpp">
+      <Filter>Src\Application\Object\EditorWindow\DebugLog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

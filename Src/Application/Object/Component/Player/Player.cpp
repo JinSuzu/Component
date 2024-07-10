@@ -58,15 +58,16 @@ void Cp_Player::ImGuiUpdate()
 	ImGui::DragInt("AccelerationTime", &m_accelerationTime);
 }
 
-void Cp_Player::InitJson()
+void Cp_Player::LoadJson(nlohmann::json _json)
 {
-	m_jumpPow = m_jsonData["jumpFlg"];
-	m_accelerationTime = m_jsonData["AccelerationTime"];
+	m_jumpPow = _json["jumpFlg"];
+	m_accelerationTime = _json["AccelerationTime"];
 }
 
 nlohmann::json Cp_Player::GetJson()
 {
-	m_jsonData["jumpFlg"] = m_jumpPow;
-	m_jsonData["AccelerationTime"] = m_accelerationTime;
-	return m_jsonData;
+	nlohmann::json json;
+	json["jumpFlg"] = m_jumpPow;
+	json["AccelerationTime"] = m_accelerationTime;
+	return json;
 }

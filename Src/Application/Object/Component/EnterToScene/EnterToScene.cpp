@@ -24,13 +24,14 @@ void Cp_EnterToScene::ImGuiUpdate()
 	ImGui::InputText("NextScene", &m_nextScene);
 }
 
-void Cp_EnterToScene::InitJson()
+void Cp_EnterToScene::LoadJson(nlohmann::json _json)
 {
-	m_nextScene = m_jsonData["NextScene"];
+	m_nextScene = _json["NextScene"];
 }
 
 nlohmann::json Cp_EnterToScene::GetJson()
 {
-	m_jsonData["NextScene"] = m_nextScene;
-	return m_jsonData;
+	nlohmann::json json;
+	json["NextScene"] = m_nextScene;
+	return json;
 }

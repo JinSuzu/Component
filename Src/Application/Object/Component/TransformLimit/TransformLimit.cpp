@@ -27,20 +27,21 @@ void Cp_TransformLimit::ImGuiUpdate()
 	m_scaleLimit.ImGuiUpdate("scale");
 }
 
-void Cp_TransformLimit::InitJson()
+void Cp_TransformLimit::LoadJson(nlohmann::json _json)
 {
-	if (m_jsonData.is_null())return;
-	m_posLimit.InitJson(m_jsonData["posLimit"]);
-	m_rotaLimit.InitJson(m_jsonData["rotationLimit"]);
-	m_scaleLimit.InitJson(m_jsonData["scaleLimit"]);
+	if (_json.is_null())return;
+	m_posLimit.InitJson(_json["posLimit"]);
+	m_rotaLimit.InitJson(_json["rotationLimit"]);
+	m_scaleLimit.InitJson(_json["scaleLimit"]);
 }
 
 nlohmann::json Cp_TransformLimit::GetJson()
 {
-	m_jsonData["posLimit"]		= m_posLimit.GetJson();
-	m_jsonData["rotationLimit"] = m_rotaLimit.GetJson();
-	m_jsonData["scaleLimit"]	= m_scaleLimit.GetJson();
-	return m_jsonData;
+	nlohmann::json json;
+	json["posLimit"]		= m_posLimit.GetJson();
+	json["rotationLimit"] = m_rotaLimit.GetJson();
+	json["scaleLimit"]	= m_scaleLimit.GetJson();
+	return json;
 }
 
 void Cp_TransformLimit::Clamp(Math::Vector3& _vec3, LimitSet _limitSet)

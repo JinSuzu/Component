@@ -56,24 +56,25 @@ void Cp_Collider::ImGuiUpdate()
 
 }
 
-void Cp_Collider::InitJson()
+void Cp_Collider::LoadJson(nlohmann::json _json)
 {
-	m_colliderShape = m_jsonData["ColliderShape"];
-	m_colliderType = m_jsonData["ColliderType"];
-	m_radius = m_jsonData["Radius"];
-	m_offsetPos = MyJson::InPutVec3(m_jsonData["OffsetPos"]);
+	m_colliderShape = _json["ColliderShape"];
+	m_colliderType	= _json["ColliderType"];
+	m_radius		= _json["Radius"];
+	m_offsetPos		= MyJson::InPutVec3(_json["OffsetPos"]);
 
 	RegisterCollider(true);
 }
 
 nlohmann::json Cp_Collider::GetJson()
 {
-	m_jsonData["ColliderShape"] = m_colliderShape;
-	m_jsonData["ColliderType"] = m_colliderType;
-	m_jsonData["Radius"] = m_radius;
-	m_jsonData["OffsetPos"] = MyJson::OutPutVec3(m_offsetPos);
+	nlohmann::json json;
+	json["ColliderShape"] = m_colliderShape;
+	json["ColliderType"] = m_colliderType;
+	json["Radius"] = m_radius;
+	json["OffsetPos"] = MyJson::OutPutVec3(m_offsetPos);
 
-	return m_jsonData;
+	return json;
 }
 
 void Cp_Collider::SetActive(bool _flg)

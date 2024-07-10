@@ -7,7 +7,7 @@ class Cp_TransformLimit
 public:
 	void PostUpdateContents()override;
 	void ImGuiUpdate()override;
-	void InitJson()override;
+	void LoadJson(nlohmann::json _json)override;
 	nlohmann::json GetJson()override;
 private:
 	enum Shaft

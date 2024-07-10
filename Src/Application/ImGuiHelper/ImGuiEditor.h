@@ -16,19 +16,14 @@ private:
 	std::map<std::string, std::function<std::shared_ptr<class EditorWindowBase>()>>	m_editorWindows;
 
 	std::map<std::string, bool>														m_editorActive;
-	std::list<std::string>															m_windowList;
+	std::list<std::shared_ptr<class EditorWindowBase>>								m_windowList;
 	void OverwriteWindow();
 
+	void Init();
+	void Release();
+
 public:
-	static bool SourceGameObject(std::weak_ptr<GameObject> _obj);
-	static void TargetGameObject(std::weak_ptr<GameObject> _parent);
-
-	Editor();
-
-	~Editor()
-	{
-		nlohmann::json json;
-		MyJson::OutPutJson(json, "Asset/Data/config.ini");
-	}
+	Editor() { Init(); };
+	~Editor() { Release(); };
 };
 

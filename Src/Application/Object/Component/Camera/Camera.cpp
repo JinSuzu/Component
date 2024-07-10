@@ -29,14 +29,15 @@ void Cp_Camera::PostUpdateContents()
 {
 }
 
-void Cp_Camera::InitJson()
+void Cp_Camera::LoadJson(nlohmann::json _json)
 {
-	if (m_jsonData["Priority"].is_number())m_priority = m_jsonData["Priority"];
+	m_priority = _json["Priority"];
 	RenderManager::Instance().AddCamera(m_priority, WeakThisPtr(this));
 }
 
 nlohmann::json Cp_Camera::GetJson()
 {
-	m_jsonData["Priority"] = m_priority;
-	return m_jsonData;
+	nlohmann::json _json;
+	_json["Priority"] = m_priority;
+	return _json;
 }

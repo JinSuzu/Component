@@ -33,13 +33,14 @@ void Cp_TimerDisplay::ImGuiUpdate()
 	ImGui::InputText("SceneTag", &m_sceneTag);
 }
 
-void Cp_TimerDisplay::InitJson()
+void Cp_TimerDisplay::LoadJson(nlohmann::json _json)
 {
-	if (m_jsonData["sceneTag"].is_string())m_sceneTag = m_jsonData["sceneTag"];
+	if (_json["sceneTag"].is_string())m_sceneTag = _json["sceneTag"];
 }
 
 nlohmann::json Cp_TimerDisplay::GetJson()
 {
-	m_jsonData["sceneTag"] = m_sceneTag;
-	return m_jsonData;
+	nlohmann::json json;
+	json["sceneTag"] = m_sceneTag;
+	return json;
 }

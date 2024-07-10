@@ -31,7 +31,7 @@ public:
 
 	void ImGuiUpdate()override;
 
-	void InitJson()override;
+	void LoadJson(nlohmann::json _json)override;
 	nlohmann::json GetJson()override;
 
 	void AddMove(Math::Vector3 _move) { m_move += _move; }

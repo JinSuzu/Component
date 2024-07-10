@@ -18,17 +18,17 @@ void Cp_HitResultDestroy::ImGuiUpdate()
 	ImGui::InputText("SEPath", &m_sePath);
 }
 
-void Cp_HitResultDestroy::InitJson()
+void Cp_HitResultDestroy::LoadJson(nlohmann::json _json)
 {
-	Cp_HitResult::InitJson();
-	m_sePath = m_jsonData["SEPath"];
+	Cp_HitResult::LoadJson(_json);
+	m_sePath = _json["SEPath"];
 }
 
 nlohmann::json Cp_HitResultDestroy::GetJson()
 {
-	Cp_HitResult::GetJson();
-	m_jsonData["SEPath"] = m_sePath;
-	return m_jsonData;
+	nlohmann::json json = Cp_HitResult::GetJson();
+	json["SEPath"]		= m_sePath;
+	return json;
 }
 
 void Cp_HitResultDestroy::Destroy()

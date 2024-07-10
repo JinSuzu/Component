@@ -2,6 +2,7 @@
 #include "../../Game/Manager/GameObjectManager.h"
 #include "../../Game/GameObject.h"
 #include "../../../ImGuiHelper/ImGuiEditor.h"
+#include "../../../Object/EditorWindow/Prefab/Prefab.h"
 #include "../../../SceneBase/Manager/SceneManager.h"
 #include "../../../main.h"
 
@@ -9,11 +10,11 @@ void Hierarchy::Update()
 {
 	ImGui::BeginChild("##ObjectChild");
 	{
-		SceneManager::Instance().m_objectMgr->ImGuiUpdate();
+		for (auto& obj : SceneManager::Instance().m_objectMgr->GetObjectList())if(obj->GetParent().expired())ImGuiGameObject(obj);
 	}
 	ImGui::EndChild();
+	Prefab::TargetGameObject(std::weak_ptr<GameObject>());
 	if (ImGui::IsItemClicked(1))ImGui::OpenPopup("CreateObject");
-	Editor::TargetGameObject(std::weak_ptr<GameObject>());
 	if (ImGui::BeginPopup("CreateObject"))
 	{
 		std::weak_ptr<GameObject>obj = m_owner->GetEditObject();
@@ -32,5 +33,35 @@ void Hierarchy::Update()
 		}
 		if (ImGui::Button("Create"))GameObjectManager::CreateObject(std::string(), obj);
 		ImGui::EndPopup();
+	}
+}
+
+void Hierarchy::ImGuiGameObject(std::weak_ptr<GameObject> _obj)
+{
+	ImGuiTreeNodeFlags treeFlg = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
+	std::list<std::weak_ptr<GameObject>> childs = _obj.lock()->GetChilds();
+	if (childs.empty())treeFlg = ImGuiTreeNodeFlags_Leaf;
+
+	bool flg = ImGui::TreeNodeEx((_obj.lock()->GetName() + "##" + std::to_string(_obj.lock()->GetInstanceID())).c_str(), treeFlg);
+	if ((ImGui::IsItemClicked(0) || ImGui::IsItemClicked(1)))Application::Instance().GetEditor().lock()->SetEditObject(_obj);
+	if (Prefab::SourceGameObject  (_obj));
+	else  Prefab::TargetGameObject(_obj);
+
+	if (flg)
+	{
+		int i = 0;
+		std::list<std::weak_ptr<GameObject>>::iterator child = childs.begin();
+		while (child != childs.end())
+		{
+			if (child->expired())
+			{
+				child = childs.erase(child);
+				continue;
+			}
+
+			ImGuiGameObject(*child);
+			child++;
+		}
+		ImGui::TreePop();
 	}
 }

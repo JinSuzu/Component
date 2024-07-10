@@ -17,7 +17,7 @@ void Cp_ModelData::Draw3D(UINT _type)
 
 void Cp_ModelData::Start()
 {
-	m_modelData = AssetManager::Instance().GetModelData("RPG-7");
+	m_modelData = AssetManager::Instance().GetModelData("Asset/Data/Model/earth/earth.gltf");
 	m_trans = m_owner.lock()->GetTransform();
 
 	m_draw3D = std::make_shared<std::function<void(UINT)>>([&](UINT _type) { Draw3D(_type); });
@@ -37,16 +37,17 @@ void Cp_ModelData::ImGuiUpdate()
 	}
 }
 
-void Cp_ModelData::InitJson()
+void Cp_ModelData::LoadJson(nlohmann::json _json)
 {
-	m_drawType  = m_jsonData["drawType"];
-	m_path      = m_jsonData["path"];
+	m_drawType  = _json["drawType"];
+	m_path      = _json["path"];
 	m_modelData = AssetManager::Instance().GetModelData(m_path);
 }
 
 nlohmann::json Cp_ModelData::GetJson()
 {
-	m_jsonData["path"]     = m_path;
-	m_jsonData["drawType"] = m_drawType;
-	return m_jsonData;
+	nlohmann::json json;
+	json["path"]     = m_path;
+	json["drawType"] = m_drawType;
+	return json;
 }

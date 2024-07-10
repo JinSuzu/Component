@@ -10,15 +10,7 @@ void Cp_BoxCollision::Start()
 
 }
 
-void Cp_BoxCollision::InitJson()
-{
-	Component::InitJson();
-	if (m_jsonData.is_object())
-	{
-		m_rad = MyJson::InPutVec3(m_jsonData["rad"]);
-		m_bTrigger = m_jsonData["bTrigger"];
-	}
-}
+
 
 void Cp_BoxCollision::PreUpdateContents()
 {
@@ -54,11 +46,18 @@ void Cp_BoxCollision::ImGuiUpdate()
 	ImGui::Checkbox("trigger", &m_bTrigger);
 }
 
+void Cp_BoxCollision::LoadJson(nlohmann::json _json)
+{
+		m_rad = MyJson::InPutVec3(_json["rad"]);
+		m_bTrigger = _json["bTrigger"];
+}
+
 nlohmann::json Cp_BoxCollision::GetJson()
 {
-	m_jsonData["rad"] = MyJson::OutPutVec3(m_rad);
-	m_jsonData["bTrigger"] = m_bTrigger;
-	return m_jsonData;
+	nlohmann::json json;
+	json["rad"] = MyJson::OutPutVec3(m_rad);
+	json["bTrigger"] = m_bTrigger;
+	return json;
 }
 
 

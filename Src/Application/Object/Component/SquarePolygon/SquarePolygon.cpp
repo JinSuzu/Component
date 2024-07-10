@@ -8,6 +8,7 @@
 #include "../../../Utility/Animation2D/Animation2D.h"
 #include "../../../RenderManger/RenderManger.h"
 #include "../../../main.h"
+
 void Cp_SquarePolygon::Draw3D(UINT _type)
 {
 	if (m_owner.lock()->GetHideFlg())return;
@@ -22,7 +23,7 @@ void Cp_SquarePolygon::Draw3D(UINT _type)
 
 void Cp_SquarePolygon::Start()
 {
-	m_squarePolygon = AssetManager::Instance().GetSquarePolygon("chara/chara");
+	m_squarePolygon = AssetManager::Instance().GetSquarePolygon("Asset/Textures/chara/block.png");
 	m_trans = m_owner.lock()->GetTransform();
 	m_animation = std::make_shared<Animation2D>();
 
@@ -62,34 +63,37 @@ void Cp_SquarePolygon::ImGuiUpdate()
 	m_animation->ImGuiUpdate();
 }
 
-void Cp_SquarePolygon::InitJson()
+
+
+void Cp_SquarePolygon::LoadJson(nlohmann::json _json)
 {
-	m_path = m_jsonData["path"];
+	m_path = _json["path"];
 	m_squarePolygon = AssetManager::Instance().GetSquarePolygon(m_path);
-	m_drawType = m_jsonData["drawType"];
+	m_drawType = _json["drawType"];
 
-	m_split[0] = m_jsonData["splitW"];
-	m_split[1] = m_jsonData["splitH"];
+	m_split[0] = _json["splitW"];
+	m_split[1] = _json["splitH"];
 
-	m_animation->SetJson(m_jsonData["Animation"]);
+	m_animation->SetJson(_json["Animation"]);
 
-	if (m_jsonData["OffsetPos"].is_object())m_offsetPos = MyJson::InPutVec3(m_jsonData["OffsetPos"]);
-	if (m_jsonData["CameraFocus"].is_boolean())m_cameraFocus = m_jsonData["CameraFocus"];
+	if (_json["OffsetPos"].is_object())m_offsetPos = MyJson::InPutVec3(_json["OffsetPos"]);
+	if (_json["CameraFocus"].is_boolean())m_cameraFocus = _json["CameraFocus"];
 }
 
 nlohmann::json Cp_SquarePolygon::GetJson()
 {
-	m_jsonData["path"] = m_path;
-	m_jsonData["drawType"] = m_drawType;
+	nlohmann::json json;
+	json["path"] = m_path;
+	json["drawType"] = m_drawType;
 
-	m_jsonData["splitW"] = m_split[0];
-	m_jsonData["splitH"] = m_split[1];
+	json["splitW"] = m_split[0];
+	json["splitH"] = m_split[1];
 
-	m_jsonData["Animation"] = m_animation->GetJson();
+	json["Animation"] = m_animation->GetJson();
 
-	m_jsonData["OffsetPos"] = MyJson::OutPutVec3(m_offsetPos);
-	m_jsonData["CameraFocus"] = m_cameraFocus;
-	return m_jsonData;
+	json["OffsetPos"] = MyJson::OutPutVec3(m_offsetPos);
+	json["CameraFocus"] = m_cameraFocus;
+	return json;
 }
 
 void Cp_SquarePolygon::SetAnimeName(std::string _name)

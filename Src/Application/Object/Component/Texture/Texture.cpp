@@ -19,7 +19,7 @@ void Cp_Texture::DrawSprite()
 
 void Cp_Texture::Start()
 {
-	m_tex = AssetManager::Instance().GetKdTexture("chara/chara");
+	m_tex = AssetManager::Instance().GetKdTexture("Asset/Textures/chara/block.png");
 	m_rect = { 0,0,64,64 };
 	m_trans = m_owner.lock()->GetTransform();
 	m_animation = std::make_shared<Animation2D>();
@@ -44,20 +44,21 @@ void Cp_Texture::ImGuiUpdate()
 	m_animation->ImGuiUpdate();
 }
 
-void Cp_Texture::InitJson()
+void Cp_Texture::LoadJson(nlohmann::json _json)
 {
-	m_path = m_jsonData["path"];
-	m_rect = MyJson::InputRect(m_jsonData["rect"]);
+	m_path = _json["path"];
+	m_rect = MyJson::InputRect(_json["rect"]);
 	m_tex = AssetManager::Instance().GetKdTexture(m_path);
 
-	m_animation->SetJson(m_jsonData["animation"]);
+	m_animation->SetJson(_json["animation"]);
 }
+
 nlohmann::json Cp_Texture::GetJson()
 {
 	nlohmann::json json;
-	m_jsonData["path"] = m_path;
-	m_jsonData["rect"] = MyJson::OutPutRect(m_rect);
+	json["path"] = m_path;
+	json["rect"] = MyJson::OutPutRect(m_rect);
 
-	m_jsonData["animation"] = m_animation->GetJson();
-	return m_jsonData;
+	json["animation"] = m_animation->GetJson();
+	return json;
 }

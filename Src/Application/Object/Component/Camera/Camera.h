@@ -11,7 +11,7 @@ public:
 	void PreDraw(); 
 	void PostUpdateContents(); 
 
-	void InitJson()override;
+	void LoadJson(nlohmann::json _json)override;
 	nlohmann::json GetJson()override;
 private:
 	std::unique_ptr<KdCamera> m_camera;

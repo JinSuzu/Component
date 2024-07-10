@@ -15,7 +15,7 @@ public:
 	void Start()override;
 
 	void ImGuiUpdate()override;
-	void InitJson()override;
+	void LoadJson(nlohmann::json _json)override;
 	nlohmann::json GetJson()override;
 
 	void SetActive(bool _flg)override;

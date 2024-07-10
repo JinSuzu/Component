@@ -148,6 +148,9 @@ public:
 		m_pDeviceContext->OMSetRenderTargets(1, m_backBuffer->WorkRTViewAddress(), m_zBuffer->WorkDSView());
 	};
 
+	//windowのリサイズされた時の更新処理
+	void WindowResize(int w,int h);
+
 private:
 
 	//==============================================================

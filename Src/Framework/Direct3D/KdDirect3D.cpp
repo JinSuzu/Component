@@ -573,3 +573,247 @@ void KdDirect3D::ClearBackBuffer()
 	m_pDeviceContext->ClearDepthStencilView(m_zBuffer->WorkDSView(),
 		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
+
+#include "../../Application/main.h"
+void KdDirect3D::WindowResize(int w, int h)
+{
+	HRESULT hr;
+
+	//=====================================================
+	// ファクトリー作成(ビデオ グラフィックの設定の列挙や指定に使用されるオブジェクト)
+	//=====================================================
+	IDXGIFactory* factory = nullptr;
+	hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), reinterpret_cast<void**>(&factory));
+	if (FAILED(hr)) {
+		Release();
+		return ;
+	}
+
+	//=====================================================
+	//デバイス生成(主にリソース作成時に使用するオブジェクト)
+	//=====================================================
+	UINT creationFlags = 0;
+
+
+
+#ifdef _DEBUG
+	// Direct3Dのデバッグを有効にする(すごく重いが細かいエラーがわかる)
+	creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif // _DEBUG
+
+	D3D_FEATURE_LEVEL featureLevels[] =
+	{
+		D3D_FEATURE_LEVEL_11_1,	// Direct3D 11.1  ShaderModel 5
+		D3D_FEATURE_LEVEL_11_0,	// Direct3D 11    ShaderModel 5
+		D3D_FEATURE_LEVEL_10_1,	// Direct3D 10.1  ShaderModel 4
+		D3D_FEATURE_LEVEL_10_0,	// Direct3D 10.0  ShaderModel 4
+		D3D_FEATURE_LEVEL_9_3,	// Direct3D 9.3   ShaderModel 3
+		D3D_FEATURE_LEVEL_9_2,	// Direct3D 9.2   ShaderModel 3
+		D3D_FEATURE_LEVEL_9_1,	// Direct3D 9.1   ShaderModel 3
+	};
+
+	// 使用GPU選択（グラフィック専用メモリの容量の多い物を優先
+	IDXGIAdapter* pSelectAdapter = nullptr;
+	SIZE_T maxVideoMemory = 0;
+	for (UINT index = 0; 1; ++index)
+	{
+		IDXGIAdapter* adapter = nullptr;
+		HRESULT ret = factory->EnumAdapters(index, &adapter);
+
+		if (ret == DXGI_ERROR_NOT_FOUND) { break; }
+		DXGI_ADAPTER_DESC desc = {};
+		adapter->GetDesc(&desc);
+
+		if (maxVideoMemory < desc.DedicatedVideoMemory)
+		{
+			maxVideoMemory = desc.DedicatedVideoMemory;
+			pSelectAdapter = adapter;
+		}
+	}
+
+	// デバイスとでデバイスコンテキストを作成
+	D3D_FEATURE_LEVEL futureLevel;
+	hr = D3D11CreateDevice(
+		pSelectAdapter,
+		D3D_DRIVER_TYPE_UNKNOWN,
+		nullptr,
+		creationFlags,
+		featureLevels,
+		_countof(featureLevels),
+		D3D11_SDK_VERSION,
+		&m_pDevice,
+		&futureLevel,
+		&m_pDeviceContext);
+
+	if FAILED(hr)
+	{
+		return;
+	}
+
+	//=====================================================
+	// スワップチェイン作成(フロントバッファに表示可能なバックバッファを持つもの)
+	//=====================================================
+	DXGI_SWAP_CHAIN_DESC DXGISwapChainDesc = {};		// スワップチェーンの設定データ
+	DXGISwapChainDesc.BufferDesc.Width = w;
+	DXGISwapChainDesc.BufferDesc.Height = h;
+	DXGISwapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
+	DXGISwapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
+	DXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	DXGISwapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	DXGISwapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;// DXGI_MODE_SCALING_CENTERED;	// DXGI_MODE_SCALING_UNSPECIFIED
+	DXGISwapChainDesc.SampleDesc.Count = 1;
+	DXGISwapChainDesc.SampleDesc.Quality = 0;
+	DXGISwapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT;
+	DXGISwapChainDesc.BufferCount = 2;
+	DXGISwapChainDesc.OutputWindow = Application::Instance().GetWindowHandle();
+	DXGISwapChainDesc.Windowed = TRUE;
+	DXGISwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+	DXGISwapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	if (FAILED(factory->CreateSwapChain(m_pDevice, &DXGISwapChainDesc, &m_pGISwapChain))) {
+		return;
+	}
+	factory->Release();
+
+	// スワップチェインからバックバッファ取得
+	ID3D11Texture2D* pBackBuffer;
+	if (FAILED(m_pGISwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBackBuffer))) {
+		Release();
+		return;
+	}
+
+	// バックバッファリソースからビューを作成
+	m_backBuffer = std::make_shared<KdTexture>();
+	if (m_backBuffer->Create(pBackBuffer) == false)
+	{
+		Release();
+		return;
+	}
+
+	pBackBuffer->Release();
+	//=========================================================
+	// Zバッファ作成
+	//=========================================================
+	{
+		// バッファ作成
+		D3D11_TEXTURE2D_DESC desc = {};
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.Format = DXGI_FORMAT_R24G8_TYPELESS;
+		desc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+		desc.Width = (UINT)w;
+		desc.Height = (UINT)h;
+		desc.CPUAccessFlags = 0;
+		desc.MipLevels = 1;
+		desc.ArraySize = 1;
+		desc.SampleDesc.Count = 1;
+		desc.SampleDesc.Quality = 0;
+
+		m_zBuffer = std::make_shared<KdTexture>();
+		if (m_zBuffer->Create(desc) == false)
+		{
+			Release();
+			return;
+		}
+	}
+
+	//=========================================================
+	// バックバッファ、Zバッファを描画ターゲットとしてデバイスコンテキストへセットする
+	//=========================================================
+	{
+		ID3D11RenderTargetView* rtvs[] = { m_backBuffer->WorkRTView() };
+		m_pDeviceContext->OMSetRenderTargets(1, rtvs, m_zBuffer->WorkDSView());
+	}
+
+	//=========================================================
+	// ビューポートの設定
+	//=========================================================
+	{
+		// ビューポートの設定
+		D3D11_VIEWPORT vp;
+		vp.Width = (float)w;
+		vp.Height = (float)h;
+		vp.MinDepth = 0.0f;
+		vp.MaxDepth = 1.0f;
+		vp.TopLeftX = 0;
+		vp.TopLeftY = 0;
+		m_pDeviceContext->RSSetViewports(1, &vp);
+	}
+
+	//=========================================================
+	// 描画ステートの初期設定
+	//=========================================================
+
+	// ブレンドステートセット
+	ID3D11BlendState* bs = CreateBlendState(KdBlendMode::Alpha);
+	m_pDeviceContext->OMSetBlendState(bs, Math::Color(0, 0, 0, 0), 0xFFFFFFFF);
+	bs->Release();
+
+	// サンプラーステートセット
+	ID3D11SamplerState* ss0 = CreateSamplerState(KdSamplerFilterMode::Anisotropic, 4, KdSamplerAddressingMode::Wrap, false);
+	// 各シェーダへセット
+	m_pDeviceContext->VSSetSamplers(0, 1, &ss0);
+	m_pDeviceContext->PSSetSamplers(0, 1, &ss0);
+	m_pDeviceContext->GSSetSamplers(0, 1, &ss0);
+	m_pDeviceContext->CSSetSamplers(0, 1, &ss0);
+	ss0->Release();
+
+	ID3D11SamplerState* ss1 = CreateSamplerState(KdSamplerFilterMode::Anisotropic, 4, KdSamplerAddressingMode::Clamp, false);
+	// 各シェーダへセット
+	m_pDeviceContext->VSSetSamplers(1, 1, &ss1);
+	m_pDeviceContext->PSSetSamplers(1, 1, &ss1);
+	m_pDeviceContext->GSSetSamplers(1, 1, &ss1);
+	m_pDeviceContext->CSSetSamplers(1, 1, &ss1);
+	ss1->Release();
+
+	// ラスタライザーステートセット
+	ID3D11RasterizerState* rs = CreateRasterizerState(D3D11_CULL_BACK, D3D11_FILL_SOLID, true, false);
+	m_pDeviceContext->RSSetState(rs);
+	rs->Release();
+
+	// 深度ステンシルステートセット
+	ID3D11DepthStencilState* ds = CreateDepthStencilState(true, true);
+	m_pDeviceContext->OMSetDepthStencilState(ds, 0);
+	ds->Release();
+
+	//=========================================================
+	// 1x1の白テクスチャ作成
+	//=========================================================
+	{
+		D3D11_SUBRESOURCE_DATA srd;
+		auto whiteCol = kWhiteColor.RGBA();
+		srd.pSysMem = &whiteCol;
+		srd.SysMemPitch = 4;
+		srd.SysMemSlicePitch = 0;
+
+		m_texWhite = std::make_shared<KdTexture>();
+		m_texWhite->Create(1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, 1, &srd);
+	}
+
+	//=========================================================
+	// 1x1のZ向き法線マップ作成
+	//=========================================================
+	{
+		D3D11_SUBRESOURCE_DATA srd;
+		auto normalCol = kNormalColor.RGBA();
+		srd.pSysMem = &normalCol;
+		srd.SysMemPitch = 4;
+		srd.SysMemSlicePitch = 0;
+
+		m_texNormal = std::make_shared<KdTexture>();
+		m_texNormal->Create(1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, 1, &srd);
+	}
+
+	// DrawVertices用頂点バッファを作成
+	UINT bufferSize = 80;
+	for (int i = 0; i < 10; i++)	// 
+	{
+		m_tempFixedVertexBuffer[i].Create(D3D11_BIND_VERTEX_BUFFER, bufferSize, D3D11_USAGE_DYNAMIC, nullptr);
+
+		bufferSize *= 2;	// 容量を倍にしていく
+	}
+
+	m_windowWidth = w;
+	m_windowHeight = h;
+	m_isFullScreen = false;
+
+	return;
+}

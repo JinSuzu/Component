@@ -42,15 +42,16 @@ void Cp_Controller::ImGuiUpdate()
 	ImGui::DragFloat("movePow", &m_movePow);
 }
 
-void Cp_Controller::InitJson()
+void Cp_Controller::LoadJson(nlohmann::json _json)
 {
-	m_shaft = m_jsonData["shaft"];
-	m_movePow = m_jsonData["movePow"];
+	m_shaft = _json["shaft"];
+	m_movePow = _json["movePow"];
 }
 
 nlohmann::json Cp_Controller::GetJson()
 {
-	m_jsonData["shaft"] = m_shaft;
-	m_jsonData["movePow"] = m_movePow;
-	return m_jsonData;
+	nlohmann::json json;
+	json["shaft"] = m_shaft;
+	json["movePow"] = m_movePow;
+	return json;
 }

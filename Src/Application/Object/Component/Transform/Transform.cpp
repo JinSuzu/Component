@@ -29,27 +29,29 @@ void Cp_Transform::ImGuiUpdate()
 	
 }
 
-void Cp_Transform::InitJson()
+void Cp_Transform::LoadJson(nlohmann::json _json)
 {
-	m_myMatTag = m_jsonData["matTag"];
-	m_parentMatTag = m_jsonData["parentMatTag"];
-	m_bFollow = m_jsonData["Follow"];
+	m_myMatTag		= _json["matTag"];
+	m_parentMatTag	= _json["parentMatTag"];
+	m_bFollow		= _json["Follow"];
 
-	m_position = MyJson::InPutVec3(m_jsonData["position"]);
-	m_rotation = MyJson::InPutVec3(m_jsonData["rotation"]);
-	m_scale = MyJson::InPutVec3(m_jsonData["scale"]);
+	m_position = MyJson::InPutVec3(_json["position"]);
+	m_rotation = MyJson::InPutVec3(_json["rotation"]);
+	m_scale	   = MyJson::InPutVec3(_json["scale"]);
 }
+
 nlohmann::json Cp_Transform::GetJson()
 {
-	m_jsonData["position"] = MyJson::OutPutVec3(m_position);
-	m_jsonData["rotation"] = MyJson::OutPutVec3(m_rotation);
-	m_jsonData["scale"] = MyJson::OutPutVec3(m_scale);
+	nlohmann::json json;
+	json["position"] = MyJson::OutPutVec3(m_position);
+	json["rotation"] = MyJson::OutPutVec3(m_rotation);
+	json["scale"]    = MyJson::OutPutVec3(m_scale);
 
-	m_jsonData["matTag"] = m_myMatTag;
-	m_jsonData["parentMatTag"] = m_parentMatTag;
+	json["matTag"]		 = m_myMatTag;
+	json["parentMatTag"] = m_parentMatTag;
 
-	m_jsonData["Follow"] = m_bFollow;
-	return m_jsonData;
+	json["Follow"]		 = m_bFollow;
+	return json;
 }
 
 

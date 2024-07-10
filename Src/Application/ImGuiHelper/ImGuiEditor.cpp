@@ -5,6 +5,7 @@
 #include "../Object/Game/GameObject.h"
 #include "../Object/Game/Manager/GameObjectManager.h"
 #include "../SceneBase/Manager/SceneManager.h"
+#include "../Object/EditorWindow/Base/EditorWindowBase.h"
 
 
 void Editor::ImGuiUpdate()
@@ -53,6 +54,7 @@ void Editor::ImGuiUpdate()
 					item.second = !item.second;
 				}
 			}
+			if (flg) OverwriteWindow();
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
@@ -71,9 +73,7 @@ void Editor::ImGuiUpdate()
 
 		for (auto& window : m_windowList)
 		{
-			ImGui::Begin(window.c_str());
-			m_editorWindows[window]();
-			ImGui::End();
+			window->Draw();
 		}
 	}
 	ImGui::EndChild();
@@ -101,84 +101,69 @@ void Editor::MenuBar()
 
 void Editor::OverwriteWindow()
 {
-}
-
-bool Editor::SourceGameObject(std::weak_ptr<GameObject> _obj)
-{
-	bool flg = false;
-	if (flg = ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+	m_windowList.clear();
+	for (auto& map : m_editorActive)
 	{
-		ImGui::SetDragDropPayload("GameObject", &_obj, sizeof(*_obj.lock()));
-		ImGui::Text("PullGameObject");
-		ImGui::EndDragDropSource();
-	}
-	return flg;
-}
-void Editor::TargetGameObject(std::weak_ptr<GameObject> _parent)
-{
-	if (ImGui::BeginDragDropTarget())
-	{
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject"))
+		if (map.second)
 		{
-			if (payload->DataSize == sizeof(GameObject))
-			{
-				std::weak_ptr<GameObject> obj = *(std::weak_ptr<GameObject>*)payload->Data;
-				obj.lock()->SetUpParent(_parent);
-			}
+			m_windowList.push_back(m_editorWindows[map.first]());
 		}
-
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObjectDataPath"))
-		{
-
-			std::string path = *(std::string*)(payload->Data);
-			GameObjectManager::CreateObject(path, _parent);
-
-		}
-
-		ImGui::EndDragDropTarget();
 	}
 }
 
-#include "../Object/EditorWindow/Base/EditorWindowBase.h"
 #include "../Object/EditorWindow/Hierarchy/Hierarchy.h"
 #include "../Object/EditorWindow/GameScreen/GameScreen.h"
 #include "../Object/EditorWindow/Inspector/Inspector.h"
 #include "../Object/EditorWindow/Prefab/Prefab.h"
-
-Editor::Editor()
+#include "../Object/EditorWindow/DebugLog/DebugLog.h"
+void Editor::Init()
 {
 	auto Register
-		= [&](std::function<std::shared_ptr<EditorWindowBase>()> _editor)
+		= [&](std::string _name, std::function<std::shared_ptr<EditorWindowBase>()> _editor)
 		{
-			std::string tag = PickName(typeid(*_editor().get()).name(),' ');
-			m_editorActive[tag] = false;
-			m_editorWindows[tag] = _editor;
+			m_editorActive[_name] = false;
+			m_editorWindows[_name] = _editor;
 		};
 #define EDITORREGISTER(Tag)													\
-	Register([&]()															\
+	Register(#Tag , [&]()													\
 	{																		\
 		std::shared_ptr<EditorWindowBase>temp = std::make_shared<Tag>();	\
 		temp->SetOwner(this);												\
+		temp->SetName(#Tag);												\
 		return temp;														\
-	});
-
-	EDITORREGISTER(Hierarchy)
-	EDITORREGISTER(GameScreen)
-	EDITORREGISTER(Inspector)
-	EDITORREGISTER(Prefab)
+	})
+	
+	EDITORREGISTER(Hierarchy);
+	EDITORREGISTER(GameScreen);
+	EDITORREGISTER(Inspector);
+	EDITORREGISTER(Prefab);
+	EDITORREGISTER(DebugLog);
 
 	nlohmann::json json = MyJson::InPutJson("Asset/Data/config.ini");
 	if (!json.is_null())
 	{
-
+		auto it = json.begin();
+		while (it != json.end())
+		{
+			m_editorActive[it.key()] = *it;
+			it++;
+		}
 	}
 	else
 	{
-		assert(false && "ファイル破損してるよー");
+		Application::Instance().m_log.AddLog("not found \"config\" by EditorWindow");
+		m_editorActive["Hierarchy"] = true;
+		m_editorActive["GameScreen"] = true;
+		m_editorActive["Inspector"] = true;		m_editorActive["Prefab"] = true;
 	}
 
-	m_editorActive["Hierarchy"] = true;
-	m_editorActive["GameScreen"] = true;
-	m_editorActive["Inspector"] = true;
-	m_editorActive["Prefab"] = true;
+
+	OverwriteWindow();
+}
+
+void Editor::Release()
+{
+	nlohmann::json json;
+	for (auto& key : m_editorActive)json[key.first] = key.second;
+	MyJson::OutPutJson(json, "Asset/Data/config.ini");
 }

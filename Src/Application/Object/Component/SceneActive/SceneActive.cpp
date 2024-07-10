@@ -61,15 +61,16 @@ void Cp_SceneActive::ImGuiUpdate()
 	ImGui::InputText("SceneBGM", &m_sceneBGMPath);
 }
 
-void Cp_SceneActive::InitJson()
+void Cp_SceneActive::LoadJson(nlohmann::json _json)
 {
-	if (m_jsonData["SceneName"].is_string())m_sceneName = m_jsonData["SceneName"];
-	if (m_jsonData["SceneBGM"].is_string())m_sceneBGMPath = m_jsonData["SceneBGM"];
+	if (_json["SceneName"].is_string())m_sceneName   = _json["SceneName"];
+	if (_json["SceneBGM"].is_string())m_sceneBGMPath = _json["SceneBGM"];
 }
 
 nlohmann::json Cp_SceneActive::GetJson()
 {
-	m_jsonData["SceneName"] = m_sceneName;
-	m_jsonData["SceneBGM"] = m_sceneBGMPath;
-	return m_jsonData;
+	nlohmann::json json;
+	json["SceneName"] = m_sceneName;
+	json["SceneBGM"] = m_sceneBGMPath;
+	return json;
 }

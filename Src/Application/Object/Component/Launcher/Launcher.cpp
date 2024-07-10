@@ -86,27 +86,27 @@ void Cp_Launcher::ImGuiUpdate()
 	}
 }
 
-void Cp_Launcher::InitJson()
+void Cp_Launcher::LoadJson(nlohmann::json _json)
 {
-	m_loadedModelPath = m_jsonData["loadedModelPath"];
-	m_unLoadModelPath = m_jsonData["unLoadModelPath"];
+	m_loadedModelPath = _json["loadedModelPath"];
+	m_unLoadModelPath = _json["unLoadModelPath"];
 
-	m_bullet->SetJson(m_jsonData);
+	m_bullet->SetJson(_json);
 
-	m_bulletMax = m_bulletNum = m_jsonData["bulletMax"];
-	m_shotInterval = m_jsonData["shotInterval"];
-	m_reloadTime = m_jsonData["reloadTime"];
+	m_bulletMax = m_bulletNum = _json["bulletMax"];
+	m_shotInterval = _json["shotInterval"];
+	m_reloadTime   = _json["reloadTime"];
 }
 
 nlohmann::json Cp_Launcher::GetJson()
 {
+	nlohmann::json json;
+	json["loadedModelPath"] = m_loadedModelPath;
+	json["unLoadModelPath"] = m_unLoadModelPath;
+	m_bullet->OutJson(json);
 
-	m_jsonData["loadedModelPath"] = m_loadedModelPath;
-	m_jsonData["unLoadModelPath"] = m_unLoadModelPath;
-	m_bullet->OutJson(m_jsonData);
-
-	m_jsonData["bulletMax"] = m_bulletMax;
-	m_jsonData["shotInterval"] = m_shotInterval;
-	m_jsonData["reloadTime"] = m_reloadTime;
-	return m_jsonData;
+	json["bulletMax"] = m_bulletMax;
+	json["shotInterval"] = m_shotInterval;
+	json["reloadTime"] = m_reloadTime;
+	return json;
 }

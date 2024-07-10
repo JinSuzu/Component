@@ -48,21 +48,20 @@ void Cp_TransFormInherit::ImGuiUpdate()
 	}
 }
 
-void Cp_TransFormInherit::InitJson()
+void Cp_TransFormInherit::LoadJson(nlohmann::json _json)
 {
+	m_formInheritPos = _json["FormInheritPos"];
+	if (_json["ActivePos"].is_number())  m_activePos = _json["ActivePos"];
+	m_startPos = MyJson::InPutVec3(_json["StartPos"]);
 
-	m_formInheritPos = m_jsonData["FormInheritPos"];
-	if (m_jsonData["ActivePos"].is_number())  m_activePos = m_jsonData["ActivePos"];
-	m_startPos = MyJson::InPutVec3(m_jsonData["StartPos"]);
+	m_formInheritRota = _json["FormInheritRota"];
+	if (_json["CameraFormInheritRota"].is_boolean())m_cameraFormInherit = _json["CameraFormInheritRota"];
+	if (_json["ActiveRota"].is_number()) m_activeRota = _json["ActiveRota"];
+	m_startRota = MyJson::InPutVec3(_json["StartRota"]);
 
-	m_formInheritRota = m_jsonData["FormInheritRota"];
-	if (m_jsonData["CameraFormInheritRota"].is_boolean())m_cameraFormInherit = m_jsonData["CameraFormInheritRota"];
-	if (m_jsonData["ActiveRota"].is_number()) m_activeRota = m_jsonData["ActiveRota"];
-	m_startRota = MyJson::InPutVec3(m_jsonData["StartRota"]);
-
-	m_formInheritScale = m_jsonData["FormInheritScale"];
-	if (m_jsonData["ActiveScale"].is_number())m_activeScale = m_jsonData["ActiveScale"];
-	m_startScale = MyJson::InPutVec3(m_jsonData["StartScale"]);
+	m_formInheritScale = _json["FormInheritScale"];
+	if (_json["ActiveScale"].is_number())m_activeScale = _json["ActiveScale"];
+	m_startScale = MyJson::InPutVec3(_json["StartScale"]);
 
 
 	std::weak_ptr<Cp_Transform>mTrans = m_owner.lock()->GetTransform();
@@ -95,18 +94,19 @@ void Cp_TransFormInherit::InitJson()
 
 nlohmann::json Cp_TransFormInherit::GetJson()
 {
-	m_jsonData["FormInheritPos"] = m_formInheritPos;
-	m_jsonData["ActivePos"] = m_activePos;
-	m_jsonData["StartPos"] = MyJson::OutPutVec3(m_startPos);
+	nlohmann::json json;
+	json["FormInheritPos"] = m_formInheritPos;
+	json["ActivePos"] = m_activePos;
+	json["StartPos"] = MyJson::OutPutVec3(m_startPos);
 
-	m_jsonData["FormInheritRota"] = m_formInheritRota;
-	m_jsonData["CameraFormInheritRota"] = m_cameraFormInherit;
-	m_jsonData["ActiveRota"] = m_activeRota;
-	m_jsonData["StartRota"] = MyJson::OutPutVec3(m_startRota);
+	json["FormInheritRota"] = m_formInheritRota;
+	json["CameraFormInheritRota"] = m_cameraFormInherit;
+	json["ActiveRota"] = m_activeRota;
+	json["StartRota"] = MyJson::OutPutVec3(m_startRota);
 
-	m_jsonData["FormInheritScale"] = m_formInheritScale;
-	m_jsonData["ActiveScale"] = m_activeScale;
-	m_jsonData["StartScale"] = MyJson::OutPutVec3(m_startScale);
+	json["FormInheritScale"] = m_formInheritScale;
+	json["ActiveScale"] = m_activeScale;
+	json["StartScale"] = MyJson::OutPutVec3(m_startScale);
 
-	return m_jsonData;
+	return json;
 }

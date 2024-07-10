@@ -11,7 +11,7 @@ public:
 	~Cp_BoxCollision() {}
 	
 	void Start()override;
-	void InitJson()override;
+	void LoadJson(nlohmann::json _json)override;
 
 	void PreUpdateContents()override;
 	void UpdateContents()override;

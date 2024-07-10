@@ -10,7 +10,7 @@ public:
 	void Start()override;
 	void PreUpdateContents()override;
 	void ImGuiUpdate()override;
-	void InitJson()override;
+	void LoadJson(nlohmann::json _json)override;
 	nlohmann::json GetJson()override;
 
 	std::weak_ptr<KdTexture>GetTexture() { return m_tex; };

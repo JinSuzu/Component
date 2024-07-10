@@ -81,39 +81,40 @@ void Cp_Rigidbody::ImGuiUpdate()
 
 }
 
-void Cp_Rigidbody::InitJson()
+void Cp_Rigidbody::LoadJson(nlohmann::json _json)
 {
-	m_move = MyJson::InPutVec3(m_jsonData["move"]);
-	m_deceleration = m_jsonData["deceleration"];
+	m_move = MyJson::InPutVec3(_json["move"]);
+	m_deceleration = _json["deceleration"];
 
-	m_bActiveGravity = m_jsonData["activeGravityFlag"];
-	m_gravityPow = m_jsonData["gravity"];
-	if (m_jsonData["height"].is_number_float())m_height = m_jsonData["height"];
-	if (m_jsonData["OffsetHeight"].is_number_float())m_offsetHeight = m_jsonData["OffsetHeight"];
+	m_bActiveGravity = _json["activeGravityFlag"];
+	m_gravityPow = _json["gravity"];
+	if (_json["height"].is_number_float())m_height = _json["height"];
+	if (_json["OffsetHeight"].is_number_float())m_offsetHeight = _json["OffsetHeight"];
 
-	if (m_jsonData["CollisionBody"].is_boolean())m_collisionBody = m_jsonData["CollisionBody"];
-	if (m_jsonData["Shape"].is_number()) m_shape = m_jsonData["Shape"];
-	m_shapeDate.radius = MyJson::InPutVec3(m_jsonData["Radius"]);
-	m_shapeDate.offsetPos = MyJson::InPutVec3(m_jsonData["OffsetPos"]);
-	m_shapeDate.tag = m_jsonData["Tag"];
+	if (_json["CollisionBody"].is_boolean())m_collisionBody = _json["CollisionBody"];
+	if (_json["Shape"].is_number()) m_shape = _json["Shape"];
+	m_shapeDate.radius = MyJson::InPutVec3(_json["Radius"]);
+	m_shapeDate.offsetPos = MyJson::InPutVec3(_json["OffsetPos"]);
+	m_shapeDate.tag = _json["Tag"];
 }
 nlohmann::json Cp_Rigidbody::GetJson()
 {
-	m_jsonData["move"] = MyJson::OutPutVec3(m_move);
-	m_jsonData["deceleration"] = m_deceleration;
+	nlohmann::json json;
+	json["move"] = MyJson::OutPutVec3(m_move);
+	json["deceleration"] = m_deceleration;
 
-	m_jsonData["activeGravityFlag"] = m_bActiveGravity;
-	m_jsonData["gravity"] = m_gravityPow;
-	m_jsonData["height"] = m_height;
-	m_jsonData["OffsetHeight"] = m_offsetHeight;
+	json["activeGravityFlag"] = m_bActiveGravity;
+	json["gravity"] = m_gravityPow;
+	json["height"] = m_height;
+	json["OffsetHeight"] = m_offsetHeight;
 
 
-	m_jsonData["CollisionBody"] = m_collisionBody;
-	m_jsonData["Shape"] = m_shape;
-	m_jsonData["Radius"] = MyJson::OutPutVec3(m_shapeDate.radius);
-	m_jsonData["OffsetPos"] = MyJson::OutPutVec3(m_shapeDate.offsetPos);
-	m_jsonData["Tag"] = m_shapeDate.tag;
-	return m_jsonData;
+	json["CollisionBody"] = m_collisionBody;
+	json["Shape"] = m_shape;
+	json["Radius"] = MyJson::OutPutVec3(m_shapeDate.radius);
+	json["OffsetPos"] = MyJson::OutPutVec3(m_shapeDate.offsetPos);
+	json["Tag"] = m_shapeDate.tag;
+	return json;
 }
 
 void Cp_Rigidbody::DrawDebug()

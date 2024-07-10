@@ -6,4 +6,6 @@ class GameScreen
 {
 public:
 	void Update()override;
+private:
+	std::shared_ptr<class GameObject>	m_buildCamera;
 };

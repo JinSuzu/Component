@@ -50,16 +50,17 @@ void Cp_AddRotation::ImGuiUpdate()
 	if (ImGui::Checkbox("FollowMouse", &bFollowMouse))m_addType = AddType::FollowMouse;
 }
 
-void Cp_AddRotation::InitJson()
+void Cp_AddRotation::LoadJson(nlohmann::json _json)
 {
-	m_addPow = MyJson::InPutVec3(m_jsonData["addPow"]);
-	m_addType = m_jsonData["addType"];
+	m_addPow = MyJson::InPutVec3(_json["addPow"]);
+	m_addType = _json["addType"];
 }
 nlohmann::json Cp_AddRotation::GetJson()
 {
-	m_jsonData["addPow"] = MyJson::OutPutVec3(m_addPow);
-	m_jsonData["addType"] = m_addType;
-	return m_jsonData;
+	nlohmann::json json;
+	json["addPow"] = MyJson::OutPutVec3(m_addPow);
+	json["addType"] = m_addType;
+	return json;
 }
 
 void Cp_AddRotation::SetActive(bool _flg)

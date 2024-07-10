@@ -163,11 +163,11 @@ bool Application::Init(int w, int h)
 	//===================================================================
 	// ウィンドウ作成
 	//===================================================================
-	if (m_window.Create(w, h, "Rocket Burst Breaker", "Window") == false) {
+	if (!m_window.IsCreated() && m_window.Create(w, h, "Rocket Burst Breaker", "Window") == false) {
 		MessageBoxA(nullptr, "ウィンドウ作成に失敗", "エラー", MB_OK);
 		return false;
 	}
-
+	
 	//===================================================================
 	// フルスクリーン確認
 	//===================================================================
@@ -175,7 +175,8 @@ bool Application::Init(int w, int h)
 	/*
 	if (MessageBoxA(m_window.GetWndHandle(), "フルスクリーンにしますか？", "確認", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES) {
 		bFullScreen = true;
-	}*/
+	}
+	*/
 
 	//===================================================================
 	// Direct3D初期化
@@ -223,12 +224,22 @@ bool Application::Init(int w, int h)
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	// Setup Dear ImGui style
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // キーボードナビゲーションを有効にする
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;     // ドッキングを有効にする
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;   // マルチビューポートを有効にする
 	ImGui::StyleColorsClassic();
+
+	ImGuiStyle& style = ImGui::GetStyle();
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+		style.WindowRounding = 0.0f;
+		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+	}
+
 	// Setup Platform/Renderer bindings
 	ImGui_ImplWin32_Init(m_window.GetWndHandle());
 	ImGui_ImplDX11_Init(KdDirect3D::Instance().WorkDev(), KdDirect3D::Instance().WorkDevContext());
 	{
-
 		// 日本語対応
 #include "imgui/ja_glyph_ranges.h"
 		ImGuiIO& io = ImGui::GetIO();
@@ -236,14 +247,13 @@ bool Application::Init(int w, int h)
 		config.MergeMode = true;
 		io.Fonts->AddFontDefault();
 		io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msgothic.ttc", 13.0f, &config, glyphRangesJapanese);
-
 	}
-	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // ドッキングを有効にする
 
-	m_buildCamera = GameObjectManager::CreateObject(std::string("BuildCamera"), std::weak_ptr<GameObject>(), false);
+
+	//m_buildCamera = GameObjectManager::CreateObject(std::string("BuildCamera"), std::weak_ptr<GameObject>(), false);
 	SceneManager::Instance().Init();
 	m_editor = std::make_shared<Editor>();
+	
 	return true;
 };
 
@@ -299,14 +309,6 @@ void Application::Execute()
 			break;
 		}
 
-		//if (GetAsyncKeyState(VK_ESCAPE))
-		//{
-		//	//			if (MessageBoxA(m_window.GetWndHandle(), "本当にゲームを終了しますか？",
-		//	//				"終了確認", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES)
-		//	{
-		//		End();
-		//	}
-		//}
 		//=========================================
 		//
 		// アプリケーション更新処理
@@ -316,11 +318,6 @@ void Application::Execute()
 		ShowCursor(m_buildFlg || m_debugFlg);
 		KdBeginUpdate();
 		{
-			m_buildCamera->SetActive(m_buildFlg);
-			m_buildCamera->PreUpdate();
-			m_buildCamera->Update();
-			m_buildCamera->PostUpdate();
-
 			PreUpdate();
 			Update();
 			PostUpdate();
@@ -385,11 +382,10 @@ void Application::Release()
 
 void Application::ImGuiProcess()
 {
+	if (!m_debugFlg)return;
 	if (GetAsyncKeyState(VK_UP) & 0x8000)m_debugFlg = true;
 	else if (GetAsyncKeyState(VK_DOWN) & 0x8000)m_debugFlg = false;
-
-	if (!m_debugFlg)return;
-
+	
 	// ImGui開始
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
@@ -398,5 +394,14 @@ void Application::ImGuiProcess()
 	m_editor->ImGuiUpdate();
 	//リリース時はImGuiの部分は通らないようにする
 	ImGui::Render();
+	const float clear_color_with_alpha[4] = { 0.45f, 0.55f, 0.60f, 1.00f };
+	KdDirect3D::Instance().WorkDevContext()->OMSetRenderTargets(1, KdDirect3D::Instance().WorkBackBuffer()->WorkRTViewAddress(), NULL);
+	KdDirect3D::Instance().WorkDevContext()->ClearRenderTargetView(KdDirect3D::Instance().WorkBackBuffer()->WorkRTView(), clear_color_with_alpha);
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+	if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+	}
 }

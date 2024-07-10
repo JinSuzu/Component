@@ -25,15 +25,16 @@ void  Cp_MoveLocus::ImGuiUpdate()
 	m_locus->ImGuiUpdate();
 }
 
-void  Cp_MoveLocus::InitJson()
+void Cp_MoveLocus::LoadJson(nlohmann::json _json)
 {
-	m_interval =  m_jsonData["Interval"];
-	m_locus->SetJson(m_jsonData);
+	m_interval =  _json["Interval"];
+	m_locus->SetJson(_json);
 }
 
 nlohmann::json  Cp_MoveLocus::GetJson()
 {
-	m_locus->OutJson(m_jsonData);
-	 m_jsonData["Interval"] = m_interval;
-	return m_jsonData;
+	nlohmann::json json;
+	m_locus->OutJson(json);
+	json["Interval"] = m_interval;
+	return json;
 }

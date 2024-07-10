@@ -22,13 +22,14 @@ void Cp_HitResult::ImGuiUpdate()
 	}
 }
 
-void Cp_HitResult::InitJson()
+void Cp_HitResult::LoadJson(nlohmann::json _json)
 {
-	if (m_jsonData["ColType"].is_number())m_colType = m_jsonData["ColType"];
+	if (_json["ColType"].is_number())m_colType = _json["ColType"];
 }
 
 nlohmann::json Cp_HitResult::GetJson()
 {
-	m_jsonData["ColType"] = m_colType;
-	return m_jsonData;
+	nlohmann::json json;
+	json["ColType"] = m_colType;
+	return json;
 }

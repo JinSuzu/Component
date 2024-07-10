@@ -8,7 +8,7 @@ public:
 	void Draw3D(UINT _type);
 	void Start()override;
 	void ImGuiUpdate()override;
-	void InitJson()override;
+	void LoadJson(nlohmann::json _json)override;
 	nlohmann::json GetJson()override;
 
 	std::weak_ptr<KdModelData> GetModelData() { return m_modelData; }

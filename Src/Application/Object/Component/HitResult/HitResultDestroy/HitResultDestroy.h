@@ -7,7 +7,7 @@ class Cp_HitResultDestroy
 public:
 	void UpdateContents()override;
 	void ImGuiUpdate()override;
-	void InitJson()override;
+	void LoadJson(nlohmann::json _json)override;
 	nlohmann::json GetJson()override;
 	void Destroy()override;
 private:

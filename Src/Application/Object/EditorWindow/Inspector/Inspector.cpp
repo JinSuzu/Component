@@ -9,5 +9,5 @@ void Inspector::Update()
 	std::weak_ptr<GameObject> object =
 		Application::Instance().GetEditor().lock()->GetEditObject();
 
-	GameObjectManager::ImGuiGameObject(object);
+	if(object.lock())GameObjectManager::ImGuiGameObject(object);
 }

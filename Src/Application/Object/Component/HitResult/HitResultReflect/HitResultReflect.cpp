@@ -35,15 +35,15 @@ void Cp_HitResultReflect::ImGuiUpdate()
 	Cp_HitResult::ImGuiUpdate();
 }
 
-void Cp_HitResultReflect::InitJson()
+void Cp_HitResultReflect::LoadJson(nlohmann::json _json)
 {
-	Cp_HitResult::InitJson();
-	if (m_jsonData["ReflectPow"].is_number_float())m_reflectPow = m_jsonData["ReflectPow"];
+	Cp_HitResult::LoadJson(_json);
+	if (_json["ReflectPow"].is_number_float())m_reflectPow = _json["ReflectPow"];
 }
 
 nlohmann::json Cp_HitResultReflect::GetJson()
 {
-	Cp_HitResult::GetJson();
-	m_jsonData["ReflectPow"] = m_reflectPow;
-	return m_jsonData;
+	nlohmann::json json = Cp_HitResult::GetJson();
+	json["ReflectPow"] = m_reflectPow;
+	return json;
 }

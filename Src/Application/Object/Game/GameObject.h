@@ -23,14 +23,12 @@ class GameObject
 	:public Object
 {
 public:
-
 	void PreUpdate();
 	void Update();
 	void PostUpdate();
 
 	void Init(nlohmann::json _json);
 
-	void ImGuiUpdate(int num);
 	#pragma region Get/SetFunction
 	std::string GetName()			{ return m_name; };
 	std::string* WorkName()			{ return &m_name; };
@@ -68,7 +66,7 @@ public:
 	std::shared_ptr<Component> AddComponent(UINT _id, nlohmann::json _json = nlohmann::json());
 	std::shared_ptr<Component> AddComponent(std::shared_ptr<Component> _add);
 	std::list<std::shared_ptr<Component>> AddComponents(unsigned int _id);
-	std::list<std::shared_ptr<Component>> AddComponents();
+	std::list<std::shared_ptr<Component>> AddComponents(nlohmann::json& _json);
 
 	template<class T>
 	std::weak_ptr<T> GetComponent()
@@ -114,10 +112,8 @@ private:
 	std::weak_ptr<Cp_Camera>					m_camera;
 	std::list<std::shared_ptr<Component>>		m_cpList;
 
-
 	//Json係
 	bool										m_bSave = true;
-	nlohmann::json								m_jsonData;
 private:
 	//便利関数
 	std::shared_ptr<Component> SearchTag(std::string _tag);

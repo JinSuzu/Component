@@ -30,15 +30,16 @@ void Cp_SinCurveAlpha::ImGuiUpdate()
 	ImGui::DragFloat("addAngle", &m_addAngle);
 }
 
-void Cp_SinCurveAlpha::InitJson()
+void Cp_SinCurveAlpha::LoadJson(nlohmann::json _json)
 {
-	m_addAngle = m_jsonData["addAngle"];
-	m_addPow = m_jsonData["addPow"];
+	m_addAngle = _json["addAngle"];
+	m_addPow   = _json["addPow"];
 }
 
 nlohmann::json Cp_SinCurveAlpha::GetJson()
 {
-	m_jsonData["addAngle"] = m_addAngle;
-	m_jsonData["addPow"] = m_addPow;
-	return m_jsonData;
+	nlohmann::json json;
+	json["addAngle"] = m_addAngle;
+	json["addPow"] = m_addPow;
+	return json;
 }

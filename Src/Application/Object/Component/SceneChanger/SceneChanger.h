@@ -7,7 +7,7 @@ class Cp_SceneChanger
 public:
 	void PreUpdateContents()override;
 	void ImGuiUpdate()override;
-	void InitJson()override;
+	void LoadJson(nlohmann::json _json)override;
 	nlohmann::json GetJson()override;
 
 private:

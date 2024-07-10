@@ -24,13 +24,14 @@ void Cp_MoveLimit::ImGuiUpdate()
 	ImGui::DragFloat("Range", &movingDistance);
 }
 
-void Cp_MoveLimit::InitJson()
+void Cp_MoveLimit::LoadJson(nlohmann::json _json)
 {
-	if(m_jsonData["ShotRange"].is_number())m_shotRange = m_jsonData["ShotRange"];
+	if(_json["ShotRange"].is_number())m_shotRange = _json["ShotRange"];
 }
 
 nlohmann::json Cp_MoveLimit::GetJson()
 {
-	m_jsonData["ShotRange"] = m_shotRange;
-	return m_jsonData;
+	nlohmann::json json;
+	json["ShotRange"] = m_shotRange;
+	return json;
 }

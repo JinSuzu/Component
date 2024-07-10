@@ -5,6 +5,8 @@
 #include "../../../ImGuiHelper/ImGuiEditor.h"
 #include "../GameObject.h"
 
+#include "../../../main.h"
+
 void GameObjectManager::PreUpdate()
 {
 	for (auto it = m_objectList.begin(); it != m_objectList.end();)
@@ -22,21 +24,6 @@ void GameObjectManager::PreUpdate()
 }
 void GameObjectManager::Update() { for (auto& object : m_objectList)object->Update(); }
 void GameObjectManager::PostUpdate() { for (auto& object : m_objectList)object->PostUpdate(); }
-
-void GameObjectManager::ImGuiUpdate()
-{
-	int obNum = 0; std::list<std::shared_ptr<GameObject>>::iterator it = m_objectList.begin();
-	while (it != m_objectList.end())
-	{
-		if ((*it)->GetDestroy())
-		{
-			it = m_objectList.erase(it);
-			continue;
-		}
-		if ((*it)->GetParent().expired())(*it)->ImGuiUpdate(obNum++);
-		it++;
-	}
-}
 
 void GameObjectManager::Load(std::string _path)
 {
@@ -143,7 +130,7 @@ void GameObjectManager::LoadJson(std::string _path, bool _bOrigin)
 {
 	nlohmann::json json = MyJson::InPutJson(_path);
 	auto name = json.begin();
-	assert(name != json.end() && "not found json");
+	if(name == json.end())Application::Instance().m_log.AddLog("not found json by GameObjectManager");
 	while (name != json.end())
 	{
 		std::shared_ptr<GameObject>object = CreateObject(*name);

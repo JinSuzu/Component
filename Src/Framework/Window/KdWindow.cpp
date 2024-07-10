@@ -20,7 +20,7 @@ bool KdWindow::Create(int clientWidth, int clientHeight, std::string_view titleN
 	WNDCLASSEX wc;											// ウィンドウクラスの定義用
 	wc.cbSize = sizeof(WNDCLASSEX);							// 構造体のサイズ
 	wc.style = 0;											// スタイル
-	wc.lpfnWndProc = &KdWindow::callWindowProc;			// ウインドウ関数
+	wc.lpfnWndProc = &KdWindow::callWindowProc;				// ウインドウ関数
 	wc.cbClsExtra = 0;										// エキストラクラス情報 
 	wc.cbWndExtra = 0;										// エキストラウィンドウ情報
 	wc.hInstance = hInst;									// インスタンスハンドル
@@ -39,8 +39,8 @@ bool KdWindow::Create(int clientWidth, int clientHeight, std::string_view titleN
 	//ウィンドウの作成
 	m_hWnd = CreateWindow(
 		wndClsName.c_str(),									// ウィンドウクラス名
-		sjis_to_wide(titleName.data()).c_str(),					// ウィンドウのタイトル
-		WS_OVERLAPPEDWINDOW - WS_THICKFRAME,				// ウィンドウタイプを標準タイプに	
+		sjis_to_wide(titleName.data()).c_str(),				// ウィンドウのタイトル
+		WS_OVERLAPPEDWINDOW,				// ウィンドウタイプを標準タイプに	
 		0,													// ウィンドウの位置（Ｘ座標）
 		0,													// ウィンドウの位置（Ｙ座標）						
 		clientWidth,										// ウィンドウの幅
@@ -108,18 +108,18 @@ LRESULT CALLBACK KdWindow::callWindowProc(HWND hWnd, UINT message, WPARAM wParam
 	// nullptrの場合は、デフォルト処理を実行
 	if (pThis == nullptr) {
 		switch (message) {
-			case WM_CREATE:
-			{
-				// CreateWindow()で渡したパラメータを取得
-				CREATESTRUCT * createStruct = (CREATESTRUCT*)lParam;
-				KdWindow* window = (KdWindow*)createStruct->lpCreateParams;
+		case WM_CREATE:
+		{
+			// CreateWindow()で渡したパラメータを取得
+			CREATESTRUCT* createStruct = (CREATESTRUCT*)lParam;
+			KdWindow* window = (KdWindow*)createStruct->lpCreateParams;
 
-				// ウィンドウプロパティにこのクラスのインスタンスアドレスを埋め込んでおく
-				// 次回から、pThis->WindowProcの方へ処理が流れていく
-				SetProp(hWnd, L"GameWindowInstance", window);
+			// ウィンドウプロパティにこのクラスのインスタンスアドレスを埋め込んでおく
+			// 次回から、pThis->WindowProcの方へ処理が流れていく
+			SetProp(hWnd, L"GameWindowInstance", window);
 
-			}
-			return 0;
+		}
+		return 0;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
@@ -141,21 +141,28 @@ LRESULT KdWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	//メッセージによって処理を選択
 	//===================================
 	switch (message) {
-	// ホイールスクロール時
+		// ホイールスクロール時
 	case WM_MOUSEWHEEL:
-		{
-			m_mouseWheelVal = (short)HIWORD(wParam);
-		}
-		break;
+	{
+		m_mouseWheelVal = (short)HIWORD(wParam);
+	}
+	break;
 	// Xボタンが押された
 	case WM_CLOSE:
 		// 破棄
 		Release();
 		break;
-	// ウィンドウ破棄直前
+		// ウィンドウ破棄直前
 	case WM_DESTROY:
 		RemoveProp(hWnd, L"GameWindowInstance");
 		PostQuitMessage(0);
+		break;
+	case WM_SIZE:
+		if (KdDirect3D::Instance().GetDevContext() != NULL && wParam != SIZE_MINIMIZED)
+		{
+			//KdDirect3D::Instance().WorkSwapChain()->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
+			KdDirect3D::Instance().WindowResize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
+		}
 		break;
 	default:
 		// メッセージのデフォルト処理

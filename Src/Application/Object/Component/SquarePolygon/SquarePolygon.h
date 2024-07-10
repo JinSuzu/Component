@@ -11,7 +11,8 @@ public:
 	void PreUpdateContents()override;
 	void PostUpdateContents()override;
 	void ImGuiUpdate()override;
-	void InitJson()override;
+
+	void LoadJson(nlohmann::json _json)override;
 	nlohmann::json GetJson()override;
 
 	std::weak_ptr<KdSquarePolygon>GetSquarePolygon() { return m_squarePolygon; };

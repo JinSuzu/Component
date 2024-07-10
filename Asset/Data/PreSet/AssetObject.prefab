@@ -1,0 +1,65 @@
+{
+    "Childs": [],
+    "Parent": {
+        "Component": [
+            {
+                "Follow": true,
+                "matTag": "SRT",
+                "parentMatTag": "SRT",
+                "position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            {
+                "IDName": "Texture",
+                "animation": {
+                    "animeList": [],
+                    "nowAnime": ""
+                },
+                "path": "Asset\\Textures\\Block\\Medal.png",
+                "rect": {
+                    "height": 0,
+                    "width": 0,
+                    "x": 0,
+                    "y": 0
+                }
+            },
+            {
+                "Animation": {
+                    "animeList": [],
+                    "nowAnime": ""
+                },
+                "CameraFocus": false,
+                "IDName": "SquarePolygon",
+                "OffsetPos": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "drawType": 3452816845,
+                "path": "Asset\\Textures\\Block\\Wall.png",
+                "splitH": 1,
+                "splitW": 1
+            },
+            {
+                "IDName": "ModelData",
+                "drawType": 3452816845,
+                "path": "Asset\\Data\\Model\\bridge_pillar\\bridge_pillar.gltf"
+            }
+        ],
+        "name": "AssetObject",
+        "tag": 0
+    }
+}

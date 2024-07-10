@@ -251,6 +251,7 @@
     <ClInclude Include="Src\Application\Object\Component\TransformLimit\TransformLimit.h" />
     <ClInclude Include="Src\Application\Object\Component\Transform\Transform.h" />
     <ClInclude Include="Src\Application\Object\EditorWindow\Base\EditorWindowBase.h" />
+    <ClInclude Include="Src\Application\Object\EditorWindow\DebugLog\DebugLog.h" />
     <ClInclude Include="Src\Application\Object\EditorWindow\GameScreen\GameScreen.h" />
     <ClInclude Include="Src\Application\Object\EditorWindow\Hierarchy\Hierarchy.h" />
     <ClInclude Include="Src\Application\Object\EditorWindow\Inspector\Inspector.h" />
@@ -351,6 +352,7 @@
     <ClCompile Include="Src\Application\Object\Component\TransformLimit\TransformLimit.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Transform\Transform.cpp" />
     <ClCompile Include="Src\Application\Object\EditorWindow\Base\EditorWindowBase.cpp" />
+    <ClCompile Include="Src\Application\Object\EditorWindow\DebugLog\DebugLog.cpp" />
     <ClCompile Include="Src\Application\Object\EditorWindow\GameScreen\GameScreen.cpp" />
     <ClCompile Include="Src\Application\Object\EditorWindow\Hierarchy\Hierarchy.cpp" />
     <ClCompile Include="Src\Application\Object\EditorWindow\Inspector\Inspector.cpp" />
