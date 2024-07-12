@@ -99,6 +99,7 @@ bool KdWindow::ProcessMessage()
 	return true;
 }
 
+#include "../../Application/RenderManger/RenderManger.h"
 // ウィンドウ関数(Static関数)
 LRESULT CALLBACK KdWindow::callWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -117,7 +118,6 @@ LRESULT CALLBACK KdWindow::callWindowProc(HWND hWnd, UINT message, WPARAM wParam
 			// ウィンドウプロパティにこのクラスのインスタンスアドレスを埋め込んでおく
 			// 次回から、pThis->WindowProcの方へ処理が流れていく
 			SetProp(hWnd, L"GameWindowInstance", window);
-
 		}
 		return 0;
 		default:
@@ -129,6 +129,7 @@ LRESULT CALLBACK KdWindow::callWindowProc(HWND hWnd, UINT message, WPARAM wParam
 	return pThis->WindowProc(hWnd, message, wParam, lParam);
 }
 
+#include "../../Application/Object/EditorWindow/Prefab/Prefab.h"
 // ウィンドウ関数
 LRESULT KdWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -160,9 +161,15 @@ LRESULT KdWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	case WM_SIZE:
 		if (KdDirect3D::Instance().GetDevContext() != NULL && wParam != SIZE_MINIMIZED)
 		{
-			//KdDirect3D::Instance().WorkSwapChain()->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
 			KdDirect3D::Instance().WindowResize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 		}
+		break;
+	case WM_DROPFILES:
+		//Prefab::DropFilePath
+		// ドロップされたファイル名を取得
+		//DragQueryFile((HDROP)wParam, 0, chMsg, MAX_PATH);
+		// メモリを解放
+		//DragFinish((HDROP)wParam);
 		break;
 	default:
 		// メッセージのデフォルト処理

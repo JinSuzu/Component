@@ -3,6 +3,10 @@
 
 void Cp_Transform::Start()
 {
+	m_getMatrix['S'] = [this]() {return GetSMat(); };
+	m_getMatrix['R'] = [this]() {return GetRMat(); };
+	m_getMatrix['T'] = [this]() {return GetTMat(); };
+
 	std::weak_ptr<GameObject>parent = m_owner.lock()->GetParent();
 	if (parent.expired())return;
 	SetParent(parent.lock()->GetTransform());
@@ -93,37 +97,26 @@ Math::Matrix Cp_Transform::GetMatrix(std::string _matTag, bool _PushFollow
 		};
 
 	if (it == end) return ReturnMat();
-
-	switch (*it)
+	
+	std::unordered_map<char, std::function<Math::Matrix()>>::iterator matrix = m_getMatrix.find(*it);
+	if (matrix != m_getMatrix.end())
 	{
-	case 'T':
-		m_mWorld = GetTMat() * _offsetT;
-		break;
-	case 'R':
-		m_mWorld = GetRMat() * _offsetR;
-		break;
-	case 'S':
-		m_mWorld = GetSMat() * _offsetS;
-		break;
-	default:
-		return m_mWorld = ReturnMat();
+		m_mWorld = matrix->second();
+	}
+	else 
+	{
+		return ReturnMat();
 	}
 
 	it++;
 	while (it != end)
 	{
-		switch (*it)
+		if (matrix != m_getMatrix.end())
 		{
-		case 'T':
-			m_mWorld *= GetTMat() * _offsetT;
-			break;
-		case 'R':
-			m_mWorld *= GetRMat() * _offsetR;
-			break;
-		case 'S':
-			m_mWorld *= GetSMat() * _offsetS;
-			break;
-		default:
+			m_mWorld *= matrix->second();
+		}
+		else
+		{
 			return ReturnMat();
 		}
 		it++;

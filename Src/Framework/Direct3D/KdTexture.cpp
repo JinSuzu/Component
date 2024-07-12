@@ -423,16 +423,6 @@ bool KdTexture::CreateRenderTarget(int w, int h, DXGI_FORMAT format, UINT arrayC
 	return true;
 }
 
-void KdTexture::ClearRenderTarget(const Math::Color& ColorRGBA)
-{
-	assert(m_rtv != nullptr && "RenderTargetじゃないのでClearできません");
-	KdDirect3D::Instance().WorkDevContext()->ClearRenderTargetView(m_rtv, ColorRGBA);
-}
-
-void KdTexture::SetRenderTarget()
-{
-	KdDirect3D::Instance().WorkDevContext()->OMSetRenderTargets(1, &m_rtv, KdDirect3D::Instance().WorkZBuffer()->WorkDSView());
-}
 
 bool KdTexture::CreateDepthStencil(int w, int h, DXGI_FORMAT format, UINT arrayCnt, const D3D11_SUBRESOURCE_DATA* fillData, UINT miscFlags)
 {

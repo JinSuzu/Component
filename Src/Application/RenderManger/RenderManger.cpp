@@ -4,23 +4,27 @@
 #include "../Object/Game/GameObject.h"
 #include "../main.h"
 
+void RenderManager::DrawProcess()
+{
+	PreDraw();
+
+	if (Application::Instance().GetDebugFlg())
+	{
+		m_rtp.ClearTexture();
+		m_rtc.ChangeRenderTarget(m_rtp);
+	}
+
+	Draw();
+	KdShaderManager::Instance().m_postProcessShader.PostEffectProcess();
+	DrawSprite();
+	DrawDebug();
+
+	m_rtc.UndoRenderTarget();
+	KdDirect3D::Instance().SetBackBuffer();
+}
+
 void RenderManager::PreDraw()
 {
-	/*
-	std::list<std::weak_ptr<std::function<void()>>>::iterator preDraw = m_preDrawList.begin();
-	while (preDraw != m_preDrawList.end())
-	{
-		if (preDraw->expired())
-		{
-			preDraw = m_preDrawList.erase(preDraw);
-			continue;
-		}
-
-		(*preDraw->lock())();
-		preDraw++;
-	}
-	*/
-
 	std::map<int, std::list<std::weak_ptr<class Cp_Camera>>>::iterator camera = m_cameraMap.begin();
 	while (camera != m_cameraMap.end())
 	{
@@ -44,7 +48,6 @@ void RenderManager::PreDraw()
 		camera++;
 	}
 }
-
 void RenderManager::Draw()
 {
 	// ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====
@@ -90,7 +93,6 @@ void RenderManager::Draw()
 	}
 	KdShaderManager::Instance().m_postProcessShader.EndBright();
 }
-
 void RenderManager::DrawSprite()
 {
 	KdShaderManager::Instance().m_spriteShader.Begin();
@@ -110,7 +112,6 @@ void RenderManager::DrawSprite()
 	}
 	KdShaderManager::Instance().m_spriteShader.End();
 }
-
 void RenderManager::DrawDebug()
 {
 	if (!Application::Instance().GetDebugFlg())return;
@@ -142,20 +143,6 @@ void RenderManager::AddCamera(int _priority, std::weak_ptr<class Cp_Camera> _cam
 	m_cameraMap[_priority].push_back(_camera);
 }
 
-std::shared_ptr<KdTexture> RenderManager::CreateBackBuffer()
-{
-	RenderTarget render;
-	render.BeginRenderTarget();
-	{
-		PreDraw();
-		Draw();
-		Application::Instance().PostDraw();
-		DrawSprite();
-	}
-	render.EndRenderTarget();
-	return render.GetResult();
-}
-
 std::weak_ptr<Cp_Camera> RenderManager::GetCamera()
 {
 	std::map<int, std::list<std::weak_ptr<class Cp_Camera>>>::iterator camera = m_cameraMap.begin();
@@ -184,17 +171,49 @@ std::weak_ptr<Cp_Camera> RenderManager::GetCamera()
 
 }
 
-void RenderTarget::BeginRenderTarget()
+void RenderManager::Init()
 {
-	bCallBegin = true;
-	tex = std::make_shared<KdTexture>();
-	tex->CreateRenderTarget(1280, 720);
-	tex->ClearRenderTarget();
-	tex->SetRenderTarget();
-}
+	//===================================================================
+	// フルスクリーン確認
+	//===================================================================
+	bool bFullScreen = false;
+	/*
+	if (MessageBoxA(m_window.GetWndHandle(), "フルスクリーンにしますか？", "確認", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES) {
+		bFullScreen = true;
+	}
+	*/
 
-void RenderTarget::EndRenderTarget()
-{
-	bCallEnd = true;
-	KdDirect3D::Instance().SetBackBuffer();
+	//===================================================================
+	// Direct3D初期化
+	//===================================================================
+
+	// デバイスのデバッグモードを有効にする
+	bool deviceDebugMode = false;
+#ifdef _DEBUG
+	deviceDebugMode = true;
+#endif
+
+	// Direct3D初期化
+	std::string errorMsg;
+	if (KdDirect3D::Instance().Init(Application::Instance().GetWindowHandle(), 1280, 720, deviceDebugMode, errorMsg) == false) {
+		MessageBoxA(Application::Instance().GetWindowHandle(), errorMsg.c_str(), "Direct3D初期化失敗", MB_OK | MB_ICONSTOP);
+	}
+
+	// フルスクリーン設定
+	if (bFullScreen) {
+		HRESULT hr;
+
+		hr = KdDirect3D::Instance().SetFullscreenState(TRUE, 0);
+		if (FAILED(hr))
+		{
+			MessageBoxA(Application::Instance().GetWindowHandle(), "フルスクリーン設定失敗", "Direct3D初期化失敗", MB_OK | MB_ICONSTOP);
+		}
+	}
+
+	//===================================================================
+	// シェーダー初期化
+	//===================================================================
+	KdShaderManager::Instance().Init();
+
+	DebugViewResize(KdDirect3D::Instance().GetWindowSize());
 }

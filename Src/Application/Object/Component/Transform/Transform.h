@@ -55,6 +55,8 @@ private:
 	std::string		m_parentMatTag = "SRT";
 	std::weak_ptr<Cp_Transform>	m_parent;
 
+	std::unordered_map<char, std::function<Math::Matrix()>> m_getMatrix;
+
 	bool m_bFollow = true;
 
 };

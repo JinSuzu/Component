@@ -8,9 +8,30 @@
 #include "../Object/EditorWindow/Base/EditorWindowBase.h"
 
 
+void Editor::ImGuiDraw()
+{
+	if (!Application::Instance().GetDebugFlg())return;
+	//リリース時はImGuiの部分は通らないようにする
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+	if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+	}
+}
 void Editor::ImGuiUpdate()
 {
-	ImGui::ShowDemoWindow();
+	if (!Application::Instance().GetDebugFlg())return;
+	if (GetAsyncKeyState(VK_UP) & 0x8000)Application::Instance().SetDebugFlg(true);
+	else if (GetAsyncKeyState(VK_DOWN) & 0x8000)Application::Instance().SetDebugFlg(false);
+
+	// ImGui開始
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+	
 	// デバッグウィンドウ
 	static bool p_open = true;
 	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
@@ -25,15 +46,34 @@ void Editor::ImGuiUpdate()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
 	window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 	window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-
-
-	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
-		window_flags |= ImGuiWindowFlags_NoBackground;
-
+	window_flags |= ImGuiWindowFlags_NoBackground;
 	ImGui::Begin("DockSpace Demo", &p_open, window_flags);
 
 	ImGui::PopStyleVar(2);
 
+	MenuBar();
+
+	ImGui::BeginChild("EditorSpace", ImGui::GetContentRegionAvail(), ImGuiChildFlags_None, ImGuiWindowFlags_NoDocking);
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+		{
+			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+		}
+
+		for (auto& window : m_windowList)
+		{
+			window->Draw();
+		}
+	}
+	ImGui::EndChild();
+
+	ImGui::End();
+}
+
+void Editor::MenuBar()
+{
 	if (ImGui::BeginMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
@@ -60,29 +100,6 @@ void Editor::ImGuiUpdate()
 		ImGui::EndMenuBar();
 	}
 
-	MenuBar();
-
-	ImGui::BeginChild("EditorSpace", ImGui::GetContentRegionAvail(), ImGuiChildFlags_None, ImGuiWindowFlags_NoDocking);
-	{
-		ImGuiIO& io = ImGui::GetIO();
-		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-		{
-			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-		}
-
-		for (auto& window : m_windowList)
-		{
-			window->Draw();
-		}
-	}
-	ImGui::EndChild();
-
-	ImGui::End();
-}
-
-void Editor::MenuBar()
-{
 	ImGui::Text("FPS : %d", Application::Instance().GetNowFPS()); ImGui::SameLine();
 
 	ImGui::SameLine();
@@ -97,7 +114,6 @@ void Editor::MenuBar()
 		Application::Instance().TurnBuildFlg();
 	}
 }
-
 
 void Editor::OverwriteWindow()
 {
@@ -118,6 +134,41 @@ void Editor::OverwriteWindow()
 #include "../Object/EditorWindow/DebugLog/DebugLog.h"
 void Editor::Init()
 {
+	//===================================================================
+	// imgui初期設定
+	//===================================================================
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	// Setup Dear ImGui style
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // キーボードナビゲーションを有効にする
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;     // ドッキングを有効にする
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;   // マルチビューポートを有効にする
+	ImGui::StyleColorsClassic();
+
+	ImGuiStyle& style = ImGui::GetStyle();
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+		style.WindowRounding = 0.0f;
+		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+	}
+
+	// Setup Platform/Renderer bindings
+	ImGui_ImplWin32_Init(Application::Instance().GetWindowHandle());
+	ImGui_ImplDX11_Init(KdDirect3D::Instance().WorkDev(), KdDirect3D::Instance().WorkDevContext());
+	{
+		// 日本語対応
+#include "imgui/ja_glyph_ranges.h"
+		ImGuiIO& io = ImGui::GetIO();
+		ImFontConfig config;
+		config.MergeMode = true;
+		io.Fonts->AddFontDefault();
+		io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msgothic.ttc", 13.0f, &config, glyphRangesJapanese);
+	}
+
+	//===================================================================
+	// Editor初期設定
+	//===================================================================
 	auto Register
 		= [&](std::string _name, std::function<std::shared_ptr<EditorWindowBase>()> _editor)
 		{
@@ -132,7 +183,7 @@ void Editor::Init()
 		temp->SetName(#Tag);												\
 		return temp;														\
 	})
-	
+
 	EDITORREGISTER(Hierarchy);
 	EDITORREGISTER(GameScreen);
 	EDITORREGISTER(Inspector);
@@ -154,7 +205,8 @@ void Editor::Init()
 		Application::Instance().m_log.AddLog("not found \"config\" by EditorWindow");
 		m_editorActive["Hierarchy"] = true;
 		m_editorActive["GameScreen"] = true;
-		m_editorActive["Inspector"] = true;		m_editorActive["Prefab"] = true;
+		m_editorActive["Inspector"] = true;		
+		m_editorActive["Prefab"] = true;
 	}
 
 
