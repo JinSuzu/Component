@@ -1,6 +1,6 @@
 ﻿#include "EnterToScene.h"
 #include "../../Game/GameObject.h"
-#include "../../../SceneBase/Manager/SceneManager.h"
+#include "../../../../System/SceneMnager/SceneManager.h"
 
 void Cp_EnterToScene::PreUpdateContents()
 {
@@ -9,7 +9,7 @@ void Cp_EnterToScene::PreUpdateContents()
 	{
 		if (!Pushing)
 		{
-			SceneManager::Instance().SetScenePhase(m_nextScene);
+			SceneManager::Instance().LoadScene(m_nextScene);
 			KdAudioManager::Instance().Play("Asset/Sounds/ToGame.wav");
 			Pushing = true;
 		}

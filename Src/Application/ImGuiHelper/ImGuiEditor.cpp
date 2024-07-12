@@ -4,14 +4,16 @@
 #include "../main.h"
 #include "../Object/Game/GameObject.h"
 #include "../Object/Game/Manager/GameObjectManager.h"
-#include "../SceneBase/Manager/SceneManager.h"
 #include "../Object/EditorWindow/Base/EditorWindowBase.h"
+
+#include "../../System/SceneMnager/SceneManager.h"
 
 
 void Editor::ImGuiDraw()
 {
 	if (!Application::Instance().GetDebugFlg())return;
 	//リリース時はImGuiの部分は通らないようにする
+
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
@@ -19,22 +21,22 @@ void Editor::ImGuiDraw()
 	{
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
+		KdDirect3D::Instance().SetBackBuffer();
 	}
 }
 void Editor::ImGuiUpdate()
 {
-	if (!Application::Instance().GetDebugFlg())return;
 	if (GetAsyncKeyState(VK_UP) & 0x8000)Application::Instance().SetDebugFlg(true);
 	else if (GetAsyncKeyState(VK_DOWN) & 0x8000)Application::Instance().SetDebugFlg(false);
+	if (!Application::Instance().GetDebugFlg())return;
 
 	// ImGui開始
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-	
+
 	// デバッグウィンドウ
 	static bool p_open = true;
-	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 
@@ -42,32 +44,28 @@ void Editor::ImGuiUpdate()
 	ImGui::SetNextWindowPos(viewport->WorkPos);
 	ImGui::SetNextWindowSize(viewport->WorkSize);
 	ImGui::SetNextWindowViewport(viewport->ID);
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
 	window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 	window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-	window_flags |= ImGuiWindowFlags_NoBackground;
-	ImGui::Begin("DockSpace Demo", &p_open, window_flags);
 
-	ImGui::PopStyleVar(2);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding,ImVec2());
+	ImGui::Begin("DockSpace Demo", &p_open, window_flags);
+	ImGui::PopStyleVar(1);
 
 	MenuBar();
 
-	ImGui::BeginChild("EditorSpace", ImGui::GetContentRegionAvail(), ImGuiChildFlags_None, ImGuiWindowFlags_NoDocking);
-	{
-		ImGuiIO& io = ImGui::GetIO();
-		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-		{
-			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-		}
+	//ImGui::SetNextItemWidth(viewport->WorkSize.x);
 
-		for (auto& window : m_windowList)
-		{
-			window->Draw();
-		}
+	ImGuiIO& io = ImGui::GetIO();
+	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+	{
+		ImGui::DockSpace(ImGui::GetID("DockSpace Demo"));
 	}
-	ImGui::EndChild();
+
+	for (auto& window : m_windowList)
+	{
+		window->Update();
+	}
+
 
 	ImGui::End();
 }
@@ -79,7 +77,7 @@ void Editor::MenuBar()
 		if (ImGui::BeginMenu("File"))
 		{
 			if (ImGui::MenuItem("Open"));
-			if (ImGui::MenuItem("Save"));
+			if (ImGui::MenuItem("Save"))SceneManager::Instance().SaveScene();
 			if (ImGui::MenuItem("Save as"));
 			ImGui::EndMenu();
 		}
@@ -98,20 +96,6 @@ void Editor::MenuBar()
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
-	}
-
-	ImGui::Text("FPS : %d", Application::Instance().GetNowFPS()); ImGui::SameLine();
-
-	ImGui::SameLine();
-	if (MyImGui::ButtonWindowCenter(Application::Instance().GetBuildFlg() ? "StartRun" : "StartBuild"))
-	{
-		SceneManager::Instance().ReLoad();
-		Application::Instance().TurnBuildFlg();
-	}
-	if (GetAsyncKeyState(Application::Instance().GetBuildFlg() ? VK_F5 : VK_ESCAPE) & 0x8000)
-	{
-		SceneManager::Instance().ReLoad();
-		Application::Instance().TurnBuildFlg();
 	}
 }
 
@@ -166,6 +150,8 @@ void Editor::Init()
 		io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msgothic.ttc", 13.0f, &config, glyphRangesJapanese);
 	}
 
+	SetImGuiColors();
+
 	//===================================================================
 	// Editor初期設定
 	//===================================================================
@@ -205,12 +191,18 @@ void Editor::Init()
 		Application::Instance().m_log.AddLog("not found \"config\" by EditorWindow");
 		m_editorActive["Hierarchy"] = true;
 		m_editorActive["GameScreen"] = true;
-		m_editorActive["Inspector"] = true;		
+		m_editorActive["Inspector"] = true;
 		m_editorActive["Prefab"] = true;
 	}
 
 
 	OverwriteWindow();
+}
+
+void Editor::SetImGuiColors()
+{
+	ImGuiStyle& style = ImGui::GetStyle();
+	ImGui::StyleColorsDark(&style);
 }
 
 void Editor::Release()

@@ -256,13 +256,12 @@
     <ClInclude Include="Src\Application\Object\EditorWindow\Hierarchy\Hierarchy.h" />
     <ClInclude Include="Src\Application\Object\EditorWindow\Inspector\Inspector.h" />
     <ClInclude Include="Src\Application\Object\EditorWindow\Prefab\Prefab.h" />
+    <ClInclude Include="Src\Application\Object\EditorWindow\SetUpScene\SetUpScene.h" />
     <ClInclude Include="Src\Application\Object\Game\GameObject.h" />
     <ClInclude Include="Src\Application\Object\Game\Manager\GameObjectManager.h" />
     <ClInclude Include="Src\Application\Object\Object.h" />
     <ClInclude Include="Src\Application\RenderManger\RenderManger.h" />
-    <ClInclude Include="Src\Application\SceneBase\Manager\SceneManager.h" />
     <ClInclude Include="Src\Application\Score\Score.h" />
-    <ClInclude Include="Src\Application\System\KeyConfig\KeyConfig.h" />
     <ClInclude Include="Src\Application\Utility\Animation2D\Animation2D.h" />
     <ClInclude Include="Src\Application\Utility\CreateObject\CreateObject.h" />
     <ClInclude Include="Src\Application\Utility\Timer.h" />
@@ -301,6 +300,7 @@
     <ClInclude Include="Src\Framework\Shader\SpriteShader\KdSpriteShader.h" />
     <ClInclude Include="src\Framework\Utility\KdUtility.h" />
     <ClInclude Include="src\Framework\Window\KdWindow.h" />
+    <ClInclude Include="Src\System\SceneMnager\SceneManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Library\imgui\imgui.cpp" />
@@ -357,13 +357,12 @@
     <ClCompile Include="Src\Application\Object\EditorWindow\Hierarchy\Hierarchy.cpp" />
     <ClCompile Include="Src\Application\Object\EditorWindow\Inspector\Inspector.cpp" />
     <ClCompile Include="Src\Application\Object\EditorWindow\Prefab\Prefab.cpp" />
+    <ClCompile Include="Src\Application\Object\EditorWindow\SetUpScene\SetUpScene.cpp" />
     <ClCompile Include="Src\Application\Object\Game\GameObject.cpp" />
     <ClCompile Include="Src\Application\Object\Game\Manager\GameObjectManager.cpp" />
     <ClCompile Include="Src\Application\Object\Object.cpp" />
     <ClCompile Include="Src\Application\RenderManger\RenderManger.cpp" />
-    <ClCompile Include="Src\Application\SceneBase\Manager\SceneManager.cpp" />
     <ClCompile Include="Src\Application\Score\Score.cpp" />
-    <ClCompile Include="Src\Application\System\KeyConfig\KeyConfig.cpp" />
     <ClCompile Include="Src\Application\Utility\Animation2D\Animation2D.cpp" />
     <ClCompile Include="Src\Application\Utility\CreateObject\CreateObject.cpp" />
     <ClCompile Include="Src\Framework\Direct3D\KdMaterial.cpp">
@@ -405,6 +404,7 @@
     <ClCompile Include="Src\Framework\Shader\SpriteShader\KdSpriteShader.cpp" />
     <ClCompile Include="Src\Framework\Utility\KdUtility.cpp" />
     <ClCompile Include="src\Framework\Window\KdWindow.cpp" />
+    <ClCompile Include="Src\System\SceneMnager\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Framework\Shader\inc_KdCommon.hlsli" />

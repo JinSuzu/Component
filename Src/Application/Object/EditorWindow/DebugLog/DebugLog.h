@@ -5,5 +5,5 @@ class DebugLog
 	:public EditorWindowBase
 {
 public:
-	void Update()override;
+	void UpdateContents()override;
 };

@@ -15,11 +15,11 @@ enum class DrawType
 class RenderManager
 {
 public:
-	void DrawProcess();
+	void BeginDraw();
 	void PreDraw();
 	void Draw();
-	void DrawSprite();
-	void DrawDebug();
+	void PostDraw();
+	void EndDraw();
 
 	void AddPreDraw(std::weak_ptr<std::function<void()>>   _add) { m_preDrawList.push_back(_add); }
 	void AddDraw3D(std::weak_ptr<std::function<void(UINT)>>_add) { m_draw3DList.push_back(_add); }
@@ -27,17 +27,17 @@ public:
 	void AddDrawDebug(std::weak_ptr<std::function<void()>> _add) { m_drawDebugList.push_back(_add); }
 	void AddCamera(int _priority, std::weak_ptr<class Cp_Camera> _camera);
 
+	std::weak_ptr<class Cp_Camera> GetCamera();
+	const KdRenderTargetPack& const GetDebugView() { return m_rtp; }
+
 	void DebugViewResize(int w, int h) { m_rtp.CreateRenderTarget(w, h); }
 	void DebugViewResize(const int* size) { m_rtp.CreateRenderTarget(*size, *(++size)); }
 
-	KdRenderTargetPack const GetDebugView() { return m_rtp; }
-
-	std::weak_ptr<class Cp_Camera> GetCamera();
-
-
-
 	void Init();
 private:
+	void DrawSprite();
+	void DrawDebug();
+
 	std::list<std::weak_ptr<std::function<void()>>>		m_preDrawList;
 	std::list<std::weak_ptr<std::function<void(UINT)>>>	m_draw3DList;
 	std::list<std::weak_ptr<std::function<void()>>>		m_draw2DList;

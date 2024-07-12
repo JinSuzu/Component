@@ -187,12 +187,6 @@
     <Filter Include="Src\Application\Score">
       <UniqueIdentifier>{f63cdaa2-98d6-466b-b8ab-d9df11a6e090}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\System">
-      <UniqueIdentifier>{4507433a-4b3f-48f5-be1e-031ec372cef5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\System\KeyConfig">
-      <UniqueIdentifier>{13df01cd-a170-4a1d-9835-67837dbfe257}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Src\Application\RenderManger">
       <UniqueIdentifier>{86b82746-2ef5-47f5-a8ac-44aed9ef7939}</UniqueIdentifier>
     </Filter>
@@ -204,9 +198,6 @@
     </Filter>
     <Filter Include="Src\Application\AssetManager">
       <UniqueIdentifier>{38e06f33-f118-43ae-bc20-1d4156582f26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\SceneBase">
-      <UniqueIdentifier>{20b1f961-157e-4309-b2ef-be77f9118837}</UniqueIdentifier>
     </Filter>
     <Filter Include="Src\Application\Object\Component\HitResult\HitResultBlock">
       <UniqueIdentifier>{d81e5514-82f4-4129-9dea-a293ba9e9a3d}</UniqueIdentifier>
@@ -234,6 +225,15 @@
     </Filter>
     <Filter Include="Src\Application\GameObject\Camera\TPSCamera">
       <UniqueIdentifier>{c8cf7720-4d00-4c0b-a1cf-bc64280b295f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\System">
+      <UniqueIdentifier>{6dc1db2d-f29e-44f8-9f8e-6505651a6ec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\System\SceneMnager">
+      <UniqueIdentifier>{26ca9804-4533-468d-89b0-d2297543b8c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Object\EditorWindow\SetUpScene">
+      <UniqueIdentifier>{36f70100-2784-4d57-95c5-7839548c4039}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -690,9 +690,6 @@
     <ClInclude Include="Src\Application\Score\Score.h">
       <Filter>Src\Application\Score</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\System\KeyConfig\KeyConfig.h">
-      <Filter>Src\Application\System\KeyConfig</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\RenderManger\RenderManger.h">
       <Filter>Src\Application\RenderManger</Filter>
     </ClInclude>
@@ -708,14 +705,17 @@
     <ClInclude Include="Src\Application\AssetManager\AssetManager.h">
       <Filter>Src\Application\AssetManager</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\SceneBase\Manager\SceneManager.h">
-      <Filter>Src\Application\SceneBase</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\Object\Component\AddRotation\AddRotaion.h">
       <Filter>Src\Application\Object\Component\AddRotation</Filter>
     </ClInclude>
     <ClInclude Include="Src\Application\Object\EditorWindow\DebugLog\DebugLog.h">
       <Filter>Src\Application\Object\EditorWindow\DebugLog</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\SceneMnager\SceneManager.h">
+      <Filter>Src\System\SceneMnager</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\EditorWindow\SetUpScene\SetUpScene.h">
+      <Filter>Src\Application\Object\EditorWindow\SetUpScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -980,9 +980,6 @@
     <ClCompile Include="Src\Application\Score\Score.cpp">
       <Filter>Src\Application\Score</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\System\KeyConfig\KeyConfig.cpp">
-      <Filter>Src\Application\System\KeyConfig</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\RenderManger\RenderManger.cpp">
       <Filter>Src\Application\RenderManger</Filter>
     </ClCompile>
@@ -998,14 +995,17 @@
     <ClCompile Include="Src\Application\AssetManager\AssetManager.cpp">
       <Filter>Src\Application\AssetManager</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\SceneBase\Manager\SceneManager.cpp">
-      <Filter>Src\Application\SceneBase</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\AddRotation\AddRotaion.cpp">
       <Filter>Src\Application\Object\Component\AddRotation</Filter>
     </ClCompile>
     <ClCompile Include="Src\Application\Object\EditorWindow\DebugLog\DebugLog.cpp">
       <Filter>Src\Application\Object\EditorWindow\DebugLog</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\SceneMnager\SceneManager.cpp">
+      <Filter>Src\System\SceneMnager</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\EditorWindow\SetUpScene\SetUpScene.cpp">
+      <Filter>Src\Application\Object\EditorWindow\SetUpScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

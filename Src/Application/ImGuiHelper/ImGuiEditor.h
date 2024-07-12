@@ -21,6 +21,7 @@ private:
 	std::list<std::shared_ptr<class EditorWindowBase>>								m_windowList;
 
 	void Init();
+	void SetImGuiColors();
 	void Release();
 public:
 	Editor() { Init(); };

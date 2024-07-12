@@ -7,8 +7,6 @@
 
 #include "../../ImGuiHelper/ImGuiEditor.h"
 #include "../EditorWindow/Prefab/Prefab.h"
-#include "../../SceneBase/Manager/SceneManager.h"
-#include "../../SceneBase/SceneBase.h"
 #include "../../main.h"
 
 #define ITERATOR(x) for (auto&& it : m_cpList)if(it.get() != nullptr)it->
@@ -60,10 +58,10 @@ void GameObject::Init(nlohmann::json _json)
 	m_name = myData["name"];
 	AddComponents(myData);
 
-	for (auto& child : _json["Childs"])
+	/*for (auto& child : _json["Childs"])
 	{
-		SceneManager::Instance().m_objectMgr->CreateObject(child, WeakThisPtr(this));
-	}
+		GameObjectManager::Instance().CreateObject(child, WeakThisPtr(this));
+	}*/
 }
 
 #pragma region ComponentFns

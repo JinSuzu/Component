@@ -1,9 +1,10 @@
 ﻿#pragma once
 #include "../Base/EditorWindowBase.h"
 
-class Inspector
+class SetUpScene
 	:public EditorWindowBase
 {
 public:
-	void UpdateContents() override;
+	//void UpdateContents()override;
+	
 };

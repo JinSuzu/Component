@@ -5,7 +5,8 @@ class GameScreen
 	:public EditorWindowBase
 {
 public:
-	void Update()override;
+	void UpdateContents()override;
+	void PostUpdate()override;
 private:
 	std::shared_ptr<class GameObject>	m_buildCamera;
 };

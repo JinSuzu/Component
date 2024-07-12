@@ -4,7 +4,7 @@
 #include "../../../ImGuiHelper/ImGuiEditor.h"
 #include "../../../main.h"
 
-void Inspector::Update()
+void Inspector::UpdateContents()
 {
 	std::weak_ptr<GameObject> object =
 		Application::Instance().GetEditor().lock()->GetEditObject();

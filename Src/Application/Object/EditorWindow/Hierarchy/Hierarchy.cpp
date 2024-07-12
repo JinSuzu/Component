@@ -1,16 +1,15 @@
 ﻿#include "Hierarchy.h"
-#include "../../Game/Manager/GameObjectManager.h"
 #include "../../Game/GameObject.h"
 #include "../../../ImGuiHelper/ImGuiEditor.h"
+#include "../../Game/Manager/GameObjectManager.h"
 #include "../../../Object/EditorWindow/Prefab/Prefab.h"
-#include "../../../SceneBase/Manager/SceneManager.h"
 #include "../../../main.h"
 
-void Hierarchy::Update()
+void Hierarchy::UpdateContents()
 {
 	ImGui::BeginChild("##ObjectChild");
 	{
-		for (auto& obj : SceneManager::Instance().m_objectMgr->GetObjectList())if(obj->GetParent().expired())ImGuiGameObject(obj);
+		for (auto& obj : GameObjectManager::Instance().GetObjectList())if(obj->GetParent().expired())ImGuiGameObject(obj);
 	}
 	ImGui::EndChild();
 	Prefab::TargetGameObject(std::weak_ptr<GameObject>());
@@ -44,8 +43,8 @@ void Hierarchy::ImGuiGameObject(std::weak_ptr<GameObject> _obj)
 
 	bool flg = ImGui::TreeNodeEx((_obj.lock()->GetName() + "##" + std::to_string(_obj.lock()->GetInstanceID())).c_str(), treeFlg);
 	if ((ImGui::IsItemClicked(0) || ImGui::IsItemClicked(1)))Application::Instance().GetEditor().lock()->SetEditObject(_obj);
-	if (Prefab::SourceGameObject  (_obj));
-	else  Prefab::TargetGameObject(_obj);
+	Prefab::TargetGameObject(_obj);
+	Prefab::SourceGameObject(_obj);
 
 	if (flg)
 	{

@@ -1,7 +1,5 @@
 ﻿#include "GameObjectManager.h"
 #include "../../Component/AllComponentIncluder.h"
-#include "../../../SceneBase/Manager/SceneManager.h"
-#include "../../../SceneBase/SceneBase.h"
 #include "../../../ImGuiHelper/ImGuiEditor.h"
 #include "../GameObject.h"
 
@@ -29,6 +27,12 @@ void GameObjectManager::Load(std::string _path)
 {
 	Score::Instance().Reset();
 	LoadJson(_path);
+}
+void GameObjectManager::Load(std::list<std::shared_ptr<GameObject>>& _list)
+{
+	Score::Instance().Reset();
+	m_objectList.clear();
+	m_objectList = _list;
 }
 void GameObjectManager::Release(std::string _path, bool _enableSave)
 {
@@ -111,17 +115,21 @@ std::shared_ptr<GameObject> GameObjectManager::CreateObject(std::string _tag, st
 {
 	return CreateObject(MyJson::InPutJson(_tag), _parent, bPush);
 }
-std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json, std::weak_ptr<GameObject> _parent, bool bPush)
+std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json, std::weak_ptr<GameObject> _parent, bool bPush, std::list<std::shared_ptr<GameObject>>* _result)
 {
 	auto object = std::make_shared<GameObject>();
 	if (_parent.lock())
 	{
 		object->SetParent(_parent);
-		if (bPush)_parent.lock()->AddChilds(object);
+		_parent.lock()->AddChilds(object);
 	}
 
 	object->Init(_json);
-	if (bPush)SceneManager::Instance().m_objectMgr->m_objectList.push_back(object);
+	if (_result)_result->push_back(object);
+
+	for (auto& child : _json["Childs"])GameObjectManager::Instance().CreateObject(child, object, bPush, _result);
+
+	if (bPush)GameObjectManager::Instance().m_objectList.push_back(object);
 
 	return object;
 }
@@ -130,7 +138,7 @@ void GameObjectManager::LoadJson(std::string _path, bool _bOrigin)
 {
 	nlohmann::json json = MyJson::InPutJson(_path);
 	auto name = json.begin();
-	if(name == json.end())Application::Instance().m_log.AddLog("not found json by GameObjectManager");
+	if (name == json.end())Application::Instance().m_log.AddLog("not found json by GameObjectManager");
 	while (name != json.end())
 	{
 		std::shared_ptr<GameObject>object = CreateObject(*name);

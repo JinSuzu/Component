@@ -1,10 +1,11 @@
 ﻿#include "EditorWindowBase.h"
 
-void EditorWindowBase::Draw()
+void EditorWindowBase::Update()
 {
 	ImGui::Begin(m_name.c_str()); 
 	{
-		Update();
+		UpdateContents();
 	}
 	ImGui::End();
+	PostUpdate();
 }

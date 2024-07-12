@@ -2,7 +2,7 @@
 #include "../../../ImGuiHelper/ImGuiEditor.h"
 #include "../../../main.h"
 
-void DebugLog::Update()
+void DebugLog::UpdateContents()
 {
 	Application::Instance().m_log.Draw();
 }

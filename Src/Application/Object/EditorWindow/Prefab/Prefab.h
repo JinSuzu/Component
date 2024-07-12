@@ -7,7 +7,7 @@ class Prefab
 	:public EditorWindowBase
 {
 public:
-	void Update() override;
+	void UpdateContents() override;
 private:
 	//相対パスの底から全てのディレクトリを追う奴
 	void DirectoryTree(const std::filesystem::path& _path);

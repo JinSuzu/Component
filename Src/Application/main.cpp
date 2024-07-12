@@ -1,12 +1,11 @@
 ﻿#include "main.h"
-#include "SceneBase/Manager/SceneManager.h"
-#include "SceneBase/SceneBase.h"
 #include "Object/Game/Manager/GameObjectManager.h"
 #include "Object/Game/GameObject.h"
 #include "RenderManger/RenderManger.h"
 #include "Utility/Timer.h"
 #include "ImGuiHelper/ImGuiHelper.h"
 #include "ImGuiHelper/ImGuiEditor.h"
+#include "../System/SceneMnager/SceneManager.h"
 
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_  HINSTANCE, _In_ LPSTR, _In_ int)
 {
@@ -98,9 +97,9 @@ void Application::Execute()
 		KdBeginUpdate();
 		{
 			Timer::Instance().PreUpdate();
-			SceneManager::Instance().PreUpdate();
-			SceneManager::Instance().Update();
-			SceneManager::Instance().PostUpdate();
+			GameObjectManager::Instance().PreUpdate();
+			GameObjectManager::Instance().Update();
+			GameObjectManager::Instance().PostUpdate();
 
 			m_editor->ImGuiUpdate();
 		}
@@ -111,14 +110,17 @@ void Application::Execute()
 		// アプリケーション描画処理
 		//
 		//=========================================
-		KdBeginDraw();
+		RenderManager::Instance().BeginDraw();
 		{
-			//Draw();
-			RenderManager::Instance().DrawProcess();
+			RenderManager::Instance().PreDraw();
+			RenderManager::Instance().Draw();
+			RenderManager::Instance().PostDraw();
 			m_editor->ImGuiDraw();
 		}
-		KdPostDraw();
+		RenderManager::Instance().EndDraw();
 		//---------------------
+
+		SceneManager::Instance().PushScene();
 
 		//=========================================
 		//
@@ -167,16 +169,11 @@ void Application::KdPostUpdate()
 void Application::KdBeginDraw(bool usePostProcess)
 {
 	KdDirect3D::Instance().ClearBackBuffer();
+	KdShaderManager::Instance().m_postProcessShader.Draw();
 
 	if (!usePostProcess) return;
-	KdShaderManager::Instance().m_postProcessShader.Draw();
 }
-void Application::KdPostDraw()
-{
-	// BackBuffer -> 画面表示
-	KdDirect3D::Instance().WorkSwapChain()->Present(0, 0);
-	KdDirect3D::Instance().SetBackBuffer();
-}
+
 
 bool Application::Init(int w, int h)
 {

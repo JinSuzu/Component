@@ -1,6 +1,6 @@
 ﻿#include "SceneChanger.h"
 #include "../../Game/GameObject.h"
-#include "../../../SceneBase/Manager/SceneManager.h"
+#include "../../../../System/SceneMnager/SceneManager.h"
 
 void Cp_SceneChanger::PreUpdateContents()
 {
@@ -18,7 +18,7 @@ void Cp_SceneChanger::PreUpdateContents()
 
 	if (m_owner.lock()->GetChilds().empty())
 	{
-		SceneManager::Instance().SetScenePhase(m_nextSceneName);
+		SceneManager::Instance().LoadScene(m_nextSceneName);
 		if (!m_sePath.empty())KdAudioManager::Instance().Play("Asset/Sounds/" + m_sePath + ".wav");
 	}
 }

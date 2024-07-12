@@ -1,8 +1,6 @@
 ﻿#include "Collider.h"
 #include "../../Game/GameObject.h"
 #include "../../Game/Manager/GameObjectManager.h"
-#include "../../../SceneBase/Manager/SceneManager.h"
-#include "../../../SceneBase/SceneBase.h"
 
 #include "../Transform/Transform.h"
 #include "../ModelData/ModelData.h"
@@ -13,7 +11,7 @@
 
 void Cp_Collider::Start()
 {
-	SceneManager::Instance().m_objectMgr->AddColliderList(WeakThisPtr(this));
+	GameObjectManager::Instance().AddColliderList(WeakThisPtr(this));
 	m_trans = m_owner.lock()->GetTransform();
 
 	m_drawDebug = std::make_shared<std::function<void()>>([this]() {DrawDebug(); });

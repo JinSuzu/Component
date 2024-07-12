@@ -132,7 +132,6 @@ public:
 	void KdPostUpdate();
 
 	void KdBeginDraw(bool usePostProcess = true);
-	void KdPostDraw();
 
 	bool GetBuildFlg()	const	{ return m_buildFlg; };
 	void TurnBuildFlg()			{ m_buildFlg = !m_buildFlg; };

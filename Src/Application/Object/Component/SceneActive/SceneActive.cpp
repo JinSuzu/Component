@@ -1,6 +1,6 @@
 ﻿#include "SceneActive.h"
 #include "../../Game/GameObject.h"
-#include "../../../SceneBase/Manager/SceneManager.h"
+#include "../../../../System/SceneMnager/SceneManager.h"
 #include "../../../Utility/Timer.h"
 
 #include "../../../main.h"
@@ -27,7 +27,7 @@ void Cp_SceneActive::Start()
 
 void Cp_SceneActive::PreUpdateContents()
 {
-	bool nowFlg = m_sceneName == SceneManager::Instance().GetScenePhase();
+	bool nowFlg = m_sceneName == SceneManager::Instance().GetNowSceneName();
 	if (Application::Instance().GetBuildFlg())nowFlg = false;
 
 	if (m_flg)

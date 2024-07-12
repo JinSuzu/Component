@@ -7,7 +7,7 @@ class Hierarchy
 	:public EditorWindowBase
 {
 public:
-	void Update()override;
+	void UpdateContents()override;
 private:
 	void ImGuiGameObject(std::weak_ptr<GameObject> _obj);
 };

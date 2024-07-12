@@ -23,7 +23,7 @@ void Cp_SquarePolygon::Draw3D(UINT _type)
 
 void Cp_SquarePolygon::Start()
 {
-	m_squarePolygon = AssetManager::Instance().GetSquarePolygon("Asset/Textures/chara/block.png");
+	m_squarePolygon = AssetManager::Instance().GetSquarePolygon(m_path = "Asset/Textures/chara/block.png");
 	m_trans = m_owner.lock()->GetTransform();
 	m_animation = std::make_shared<Animation2D>();
 

@@ -5,7 +5,7 @@
 #include "../../Game/GameObject.h"
 #include "../../Game/Manager/GameObjectManager.h"
 
-void Prefab::Update()
+void Prefab::UpdateContents()
 {
 	if (ImGui::BeginTable("Prehab", 2, ImGuiTableFlags_Resizable)) {
 		ImGui::TableNextRow();
@@ -86,7 +86,6 @@ void Prefab::DirectoryTree(const std::filesystem::path& dir)
 	}
 
 }
-
 void Prefab::DirectoryContents()
 {
 	static std::shared_ptr<KdTexture> IconDocumentIcon = AssetManager::Instance().GetKdTexture("Asset/Textures/UI/DocumentIcon.png");
@@ -116,18 +115,15 @@ void Prefab::DirectoryContents()
 		ImGui::ImageButton((is_directory ? CloseFolderIcon : IconDocumentIcon)->WorkSRView(), { thumbnailSize ,thumbnailSize });
 		ImGui::PopID();
 
-		bool callSource = false;
 		std::string itemPath = std::filesystem::relative(entry.path()).string();
 
 		//ディレクトリ内のファイルの拡張子に合わせたソースを呼び出す
 		std::unordered_map<std::string, std::function<bool(std::string)>>::iterator Source = m_fileSource.find(entry.path().extension().string());
-		if (Source != m_fileSource.end())callSource |= Source->second(itemPath);
+		if (Source != m_fileSource.end())Source->second(itemPath);
 
-		if (is_directory)
-		{
-			//GameObjectの保存
-			if (!callSource)TargetGameObjectSave(itemPath);
-		}
+		//GameObjectの保存
+		if (is_directory)TargetGameObjectSave(itemPath);
+		
 
 		EditFile(entry.path());
 
@@ -263,7 +259,6 @@ void Prefab::TargetGameObject(std::weak_ptr<GameObject> _parent)
 		ImGui::EndDragDropTarget();
 	}
 }
-
 void Prefab::SetOpenDirectoryPath(const std::filesystem::path& _path)
 {
 	if (ImGui::IsItemToggledOpen())return;
@@ -276,10 +271,10 @@ void Prefab::SetOpenDirectoryPath(const std::filesystem::path& _path)
 Prefab::Prefab()
 {
 	m_fileSource[".prefab"] = [&](std::string _path) {return SourceGameObjectDataPath(_path); };
-	m_fileSource[".png"] = [&](std::string _path) {return MyImGui::SourcePictureAssetPath(_path); };
-	m_fileSource[".gltf"] = [&](std::string _path) {return MyImGui::SourceModelAssetPath(_path); };
+	m_fileSource[".png"]	= [&](std::string _path) {return MyImGui::SourcePictureAssetPath(_path); };
+	m_fileSource[".gltf"]	= [&](std::string _path) {return MyImGui::SourceModelAssetPath(_path); };
 
-	m_leftClickedFileEdit.push_back([&](const std::filesystem::path& _path) {SetOpenDirectoryPath(_path); });
+	m_leftClickedFileEdit.push_back([&](const std::filesystem::path& _path)  {SetOpenDirectoryPath(_path); });
 
 	m_rightClickedFileEdit.push_back([&](const std::filesystem::path& _path) {OpenFile(_path); });
 	m_rightClickedFileEdit.push_back([&](const std::filesystem::path& _path) {NewFile(_path); });

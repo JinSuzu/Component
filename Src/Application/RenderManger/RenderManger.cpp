@@ -4,25 +4,17 @@
 #include "../Object/Game/GameObject.h"
 #include "../main.h"
 
-void RenderManager::DrawProcess()
+void RenderManager::BeginDraw()
 {
-	PreDraw();
-
 	if (Application::Instance().GetDebugFlg())
 	{
 		m_rtp.ClearTexture();
 		m_rtc.ChangeRenderTarget(m_rtp);
 	}
-
-	Draw();
-	KdShaderManager::Instance().m_postProcessShader.PostEffectProcess();
-	DrawSprite();
-	DrawDebug();
-
-	m_rtc.UndoRenderTarget();
-	KdDirect3D::Instance().SetBackBuffer();
+	KdDirect3D::Instance().ClearBackBuffer();
+	KdShaderManager::Instance().WorkAmbientController().Draw();
+	KdShaderManager::Instance().m_postProcessShader.Draw();
 }
-
 void RenderManager::PreDraw()
 {
 	std::map<int, std::list<std::weak_ptr<class Cp_Camera>>>::iterator camera = m_cameraMap.begin();
@@ -93,44 +85,16 @@ void RenderManager::Draw()
 	}
 	KdShaderManager::Instance().m_postProcessShader.EndBright();
 }
-void RenderManager::DrawSprite()
+void RenderManager::PostDraw()
 {
-	KdShaderManager::Instance().m_spriteShader.Begin();
-	{
-		std::list<std::weak_ptr<std::function<void()>>>::iterator draw2D = m_draw2DList.begin();
-		while (draw2D != m_draw2DList.end())
-		{
-			if (draw2D->expired())
-			{
-				draw2D = m_draw2DList.erase(draw2D);
-				continue;
-			}
-
-			(*draw2D->lock())();
-			draw2D++;
-		}
-	}
-	KdShaderManager::Instance().m_spriteShader.End();
+	KdShaderManager::Instance().m_postProcessShader.PostEffectProcess();
+	DrawSprite();
+	DrawDebug();
+	m_rtc.UndoRenderTarget();
 }
-void RenderManager::DrawDebug()
+void RenderManager::EndDraw()
 {
-	if (!Application::Instance().GetDebugFlg())return;
-	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
-	{
-		std::list<std::weak_ptr<std::function<void()>>>::iterator drawDebug = m_drawDebugList.begin();
-		while (drawDebug != m_drawDebugList.end())
-		{
-			if (drawDebug->expired())
-			{
-				drawDebug = m_drawDebugList.erase(drawDebug);
-				continue;
-			}
-
-			(*drawDebug->lock())();
-			drawDebug++;
-		}
-	}
-	KdShaderManager::Instance().m_StandardShader.EndUnLit();
+	KdDirect3D::Instance().WorkSwapChain()->Present(0, 0);
 }
 
 void RenderManager::AddCamera(int _priority, std::weak_ptr<class Cp_Camera> _camera)
@@ -216,4 +180,44 @@ void RenderManager::Init()
 	KdShaderManager::Instance().Init();
 
 	DebugViewResize(KdDirect3D::Instance().GetWindowSize());
+}
+
+void RenderManager::DrawSprite()
+{
+	KdShaderManager::Instance().m_spriteShader.Begin();
+	{
+		std::list<std::weak_ptr<std::function<void()>>>::iterator draw2D = m_draw2DList.begin();
+		while (draw2D != m_draw2DList.end())
+		{
+			if (draw2D->expired())
+			{
+				draw2D = m_draw2DList.erase(draw2D);
+				continue;
+			}
+
+			(*draw2D->lock())();
+			draw2D++;
+		}
+	}
+	KdShaderManager::Instance().m_spriteShader.End();
+}
+void RenderManager::DrawDebug()
+{
+	if (!Application::Instance().GetDebugFlg())return;
+	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
+	{
+		std::list<std::weak_ptr<std::function<void()>>>::iterator drawDebug = m_drawDebugList.begin();
+		while (drawDebug != m_drawDebugList.end())
+		{
+			if (drawDebug->expired())
+			{
+				drawDebug = m_drawDebugList.erase(drawDebug);
+				continue;
+			}
+
+			(*drawDebug->lock())();
+			drawDebug++;
+		}
+	}
+	KdShaderManager::Instance().m_StandardShader.EndUnLit();
 }
