@@ -26,7 +26,7 @@ void Cp_ModelData::Start()
 
 void Cp_ModelData::ImGuiUpdate()
 {
-	MyImGui::SelectModelData(m_modelData, m_path);
+	AssetManager::Instance().SelectModelData(m_modelData, m_path);
 
 	if (ImGui::Button("DrawType"))ImGui::OpenPopup("Types");
 	if (ImGui::BeginPopup("Types"))

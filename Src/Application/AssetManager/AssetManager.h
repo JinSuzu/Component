@@ -2,10 +2,9 @@
 
 class AssetManager
 {
-	~AssetManager() {}
 public:
 	template<typename T>
-	void TransformAsset(T& _asset,std::string _path)
+	void TransformAsset(T& _asset, std::string _path)
 	{
 		std::function<void()>Fn;
 		switch (std::hash<std::type_index>()(typeid(T)))
@@ -24,11 +23,11 @@ public:
 		if (Fn)m_tasks.push_back(Fn);
 	}
 
-	void Loading() 
+	void Loading()
 	{
 		while (true)
 		{
-			for (auto& task : m_tasks) 
+			for (auto& task : m_tasks)
 			{
 				task();
 			}
@@ -38,10 +37,16 @@ public:
 	std::shared_ptr<KdTexture> GetKdTexture(std::string _assetPath);
 	std::shared_ptr<KdModelData> GetModelData(std::string _assetPath);
 	std::shared_ptr<KdSquarePolygon> GetSquarePolygon(std::string _assetPath);
+
+	bool SelectTexture(std::shared_ptr<KdTexture>& _tex, std::string& _path);
+	bool SelectSquarePolygon(std::shared_ptr<KdSquarePolygon>& _poly, std::string& _path);
+	bool SelectModelData(std::shared_ptr<KdModelData>& _modelData, std::string& _path);
+
 private:
 	std::map<std::string, std::shared_ptr<KdTexture>>			m_texList;
-	std::map<std::string, std::shared_ptr<KdModelData>>		m_modelDataList;
-	std::map<std::string, std::shared_ptr<KdSquarePolygon>>	m_squarePolygonList;
+	std::map<std::string, std::shared_ptr<KdModelData>>			m_modelDataList;
+	std::map<std::string, std::shared_ptr<KdSquarePolygon>>		m_squarePolygonList;
+
 
 	std::thread m_thread;
 	std::list<std::function<void()>> m_tasks;
@@ -50,6 +55,9 @@ private:
 	const size_t ModelDataHash = std::hash<std::type_index>()(typeid(KdModelData));
 	const size_t SquarePolygonHash = std::hash<std::type_index>()(typeid(SquarePolygonHash));
 public:
+
+	AssetManager() {}
+	~AssetManager() {}
 	static AssetManager& Instance()
 	{
 		static AssetManager instance;
@@ -57,15 +65,11 @@ public:
 	}
 };
 
-namespace MyImGui 
+namespace MyDragDrop
 {
-	bool SelectTexture(std::shared_ptr<KdTexture>& _tex,std::string& _path);
-	bool SelectSquarePolygon(std::shared_ptr<KdSquarePolygon>& _poly, std::string& _path);
-	bool SelectModelData(std::shared_ptr<KdModelData>& _modelData, std::string& _path);
-	
-	bool SourcePictureAssetPath(std::string _path);
-	bool TargetPictureAssetPath(std::string& _path);
+	bool SourcePicture(std::string _path);
+	bool TargetPicture(std::string& _path);
 
-	bool SourceModelAssetPath(std::string _path);
-	bool TargetModelAssetPath(std::string& _path);
+	bool SourceModel(std::string _path);
+	bool TargetModel(std::string& _path);
 }

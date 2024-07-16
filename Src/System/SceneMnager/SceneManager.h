@@ -5,19 +5,20 @@ class SceneManager
 public:
 	void LoadScene(std::string _name);
 
-	const std::string& GetNowSceneName() const { return m_nowScene; };
+	const std::string& GetNowSceneName()			const { return m_nowScene; };
+	std::map <std::string, std::string>& WorkSceneList() { return m_sceneList; };
 
-	void ImGuiUpdate();
 	void PushScene();
 
-	void Loading();
 	void LoadWait() const;
 
 	void SaveScene();
 
 	void Init();
+	void Release();
 private:
-	std::unordered_map <std::string, std::string> m_sceneList;
+	void Loading();
+	std::map <std::string, std::string> m_sceneList;
 
 	bool										  m_callLoad = false;
 	std::thread									  m_thread;

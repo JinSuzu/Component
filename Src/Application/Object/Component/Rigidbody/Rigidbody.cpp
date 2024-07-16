@@ -1,7 +1,6 @@
 ﻿#include "Rigidbody.h"
 #include "../../Game/GameObject.h"
-#include "../../../SceneBase/Manager/SceneManager.h"
-#include "../../../SceneBase/SceneBase.h"
+#include "../../Game/Manager/GameObjectManager.h"
 #include "../Transform/Transform.h"
 
 #include "../../../RenderManger/RenderManger.h"
@@ -193,7 +192,7 @@ float Cp_Rigidbody::Gravity()
 	KdCollider::CollisionResult				effectResult;
 	float									hitRange = 0.0f;
 
-	SceneManager::Instance().m_objectMgr->RayHit(rayInfo, &results);
+	GameObjectManager::Instance().RayHit(rayInfo, &results);
 	for (auto& result : results)
 	{
 		float targetRange = Math::Vector3::Distance(result.m_hitPos, m_trans.lock()->GetPosition());
@@ -228,7 +227,7 @@ void Cp_Rigidbody::MakeResults()
 			m_trans.lock()->GetMatrix().Translation() + m_shapeDate.offsetPos,
 			m_shapeDate.radius.y
 		);
-		SceneManager::Instance().m_objectMgr->RayHit(SphereInfo, &m_shapeDate.pResults);
+		GameObjectManager::Instance().RayHit(SphereInfo, &m_shapeDate.pResults);
 	}
 
 	else if (m_shape == Cp_Rigidbody::Shape::Box)
@@ -241,7 +240,7 @@ void Cp_Rigidbody::MakeResults()
 			m_shapeDate.radius,
 			false
 		);
-		SceneManager::Instance().m_objectMgr->RayHit(BoxInfo, &m_shapeDate.pResults);
+		GameObjectManager::Instance().RayHit(BoxInfo, &m_shapeDate.pResults);
 	}
 
 	else if (m_shape == Cp_Rigidbody::Shape::Ray)
@@ -252,7 +251,7 @@ void Cp_Rigidbody::MakeResults()
 			m_trans.lock()->GetMatrix().Translation() + m_shapeDate.offsetPos,
 			m_trans.lock()->GetMatrix().Translation() + m_shapeDate.offsetPos + m_move
 		);
-		if (rayInfo.m_range)SceneManager::Instance().m_objectMgr->RayHit(rayInfo, &m_shapeDate.pResults);
+		if (rayInfo.m_range)GameObjectManager::Instance().RayHit(rayInfo, &m_shapeDate.pResults);
 	}
 
 }

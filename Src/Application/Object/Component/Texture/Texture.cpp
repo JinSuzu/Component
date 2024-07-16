@@ -35,7 +35,7 @@ void Cp_Texture::PreUpdateContents()
 
 void Cp_Texture::ImGuiUpdate()
 {
-	if (MyImGui::SelectTexture(m_tex, m_path))m_rect = { 0,0,(LONG)m_tex->GetInfo().Width,(LONG)m_tex->GetInfo().Height };
+	if (AssetManager::Instance().SelectTexture(m_tex, m_path))m_rect = { 0,0,(LONG)m_tex->GetInfo().Width,(LONG)m_tex->GetInfo().Height };
 
 	float value[4] = { (float)m_rect.x,(float)m_rect.y ,(float)m_rect.width ,(float)m_rect.height };
 	ImGui::DragFloat4("Rect", value);

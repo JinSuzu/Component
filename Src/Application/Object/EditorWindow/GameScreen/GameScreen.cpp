@@ -22,7 +22,7 @@ void GameScreen::UpdateContents()
 		Application::Instance().TurnBuildFlg();
 	}
 
-	if (!m_buildCamera && Application::Instance().GetBuildFlg())m_buildCamera = GameObjectManager::CreateObject(MyJson::InPutJson("Asset/Data/Prefab/BuildCamera"), std::weak_ptr<GameObject>(), false);
+	if (!m_buildCamera && Application::Instance().GetBuildFlg())m_buildCamera = GameObjectManager::CreateObject(MyJson::InputJson("Asset/Data/Prefab/BuildCamera"), std::weak_ptr<GameObject>(), false);
 	else if (!Application::Instance().GetBuildFlg())m_buildCamera = nullptr;
 
 	ImVec2 size(1280.0f, 720.0f);

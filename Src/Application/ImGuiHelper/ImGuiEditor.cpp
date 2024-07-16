@@ -53,8 +53,6 @@ void Editor::ImGuiUpdate()
 
 	MenuBar();
 
-	//ImGui::SetNextItemWidth(viewport->WorkSize.x);
-
 	ImGuiIO& io = ImGui::GetIO();
 	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 	{
@@ -101,7 +99,7 @@ void Editor::MenuBar()
 
 void Editor::OverwriteWindow()
 {
-	m_windowList.clear();
+	ReleaseWindows();
 	for (auto& map : m_editorActive)
 	{
 		if (map.second)
@@ -116,6 +114,7 @@ void Editor::OverwriteWindow()
 #include "../Object/EditorWindow/Inspector/Inspector.h"
 #include "../Object/EditorWindow/Prefab/Prefab.h"
 #include "../Object/EditorWindow/DebugLog/DebugLog.h"
+#include "../Object/EditorWindow/SetUpScene/SetUpScene.h"
 void Editor::Init()
 {
 	//===================================================================
@@ -129,10 +128,11 @@ void Editor::Init()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // キーボードナビゲーションを有効にする
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;     // ドッキングを有効にする
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;   // マルチビューポートを有効にする
-	ImGui::StyleColorsClassic();
+	ImGui::StyleColorsDark();
 
 	ImGuiStyle& style = ImGui::GetStyle();
-	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
 		style.WindowRounding = 0.0f;
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
@@ -150,8 +150,6 @@ void Editor::Init()
 		io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msgothic.ttc", 13.0f, &config, glyphRangesJapanese);
 	}
 
-	SetImGuiColors();
-
 	//===================================================================
 	// Editor初期設定
 	//===================================================================
@@ -167,6 +165,7 @@ void Editor::Init()
 		std::shared_ptr<EditorWindowBase>temp = std::make_shared<Tag>();	\
 		temp->SetOwner(this);												\
 		temp->SetName(#Tag);												\
+		temp->ConfigLoad();													\
 		return temp;														\
 	})
 
@@ -175,8 +174,11 @@ void Editor::Init()
 	EDITORREGISTER(Inspector);
 	EDITORREGISTER(Prefab);
 	EDITORREGISTER(DebugLog);
+	EDITORREGISTER(SetUpScene);
 
-	nlohmann::json json = MyJson::InPutJson("Asset/Data/config.ini");
+	nlohmann::json json;
+	ConfigManger config;
+	config.Load("Editor", json);
 	if (!json.is_null())
 	{
 		auto it = json.begin();
@@ -188,26 +190,31 @@ void Editor::Init()
 	}
 	else
 	{
-		Application::Instance().m_log.AddLog("not found \"config\" by EditorWindow");
-		m_editorActive["Hierarchy"] = true;
-		m_editorActive["GameScreen"] = true;
-		m_editorActive["Inspector"] = true;
-		m_editorActive["Prefab"] = true;
+		m_editorActive["Hierarchy"]		= true;
+		m_editorActive["GameScreen"]	= true;
+		m_editorActive["Inspector"]		= true;
+		m_editorActive["Prefab"]		= true;
 	}
 
 
 	OverwriteWindow();
 }
 
-void Editor::SetImGuiColors()
+void Editor::ReleaseWindows()
 {
-	ImGuiStyle& style = ImGui::GetStyle();
-	ImGui::StyleColorsDark(&style);
+	std::list<std::shared_ptr<EditorWindowBase>>::iterator it = m_windowList.begin();
+	while (it != m_windowList.end())
+	{
+		(*it)->ConfigSave();
+		it = m_windowList.erase(it);
+	}
 }
 
 void Editor::Release()
 {
+	ReleaseWindows();
 	nlohmann::json json;
 	for (auto& key : m_editorActive)json[key.first] = key.second;
-	MyJson::OutPutJson(json, "Asset/Data/config.ini");
+	ConfigManger config;
+	config.Save("Editor", json);
 }

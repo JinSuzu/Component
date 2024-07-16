@@ -214,26 +214,17 @@
     <Filter Include="Src\Application\Object\EditorWindow\DebugLog">
       <UniqueIdentifier>{b648c5c2-4890-4183-9cb1-2ae867b3ddc1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\GameObject">
-      <UniqueIdentifier>{c8eeed44-235a-4eda-9689-532350b60789}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\GameObject\Camera">
-      <UniqueIdentifier>{781882e7-a4ba-44ae-b14e-75844a3802df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\GameObject\Camera\FPSCamera">
-      <UniqueIdentifier>{cab66d5f-b9d3-40bd-ae9d-57120eb6c79c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\GameObject\Camera\TPSCamera">
-      <UniqueIdentifier>{c8cf7720-4d00-4c0b-a1cf-bc64280b295f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Src\System">
       <UniqueIdentifier>{6dc1db2d-f29e-44f8-9f8e-6505651a6ec6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\System\SceneMnager">
-      <UniqueIdentifier>{26ca9804-4533-468d-89b0-d2297543b8c4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Src\Application\Object\EditorWindow\SetUpScene">
       <UniqueIdentifier>{36f70100-2784-4d57-95c5-7839548c4039}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\System\ConfigManager">
+      <UniqueIdentifier>{275bd6d6-bfd5-4b8c-a172-c4d8ed55bbce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\System\SceneMnager">
+      <UniqueIdentifier>{26ca9804-4533-468d-89b0-d2297543b8c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -386,15 +377,6 @@
     </ClInclude>
     <ClInclude Include="..\Library\imgui\ja_glyph_ranges.h">
       <Filter>Library\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\GameObject\Camera\CameraBase.h">
-      <Filter>Src\Application\GameObject\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.h">
-      <Filter>Src\Application\GameObject\Camera\TPSCamera</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\GameObject\Camera\FPSCamera\FPSCamera.h">
-      <Filter>Src\Application\GameObject\Camera\FPSCamera</Filter>
     </ClInclude>
     <ClInclude Include="..\Library\magic_enum\magic_enum.hpp">
       <Filter>Library\magic_enum</Filter>
@@ -717,6 +699,9 @@
     <ClInclude Include="Src\Application\Object\EditorWindow\SetUpScene\SetUpScene.h">
       <Filter>Src\Application\Object\EditorWindow\SetUpScene</Filter>
     </ClInclude>
+    <ClInclude Include="Src\System\ConfigManager\ConfigManager.h">
+      <Filter>Src\System\ConfigManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -844,15 +829,6 @@
     </ClCompile>
     <ClCompile Include="..\Library\imgui\imgui_stdlib.cpp">
       <Filter>Library\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\GameObject\Camera\CameraBase.cpp">
-      <Filter>Src\Application\GameObject\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.cpp">
-      <Filter>Src\Application\GameObject\Camera\TPSCamera</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\GameObject\Camera\FPSCamera\FPSCamera.cpp">
-      <Filter>Src\Application\GameObject\Camera\FPSCamera</Filter>
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Object.cpp">
       <Filter>Src\Application\Object</Filter>
@@ -1006,6 +982,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\EditorWindow\SetUpScene\SetUpScene.cpp">
       <Filter>Src\Application\Object\EditorWindow\SetUpScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\ConfigManager\ConfigManager.cpp">
+      <Filter>Src\System\ConfigManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

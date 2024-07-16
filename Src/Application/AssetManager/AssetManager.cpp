@@ -1,4 +1,6 @@
 ﻿#include "AssetManager.h"
+#include "../ImGuiHelper/ImGuiEditor.h"
+#include "../ImGuiHelper/ImGuiHelper.h"
 #include "../main.h"
 
 std::shared_ptr<KdTexture> AssetManager::GetKdTexture(std::string _assetPath)
@@ -50,7 +52,7 @@ std::shared_ptr<KdSquarePolygon> AssetManager::GetSquarePolygon(std::string _ass
 	return m_squarePolygonList[_assetPath];
 }
 
-bool MyImGui::SelectTexture(std::shared_ptr<KdTexture>& _tex, std::string& _path)
+bool AssetManager::SelectTexture(std::shared_ptr<KdTexture>& _tex, std::string& _path)
 {
 	bool ret = false;
 	ImGui::PushID(_tex.get());
@@ -64,7 +66,7 @@ bool MyImGui::SelectTexture(std::shared_ptr<KdTexture>& _tex, std::string& _path
 			ret = true;
 		}
 	}
-	ret |= TargetPictureAssetPath(_path);
+	ret |= MyDragDrop::TargetPicture(_path);
 
 	if (ImGui::BeginPopupContextItem("SelectTexturePopupUpID"))
 	{
@@ -78,7 +80,7 @@ bool MyImGui::SelectTexture(std::shared_ptr<KdTexture>& _tex, std::string& _path
 	ImGui::PopID();
 	return ret;
 }
-bool MyImGui::SelectSquarePolygon(std::shared_ptr<KdSquarePolygon>& _poly, std::string& _path)
+bool AssetManager::SelectSquarePolygon(std::shared_ptr<KdSquarePolygon>& _poly, std::string& _path)
 {
 	bool ret = false;
 	ImGui::PushID(_poly.get());
@@ -86,7 +88,7 @@ bool MyImGui::SelectSquarePolygon(std::shared_ptr<KdSquarePolygon>& _poly, std::
 	if (_path.empty())_path = "No Texture File";
 	if (ImGui::Button(_path.c_str()))Application::Instance().GetWindow().OpenFileDialog(_path, "画像ファイルを開く", "画像ファイル\0*.png\0");
 
-	ret |= TargetPictureAssetPath(_path);
+	ret |= MyDragDrop::TargetPicture(_path);
 
 	if (ImGui::BeginPopupContextItem("SelectSquarePolyPopupUpID"))
 	{
@@ -102,7 +104,7 @@ bool MyImGui::SelectSquarePolygon(std::shared_ptr<KdSquarePolygon>& _poly, std::
 	if (ret)_poly = AssetManager::Instance().GetSquarePolygon(_path);
 	return ret;
 }
-bool MyImGui::SelectModelData(std::shared_ptr<KdModelData>& _modelData, std::string& _path)
+bool AssetManager::SelectModelData(std::shared_ptr<KdModelData>& _modelData, std::string& _path)
 {
 	bool ret = false;
 	ImGui::PushID(_modelData.get());
@@ -116,7 +118,7 @@ bool MyImGui::SelectModelData(std::shared_ptr<KdModelData>& _modelData, std::str
 			ret = true;
 		}
 	}
-	ret |= TargetModelAssetPath(_path);
+	ret |= MyDragDrop::TargetModel(_path);
 
 	if (ImGui::BeginPopupContextItem("SelectModelDataPopupUpID"))
 	{
@@ -131,66 +133,23 @@ bool MyImGui::SelectModelData(std::shared_ptr<KdModelData>& _modelData, std::str
 	return ret;
 }
 
-bool MyImGui::SourcePictureAssetPath(std::string _path)
+namespace MyDragDrop
 {
-	bool flg = false;
-	if (flg = ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+	bool SourcePicture(std::string _path)
 	{
-		char path[256];
-		std::strncpy(path, _path.c_str(), sizeof(path));
-		ImGui::SetDragDropPayload("PictureAssetPath", &path, sizeof(path), ImGuiCond_Once);
-		ImGui::Text("PullPictureAssetPath");
-		ImGui::EndDragDropSource();
+		return MyImGui::DragDropSource("PicturePath", _path);
 	}
-	return flg;
-}
-bool MyImGui::TargetPictureAssetPath(std::string& _path)
-{
-	bool flg = false;
-	if (ImGui::BeginDragDropTarget())
+	bool TargetPicture(std::string& _path)
 	{
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PictureAssetPath"))
-		{
-			IM_ASSERT(payload->DataSize == sizeof(char[256]));
-			std::string path = (char*)payload->Data;
-			_path = path;
-
-			flg = true;
-		}
-		ImGui::EndDragDropTarget();
+		return MyImGui::DragDropTarget("PicturePath", _path);
 	}
 
-	return flg;
-}
-
-bool MyImGui::SourceModelAssetPath(std::string _path)
-{
-	bool flg = false;
-	if (flg = ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+	bool SourceModel(std::string _path)
 	{
-		char path[256];
-		std::strncpy(path, _path.c_str(), sizeof(path));
-		ImGui::SetDragDropPayload("ModelAssetPath", &path, sizeof(path), ImGuiCond_Once);
-		ImGui::Text("PullModelAssetPath");
-		ImGui::EndDragDropSource();
+		return MyImGui::DragDropSource("ModelPath", _path);
 	}
-	return flg;
-}
-bool MyImGui::TargetModelAssetPath(std::string& _path)
-{
-	bool flg = false;
-	if (ImGui::BeginDragDropTarget())
+	bool TargetModel(std::string& _path)
 	{
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ModelAssetPath"))
-		{
-			IM_ASSERT(payload->DataSize == sizeof(char[256]));
-			std::string path = (char*)payload->Data;
-			_path = path;
-
-			flg = true;
-		}
-		ImGui::EndDragDropTarget();
+		return MyImGui::DragDropTarget("ModelPath", _path);
 	}
-
-	return flg;
 }

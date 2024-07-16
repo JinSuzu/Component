@@ -3,8 +3,6 @@
 #include "../Transform/Transform.h"
 #include "../Rigidbody/Rigidbody.h"
 
-#include "../../../SceneBase/Manager/SceneManager.h"
-#include "../../../SceneBase/SceneBase.h"
 #include "../../Game/Manager/GameObjectManager.h"
 
 #include "../../../main.h"

@@ -47,7 +47,7 @@ void Cp_SquarePolygon::PostUpdateContents()
 
 void Cp_SquarePolygon::ImGuiUpdate()
 {
-	MyImGui::SelectSquarePolygon(m_squarePolygon,m_path);
+	AssetManager::Instance().SelectSquarePolygon(m_squarePolygon,m_path);
 
 	if (ImGui::Button("DrawType"))ImGui::OpenPopup("Types");
 	if (ImGui::BeginPopup("Types"))

@@ -150,6 +150,7 @@ static const char* JpText(const char8_t* _text) { return (const char*)_text; }
 
 #include "../Src/Application/JsonHelper/JsonHelper.h"
 #include "../Src/Application/Score/Score.h"
+#include "System/ConfigManager/ConfigManager.h"
 /*
 template<class T>
 static nlohmann::json SearchJson(nlohmann::json& _json,std::string _key,T _data)

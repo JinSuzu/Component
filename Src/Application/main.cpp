@@ -6,6 +6,7 @@
 #include "ImGuiHelper/ImGuiHelper.h"
 #include "ImGuiHelper/ImGuiEditor.h"
 #include "../System/SceneMnager/SceneManager.h"
+#include "../System/ConfigManager/ConfigManager.h"
 
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_  HINSTANCE, _In_ LPSTR, _In_ int)
 {
@@ -195,7 +196,6 @@ bool Application::Init(int w, int h)
 	// オーディオ初期化
 	//===================================================================
 	KdAudioManager::Instance().Init();
-
 	SceneManager::Instance().Init();
 
 	return true;
@@ -215,6 +215,7 @@ void Application::Release()
 
 	KdDirect3D::Instance().Release();
 
+	SceneManager::Instance().Release();
 	// ウィンドウ削除
 	m_window.Release();
 }

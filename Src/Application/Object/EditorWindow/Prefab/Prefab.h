@@ -21,10 +21,10 @@ private:
 	void NewFile(const std::filesystem::path& _path);
 	void RenameFile(const std::filesystem::path& _path);
 	void RemoveFile(const std::filesystem::path& _path);
-	
+	void SetOpenDirectoryPath(const std::filesystem::path& _path);
 
-	void TargetGameObjectSave(std::string _path);
-	bool SourceGameObjectDataPath(std::string _path);
+	void ConfigLoadContents(nlohmann::json& _json)override;
+	void ConfigSaveContents(nlohmann::json& _json)override;
 
 	bool															  m_bOpenFileEditor = false;
 	std::list<std::function<void(const std::filesystem::path&)>>	  m_leftClickedFileEdit;
@@ -34,13 +34,17 @@ private:
 	bool															  m_directoryChanged = false;
 	std::list<std::string>											  m_favoritePathList;
 
-	std::unordered_map<std::string, std::function<bool(std::string)>> m_fileSource;
+	std::unordered_map<std::string, std::function<bool(const std::filesystem::path&)>> m_fileSource;
 public:
 	Prefab();
-	//ヒエラルキーからGameObjectを引っ張ってくる
-	static bool SourceGameObject(std::weak_ptr<GameObject> _obj);
-	static void TargetGameObject(std::weak_ptr<GameObject> _parent);
-
-	void SetOpenDirectoryPath(const std::filesystem::path& _path);
-
 };
+
+namespace MyDragDrop
+{
+	bool SourceGameObjectDataPath(std::string _path);
+	bool TargetGameObjectDataPath(std::weak_ptr<GameObject> _obj);
+
+	bool SourceGameObjectData(std::weak_ptr<GameObject> _obj);
+	bool TargetGameObjectData(std::weak_ptr<GameObject> _parent);
+	void TargetGameObjectDataSave(std::string _path);
+}

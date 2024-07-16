@@ -49,20 +49,23 @@ namespace MyJson
 		};
 	}
 
-	inline void OutPutJson(nlohmann::json _json, std::string _path)
+	inline void OutputJson(nlohmann::json _json, std::string _path)
 	{
 		std::ofstream file(_path);
 		if (file.is_open()) {
-			file << _json.dump(4);  // 読みやすい形式でファイルに書き出す
+			file << _json.dump(4);
 			file.close();
 		};
 	}
-	inline nlohmann::json InPutJson(std::string _path)
+	inline nlohmann::json InputJson(std::string _path)
 	{
 		std::ifstream file(_path);
-		if (!file.is_open())return nlohmann::json();
 		nlohmann::json json;
-		file >> json;
+		if (file.is_open())
+		{
+			file >> json;
+			file.close();
+		}
 		return json;
 	}
 };

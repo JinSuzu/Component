@@ -2,6 +2,7 @@
 #include "../../../main.h"
 #include "../../../AssetManager/AssetManager.h"
 #include "../../../ImGuiHelper/ImGuiEditor.h"
+#include "../../../ImGuiHelper/ImGuiHelper.h"
 #include "../../Game/GameObject.h"
 #include "../../Game/Manager/GameObjectManager.h"
 
@@ -27,7 +28,7 @@ void Prefab::UpdateContents()
 			}
 		}
 		ImGui::EndChild();
-		TargetGameObjectSave("");
+		MyDragDrop::TargetGameObjectDataSave("");
 
 		m_directoryChanged = false;
 		ImGui::TableSetColumnIndex(1);
@@ -38,7 +39,7 @@ void Prefab::UpdateContents()
 		}
 		ImGui::EndChild();
 		EditFile(m_openDirectoryPath);
-		TargetGameObjectSave(m_openDirectoryPath.string());
+		MyDragDrop::TargetGameObjectDataSave(m_openDirectoryPath.string());
 
 		ImGui::EndTable();
 	}
@@ -70,10 +71,10 @@ void Prefab::DirectoryTree(const std::filesystem::path& dir)
 	bool open = ImGui::TreeNodeEx(dir.filename().string().c_str(), treeFlg);
 	ImGui::PopStyleColor();
 
-	//Pathを抜き出す
-	TargetGameObjectSave(dir.string());
 	//階層移動
 	EditFile(dir);
+	//Pathを抜き出す
+	MyDragDrop::TargetGameObjectDataSave(dir.string());
 
 	if (open)
 	{
@@ -115,17 +116,17 @@ void Prefab::DirectoryContents()
 		ImGui::ImageButton((is_directory ? CloseFolderIcon : IconDocumentIcon)->WorkSRView(), { thumbnailSize ,thumbnailSize });
 		ImGui::PopID();
 
-		std::string itemPath = std::filesystem::relative(entry.path()).string();
+		std::filesystem::path itemPath = std::filesystem::relative(entry.path()).string();
 
 		//ディレクトリ内のファイルの拡張子に合わせたソースを呼び出す
-		std::unordered_map<std::string, std::function<bool(std::string)>>::iterator Source = m_fileSource.find(entry.path().extension().string());
+		std::unordered_map<std::string, std::function<bool(const std::filesystem::path&)>>::iterator Source = m_fileSource.find(entry.path().extension().string());
 		if (Source != m_fileSource.end())Source->second(itemPath);
 
 		//GameObjectの保存
-		if (is_directory)TargetGameObjectSave(itemPath);
-		
-
+		if (is_directory)MyDragDrop::TargetGameObjectDataSave(itemPath.string());
 		EditFile(entry.path());
+
+
 
 		ImGui::TextWrapped(filename.c_str());
 		ImGui::NextColumn();
@@ -196,69 +197,6 @@ void Prefab::RemoveFile(const std::filesystem::path& _path)
 	if (!ImGui::MenuItem("RemoveFile"))return;
 	std::filesystem::remove_all(_path);
 }
-
-void Prefab::TargetGameObjectSave(std::string _path)
-{
-	if (ImGui::BeginDragDropTarget())
-	{
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject"))
-		{
-			IM_ASSERT(payload->DataSize == sizeof(GameObject));
-			std::weak_ptr<GameObject> obj = *(std::weak_ptr<GameObject>*)payload->Data;
-			MyJson::OutPutJson(obj.lock()->OutPutFamilyJson(), (_path.empty() ? "" : _path + "/") + obj.lock()->GetName() + ".prefab");
-		}
-		ImGui::EndDragDropTarget();
-	}
-}
-bool Prefab::SourceGameObjectDataPath(std::string _path)
-{
-	bool flg = false;
-	if (flg = ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
-	{
-		char path[256];
-		std::strncpy(path, _path.c_str(), sizeof(path));
-		ImGui::SetDragDropPayload("GameObjectDataPath", &path, sizeof(path), ImGuiCond_Once);
-		ImGui::Text(path);
-		ImGui::EndDragDropSource();
-	}
-	return flg;
-}
-bool Prefab::SourceGameObject(std::weak_ptr<GameObject> _obj)
-{
-	bool flg = false;
-	if (flg = ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
-	{
-		ImGui::SetDragDropPayload("GameObject", &_obj, sizeof(*_obj.lock()));
-		ImGui::Text("PullGameObject");
-		ImGui::EndDragDropSource();
-	}
-	return flg;
-}
-void Prefab::TargetGameObject(std::weak_ptr<GameObject> _parent)
-{
-	if (ImGui::BeginDragDropTarget())
-	{
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject"))
-		{
-			if (payload->DataSize == sizeof(GameObject))
-			{
-				std::weak_ptr<GameObject> obj = *(std::weak_ptr<GameObject>*)payload->Data;
-				obj.lock()->SetUpParent(_parent);
-			}
-		}
-
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObjectDataPath"))
-		{
-			if (payload->DataSize == sizeof(char[256]))
-			{
-				std::string path = (char*)(payload->Data);
-				GameObjectManager::CreateObject(path, _parent);
-			}
-		}
-
-		ImGui::EndDragDropTarget();
-	}
-}
 void Prefab::SetOpenDirectoryPath(const std::filesystem::path& _path)
 {
 	if (ImGui::IsItemToggledOpen())return;
@@ -267,24 +205,91 @@ void Prefab::SetOpenDirectoryPath(const std::filesystem::path& _path)
 	m_directoryChanged = true;
 }
 
+void Prefab::ConfigLoadContents(nlohmann::json& _json)
+{
+	if(_json["OpenDirectoryPath"].is_string())m_openDirectoryPath = _json["OpenDirectoryPath"].get<std::string>();
+	for (auto& path : _json["FavoritePaths"])
+	{
+		m_favoritePathList.push_back(_json);
+	}
+}
+
+void Prefab::ConfigSaveContents(nlohmann::json& _json)
+{
+	_json["OpenDirectoryPath"] = m_openDirectoryPath;
+	_json["FavoritePaths"] = nlohmann::json::array();
+	for (auto& path : m_favoritePathList)
+	{
+		_json.push_back(path);
+	}
+}
+
+#include "../SetUpScene/SetUpScene.h"
 
 Prefab::Prefab()
 {
-	m_fileSource[".prefab"] = [&](std::string _path) {return SourceGameObjectDataPath(_path); };
-	m_fileSource[".png"]	= [&](std::string _path) {return MyImGui::SourcePictureAssetPath(_path); };
-	m_fileSource[".gltf"]	= [&](std::string _path) {return MyImGui::SourceModelAssetPath(_path); };
+	m_fileSource[".prefab"] = [&](const std::filesystem::path& _path) {return MyDragDrop::SourceGameObjectDataPath(_path.string()); };
+	m_fileSource[".png"] = [&](const std::filesystem::path& _path) {return MyDragDrop::SourcePicture(_path.string()); };
+	m_fileSource[".gltf"] = [&](const std::filesystem::path& _path) {return MyDragDrop::SourceModel(_path.string()); };
+	m_fileSource[".scene"] = [&](const std::filesystem::path& _path) {return MyDragDrop::SourceScene(_path.string()); };
 
-	m_leftClickedFileEdit.push_back([&](const std::filesystem::path& _path)  {SetOpenDirectoryPath(_path); });
+	m_leftClickedFileEdit.push_back([&](const std::filesystem::path& _path) {SetOpenDirectoryPath(_path); });
 
 	m_rightClickedFileEdit.push_back([&](const std::filesystem::path& _path) {OpenFile(_path); });
 	m_rightClickedFileEdit.push_back([&](const std::filesystem::path& _path) {NewFile(_path); });
 	m_rightClickedFileEdit.push_back([&](const std::filesystem::path& _path) {ShowExplorer(_path); });
 	m_rightClickedFileEdit.push_back([&](const std::filesystem::path& _path) {RenameFile(_path); });
 	m_rightClickedFileEdit.push_back([&](const std::filesystem::path& _path) {RemoveFile(_path); });
+}
 
-	m_favoritePathList.push_back("Asset/Data/PreSet");
-	m_favoritePathList.push_back("Asset/Data/Model");
-	m_favoritePathList.push_back("Asset/Textures");
-	m_favoritePathList.push_back("Asset/Sounds");
+namespace MyDragDrop
+{
+	bool SourceGameObjectDataPath(std::string _path)
+	{
+		return MyImGui::DragDropSource("GameObjectDataPath", _path);
+	}
+	bool TargetGameObjectDataPath(std::weak_ptr<GameObject> _obj)
+	{
+		bool flg = false;
+		if (std::string path; MyImGui::DragDropTarget("GameObjectDataPath", path))
+		{
+			GameObjectManager::CreateObject(path, _obj);
+			flg = true;
+		}
+		return flg;
+	}
+
+	bool SourceGameObjectData(std::weak_ptr<GameObject> _obj)
+	{
+		return MyImGui::DragDropSource("GameObject", _obj);
+	}
+	bool TargetGameObjectData(std::weak_ptr<GameObject> _parent)
+	{
+		bool flg = false;
+		if (std::weak_ptr<GameObject> obj; MyImGui::DragDropTarget("GameObject", obj))
+		{
+			std::function<void(std::weak_ptr<GameObject>)>Fn = [&](std::weak_ptr<GameObject> _obj)
+				{
+					if (_obj.expired())
+					{
+						obj.lock()->SetUpParent(_parent);
+						return;
+					}
+					if (obj.lock() == _obj.lock())return;
+					Fn(_obj.lock()->GetParent());
+				};
+			Fn(_parent);
+			flg = false;
+		}
+		return flg;
+	}
+
+	void TargetGameObjectDataSave(std::string _path)
+	{
+		if (std::weak_ptr<GameObject> obj; MyImGui::DragDropTarget("GameObject", obj))
+		{
+			MyJson::OutputJson(obj.lock()->OutPutFamilyJson(), (_path.empty() ? "" : _path + "/") + obj.lock()->GetName() + ".prefab");
+		}
+	}
 }
 

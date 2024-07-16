@@ -84,7 +84,6 @@ namespace MyImGui
 		return change;
 	}
 
-
 	inline bool InputText(std::string _tag, std::string& _editStr, ImGuiInputTextFlags _flg = ImGuiInputTextFlags_EnterReturnsTrue)
 	{
 		if (!_tag.empty())
@@ -96,10 +95,97 @@ namespace MyImGui
 		bool flg = false;
 		char buffer[256];
 		std::strncpy(buffer, _editStr.c_str(), sizeof(buffer));
-		if (flg = ImGui::InputText(("##" + _tag).c_str(), buffer, sizeof(buffer), _flg)) {
+
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2());
+		if (flg = ImGui::InputText(("##" + _tag + _editStr).c_str(), buffer, sizeof(buffer), _flg)) {
 			_editStr = std::string(buffer);
 		}
+		ImGui::PopStyleVar();
 
 		return flg;
 	}
+
+	template<class T> 
+	inline static bool DragDropSource(std::string _tag, T _payload)
+	{
+		bool flg = false;
+		if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+		{
+			ImGui::SetDragDropPayload(_tag.c_str(), &_payload, sizeof(T), ImGuiCond_Once);
+			ImGui::Text(_tag.c_str());
+
+			flg = true;
+
+			ImGui::EndDragDropSource();
+		}
+		return flg;
+	}
+	inline static bool DragDropSource(std::string _tag, std::string _str)
+	{
+		bool flg = false;
+		if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+		{
+			char str[256];
+			std::strncpy(str, _str.c_str(), sizeof(str));
+			ImGui::SetDragDropPayload(_tag.c_str(), &str, sizeof(str), ImGuiCond_Once);
+			ImGui::Text(_tag.c_str());
+
+			flg = true;
+
+			ImGui::EndDragDropSource();
+		}
+		return flg;
+	}
+
+	template<class T> 
+	inline bool DragDropTarget(std::string _tag, T& _payload)
+	{
+		bool flg = false;
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_tag.c_str()))
+			{
+				IM_ASSERT(payload->DataSize == sizeof(T));
+				_payload = *(T*)payload->Data;
+				flg = true;
+			}
+			ImGui::EndDragDropTarget();
+		}
+		return flg;
+	}
+	inline bool DragDropTarget(std::string _tag, std::string& _str)
+	{
+		bool flg = false;
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_tag.c_str()))
+			{
+				IM_ASSERT(payload->DataSize == sizeof(char[256]));
+				std::string path = (char*)payload->Data;
+				_str = path;
+				flg = true;
+			}
+			ImGui::EndDragDropTarget();
+		}
+		return flg;
+	}
+
+
+	template<class T> struct DragDrop
+	{
+		std::list<std::function<bool(T)>>  source;
+		std::list<std::function<bool(T&)>> target;
+		bool CallSource(T _value)
+		{
+			bool flg = false;
+			for (auto& Fn : source)flg |= Fn(_value);
+			return flg;
+		}
+		bool CallTarget(T& _value)
+		{
+			bool flg = false;
+			for (auto& Fn : target)flg |= Fn(_value);
+			return flg;
+		}
+	};
 };

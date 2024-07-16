@@ -8,7 +8,7 @@ public:
 	void ImGuiUpdate();
 
 	void SetEditObject(std::weak_ptr<GameObject> _obj) { m_editObject = _obj; }
-	std::weak_ptr<GameObject> GetEditObject() { return m_editObject; }
+	std::weak_ptr<GameObject> GetEditObject()		   { return m_editObject; }
 
 private:
 	void MenuBar();
@@ -21,10 +21,10 @@ private:
 	std::list<std::shared_ptr<class EditorWindowBase>>								m_windowList;
 
 	void Init();
-	void SetImGuiColors();
+	void ReleaseWindows();
 	void Release();
 public:
-	Editor() { Init(); };
+	Editor()  { Init(); };
 	~Editor() { Release(); };
 };
 

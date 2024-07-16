@@ -50,18 +50,13 @@ void GameObject::Init(nlohmann::json _json)
 	m_trans->Start();
 
 	if (_json.is_null())return;
-	nlohmann::json myData = _json["Parent"];
+	nlohmann::json myData = _json["_Data"];
 
 	m_trans->LoadJson(myData["Component"][0]);
 
 	m_tag = myData["tag"];
 	m_name = myData["name"];
 	AddComponents(myData);
-
-	/*for (auto& child : _json["Childs"])
-	{
-		GameObjectManager::Instance().CreateObject(child, WeakThisPtr(this));
-	}*/
 }
 
 #pragma region ComponentFns
@@ -196,7 +191,7 @@ nlohmann::json GameObject::GetJson()
 	object["Component"] = component;
 	object["name"] = m_name;
 	nlohmann::json json;
-	json["Parent"] = object;
+	json["_Data"]  = object;
 	json["Childs"] = nlohmann::json::array();
 	return json;
 }

@@ -1,6 +1,8 @@
 ﻿#include "Hierarchy.h"
+#include "../Prefab/Prefab.h"
 #include "../../Game/GameObject.h"
 #include "../../../ImGuiHelper/ImGuiEditor.h"
+#include "../../../ImGuiHelper/ImGuiHelper.h"
 #include "../../Game/Manager/GameObjectManager.h"
 #include "../../../Object/EditorWindow/Prefab/Prefab.h"
 #include "../../../main.h"
@@ -9,15 +11,17 @@ void Hierarchy::UpdateContents()
 {
 	ImGui::BeginChild("##ObjectChild");
 	{
-		for (auto& obj : GameObjectManager::Instance().GetObjectList())if(obj->GetParent().expired())ImGuiGameObject(obj);
+		for (auto& obj : GameObjectManager::Instance().GetObjectList())if (obj->GetParent().expired())ImGuiGameObject(obj);
 	}
 	ImGui::EndChild();
-	Prefab::TargetGameObject(std::weak_ptr<GameObject>());
+	std::weak_ptr<GameObject> emplyObj;
+	m_dragDrop->CallTarget(emplyObj);
+
 	if (ImGui::IsItemClicked(1))ImGui::OpenPopup("CreateObject");
 	if (ImGui::BeginPopup("CreateObject"))
 	{
 		std::weak_ptr<GameObject>obj = m_owner->GetEditObject();
-		if ( obj.lock())
+		if (obj.lock())
 		{
 			static std::string path;
 			ImGui::InputText("##Path", &path);
@@ -25,7 +29,7 @@ void Hierarchy::UpdateContents()
 			{
 				nlohmann::json json = nlohmann::json::array();
 				json.push_back(obj.lock()->OutPutFamilyJson());
-				MyJson::OutPutJson(json, path);
+				MyJson::OutputJson(json, path);
 				ImGui::CloseCurrentPopup();
 			}
 			if (ImGui::MenuItem("Remove"))obj.lock()->Destroy();
@@ -35,7 +39,7 @@ void Hierarchy::UpdateContents()
 	}
 }
 
-void Hierarchy::ImGuiGameObject(std::weak_ptr<GameObject> _obj)
+void Hierarchy::ImGuiGameObject(std::weak_ptr<GameObject> _obj, bool _colledSource)
 {
 	ImGuiTreeNodeFlags treeFlg = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen;
 	std::list<std::weak_ptr<GameObject>> childs = _obj.lock()->GetChilds();
@@ -43,8 +47,8 @@ void Hierarchy::ImGuiGameObject(std::weak_ptr<GameObject> _obj)
 
 	bool flg = ImGui::TreeNodeEx((_obj.lock()->GetName() + "##" + std::to_string(_obj.lock()->GetInstanceID())).c_str(), treeFlg);
 	if ((ImGui::IsItemClicked(0) || ImGui::IsItemClicked(1)))Application::Instance().GetEditor().lock()->SetEditObject(_obj);
-	Prefab::TargetGameObject(_obj);
-	Prefab::SourceGameObject(_obj);
+	_colledSource |= m_dragDrop->CallSource(_obj);
+	if (!_colledSource)m_dragDrop->CallTarget(_obj);
 
 	if (flg)
 	{
@@ -58,9 +62,18 @@ void Hierarchy::ImGuiGameObject(std::weak_ptr<GameObject> _obj)
 				continue;
 			}
 
-			ImGuiGameObject(*child);
+			ImGuiGameObject(*child, _colledSource);
 			child++;
 		}
 		ImGui::TreePop();
 	}
+}
+
+
+Hierarchy::Hierarchy()
+{
+	m_dragDrop = std::make_shared<MyImGui::DragDrop<std::weak_ptr<GameObject>>>();
+	m_dragDrop->source.push_back([](std::weak_ptr<GameObject> _obj) {return MyDragDrop::SourceGameObjectData	(_obj); });
+	m_dragDrop->target.push_back([](std::weak_ptr<GameObject> _obj) {return MyDragDrop::TargetGameObjectData	(_obj); });
+	m_dragDrop->target.push_back([](std::weak_ptr<GameObject> _obj) {return MyDragDrop::TargetGameObjectDataPath(_obj); });
 }
