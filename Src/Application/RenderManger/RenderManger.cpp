@@ -17,7 +17,7 @@ void RenderManager::BeginDraw()
 }
 void RenderManager::PreDraw()
 {
-	std::map<int, std::list<std::weak_ptr<class Cp_Camera>>>::iterator camera = m_cameraMap.begin();
+	std::map<int, std::list<std::weak_ptr<Cp_Camera>>>::iterator camera = m_cameraMap.begin();
 	while (camera != m_cameraMap.end())
 	{
 		std::list <std::weak_ptr<class Cp_Camera>>::iterator it = camera->second.begin();

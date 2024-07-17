@@ -74,9 +74,9 @@ void Editor::MenuBar()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Open"));
+			if (ImGui::MenuItem("Open"))SceneManager::Instance().SaveScene();
 			if (ImGui::MenuItem("Save"))SceneManager::Instance().SaveScene();
-			if (ImGui::MenuItem("Save as"));
+			if (ImGui::MenuItem("Save as"))SceneManager::Instance().SaveScene();
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Window"))
@@ -142,7 +142,6 @@ void Editor::Init()
 	{
 		// 日本語対応
 #include "imgui/ja_glyph_ranges.h"
-		ImGuiIO& io = ImGui::GetIO();
 		ImFontConfig config;
 		config.MergeMode = true;
 		io.Fonts->AddFontDefault();

@@ -78,7 +78,7 @@ namespace MyImGui
 	template<class Enum> inline bool CheckBoxAllBit(UINT& _ID)
 	{
 		bool change = false;
-		for (int num = 0; num < magic_enum::enum_count<Enum>(); num++)
+		for (UINT num = 0; num < magic_enum::enum_count<Enum>(); num++)
 		{
 			UINT checkID = 1 << num;
 			bool flg = _ID & checkID;
@@ -98,21 +98,26 @@ namespace MyImGui
 	{
 		if (!_tag.empty())
 		{
-			ImGui::Text(_tag.c_str());
+			ImGui::Text("%s", _tag.c_str());
 			ImGui::SameLine();
 		}
 
 		bool flg = false;
 		char buffer[256];
-		std::strncpy(buffer, _editStr.c_str(), sizeof(buffer));
+		std::fill(std::begin(buffer), std::end(buffer), 0); // バッファを初期化
 
-		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2());
+		// _editStrの長さがバッファサイズを超えないようにコピー
+		std::copy_n(_editStr.begin(), std::min(_editStr.size(), sizeof(buffer) - 1), buffer);
+
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0)); // ImVec2の初期値を追加
+
 		if (flg = ImGui::InputText(("##" + _tag + _editStr).c_str(), buffer, sizeof(buffer), _flg)) {
 			_editStr = std::string(buffer);
 		}
 		ImGui::PopStyleVar();
 
 		return flg;
+
 	}
 
 	template<class T> 
@@ -135,9 +140,7 @@ namespace MyImGui
 		bool flg = false;
 		if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
 		{
-			char str[256];
-			std::strncpy(str, _str.c_str(), sizeof(str));
-			ImGui::SetDragDropPayload(_tag.c_str(), &str, sizeof(str), ImGuiCond_Once);
+			ImGui::SetDragDropPayload(_tag.c_str(), _str.c_str(), _str.size() + 1, ImGuiCond_Once);
 			ImGui::Text(_tag.c_str());
 
 			flg = true;
@@ -170,9 +173,9 @@ namespace MyImGui
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_tag.c_str()))
 			{
-				IM_ASSERT(payload->DataSize == sizeof(char[256]));
-				std::string path = (char*)payload->Data;
-				_str = path;
+				const char* payloadData = static_cast<const char*>(payload->Data);
+				std::string receivedStr(payloadData);
+				_str = receivedStr;
 				flg = true;
 			}
 			ImGui::EndDragDropTarget();

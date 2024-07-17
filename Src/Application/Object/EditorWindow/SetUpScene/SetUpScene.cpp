@@ -93,8 +93,7 @@ namespace MyDragDrop
 	}
 	void TargetScene()
 	{
-		std::string _path;
-		if (MyImGui::DragDropTarget("SceneDragDrop", _path))
+		if (std::string _path; MyImGui::DragDropTarget("SceneDragDrop", _path))
 		{
 			std::filesystem::path path(_path);
 			std::map <std::string, std::string>& list = SceneManager::Instance().WorkSceneList();

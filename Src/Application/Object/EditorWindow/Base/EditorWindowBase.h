@@ -19,8 +19,8 @@ public:
 protected:
 	virtual void UpdateContents() {};
 	virtual void PostUpdate() {}
-	virtual void ConfigLoadContents(nlohmann::json& _json) {}
-	virtual void ConfigSaveContents(nlohmann::json& _json) {}
+	virtual void ConfigLoadContents(nlohmann::json& _json) {_json;}
+	virtual void ConfigSaveContents(nlohmann::json& _json) {_json;}
 
 	Editor* m_owner = nullptr;
 	std::string m_name = "EditorWindow";

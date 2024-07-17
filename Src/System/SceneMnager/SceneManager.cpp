@@ -72,16 +72,16 @@ void SceneManager::Init()
 		nlohmann::json::iterator map = data["SceneData"].begin();
 		while (map != data["SceneData"].end())
 		{
-			m_sceneList[map.key()] = *map;
+			m_sceneList.emplace(map.key(), *map);
 			map++;
 		}
 	}
 	else
 	{
 		m_nowScene = "TitleA";
-		m_sceneList["TitleC"] = "pasth.secne";
-		m_sceneList["TitleA"] = "pasth.secne";
-		m_sceneList["TitleB"] = "pasth.secne";
+		m_sceneList["TitleC"] = "pasth.scene";
+		m_sceneList["TitleA"] = "pasth.scene";
+		m_sceneList["TitleB"] = "pasth.scene";
 	}
 	LoadScene(m_nowScene);
 }

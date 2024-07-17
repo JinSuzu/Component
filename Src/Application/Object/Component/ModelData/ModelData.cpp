@@ -22,6 +22,8 @@ void Cp_ModelData::Start()
 
 	m_draw3D = std::make_shared<std::function<void(UINT)>>([&](UINT _type) { Draw3D(_type); });
 	RenderManager::Instance().AddDraw3D(m_draw3D);
+
+	m_drawType = (UINT)DrawType::Lit;
 }
 
 void Cp_ModelData::ImGuiUpdate()

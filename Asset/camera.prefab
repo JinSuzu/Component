@@ -23,12 +23,14 @@
                 }
             },
             {
-                "IDName": "ModelData",
-                "drawType": 1,
-                "path": "Asset\\Data\\Model\\earth\\earth.gltf"
+                "IDName": "Camera",
+                "Priority": 0
+            },
+            {
+                "IDName": "BuildCamera"
             }
         ],
-        "name": "GameObject",
+        "name": "camera",
         "tag": 0
     }
 }

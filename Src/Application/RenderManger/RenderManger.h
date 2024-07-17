@@ -28,7 +28,7 @@ public:
 	void AddCamera(int _priority, std::weak_ptr<class Cp_Camera> _camera);
 
 	std::weak_ptr<class Cp_Camera> GetCamera();
-	const KdRenderTargetPack& const GetDebugView() { return m_rtp; }
+	const KdRenderTargetPack& GetDebugView() { return m_rtp; }
 
 	void DebugViewResize(int w, int h) { m_rtp.CreateRenderTarget(w, h); }
 	//void DebugViewResize(const int* size) { m_rtp.CreateRenderTarget(*size, *(++size)); }

@@ -18,20 +18,6 @@ std::shared_ptr<KdTexture> AssetManager::GetKdTexture(std::string _assetPath)
 	return m_texList[_assetPath];
 
 }
-std::shared_ptr<KdModelData> AssetManager::GetModelData(std::string _assetPath)
-{
-	if (m_modelDataList[_assetPath] == nullptr)
-	{
-		std::shared_ptr<KdModelData> modelData = std::make_shared<KdModelData>();
-
-		if (modelData->Load(_assetPath))m_modelDataList[_assetPath] = modelData;
-		else Application::Instance().m_log.AddLog("Model Load Missing!!\n");
-
-		return modelData;
-	}
-
-	return m_modelDataList[_assetPath];
-}
 std::shared_ptr<KdSquarePolygon> AssetManager::GetSquarePolygon(std::string _assetPath)
 {
 	if (m_squarePolygonList[_assetPath] == nullptr)
@@ -50,6 +36,20 @@ std::shared_ptr<KdSquarePolygon> AssetManager::GetSquarePolygon(std::string _ass
 	}
 
 	return m_squarePolygonList[_assetPath];
+}
+std::shared_ptr<KdModelData> AssetManager::GetModelData(std::string _assetPath)
+{
+	if (m_modelDataList[_assetPath] == nullptr)
+	{
+		std::shared_ptr<KdModelData> modelData = std::make_shared<KdModelData>();
+
+		if (modelData->Load(_assetPath))m_modelDataList[_assetPath] = modelData;
+		else Application::Instance().m_log.AddLog("Model Load Missing!!\n");
+
+		return modelData;
+	}
+
+	return m_modelDataList[_assetPath];
 }
 
 bool AssetManager::SelectTexture(std::shared_ptr<KdTexture>& _tex, std::string& _path)
