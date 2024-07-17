@@ -179,7 +179,7 @@ void RenderManager::Init()
 	//===================================================================
 	KdShaderManager::Instance().Init();
 
-	DebugViewResize(KdDirect3D::Instance().GetWindowSize());
+	DebugViewResize(1280, 720);
 }
 
 void RenderManager::DrawSprite()

@@ -116,26 +116,25 @@ public:
 	// アプリケーション終了
 	void End() { m_endFlag = true; }
 
-	HWND GetWindowHandle()	const	{ return m_window.GetWndHandle(); }
-	int GetMouseWheelValue()const	{ return m_window.GetMouseWheelVal(); }
-	KdWindow& GetWindow()			{ return m_window; }
+	HWND GetWindowHandle()	const { return m_window.GetWndHandle(); }
+	int GetMouseWheelValue()const { return m_window.GetMouseWheelVal(); }
+	KdWindow& GetWindow() { return m_window; }
 
 	int GetNowFPS() const { return m_fpsController.m_nowfps; }
 	int GetMaxFPS() const { return m_fpsController.m_maxFps; }
-	void UpdateFPS()	  { m_fpsController.UpdateStartTime(); }
+	void UpdateFPS() { m_fpsController.UpdateStartTime(); }
 
 	const int* GetWindowSize() { return KdDirect3D::Instance().GetWindowSize(); }
 
 	Math::Vector2 GetMouse();
+	const Math::Vector2 GetMouseDelta() const { return m_mouseDelta; };
 
 	void KdBeginUpdate();
 	void KdPostUpdate();
 
-	void KdBeginDraw(bool usePostProcess = true);
-
-	bool GetBuildFlg()	const	{ return m_buildFlg; };
-	void TurnBuildFlg()			{ m_buildFlg = !m_buildFlg; };
-	bool GetDebugFlg()	const	{ return m_debugFlg; };
+	bool GetBuildFlg()	const { return m_buildFlg; };
+	void TurnBuildFlg() { m_buildFlg = !m_buildFlg; };
+	bool GetDebugFlg()	const { return m_debugFlg; };
 	void SetDebugFlg(bool _flg) { m_debugFlg = _flg; };
 
 	std::weak_ptr<class Editor> GetEditor() { return m_editor; }
@@ -160,6 +159,8 @@ private:
 
 	bool m_buildFlg = true;
 	bool m_debugFlg = true;
+
+	Math::Vector2 m_mouseDelta;
 
 	std::shared_ptr<Editor> m_editor;
 	//=====================================================

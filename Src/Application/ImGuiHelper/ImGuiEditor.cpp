@@ -96,7 +96,6 @@ void Editor::MenuBar()
 		ImGui::EndMenuBar();
 	}
 }
-
 void Editor::OverwriteWindow()
 {
 	ReleaseWindows();
@@ -178,8 +177,7 @@ void Editor::Init()
 
 	nlohmann::json json;
 	ConfigManger config;
-	config.Load("Editor", json);
-	if (!json.is_null())
+	if (config.Load("Editor", json))
 	{
 		auto it = json.begin();
 		while (it != json.end())
@@ -213,6 +211,7 @@ void Editor::ReleaseWindows()
 void Editor::Release()
 {
 	ReleaseWindows();
+
 	nlohmann::json json;
 	for (auto& key : m_editorActive)json[key.first] = key.second;
 	ConfigManger config;

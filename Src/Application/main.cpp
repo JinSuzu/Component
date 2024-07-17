@@ -55,6 +55,7 @@ void Application::Execute()
 	// 時間
 	m_fpsController.Init();
 	// ループ
+	Math::Vector2 postMousePos;
 	while (1)
 	{
 		// 処理開始時間Get
@@ -63,6 +64,14 @@ void Application::Execute()
 		std::string titlebar = "Rocket Burst Breaker	fps : " + std::to_string(m_fpsController.m_nowfps);
 		SetWindowTextA(GetWindowHandle(), titlebar.c_str());
 		
+		//=========================================
+		//
+		// アプリケーション描画処理
+		//
+		//=========================================
+		m_mouseDelta = GetMouse() - postMousePos;
+		postMousePos = GetMouse();
+
 		// ゲーム終了指定があるときはループ終了
 		if (m_endFlag)
 		{
@@ -123,6 +132,7 @@ void Application::Execute()
 
 		SceneManager::Instance().PushScene();
 
+
 		//=========================================
 		//
 		// フレームレート制御
@@ -166,15 +176,6 @@ void Application::KdPostUpdate()
 	// 3DSoundListnerの行列を更新
 	KdAudioManager::Instance().SetListnerMatrix(KdShaderManager::Instance().GetCameraCB().mView.Invert());
 }
-
-void Application::KdBeginDraw(bool usePostProcess)
-{
-	KdDirect3D::Instance().ClearBackBuffer();
-	KdShaderManager::Instance().m_postProcessShader.Draw();
-
-	if (!usePostProcess) return;
-}
-
 
 bool Application::Init(int w, int h)
 {

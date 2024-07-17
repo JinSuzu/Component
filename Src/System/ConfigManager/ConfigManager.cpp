@@ -12,7 +12,7 @@ bool ConfigManger::Load(std::string_view _key, nlohmann::json& _date)
 void ConfigManger::Save(std::string_view _key, nlohmann::json& _data)
 {
 	nlohmann::json json = MyJson::InputJson(m_configPath.string());
-	json.emplace(_key, _data);
+	json[ _key] = _data;
 	MyJson::OutputJson(json, m_configPath.string());
 	Application::Instance().m_log.AddLog((std::string(_key.data()) + "saved!!\n").c_str());
 }

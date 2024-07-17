@@ -56,6 +56,16 @@ namespace MyImGui
 		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + x_pos);
 		return ImGui::Button(label.c_str(), size);
 	}
+	inline void ImageWindowCenter(ID3D11ShaderResourceView* _tex,ImVec2 _size,ImVec2 _offsetPos)
+	{
+		// 画面中央に固定するためのオフセット計算
+		ImVec2 imagePos = ((ImGui::GetContentRegionAvail() - _size) * 0.5f) + _offsetPos;
+
+		// 位置を設定
+		ImGui::SetCursorPos(imagePos);
+
+		ImGui::Image(_tex, _size);
+	}
 
 	inline bool CheckBoxBit(std::string _name, UINT& _ID, UINT _checkID)
 	{

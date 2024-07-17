@@ -32,6 +32,7 @@
 #include "Counter/Counter.h"
 #include "ChildCnt/ChildCnt.h"
 #include "ScoreCounter/ScoreCounter.h"
+#include "BuildCamera/BuildCamera.h"
 
 
 #define FNCOMPONENT(Tag)											\
@@ -55,6 +56,7 @@ class RegisterComponent
 			};
 
 		Register(FNCOMPONENT(Cp_Camera));
+		Register(FNCOMPONENT(Cp_BuildCamera));
 		Register(FNCOMPONENT(Cp_Collider));
 		Register(FNCOMPONENT(Cp_BoxCollision));
 

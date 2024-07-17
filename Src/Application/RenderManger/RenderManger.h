@@ -31,7 +31,7 @@ public:
 	const KdRenderTargetPack& const GetDebugView() { return m_rtp; }
 
 	void DebugViewResize(int w, int h) { m_rtp.CreateRenderTarget(w, h); }
-	void DebugViewResize(const int* size) { m_rtp.CreateRenderTarget(*size, *(++size)); }
+	//void DebugViewResize(const int* size) { m_rtp.CreateRenderTarget(*size, *(++size)); }
 
 	void Init();
 private:

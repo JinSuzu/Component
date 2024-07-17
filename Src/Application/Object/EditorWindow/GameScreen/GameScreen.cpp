@@ -5,6 +5,7 @@
 #include "../../Game/Manager/GameObjectManager.h"
 #include "../../Game/GameObject.h"
 #include "../../Component/Transform/Transform.h"
+#include "../../Component/BuildCamera/BuildCamera.h"
 #include "../../../ImGuiHelper/ImGuiHelper.h"
 
 #include "../../../main.h"
@@ -22,28 +23,36 @@ void GameScreen::UpdateContents()
 		Application::Instance().TurnBuildFlg();
 	}
 
-	if (!m_buildCamera && Application::Instance().GetBuildFlg())m_buildCamera = GameObjectManager::CreateObject(MyJson::InputJson("Asset/Data/Prefab/BuildCamera"), std::weak_ptr<GameObject>(), false);
+	if (!m_buildCamera && Application::Instance().GetBuildFlg())
+	{
+		m_buildCamera = GameObjectManager::CreateObject(std::string("BuildCamera"));
+		m_buildCamera->AddComponent("Camera");
+		m_cameraController = std::static_pointer_cast<Cp_BuildCamera>(m_buildCamera->AddComponent("BuildCamera"));
+	}
 	else if (!Application::Instance().GetBuildFlg())m_buildCamera = nullptr;
 
 	ImVec2 size(1280.0f, 720.0f);
 	ID3D11ShaderResourceView* rtv = RenderManager::Instance().GetDebugView().m_RTTexture->WorkSRView();
-	ImGui::Image(rtv, size * (ImGui::GetContentRegionAvail() / size));
+	ImVec2 imgeSize = ImGui::GetContentRegionAvail() / size;
+	imgeSize = imgeSize.x < imgeSize.y ? ImVec2(imgeSize.x, imgeSize.x) : ImVec2(imgeSize.y, imgeSize.y);
+
+	MyImGui::ImageWindowCenter(rtv, size * imgeSize, { 0.0f,ImGui::GetItemRectSize().y });
 }
 
 void GameScreen::PostUpdate()
 {
-	static Math::Vector2 postMousePos = Application::Instance().GetMouse();
+	if (m_cameraController.expired())return;
 	if (ImGui::IsItemHovered())
 	{
-		if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
-		{
-			//カメラ視点移動
-		}
-
 		if (ImGui::IsKeyDown(ImGuiKey_MouseWheelY))
 		{
-			//カメラ移動
+			m_cameraController.lock()->HoverMove();
 		}
+		if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl))
+		{
+			m_cameraController.lock()->AngleShift();
+			Application::Instance().m_log.AddLog("Hovered & Clicked\n");
+		}
+
 	}
-	Application::Instance().GetMouse();
 }

@@ -15,6 +15,6 @@ public:
 	nlohmann::json GetJson()override;
 private:
 	std::unique_ptr<KdCamera> m_camera;
-
+	std::shared_ptr<std::function<void()>> m_preDraw;
 	int m_priority = 0;
 };

@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 class GameObject;
+class EditorWindowBase;
+
 class Editor
 {
 public:
@@ -15,10 +17,10 @@ private:
 	void OverwriteWindow();
 
 	std::weak_ptr<GameObject>														m_editObject;
-	std::map<std::string, std::function<std::shared_ptr<class EditorWindowBase>()>>	m_editorWindows;
+	std::map<std::string, std::function<std::shared_ptr<EditorWindowBase>()>>	m_editorWindows;
 
 	std::map<std::string, bool>														m_editorActive;
-	std::list<std::shared_ptr<class EditorWindowBase>>								m_windowList;
+	std::list<std::shared_ptr<EditorWindowBase>>									m_windowList;
 
 	void Init();
 	void ReleaseWindows();

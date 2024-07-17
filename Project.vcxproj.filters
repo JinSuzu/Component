@@ -226,6 +226,9 @@
     <Filter Include="Src\System\SceneMnager">
       <UniqueIdentifier>{26ca9804-4533-468d-89b0-d2297543b8c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Object\Component\BuildCamera">
+      <UniqueIdentifier>{946c5992-1476-4370-ab1f-c5d4c3cf0149}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -702,6 +705,9 @@
     <ClInclude Include="Src\System\ConfigManager\ConfigManager.h">
       <Filter>Src\System\ConfigManager</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\BuildCamera\BuildCamera.h">
+      <Filter>Src\Application\Object\Component\BuildCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -985,6 +991,9 @@
     </ClCompile>
     <ClCompile Include="Src\System\ConfigManager\ConfigManager.cpp">
       <Filter>Src\System\ConfigManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\BuildCamera\BuildCamera.cpp">
+      <Filter>Src\Application\Object\Component\BuildCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -213,7 +213,6 @@ void Prefab::ConfigLoadContents(nlohmann::json& _json)
 		m_favoritePathList.push_back(_json);
 	}
 }
-
 void Prefab::ConfigSaveContents(nlohmann::json& _json)
 {
 	_json["OpenDirectoryPath"] = m_openDirectoryPath;
@@ -229,9 +228,9 @@ void Prefab::ConfigSaveContents(nlohmann::json& _json)
 Prefab::Prefab()
 {
 	m_fileSource[".prefab"] = [&](const std::filesystem::path& _path) {return MyDragDrop::SourceGameObjectDataPath(_path.string()); };
-	m_fileSource[".png"] = [&](const std::filesystem::path& _path) {return MyDragDrop::SourcePicture(_path.string()); };
-	m_fileSource[".gltf"] = [&](const std::filesystem::path& _path) {return MyDragDrop::SourceModel(_path.string()); };
-	m_fileSource[".scene"] = [&](const std::filesystem::path& _path) {return MyDragDrop::SourceScene(_path.string()); };
+	m_fileSource[".png"]	= [&](const std::filesystem::path& _path) {return MyDragDrop::SourcePicture(_path.string()); };
+	m_fileSource[".gltf"]	= [&](const std::filesystem::path& _path) {return MyDragDrop::SourceModel(_path.string()); };
+	m_fileSource[".scene"]	= [&](const std::filesystem::path& _path) {return MyDragDrop::SourceScene(_path.string()); };
 
 	m_leftClickedFileEdit.push_back([&](const std::filesystem::path& _path) {SetOpenDirectoryPath(_path); });
 
