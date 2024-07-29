@@ -1,6 +1,5 @@
 ﻿#include "EnterToScene.h"
 #include "../../Game/GameObject.h"
-#include "../../../../System/SceneMnager/SceneManager.h"
 
 void Cp_EnterToScene::PreUpdateContents()
 {

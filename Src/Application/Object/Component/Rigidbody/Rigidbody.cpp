@@ -4,7 +4,6 @@
 #include "../Transform/Transform.h"
 
 #include "../../../RenderManger/RenderManger.h"
-#include "../../../ImGuiHelper/ImGuiHelper.h"
 
 void Cp_Rigidbody::Start()
 {
@@ -74,7 +73,7 @@ void Cp_Rigidbody::ImGuiUpdate()
 	if (ImGui::Button("ColliderType"))ImGui::OpenPopup(("ColliderType##" + std::to_string(GetInstanceID())).c_str());
 	if (ImGui::BeginPopup(("ColliderType##" + std::to_string(GetInstanceID())).c_str()))
 	{
-		MyImGui::CheckBoxAllBit<KdCollider::Type>(m_shapeDate.tag);
+		Utility::ImGuiHelper::CheckBoxAllBit<KdCollider::Type>(m_shapeDate.tag);
 		ImGui::EndPopup();
 	}
 
@@ -82,7 +81,7 @@ void Cp_Rigidbody::ImGuiUpdate()
 
 void Cp_Rigidbody::LoadJson(nlohmann::json _json)
 {
-	m_move = MyJson::InPutVec3(_json["move"]);
+	m_move = Utility::JsonHelper::InPutVec3(_json["move"]);
 	m_deceleration = _json["deceleration"];
 
 	m_bActiveGravity = _json["activeGravityFlag"];
@@ -92,14 +91,14 @@ void Cp_Rigidbody::LoadJson(nlohmann::json _json)
 
 	if (_json["CollisionBody"].is_boolean())m_collisionBody = _json["CollisionBody"];
 	if (_json["Shape"].is_number()) m_shape = _json["Shape"];
-	m_shapeDate.radius = MyJson::InPutVec3(_json["Radius"]);
-	m_shapeDate.offsetPos = MyJson::InPutVec3(_json["OffsetPos"]);
+	m_shapeDate.radius = Utility::JsonHelper::InPutVec3(_json["Radius"]);
+	m_shapeDate.offsetPos = Utility::JsonHelper::InPutVec3(_json["OffsetPos"]);
 	m_shapeDate.tag = _json["Tag"];
 }
 nlohmann::json Cp_Rigidbody::GetJson()
 {
 	nlohmann::json json;
-	json["move"] = MyJson::OutPutVec3(m_move);
+	json["move"] = Utility::JsonHelper::OutPutVec3(m_move);
 	json["deceleration"] = m_deceleration;
 
 	json["activeGravityFlag"] = m_bActiveGravity;
@@ -110,8 +109,8 @@ nlohmann::json Cp_Rigidbody::GetJson()
 
 	json["CollisionBody"] = m_collisionBody;
 	json["Shape"] = m_shape;
-	json["Radius"] = MyJson::OutPutVec3(m_shapeDate.radius);
-	json["OffsetPos"] = MyJson::OutPutVec3(m_shapeDate.offsetPos);
+	json["Radius"] = Utility::JsonHelper::OutPutVec3(m_shapeDate.radius);
+	json["OffsetPos"] = Utility::JsonHelper::OutPutVec3(m_shapeDate.offsetPos);
 	json["Tag"] = m_shapeDate.tag;
 	return json;
 }

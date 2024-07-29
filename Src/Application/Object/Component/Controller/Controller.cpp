@@ -3,7 +3,6 @@
 #include "../Transform/Transform.h"
 #include "../Rigidbody/Rigidbody.h"
 #include "../Rigidbody/Rigidbody.h"
-#include "../../../ImGuiHelper/ImGuiHelper.h"
 
 void Cp_Controller::Start()
 {
@@ -35,7 +34,7 @@ void Cp_Controller::ImGuiUpdate()
 	if (ImGui::Button("shaft"))ImGui::OpenPopup("MShafts");
 	if (ImGui::BeginPopup("MShafts"))
 	{
-		MyImGui::CheckBoxAllBit<Shaft>(m_shaft);
+		Utility::ImGuiHelper::CheckBoxAllBit<Shaft>(m_shaft);
 		ImGui::EndPopup();
 	}
 

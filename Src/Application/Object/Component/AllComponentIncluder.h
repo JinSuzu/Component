@@ -4,8 +4,10 @@
 #include "BoxCollision/BoxCollision.h"
 
 #include "Texture/Texture.h"
-#include "ModelData/ModelData.h"
 #include "SquarePolygon/SquarePolygon.h"
+#include "ModelData/ModelData.h"
+#include "ModelWork/ModelWork.h"
+
 #include "Rigidbody/Rigidbody.h"
 
 #include "AddRotation/AddRotaion.h"
@@ -77,7 +79,7 @@ class RegisterComponent
 			}
 		}
 
-		Register(FNCOMPONENT(Cp_ModelData));
+		Register(FNCOMPONENT(Cp_Texture));
 		Register(FNCOMPONENT(Cp_SquarePolygon)); 
 		{
 			Register(FNCOMPONENT(Cp_SinCurveAlpha));
@@ -85,7 +87,8 @@ class RegisterComponent
 			Register(FNCOMPONENT(Cp_Counter));
 		
 		}
-		Register(FNCOMPONENT(Cp_Texture));
+		Register(FNCOMPONENT(Cp_ModelData));
+		Register(FNCOMPONENT(Cp_ModelWork));
 
 		Register(FNCOMPONENT(Cp_AddRotation));
 		Register(FNCOMPONENT(Cp_Launcher));

@@ -47,7 +47,7 @@ void Cp_Texture::ImGuiUpdate()
 void Cp_Texture::LoadJson(nlohmann::json _json)
 {
 	m_path = _json["path"];
-	m_rect = MyJson::InputRect(_json["rect"]);
+	m_rect = Utility::JsonHelper::InputRect(_json["rect"]);
 	m_tex = AssetManager::Instance().GetKdTexture(m_path);
 
 	m_animation->SetJson(_json["animation"]);
@@ -57,7 +57,7 @@ nlohmann::json Cp_Texture::GetJson()
 {
 	nlohmann::json json;
 	json["path"] = m_path;
-	json["rect"] = MyJson::OutPutRect(m_rect);
+	json["rect"] = Utility::JsonHelper::OutPutRect(m_rect);
 
 	json["animation"] = m_animation->GetJson();
 	return json;

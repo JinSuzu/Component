@@ -48,14 +48,14 @@ void Cp_BoxCollision::ImGuiUpdate()
 
 void Cp_BoxCollision::LoadJson(nlohmann::json _json)
 {
-		m_rad = MyJson::InPutVec3(_json["rad"]);
+		m_rad = Utility::JsonHelper::InPutVec3(_json["rad"]);
 		m_bTrigger = _json["bTrigger"];
 }
 
 nlohmann::json Cp_BoxCollision::GetJson()
 {
 	nlohmann::json json;
-	json["rad"] = MyJson::OutPutVec3(m_rad);
+	json["rad"]		 = Utility::JsonHelper::OutPutVec3(m_rad);
 	json["bTrigger"] = m_bTrigger;
 	return json;
 }

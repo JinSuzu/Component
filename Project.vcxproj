@@ -143,6 +143,11 @@
   <ItemGroup>
     <ClInclude Include="..\Library\imgui\imconfig.h" />
     <ClInclude Include="..\Library\imgui\imgui.h" />
+    <ClInclude Include="..\Library\imgui\ImGuizmo-master\GraphEditor.h" />
+    <ClInclude Include="..\Library\imgui\ImGuizmo-master\ImCurveEdit.h" />
+    <ClInclude Include="..\Library\imgui\ImGuizmo-master\ImGuizmo.h" />
+    <ClInclude Include="..\Library\imgui\ImGuizmo-master\ImSequencer.h" />
+    <ClInclude Include="..\Library\imgui\ImGuizmo-master\ImZoomSlider.h" />
     <ClInclude Include="..\Library\imgui\imgui_impl_dx11.h" />
     <ClInclude Include="..\Library\imgui\imgui_impl_win32.h" />
     <ClInclude Include="..\Library\imgui\imgui_internal.h" />
@@ -210,9 +215,6 @@
     <ClInclude Include="..\Library\tinygltf\stb_image_write.h" />
     <ClInclude Include="..\Library\tinygltf\tiny_gltf.h" />
     <ClInclude Include="Src\Application\AssetManager\AssetManager.h" />
-    <ClInclude Include="Src\Application\ImGuiHelper\ImGuiEditor.h" />
-    <ClInclude Include="Src\Application\ImGuiHelper\ImGuiHelper.h" />
-    <ClInclude Include="Src\Application\JsonHelper\JsonHelper.h" />
     <ClInclude Include="Src\Application\main.h" />
     <ClInclude Include="Src\Application\Object\Component\AddRotation\AddRotaion.h" />
     <ClInclude Include="Src\Application\Object\Component\AllComponentIncluder.h" />
@@ -233,6 +235,7 @@
     <ClInclude Include="Src\Application\Object\Component\HitResult\HitResultScene\HitResultScene.h" />
     <ClInclude Include="Src\Application\Object\Component\Launcher\Launcher.h" />
     <ClInclude Include="Src\Application\Object\Component\ModelData\ModelData.h" />
+    <ClInclude Include="Src\Application\Object\Component\ModelWork\ModelWork.h" />
     <ClInclude Include="Src\Application\Object\Component\MoveLimit\MoveLimit.h" />
     <ClInclude Include="Src\Application\Object\Component\MoveLocus\MoveLocus.h" />
     <ClInclude Include="Src\Application\Object\Component\Particle\Particle.h" />
@@ -248,16 +251,8 @@
     <ClInclude Include="Src\Application\Object\Component\TransFormInherit\TransFormInherit.h" />
     <ClInclude Include="Src\Application\Object\Component\TransformLimit\TransformLimit.h" />
     <ClInclude Include="Src\Application\Object\Component\Transform\Transform.h" />
-    <ClInclude Include="Src\Application\Object\EditorWindow\Base\EditorWindowBase.h" />
-    <ClInclude Include="Src\Application\Object\EditorWindow\DebugLog\DebugLog.h" />
-    <ClInclude Include="Src\Application\Object\EditorWindow\GameScreen\GameScreen.h" />
-    <ClInclude Include="Src\Application\Object\EditorWindow\Hierarchy\Hierarchy.h" />
-    <ClInclude Include="Src\Application\Object\EditorWindow\Inspector\Inspector.h" />
-    <ClInclude Include="Src\Application\Object\EditorWindow\Prefab\Prefab.h" />
-    <ClInclude Include="Src\Application\Object\EditorWindow\SetUpScene\SetUpScene.h" />
     <ClInclude Include="Src\Application\Object\Game\GameObject.h" />
     <ClInclude Include="Src\Application\Object\Game\Manager\GameObjectManager.h" />
-    <ClInclude Include="Src\Application\Object\Object.h" />
     <ClInclude Include="Src\Application\RenderManger\RenderManger.h" />
     <ClInclude Include="Src\Application\Score\Score.h" />
     <ClInclude Include="Src\Application\Utility\Animation2D\Animation2D.h" />
@@ -290,7 +285,6 @@
     <ClInclude Include="Src\Framework\Utility\KdCSVData.h" />
     <ClInclude Include="Src\Framework\Utility\KdDebugWireFrame.h" />
     <ClInclude Include="Src\Framework\Utility\KdFPSController.h" />
-    <ClInclude Include="src\Pch.h" />
     <ClInclude Include="Src\Framework\Math\KdAnimation.h" />
     <ClInclude Include="Src\Framework\Math\KdCollision.h" />
     <ClInclude Include="Src\Framework\Shader\KdShaderManager.h" />
@@ -298,11 +292,31 @@
     <ClInclude Include="Src\Framework\Shader\SpriteShader\KdSpriteShader.h" />
     <ClInclude Include="src\Framework\Utility\KdUtility.h" />
     <ClInclude Include="src\Framework\Window\KdWindow.h" />
-    <ClInclude Include="Src\System\ConfigManager\ConfigManager.h" />
-    <ClInclude Include="Src\System\SceneMnager\SceneManager.h" />
+    <ClInclude Include="Src\Pch.h" />
+    <ClInclude Include="Src\System\EditorWindow\Base\EditorWindowBase.h" />
+    <ClInclude Include="Src\System\EditorWindow\DebugLog\DebugLog.h" />
+    <ClInclude Include="Src\System\EditorWindow\GameScreen\GameScreen.h" />
+    <ClInclude Include="Src\System\EditorWindow\Hierarchy\Hierarchy.h" />
+    <ClInclude Include="Src\System\EditorWindow\Inspector\Inspector.h" />
+    <ClInclude Include="Src\System\EditorWindow\Prefab\FileEditor\FileEditor.h" />
+    <ClInclude Include="Src\System\EditorWindow\Prefab\Prefab.h" />
+    <ClInclude Include="Src\System\EditorWindow\SetUpScene\SetUpScene.h" />
+    <ClInclude Include="Src\System\Manager\ConfigManager\ConfigManager.h" />
+    <ClInclude Include="Src\System\Manager\EditorWindowManager\EditorWindowManager.h" />
+    <ClInclude Include="Src\System\Manager\SceneMnager\SceneManager.h" />
+    <ClInclude Include="Src\System\Object\Object.h" />
+    <ClInclude Include="Src\System\SystemPch.h" />
+    <ClInclude Include="Src\System\Utility\Helper\ImGuiHelper.h" />
+    <ClInclude Include="Src\System\Utility\Helper\ImGuizmoHelper.h" />
+    <ClInclude Include="Src\System\Utility\Helper\JsonHelper.h" />
+    <ClInclude Include="Src\System\Utility\Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Library\imgui\imgui.cpp" />
+    <ClCompile Include="..\Library\imgui\ImGuizmo-master\GraphEditor.cpp" />
+    <ClCompile Include="..\Library\imgui\ImGuizmo-master\ImCurveEdit.cpp" />
+    <ClCompile Include="..\Library\imgui\ImGuizmo-master\ImGuizmo.cpp" />
+    <ClCompile Include="..\Library\imgui\ImGuizmo-master\ImSequencer.cpp" />
     <ClCompile Include="..\Library\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\Library\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\Library\imgui\imgui_impl_dx11.cpp" />
@@ -311,9 +325,6 @@
     <ClCompile Include="..\Library\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\Library\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\Application\AssetManager\AssetManager.cpp" />
-    <ClCompile Include="Src\Application\ImGuiHelper\ImGuiEditor.cpp" />
-    <ClCompile Include="Src\Application\ImGuiHelper\ImGuiHelper.cpp" />
-    <ClCompile Include="Src\Application\JsonHelper\JsonHelper.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
     <ClCompile Include="Src\Application\Object\Component\AddRotation\AddRotaion.cpp" />
     <ClCompile Include="Src\Application\Object\Component\BoxCollision\BoxCollision.cpp" />
@@ -333,6 +344,7 @@
     <ClCompile Include="Src\Application\Object\Component\HitResult\HitResultScene\HitResultScene.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Launcher\Launcher.cpp" />
     <ClCompile Include="Src\Application\Object\Component\ModelData\ModelData.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\ModelWork\ModelWork.cpp" />
     <ClCompile Include="Src\Application\Object\Component\MoveLimit\MoveLimit.cpp" />
     <ClCompile Include="Src\Application\Object\Component\MoveLocus\MoveLocus.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Particle\Particle.cpp" />
@@ -348,16 +360,8 @@
     <ClCompile Include="Src\Application\Object\Component\TransFormInherit\TransFormInherit.cpp" />
     <ClCompile Include="Src\Application\Object\Component\TransformLimit\TransformLimit.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Transform\Transform.cpp" />
-    <ClCompile Include="Src\Application\Object\EditorWindow\Base\EditorWindowBase.cpp" />
-    <ClCompile Include="Src\Application\Object\EditorWindow\DebugLog\DebugLog.cpp" />
-    <ClCompile Include="Src\Application\Object\EditorWindow\GameScreen\GameScreen.cpp" />
-    <ClCompile Include="Src\Application\Object\EditorWindow\Hierarchy\Hierarchy.cpp" />
-    <ClCompile Include="Src\Application\Object\EditorWindow\Inspector\Inspector.cpp" />
-    <ClCompile Include="Src\Application\Object\EditorWindow\Prefab\Prefab.cpp" />
-    <ClCompile Include="Src\Application\Object\EditorWindow\SetUpScene\SetUpScene.cpp" />
     <ClCompile Include="Src\Application\Object\Game\GameObject.cpp" />
     <ClCompile Include="Src\Application\Object\Game\Manager\GameObjectManager.cpp" />
-    <ClCompile Include="Src\Application\Object\Object.cpp" />
     <ClCompile Include="Src\Application\RenderManger\RenderManger.cpp" />
     <ClCompile Include="Src\Application\Score\Score.cpp" />
     <ClCompile Include="Src\Application\Utility\Animation2D\Animation2D.cpp" />
@@ -401,8 +405,16 @@
     <ClCompile Include="Src\Framework\Shader\SpriteShader\KdSpriteShader.cpp" />
     <ClCompile Include="Src\Framework\Utility\KdUtility.cpp" />
     <ClCompile Include="src\Framework\Window\KdWindow.cpp" />
-    <ClCompile Include="Src\System\ConfigManager\ConfigManager.cpp" />
-    <ClCompile Include="Src\System\SceneMnager\SceneManager.cpp" />
+    <ClCompile Include="Src\System\EditorWindow\Base\EditorWindowBase.cpp" />
+    <ClCompile Include="Src\System\EditorWindow\DebugLog\DebugLog.cpp" />
+    <ClCompile Include="Src\System\EditorWindow\GameScreen\GameScreen.cpp" />
+    <ClCompile Include="Src\System\EditorWindow\Hierarchy\Hierarchy.cpp" />
+    <ClCompile Include="Src\System\EditorWindow\Inspector\Inspector.cpp" />
+    <ClCompile Include="Src\System\EditorWindow\Prefab\Prefab.cpp" />
+    <ClCompile Include="Src\System\EditorWindow\SetUpScene\SetUpScene.cpp" />
+    <ClCompile Include="Src\System\Manager\ConfigManager\ConfigManager.cpp" />
+    <ClCompile Include="Src\System\Manager\EditorWindowManager\EditorWindowManager.cpp" />
+    <ClCompile Include="Src\System\Manager\SceneMnager\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Framework\Shader\inc_KdCommon.hlsli" />

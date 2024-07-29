@@ -4,7 +4,6 @@
 #include "../Camera/Camera.h"
 
 #include "../../../AssetManager/AssetManager.h"
-#include "../../../ImGuiHelper/ImGuiHelper.h"
 #include "../../../Utility/Animation2D/Animation2D.h"
 #include "../../../RenderManger/RenderManger.h"
 #include "../../../main.h"
@@ -28,6 +27,7 @@ void Cp_SquarePolygon::Start()
 	m_animation = std::make_shared<Animation2D>();
 
 	m_draw3D = std::make_shared<std::function<void(UINT)>>([&](UINT _type) {Draw3D(_type); });
+	m_drawType = (UINT)DrawType::Lit;
 	RenderManager::Instance().AddDraw3D(m_draw3D);
 }
 
@@ -41,7 +41,8 @@ void Cp_SquarePolygon::PostUpdateContents()
 {
 	if (m_cameraFocus)
 	{
-		m_trans.lock()->SetRotation(RenderManager::Instance().GetCamera().lock()->GetOwner().lock()->GetTransform().lock()->GetRotation());
+		std::weak_ptr<Cp_Camera> camera = RenderManager::Instance().GetCamera();
+		if(camera.lock())m_trans.lock()->SetRotation(camera.lock()->GetOwner().lock()->GetTransform().lock()->GetRotation());
 	}
 }
 
@@ -52,7 +53,7 @@ void Cp_SquarePolygon::ImGuiUpdate()
 	if (ImGui::Button("DrawType"))ImGui::OpenPopup("Types");
 	if (ImGui::BeginPopup("Types"))
 	{
-		MyImGui::CheckBoxAllBit<DrawType>(m_drawType);
+		Utility::ImGuiHelper::CheckBoxAllBit<DrawType>(m_drawType);
 		ImGui::EndPopup();
 	}
 
@@ -76,7 +77,7 @@ void Cp_SquarePolygon::LoadJson(nlohmann::json _json)
 
 	m_animation->SetJson(_json["Animation"]);
 
-	if (_json["OffsetPos"].is_object())m_offsetPos = MyJson::InPutVec3(_json["OffsetPos"]);
+	if (_json["OffsetPos"].is_object())m_offsetPos = Utility::JsonHelper::InPutVec3(_json["OffsetPos"]);
 	if (_json["CameraFocus"].is_boolean())m_cameraFocus = _json["CameraFocus"];
 }
 
@@ -91,7 +92,7 @@ nlohmann::json Cp_SquarePolygon::GetJson()
 
 	json["Animation"] = m_animation->GetJson();
 
-	json["OffsetPos"] = MyJson::OutPutVec3(m_offsetPos);
+	json["OffsetPos"] = Utility::JsonHelper::OutPutVec3(m_offsetPos);
 	json["CameraFocus"] = m_cameraFocus;
 	return json;
 }

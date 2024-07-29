@@ -99,13 +99,14 @@
 // imgui
 //
 //===============================================
-#define IMGUI_DEFINE_MATH_OPERATORS
-#define IMGUI_DEFINE_PLACEMENT_NEW
+//#define IMGUI_DEFINE_PLACEMENT_NEW
+#define USE_IMGUI_API
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 #include "imgui/imgui_impl_win32.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_stdlib.h"
+#include "imgui/ImGuizmo-master/ImGuizmo.h"
 
 /////json/////
 #include "nlohmann/json.hpp"
@@ -145,12 +146,24 @@ static std::string PickName(std::string str, const char separator = ' ')
 	return out[1];
 }
 
-static const char* JpText(const char8_t* _text) { return (const char*)_text; }
+inline const char* JpText(const char8_t* _text) { return (const char*)_text; }
 
+template <typename T>
+concept ListOrVector = std::is_same_v<T, std::vector<typename T::value_type, typename T::allocator_type>> ||
+                       std::is_same_v<T, std::list<typename T::value_type, typename T::allocator_type>>;
+template<class T,ListOrVector container> inline container::iterator ListFind(T _target, container& list)
+{
+	typename container::iterator it = list.begin();
+	while (it != list.end())
+	{
+		if (*it == _target)return it;
+		it++;
+	}
+	return it;
+}
 
-#include "../Src/Application/JsonHelper/JsonHelper.h"
 #include "../Src/Application/Score/Score.h"
-#include "System/ConfigManager/ConfigManager.h"
+#include "System/SystemPch.h"
 /*
 template<class T>
 static nlohmann::json SearchJson(nlohmann::json& _json,std::string _key,T _data)
@@ -158,11 +171,11 @@ static nlohmann::json SearchJson(nlohmann::json& _json,std::string _key,T _data)
 	nlohmann::json json;
 	if (_json.is_null())return json;
 
-	for (auto& it : _json) 
-	for (auto& Key : it) 
+	for (auto& it : _json)
+	for (auto& Key : it)
 	{
-		if (Key == _key) 
-		if (it[_key] == _data) 
+		if (Key == _key)
+		if (it[_key] == _data)
 		{
 			json = it;
 			break;

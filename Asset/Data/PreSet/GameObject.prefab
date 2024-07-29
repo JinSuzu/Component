@@ -23,21 +23,9 @@
                 }
             },
             {
-                "Animation": {
-                    "animeList": [],
-                    "nowAnime": ""
-                },
-                "CameraFocus": false,
-                "IDName": "SquarePolygon",
-                "OffsetPos": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "drawType": 3452816833,
-                "path": "Asset/Textures/chara/block.png",
-                "splitH": 1,
-                "splitW": 1
+                "IDName": "ModelData",
+                "drawType": 1,
+                "path": "Asset\\Data\\Model\\RPG-7_Launcher\\RPG-7_Launcher.gltf"
             }
         ],
         "name": "GameObject",

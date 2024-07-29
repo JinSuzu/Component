@@ -1,6 +1,4 @@
 ﻿#include "AssetManager.h"
-#include "../ImGuiHelper/ImGuiEditor.h"
-#include "../ImGuiHelper/ImGuiHelper.h"
 #include "../main.h"
 
 std::shared_ptr<KdTexture> AssetManager::GetKdTexture(std::string _assetPath)
@@ -10,7 +8,7 @@ std::shared_ptr<KdTexture> AssetManager::GetKdTexture(std::string _assetPath)
 		std::shared_ptr<KdTexture> tex = std::make_shared<KdTexture>();
 
 		if (tex->Load(_assetPath))m_texList[_assetPath] = tex;
-		else Application::Instance().m_log.AddLog("Texture Load Missing!!\n");
+		else Application::Instance().AddLog("Texture Load Missing!!\n");
 
 		return tex;
 	}
@@ -30,7 +28,7 @@ std::shared_ptr<KdSquarePolygon> AssetManager::GetSquarePolygon(std::string _ass
 			squarePolygon = std::make_shared<KdSquarePolygon>(tex);
 			m_squarePolygonList[_assetPath] = squarePolygon;
 		}
-		else Application::Instance().m_log.AddLog("SquarePolygon Load Missing!!\n");
+		else Application::Instance().AddLog("SquarePolygon Load Missing!!\n");
 
 		return squarePolygon;
 	}
@@ -44,12 +42,33 @@ std::shared_ptr<KdModelData> AssetManager::GetModelData(std::string _assetPath)
 		std::shared_ptr<KdModelData> modelData = std::make_shared<KdModelData>();
 
 		if (modelData->Load(_assetPath))m_modelDataList[_assetPath] = modelData;
-		else Application::Instance().m_log.AddLog("Model Load Missing!!\n");
+		else Application::Instance().AddLog("Model Load Missing!!\n");
 
 		return modelData;
 	}
 
 	return m_modelDataList[_assetPath];
+}
+std::shared_ptr<KdModelWork> AssetManager::GetModelWork(std::string _assetPath)
+{
+	if (m_modelDataList[_assetPath] == nullptr)
+	{
+		std::shared_ptr<KdModelData> modelData = std::make_shared<KdModelData>();
+
+		if (modelData->Load(_assetPath)) 
+		{
+			std::shared_ptr<KdModelWork> temp = std::make_shared<KdModelWork>(modelData);
+			m_modelWorkList[_assetPath] = temp;
+			return temp;
+		}
+		else 
+		{
+			Application::Instance().AddLog("Model Load Missing!!\n");
+			return nullptr;
+		}
+	}
+
+	return m_modelWorkList[_assetPath];
 }
 
 bool AssetManager::SelectTexture(std::shared_ptr<KdTexture>& _tex, std::string& _path)
@@ -132,24 +151,53 @@ bool AssetManager::SelectModelData(std::shared_ptr<KdModelData>& _modelData, std
 	ImGui::PopID();
 	return ret;
 }
+bool AssetManager::SelectModelWork(std::shared_ptr<KdModelWork>& _modelWork, std::string& _path)
+{
+	bool ret = false;
+	ImGui::PushID(_modelWork.get());
+
+	if (_path.empty())_path = "No Texture File";
+	if (ImGui::Button(_path.c_str()))
+	{
+		if (Application::Instance().GetWindow().OpenFileDialog(_path, "モデルファイルを開く", "gltfファイル\0*.gltf\0"))
+		{
+			_modelWork = AssetManager::Instance().GetModelWork(_path);
+			ret = true;
+		}
+	}
+	ret |= MyDragDrop::TargetModel(_path);
+
+	if (ImGui::BeginPopupContextItem("SelectModelDataPopupUpID"))
+	{
+		if (ImGui::Selectable((const char*)"解除"))
+		{
+			_modelWork = nullptr;
+			ret = true;
+		}
+		ImGui::EndPopup();
+	}
+	ImGui::PopID();
+	return ret;
+}
 
 namespace MyDragDrop
 {
 	bool SourcePicture(std::string _path)
 	{
-		return MyImGui::DragDropSource("PicturePath", _path);
+		return Utility::ImGuiHelper::DragDropSource("PicturePath", _path);
 	}
+	
 	bool TargetPicture(std::string& _path)
 	{
-		return MyImGui::DragDropTarget("PicturePath", _path);
+		return  Utility::ImGuiHelper::DragDropTarget("PicturePath", _path);
 	}
 
 	bool SourceModel(std::string _path)
 	{
-		return MyImGui::DragDropSource("ModelPath", _path);
+		return  Utility::ImGuiHelper::DragDropSource("ModelPath", _path);
 	}
 	bool TargetModel(std::string& _path)
 	{
-		return MyImGui::DragDropTarget("ModelPath", _path);
+		return  Utility::ImGuiHelper::DragDropTarget("ModelPath", _path);
 	}
 }

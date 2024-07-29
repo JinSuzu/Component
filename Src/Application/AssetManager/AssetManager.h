@@ -37,15 +37,18 @@ public:
 	std::shared_ptr<KdTexture> GetKdTexture(std::string _assetPath);
 	std::shared_ptr<KdSquarePolygon> GetSquarePolygon(std::string _assetPath);
 	std::shared_ptr<KdModelData> GetModelData(std::string _assetPath);
+	std::shared_ptr<KdModelWork> GetModelWork(std::string _assetPath);
 
 	bool SelectTexture(std::shared_ptr<KdTexture>& _tex, std::string& _path);
 	bool SelectSquarePolygon(std::shared_ptr<KdSquarePolygon>& _poly, std::string& _path);
 	bool SelectModelData(std::shared_ptr<KdModelData>& _modelData, std::string& _path);
+	bool SelectModelWork(std::shared_ptr<KdModelWork>& _modelData, std::string& _path);
 
 private:
 	std::map<std::string, std::shared_ptr<KdTexture>>			m_texList;
-	std::map<std::string, std::shared_ptr<KdModelData>>			m_modelDataList;
 	std::map<std::string, std::shared_ptr<KdSquarePolygon>>		m_squarePolygonList;
+	std::map<std::string, std::shared_ptr<KdModelData>>			m_modelDataList;
+	std::map<std::string, std::shared_ptr<KdModelWork>>			m_modelWorkList;
 
 
 	std::thread m_thread;

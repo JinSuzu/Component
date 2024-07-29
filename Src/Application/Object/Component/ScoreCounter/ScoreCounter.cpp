@@ -2,8 +2,6 @@
 #include "../../Game/GameObject.h"
 
 #include "../SquarePolygon/SquarePolygon.h"
-#include "../../../../System/SceneMnager/SceneManager.h"
-
 
 void Cp_ScoreCounter::Start()
 {

@@ -7,7 +7,6 @@
 #include "../SquarePolygon/SquarePolygon.h"
 
 #include "../../../RenderManger/RenderManger.h"
-#include "../../../ImGuiHelper/ImGuiHelper.h"
 
 void Cp_Collider::Start()
 {
@@ -24,7 +23,7 @@ void Cp_Collider::ImGuiUpdate()
 	if (ImGui::Button("ColliderType"))ImGui::OpenPopup(("ColliderType##" + std::to_string(GetInstanceID())).c_str());
 	if (ImGui::BeginPopup(("ColliderType##" + std::to_string(GetInstanceID())).c_str()))
 	{
-		change |= MyImGui::CheckBoxAllBit<KdCollider::Type>(m_colliderType);
+		change |= Utility::ImGuiHelper::CheckBoxAllBit<KdCollider::Type>(m_colliderType);
 		ImGui::EndPopup();
 	}
 
@@ -59,7 +58,7 @@ void Cp_Collider::LoadJson(nlohmann::json _json)
 	m_colliderShape = _json["ColliderShape"];
 	m_colliderType	= _json["ColliderType"];
 	m_radius		= _json["Radius"];
-	m_offsetPos		= MyJson::InPutVec3(_json["OffsetPos"]);
+	m_offsetPos		= Utility::JsonHelper::InPutVec3(_json["OffsetPos"]);
 
 	RegisterCollider(true);
 }
@@ -70,7 +69,7 @@ nlohmann::json Cp_Collider::GetJson()
 	json["ColliderShape"] = m_colliderShape;
 	json["ColliderType"] = m_colliderType;
 	json["Radius"] = m_radius;
-	json["OffsetPos"] = MyJson::OutPutVec3(m_offsetPos);
+	json["OffsetPos"] = Utility::JsonHelper::OutPutVec3(m_offsetPos);
 
 	return json;
 }

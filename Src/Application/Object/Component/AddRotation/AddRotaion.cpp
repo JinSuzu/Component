@@ -51,13 +51,13 @@ void Cp_AddRotation::ImGuiUpdate()
 
 void Cp_AddRotation::LoadJson(nlohmann::json _json)
 {
-	m_addPow = MyJson::InPutVec3(_json["addPow"]);
+	m_addPow = Utility::JsonHelper::InPutVec3(_json["addPow"]);
 	m_addType = _json["addType"];
 }
 nlohmann::json Cp_AddRotation::GetJson()
 {
 	nlohmann::json json;
-	json["addPow"] = MyJson::OutPutVec3(m_addPow);
+	json["addPow"] = Utility::JsonHelper::OutPutVec3(m_addPow);
 	json["addType"] = m_addType;
 	return json;
 }

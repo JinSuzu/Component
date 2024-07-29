@@ -3,7 +3,6 @@
 
 #include "../Rigidbody/Rigidbody.h"
 #include "../Transform/Transform.h"
-#include "../../../ImGuiHelper/ImGuiHelper.h"
 
 void Cp_HitResult::Start()
 {
@@ -17,7 +16,7 @@ void Cp_HitResult::ImGuiUpdate()
 	if (ImGui::Button("ColliderType"))ImGui::OpenPopup(("ColliderType##" + std::to_string(GetInstanceID())).c_str());
 	if (ImGui::BeginPopup(("ColliderType##" + std::to_string(GetInstanceID())).c_str()))
 	{
-		MyImGui::CheckBoxAllBit<KdCollider::Type>(m_colType);
+		Utility::ImGuiHelper::CheckBoxAllBit<KdCollider::Type>(m_colType);
 		ImGui::EndPopup();
 	}
 }

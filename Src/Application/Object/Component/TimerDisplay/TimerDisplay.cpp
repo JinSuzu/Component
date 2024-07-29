@@ -2,7 +2,6 @@
 #include "../../Game/GameObject.h"
 
 #include "../SquarePolygon/SquarePolygon.h"
-#include "../../../../System/SceneMnager/SceneManager.h"
 #include "../../../Utility/Timer.h"
 
 void Cp_TimerDisplay::Start()

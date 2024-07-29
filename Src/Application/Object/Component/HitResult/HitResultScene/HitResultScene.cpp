@@ -4,10 +4,6 @@
 #include "../../Rigidbody/Rigidbody.h"
 #include "../../Transform/Transform.h"
 
-#include "../../../../../System/SceneMnager/SceneManager.h"
-
-
-
 void Cp_HitResultScene::UpdateContents()
 {
 	for (auto& result : m_rigid.lock()->GetHitResult())

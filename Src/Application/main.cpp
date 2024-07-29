@@ -3,10 +3,8 @@
 #include "Object/Game/GameObject.h"
 #include "RenderManger/RenderManger.h"
 #include "Utility/Timer.h"
-#include "ImGuiHelper/ImGuiHelper.h"
-#include "ImGuiHelper/ImGuiEditor.h"
-#include "../System/SceneMnager/SceneManager.h"
-#include "../System/ConfigManager/ConfigManager.h"
+
+#include "../System/EditorWindow/DebugLog/DebugLog.h"
 
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_  HINSTANCE, _In_ LPSTR, _In_ int)
 {
@@ -37,14 +35,22 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_  HINSTANCE, _In_ LPSTR, _In_ int)
 
 void Application::Execute()
 {
-	KdCSVData windowData("Asset/Data/WindowSettings.csv");
-	const std::vector<std::string>& sizeData = windowData.GetLine(0);
-
+	int winodwSize[2] = { 0,0 };
+	ConfigManger config;
+	if (config.Load("WindowSize"))
+	{
+		m_windowSize[0] = config["x"];
+		m_windowSize[1] = config["y"];
+	}
+	else
+	{
+		config["x"] = m_windowSize[0] = 1280;
+		config["y"] = m_windowSize[1] = 720;
+	}
 	//===================================================================
 	// 初期設定(ウィンドウ作成、Direct3D初期化など)
 	//===================================================================
-	//m_windowSize = { (float)atoi(sizeData[0].c_str()) ,(float)atoi(sizeData[1].c_str()) };
-	if (Application::Instance().Init(1280, 720) == false) {
+	if (Application::Instance().Init(m_windowSize[0], m_windowSize[1]) == false) {
 		return;
 	}
 
@@ -63,7 +69,7 @@ void Application::Execute()
 
 		std::string titlebar = "Rocket Burst Breaker	fps : " + std::to_string(m_fpsController.m_nowfps);
 		SetWindowTextA(GetWindowHandle(), titlebar.c_str());
-		
+
 		//=========================================
 		//
 		// アプリケーション描画処理
@@ -122,9 +128,9 @@ void Application::Execute()
 		//=========================================
 		RenderManager::Instance().BeginDraw();
 		{
-			RenderManager::Instance().PreDraw();
 			RenderManager::Instance().Draw();
 			RenderManager::Instance().PostDraw();
+			RenderManager::Instance().PreDraw();
 			m_editor->ImGuiDraw();
 		}
 		RenderManager::Instance().EndDraw();
@@ -177,6 +183,11 @@ void Application::KdPostUpdate()
 	KdAudioManager::Instance().SetListnerMatrix(KdShaderManager::Instance().GetCameraCB().mView.Invert());
 }
 
+void Application::AddLog(const char* fmt, ...)
+{
+	m_editor->GetDebugLog().lock()->AddLog(fmt);
+}
+
 bool Application::Init(int w, int h)
 {
 	//===================================================================
@@ -188,10 +199,44 @@ bool Application::Init(int w, int h)
 	}
 
 	//===================================================================
-	// シェーダー初期化
+	// フルスクリーン確認
 	//===================================================================
-	RenderManager::Instance().Init();
+	bool bFullScreen = false;
+	/*
+	if (MessageBoxA(m_window.GetWndHandle(), "フルスクリーンにしますか？", "確認", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES) {
+		bFullScreen = true;
+	}
+	*/
+
+	//===================================================================
+	// Direct3D初期化
+	//===================================================================
+
+	// デバイスのデバッグモードを有効にする
+	bool deviceDebugMode = false;
+#ifdef _DEBUG
+	deviceDebugMode = true;
+#endif
+
+	// Direct3D初期化
+	std::string errorMsg;
+	if (KdDirect3D::Instance().Init(Application::Instance().GetWindowHandle(), w, h, deviceDebugMode, errorMsg) == false) {
+		MessageBoxA(Application::Instance().GetWindowHandle(), errorMsg.c_str(), "Direct3D初期化失敗", MB_OK | MB_ICONSTOP);
+	}
+
+	// フルスクリーン設定
+	if (bFullScreen) {
+		HRESULT hr;
+		hr = KdDirect3D::Instance().SetFullscreenState(TRUE, 0);
+		if (FAILED(hr))
+		{
+			MessageBoxA(Application::Instance().GetWindowHandle(), "フルスクリーン設定失敗", "Direct3D初期化失敗", MB_OK | MB_ICONSTOP);
+		}
+	}
+
+	RenderManager::Instance().Init(w, h);
 	m_editor = std::make_shared<Editor>();
+	m_editor->Init();
 
 	//===================================================================
 	// オーディオ初期化

@@ -1,6 +1,5 @@
 ﻿#include "SceneChanger.h"
 #include "../../Game/GameObject.h"
-#include "../../../../System/SceneMnager/SceneManager.h"
 
 void Cp_SceneChanger::PreUpdateContents()
 {

@@ -1,6 +1,4 @@
 ﻿#pragma once
-#include "../Object.h"
-
 class GameObject;
 enum class ObjectTag;
 

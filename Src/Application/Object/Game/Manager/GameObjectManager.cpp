@@ -1,6 +1,5 @@
 ﻿#include "GameObjectManager.h"
 #include "../../Component/AllComponentIncluder.h"
-#include "../../../ImGuiHelper/ImGuiEditor.h"
 #include "../GameObject.h"
 
 #include "../../../main.h"
@@ -47,7 +46,7 @@ void GameObjectManager::Release(std::string _path, bool _enableSave)
 				if (object->GetAbleSave())json.push_back(object->OutPutFamilyJson());
 			}
 		}
-		MyJson::OutputJson(json, _path);
+		Utility::JsonHelper::OutputJson(json, _path);
 	}
 
 	m_objectList.clear();
@@ -113,7 +112,7 @@ bool GameObjectManager::RayHit(const KdCollider::RayInfo& targetShape, std::list
 
 std::shared_ptr<GameObject> GameObjectManager::CreateObject(std::string _tag, std::weak_ptr<GameObject> _parent, bool bPush)
 {
-	return CreateObject(MyJson::InputJson(_tag), _parent, bPush);
+	return CreateObject(Utility::JsonHelper::InputJson(_tag), _parent, bPush);
 }
 std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json, std::weak_ptr<GameObject> _parent, bool bPush, std::list<std::shared_ptr<GameObject>>* _result)
 {
@@ -136,9 +135,9 @@ std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json
 
 void GameObjectManager::LoadJson(std::string _path, bool _bOrigin)
 {
-	nlohmann::json json = MyJson::InputJson(_path);
+	nlohmann::json json = Utility::JsonHelper::InputJson(_path);
 	auto name = json.begin();
-	if (name == json.end())Application::Instance().m_log.AddLog("not found json by GameObjectManager");
+	if (name == json.end())Application::Instance().AddLog("not found json by GameObjectManager");
 	while (name != json.end())
 	{
 		std::shared_ptr<GameObject>object = CreateObject(*name);

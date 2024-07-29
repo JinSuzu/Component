@@ -20,7 +20,7 @@ void RenderManager::PreDraw()
 	std::map<int, std::list<std::weak_ptr<Cp_Camera>>>::iterator camera = m_cameraMap.begin();
 	while (camera != m_cameraMap.end())
 	{
-		std::list <std::weak_ptr<class Cp_Camera>>::iterator it = camera->second.begin();
+		std::list <std::weak_ptr<Cp_Camera>>::iterator it = camera->second.begin();
 		while (it != camera->second.end())
 		{
 			if (it->lock())
@@ -97,12 +97,12 @@ void RenderManager::EndDraw()
 	KdDirect3D::Instance().WorkSwapChain()->Present(0, 0);
 }
 
-void RenderManager::AddCamera(int _priority, std::weak_ptr<class Cp_Camera> _camera)
+void RenderManager::AddCamera(int _priority, std::weak_ptr<Cp_Camera> _camera)
 {
-	std::map<int, std::list<std::weak_ptr<class Cp_Camera>>>::iterator map = m_cameraMap.find(_priority);
+	std::map<int, std::list<std::weak_ptr<Cp_Camera>>>::iterator map = m_cameraMap.find(_priority);
 	if (map == m_cameraMap.end())
 	{
-		m_cameraMap[_priority] = std::list<std::weak_ptr<class Cp_Camera>>();
+		m_cameraMap[_priority] = std::list<std::weak_ptr<Cp_Camera>>();
 	}
 	m_cameraMap[_priority].push_back(_camera);
 }
@@ -135,51 +135,13 @@ std::weak_ptr<Cp_Camera> RenderManager::GetCamera()
 
 }
 
-void RenderManager::Init()
+void RenderManager::Init(int w, int h)
 {
-	//===================================================================
-	// フルスクリーン確認
-	//===================================================================
-	bool bFullScreen = false;
-	/*
-	if (MessageBoxA(m_window.GetWndHandle(), "フルスクリーンにしますか？", "確認", MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDYES) {
-		bFullScreen = true;
-	}
-	*/
-
-	//===================================================================
-	// Direct3D初期化
-	//===================================================================
-
-	// デバイスのデバッグモードを有効にする
-	bool deviceDebugMode = false;
-#ifdef _DEBUG
-	deviceDebugMode = true;
-#endif
-
-	// Direct3D初期化
-	std::string errorMsg;
-	if (KdDirect3D::Instance().Init(Application::Instance().GetWindowHandle(), 1280, 720, deviceDebugMode, errorMsg) == false) {
-		MessageBoxA(Application::Instance().GetWindowHandle(), errorMsg.c_str(), "Direct3D初期化失敗", MB_OK | MB_ICONSTOP);
-	}
-
-	// フルスクリーン設定
-	if (bFullScreen) {
-		HRESULT hr;
-
-		hr = KdDirect3D::Instance().SetFullscreenState(TRUE, 0);
-		if (FAILED(hr))
-		{
-			MessageBoxA(Application::Instance().GetWindowHandle(), "フルスクリーン設定失敗", "Direct3D初期化失敗", MB_OK | MB_ICONSTOP);
-		}
-	}
-
 	//===================================================================
 	// シェーダー初期化
 	//===================================================================
 	KdShaderManager::Instance().Init();
-
-	DebugViewResize(1280, 720);
+	DebugViewResize(w, h);
 }
 
 void RenderManager::DrawSprite()

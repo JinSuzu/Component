@@ -5,9 +5,9 @@
 #include "../Component/Transform/Transform.h"
 #include "../Component/Component.h"
 
-#include "../../ImGuiHelper/ImGuiEditor.h"
-#include "../EditorWindow/Prefab/Prefab.h"
 #include "../../main.h"
+
+#include "../../../System/EditorWindow/Prefab/Prefab.h"
 
 #define ITERATOR(x) for (auto&& it : m_cpList)if(it.get() != nullptr)it->
 

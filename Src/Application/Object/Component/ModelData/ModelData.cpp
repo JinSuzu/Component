@@ -4,7 +4,6 @@
 
 #include "../../../AssetManager/AssetManager.h"
 #include "../../../RenderManger/RenderManger.h"
-#include "../../../ImGuiHelper/ImGuiHelper.h"
 
 void Cp_ModelData::Draw3D(UINT _type)
 {
@@ -33,7 +32,7 @@ void Cp_ModelData::ImGuiUpdate()
 	if (ImGui::Button("DrawType"))ImGui::OpenPopup("Types");
 	if (ImGui::BeginPopup("Types"))
 	{
-		MyImGui::CheckBoxAllBit<DrawType>(m_drawType);
+		Utility::ImGuiHelper::CheckBoxAllBit<DrawType>(m_drawType);
 
 		ImGui::EndPopup();
 	}

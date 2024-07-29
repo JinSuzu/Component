@@ -39,17 +39,17 @@ void Cp_Transform::LoadJson(nlohmann::json _json)
 	m_parentMatTag	= _json["parentMatTag"];
 	m_bFollow		= _json["Follow"];
 
-	m_position = MyJson::InPutVec3(_json["position"]);
-	m_rotation = MyJson::InPutVec3(_json["rotation"]);
-	m_scale	   = MyJson::InPutVec3(_json["scale"]);
+	m_position = Utility::JsonHelper::InPutVec3(_json["position"]);
+	m_rotation = Utility::JsonHelper::InPutVec3(_json["rotation"]);
+	m_scale	   = Utility::JsonHelper::InPutVec3(_json["scale"]);
 }
 
 nlohmann::json Cp_Transform::GetJson()
 {
 	nlohmann::json json;
-	json["position"] = MyJson::OutPutVec3(m_position);
-	json["rotation"] = MyJson::OutPutVec3(m_rotation);
-	json["scale"]    = MyJson::OutPutVec3(m_scale);
+	json["position"] = Utility::JsonHelper::OutPutVec3(m_position);
+	json["rotation"] = Utility::JsonHelper::OutPutVec3(m_rotation);
+	json["scale"]    = Utility::JsonHelper::OutPutVec3(m_scale);
 
 	json["matTag"]		 = m_myMatTag;
 	json["parentMatTag"] = m_parentMatTag;
@@ -111,6 +111,7 @@ Math::Matrix Cp_Transform::GetMatrix(std::string _matTag, bool _PushFollow
 	it++;
 	while (it != end)
 	{
+		matrix = m_getMatrix.find(*it);
 		if (matrix != m_getMatrix.end())
 		{
 			m_mWorld *= matrix->second();

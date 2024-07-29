@@ -129,7 +129,7 @@ LRESULT CALLBACK KdWindow::callWindowProc(HWND hWnd, UINT message, WPARAM wParam
 	return pThis->WindowProc(hWnd, message, wParam, lParam);
 }
 
-#include "../../Application/Object/EditorWindow/Prefab/Prefab.h"
+#include "../../System/EditorWindow/Prefab/Prefab.h"
 // ウィンドウ関数
 LRESULT KdWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {

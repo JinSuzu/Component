@@ -29,7 +29,7 @@ public:
 	static std::shared_ptr<GameObject> CreateObject(nlohmann::json _json, std::weak_ptr<GameObject> _parent = std::weak_ptr<GameObject>(), bool bPush = true, std::list<std::shared_ptr<GameObject>>* _result = nullptr);
 
 	const std::list<std::shared_ptr<GameObject>>& GetObjectList() const { return m_objectList; }
-	void AddObject(std::shared_ptr<GameObject> _add) { m_objectList.push_back(_add); }
+	void AddObject(std::shared_ptr<GameObject> _add)					{ m_objectList.push_back(_add); }
 private:
 	std::list<std::shared_ptr<GameObject>>	m_objectList;
 	std::list<std::weak_ptr<Cp_Collider>>	m_colliderList;

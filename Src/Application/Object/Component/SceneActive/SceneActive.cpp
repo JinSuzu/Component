@@ -1,6 +1,5 @@
 ﻿#include "SceneActive.h"
 #include "../../Game/GameObject.h"
-#include "../../../../System/SceneMnager/SceneManager.h"
 #include "../../../Utility/Timer.h"
 
 #include "../../../main.h"
