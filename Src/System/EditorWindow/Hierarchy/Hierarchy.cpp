@@ -9,13 +9,7 @@
 
 void Hierarchy::UpdateContents()
 {
-	ImGui::BeginChild("##ObjectChild");
-	{
-		for (auto& obj : GameObjectManager::Instance().GetObjectList())if (obj->GetParent().expired())ImGuiGameObject(obj);
-	}
-	ImGui::EndChild();
-	std::weak_ptr<GameObject> emplyObj;
-	m_dragDrop->CallTarget(emplyObj);
+	for (auto& obj : GameObjectManager::Instance().GetObjectList())if (obj->GetParent().expired())ImGuiGameObject(obj);
 
 	if (ImGui::IsItemClicked(1))ImGui::OpenPopup("CreateObject");
 	if (ImGui::BeginPopup("CreateObject"))
@@ -37,6 +31,22 @@ void Hierarchy::UpdateContents()
 		if (ImGui::Button("Create"))GameObjectManager::CreateObject(std::string(), obj);
 		ImGui::EndPopup();
 	}
+}
+
+void Hierarchy::Init()
+{
+	//いちアイテムに対してのドラックドロップ処理
+	m_dragDrop = std::make_shared<Utility::ImGuiHelper::DragDrop<std::weak_ptr<GameObject>>>();
+	m_dragDrop->source.push_back([](std::weak_ptr<GameObject> _obj) {return MyDragDrop::SourceGameObjectData(_obj); });		//ゲームオブジェクトの保存/親子関係の移動用
+	m_dragDrop->target.push_back([](std::weak_ptr<GameObject> _obj) {return MyDragDrop::TargetGameObjectData(_obj); });		//ゲームオブジェクトの親子関係の移動用
+	m_dragDrop->target.push_back([](std::weak_ptr<GameObject> _obj) {return MyDragDrop::TargetGameObjectDataPath(_obj); });	//ゲームオブジェクトのPrefabからの生成用
+
+	//windowへのドラックドロップ適応
+	m_endChildOption.after = [&]()
+		{
+			std::weak_ptr<GameObject> emplyObj;
+			m_dragDrop->CallTarget(emplyObj);
+		};
 }
 
 void Hierarchy::ImGuiGameObject(std::weak_ptr<GameObject> _obj, bool _colledSource)
@@ -67,13 +77,4 @@ void Hierarchy::ImGuiGameObject(std::weak_ptr<GameObject> _obj, bool _colledSour
 		}
 		ImGui::TreePop();
 	}
-}
-
-
-Hierarchy::Hierarchy()
-{
-	m_dragDrop = std::make_shared<Utility::ImGuiHelper::DragDrop<std::weak_ptr<GameObject>>>();
-	m_dragDrop->source.push_back([](std::weak_ptr<GameObject> _obj) {return MyDragDrop::SourceGameObjectData	(_obj); });
-	m_dragDrop->target.push_back([](std::weak_ptr<GameObject> _obj) {return MyDragDrop::TargetGameObjectData	(_obj); });
-	m_dragDrop->target.push_back([](std::weak_ptr<GameObject> _obj) {return MyDragDrop::TargetGameObjectDataPath(_obj); });
 }

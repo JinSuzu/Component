@@ -42,6 +42,10 @@ public:
 	Math::Matrix GetRMat(UINT _shafts = 0);
 
 	std::weak_ptr<Cp_Transform> GetParent() { return m_parent; }
+
+	const std::string& GetMatTag() { return m_myMatTag; }
+	const std::string& GetParentMatTag() { return m_parentMatTag; }
+
 	void SetParent(std::weak_ptr<Cp_Transform> _parent) { m_parent = _parent; }
 	void UnFollow() { m_bFollow = false; };
 private:

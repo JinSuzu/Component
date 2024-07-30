@@ -18,13 +18,14 @@ void SetUpScene::UpdateContents()
 	}
 }
 
-void SetUpScene::BeginChildOption()
+void SetUpScene::Init()
 {
-}
+	//シーン一覧に並べる要素を関数で分けてfunctionで並べる
+	m_tableContents.push_back([&](std::pair<const std::string, std::string>& _pair) {return SceneTag(_pair); });
+	m_tableContents.push_back([&](std::pair<const std::string, std::string>& _pair) {return ScenePath(_pair); });
+	m_tableContents.push_back([&](std::pair<const std::string, std::string>& _pair) {return Remove(_pair); });
 
-void SetUpScene::EndChildOption()
-{
-	MyDragDrop::TargetScene();
+	m_endChildOption.after = []() {MyDragDrop::TargetScene(); };
 }
 
 void SetUpScene::ShowCombContents()
@@ -77,13 +78,6 @@ bool SetUpScene::Remove(std::pair<const std::string, std::string>& _pair)
 		return true;
 	}
 	return false;
-}
-
-SetUpScene::SetUpScene()
-{
-	m_tableContents.push_back([&](std::pair<const std::string, std::string>& _pair) {return SceneTag(_pair); });
-	m_tableContents.push_back([&](std::pair<const std::string, std::string>& _pair) {return ScenePath(_pair); });
-	m_tableContents.push_back([&](std::pair<const std::string, std::string>& _pair) {return Remove(_pair); });
 }
 
 namespace MyDragDrop

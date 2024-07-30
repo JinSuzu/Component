@@ -12,17 +12,51 @@
 
 #include "../../Manager/EditorWindowManager/EditorWindowManager.h"
 
+void GameScreen::Init()
+{
+		//ゲームビューの枠組み子ウィンドウのbegin処理
+	m_beginChildOption.before
+		= []()
+		{
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2());
+		};
+	m_beginChildOption.after	//ゲームビューの枠組み子ウィンドウのbegin処理
+		= [&]()
+		{
+			ImVec2 windowSize(1280.0f, 720.0f);
+			m_imageSize = ImGui::GetContentRegionAvail() / windowSize;
+			m_imageSize = windowSize * (m_imageSize.x < m_imageSize.y ? m_imageSize.x : m_imageSize.y); //ゲームSceneのサイズ決定
+
+			Utility::ImGuiHelper::SetCenterCursorPos(m_imageSize);
+
+			ImGui::BeginChild(std::to_string((int)this).c_str(), m_imageSize, ImGuiChildFlags_Border);
+			ImGui::PopStyleVar(1);																		//計算したサイズでギズモ用の子ウィンドウを生成
+
+			if (m_cameraController.expired())return;
+			if (ImGui::IsMouseDragging(ImGuiMouseButton_Right))											//子ウィンドウに対してドラックしたか
+			{
+				m_cameraController.lock()->AngleShift();
+			}
+		};
+
+	m_endChildOption.before		//ゲームビューの枠組み子ウィンドウのend処理
+		= [&]()
+		{
+			ImGui::EndChild();
+			if (m_cameraController.expired())return;
+			if (ImGui::IsItemHovered())
+			{
+				if (ImGui::IsKeyDown(ImGuiKey_MouseWheelY))
+				{
+					m_cameraController.lock()->HoverMove();
+				}
+			}
+		};
+}
+
 void GameScreen::UpdateContents()
 {
 	/*
-	bool buildChange = Utility::ImGuiHelper::ButtonWindowCenter(Application::Instance().GetBuildFlg() ? "StartRun" : "StartBuild");
-	buildChange |= GetAsyncKeyState(Application::Instance().GetBuildFlg() ? VK_F5 : VK_ESCAPE) & 0x8000;
-	if (buildChange)
-	{
-		//SceneManager::Instance().ReLoad();
-		Application::Instance().TurnBuildFlg();
-	}
-
 	if (ImGui::SameLine(); ImGui::Button("cameraSetUp"))ImGui::OpenPopup("camera");
 	if (ImGui::BeginPopup("camera"))
 	{
@@ -38,34 +72,17 @@ void GameScreen::UpdateContents()
 		m_cameraController = std::static_pointer_cast<Cp_BuildCamera>(m_buildCamera->AddComponent("BuildCamera"));
 	}
 	else if (!Application::Instance().GetBuildFlg())m_buildCamera = nullptr;
-	ID3D11ShaderResourceView* rtv = RenderManager::Instance().GetDebugView().m_RTTexture->WorkSRView();
-	Utility::ImGuiHelper::ImageWindowCenter(rtv, m_imageSize);
-	if (m_cameraController.lock())
+
+	//ゲームビュー表示
+	Utility::ImGuiHelper::ImageWindowCenter(RenderManager::Instance().GetDebugView().m_RTTexture->WorkSRView(), m_imageSize);
+
+	//ビルドカメラ
+	if (m_buildCamera)
+	{
 		if (ImGui::IsMouseDragging(ImGuiMouseButton_Right))
 		{
 			m_cameraController.lock()->AngleShift();
 		}
-
-	if (Application::Instance().GetEditor().lock()->GetEditObject().lock())
-	{
-		Math::Matrix resultMat;
-		std::weak_ptr<KdCamera> camera = RenderManager::Instance().GetCamera().lock()->GetCamera();
-		//ギズモ更新処理
-		bool edited = Utility::ImGuizmoHelper::Update
-		(
-			camera.lock()->GetCameraMatrix().Invert(),
-			camera.lock()->GetProjMatrix(),
-			Application::Instance().GetEditor().lock()->GetEditObject().lock()->GetTransform().lock()->GetMatrix(),
-			m_zmoPreation,
-			resultMat
-		);
-		if (edited)
-		{
-			Application::Instance().GetEditor().lock()->GetEditObject().lock()->GetTransform().lock()->SetPosition(resultMat.Translation());
-		}
-
-	}
-	if (m_cameraController.lock())
 		if (ImGui::IsItemHovered())
 		{
 			if (ImGui::IsKeyDown(ImGuiKey_MouseWheelY))
@@ -73,6 +90,37 @@ void GameScreen::UpdateContents()
 				m_cameraController.lock()->HoverMove();
 			}
 		}
+	}
+
+	//以降はカメラが存在してる時の処理
+	std::weak_ptr<Cp_Camera> camera = RenderManager::Instance().GetCamera();
+	if (camera.expired())return;
+
+	std::weak_ptr<GameObject> editObject = Application::Instance().GetEditor().lock()->GetEditObject();
+	if (editObject.expired())return;
+
+	std::weak_ptr<Cp_Transform> trans = editObject.lock()->GetTransform();
+	std::weak_ptr<Cp_Transform> parentTrans = trans.lock()->GetParent();
+	Utility::ImGuizmoHelper::TransformPack resultPack;
+	//ギズモ更新処理
+	bool edited = Utility::ImGuizmoHelper::Update
+	(
+		camera.lock()->GetCamera().lock()->GetCameraMatrix().Invert(),
+		camera.lock()->GetCamera().lock()->GetProjMatrix(),
+		trans.lock()->GetMatrix(),
+		(parentTrans.expired() ? Math::Matrix::Identity : parentTrans.lock()->GetMatrix(trans.lock()->GetParentMatTag())),
+		m_zmoPreation,
+		resultPack
+	);
+	if (edited)
+	{
+		std::weak_ptr<Cp_Transform> trans = Application::Instance().GetEditor().lock()->GetEditObject().lock()->GetTransform();
+		trans.lock()->SetPosition(resultPack.position);
+		trans.lock()->SetRotation(resultPack.rotation);
+		trans.lock()->SetScale(resultPack.scale);
+	}
+
+
 
 	//ギズモの編集対象の変更
 	ImGui::Begin("OprerationChanger");
@@ -80,44 +128,4 @@ void GameScreen::UpdateContents()
 		Utility::ImGuizmoHelper::OprerationChanger(m_zmoPreation);
 	}
 	ImGui::End();
-}
-
-void GameScreen::BeginChildOption()
-{
-	// 画面中央に固定するためのオフセット計算
-	ImVec2 imagePos = ((ImGui::GetContentRegionAvail() - m_imageSize) * 0.5f);
-
-	// 位置を設定
-	ImGui::SetCursorPos(imagePos);
-	ImVec2 windowSize(1280.0f, 720.0f);
-	m_imageSize = ImGui::GetContentRegionAvail() / windowSize;
-	m_imageSize = windowSize * (m_imageSize.x < m_imageSize.y ? m_imageSize.x : m_imageSize.y);
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.5,0.5));
-	ImGui::BeginChild(std::to_string((int)this).c_str(), m_imageSize,ImGuiChildFlags_Border);
-	ImGui::PopStyleVar(1);
-	if (m_cameraController.expired())return;
-	if (ImGui::IsMouseDragging(ImGuiMouseButton_Right))
-	{
-		m_cameraController.lock()->AngleShift();
-	}
-}
-
-void GameScreen::EndChildOption()
-{
-	EditorWindowBase::EndChildOption();
-	if (m_cameraController.expired())return;
-	if (ImGui::IsItemHovered())
-	{
-		if (ImGui::IsKeyDown(ImGuiKey_MouseWheelY))
-		{
-			m_cameraController.lock()->HoverMove();
-		}
-	}
-}
-
-void GameScreen::Screen(ImVec2* _resultSize)
-{
-	ImVec2 windowSize(1280.0f, 720.0f);
-	m_imageSize = ImGui::GetContentRegionAvail() / windowSize;
-	m_imageSize = windowSize * (m_imageSize.x < m_imageSize.y ? m_imageSize.x : m_imageSize.y);
 }

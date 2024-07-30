@@ -6,10 +6,8 @@ class SetUpScene
 {
 public:
 	void UpdateContents()override;
+	void Init()override;
 private:
-	void BeginChildOption()override;
-	void EndChildOption()override;
-
 	void ShowCombContents();
 	void ShowTableContents();
 
@@ -18,8 +16,6 @@ private:
 	bool Remove(std::pair<const std::string, std::string>& _pair);
 
 	std::list<std::function<bool(std::pair<const std::string, std::string>&)>>m_tableContents;
-public:
-	SetUpScene();
 };
 
 namespace MyDragDrop

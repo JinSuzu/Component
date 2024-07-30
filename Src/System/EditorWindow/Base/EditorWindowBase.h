@@ -4,7 +4,7 @@ class EditorWindowBase
 	:public Object
 {
 public:
-	virtual void Update() final;
+	virtual void Update()final;
 
 	virtual void LoadJson() {}
 	virtual nlohmann::json SaveJson() { return ""; }
@@ -18,14 +18,19 @@ public:
 	virtual void Init();
 	virtual void Release();
 protected:
-	virtual void UpdateContents() {};
+	struct ChildWindowOptionSet
+	{
+		std::function<void()>before;
+		std::function<void()>after;
+	};
 
-	virtual void BeginChildOption();
-	virtual void EndChildOption();
-
-	virtual void ConfigLoadContents(nlohmann::json& _json) {_json;}
-	virtual void ConfigSaveContents(nlohmann::json& _json) {_json;}
+	ChildWindowOptionSet m_beginChildOption;
+	ChildWindowOptionSet m_endChildOption;
 
 	Editor* m_owner = nullptr;
 	std::string m_name = "EditorWindow";
+
+	virtual void UpdateContents() {};
+	virtual void ConfigLoadContents(nlohmann::json& _json) {_json;}
+	virtual void ConfigSaveContents(nlohmann::json& _json) {_json;}
 };

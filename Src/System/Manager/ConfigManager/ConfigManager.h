@@ -12,5 +12,4 @@ private:
 	nlohmann::json* m_data = this;
 
 	const std::filesystem::path m_configPath = "Asset/Data/config.ini";
-public:
 };

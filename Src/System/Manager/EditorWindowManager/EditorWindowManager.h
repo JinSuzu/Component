@@ -18,6 +18,7 @@ public:
 	void Init();
 private:
 	void MenuBar();
+	void PlayButton();
 	void OverwriteWindow();
 
 	std::weak_ptr<GameObject>														m_editObject;

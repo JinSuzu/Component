@@ -66,6 +66,21 @@ inline void ImageWindowCenter(ID3D11ShaderResourceView* _tex, ImVec2 _size, ImVe
 
 	if (_resultPos)*_resultPos = imagePos;
 }
+/**
+ * @fn
+ * @brief Itemを親ウィンドウの中心に描画する
+ * @param (_size) これから表示するItemのサイズ
+ */
+inline void SetCenterCursorPos(ImVec2 _size, ImVec2* _resultPos = nullptr)
+{
+	// 画面中央に固定するためのオフセット計算
+	ImVec2 imagePos = ((ImGui::GetContentRegionAvail() - _size) * 0.5f);
+
+	// 位置を設定
+	ImGui::SetCursorPos(imagePos);
+
+	if(_resultPos)*_resultPos = imagePos;
+}
 
 inline bool CheckBoxBit(std::string _name, UINT& _ID, UINT _checkID)
 {
@@ -118,124 +133,6 @@ inline bool InputText(std::string _tag, std::string& _editStr, ImGuiInputTextFla
 
 	return flg;
 
-}
-
-inline bool BeginDragDropSource(ImGuiDragDropFlags flags, ImGuiMouseButton _mouse_button)
-{
-	ImGuiContext& g = *GImGui;
-	ImGuiWindow* window = g.CurrentWindow;
-
-	// FIXME-DRAGDROP: While in the common-most "drag from non-zero active id" case we can tell the mouse button,
-	// in both SourceExtern and id==0 cases we may requires something else (explicit flags or some heuristic).
-
-	bool source_drag_active = false;
-	ImGuiID source_id = 0;
-	ImGuiID source_parent_id = 0;
-	if ((flags & ImGuiDragDropFlags_SourceExtern) == 0)
-	{
-		source_id = g.LastItemData.ID;
-		if (source_id != 0)
-		{
-			// Common path: items with ID
-			if (g.ActiveId != source_id)
-				return false;
-			if (g.ActiveIdMouseButton != -1)
-				_mouse_button = g.ActiveIdMouseButton;
-			if (g.IO.MouseDown[_mouse_button] == false || window->SkipItems)
-				return false;
-			g.ActiveIdAllowOverlap = false;
-		}
-		else
-		{
-			// Uncommon path: items without ID
-			if (g.IO.MouseDown[_mouse_button] == false || window->SkipItems)
-				return false;
-			if ((g.LastItemData.StatusFlags & ImGuiItemStatusFlags_HoveredRect) == 0 && (g.ActiveId == 0 || g.ActiveIdWindow != window))
-				return false;
-
-			// If you want to use BeginDragDropSource() on an item with no unique identifier for interaction, such as Text() or Image(), you need to:
-			// A) Read the explanation below, B) Use the ImGuiDragDropFlags_SourceAllowNullID flag.
-			if (!(flags & ImGuiDragDropFlags_SourceAllowNullID))
-			{
-				IM_ASSERT(0);
-				return false;
-			}
-
-			// Magic fallback to handle items with no assigned ID, e.g. Text(), Image()
-			// We build a throwaway ID based on current ID stack + relative AABB of items in window.
-			// THE IDENTIFIER WON'T SURVIVE ANY REPOSITIONING/RESIZINGG OF THE WIDGET, so if your widget moves your dragging operation will be canceled.
-			// We don't need to maintain/call ClearActiveID() as releasing the button will early out this function and trigger !ActiveIdIsAlive.
-			// Rely on keeping other window->LastItemXXX fields intact.
-			source_id = g.LastItemData.ID = window->GetIDFromRectangle(g.LastItemData.Rect);
-			ImGui::KeepAliveID(source_id);
-			bool is_hovered = ImGui::ItemHoverable(g.LastItemData.Rect, source_id, g.LastItemData.InFlags);
-			if (is_hovered && g.IO.MouseClicked[_mouse_button])
-			{
-				ImGui::SetActiveID(source_id, window);
-				ImGui::FocusWindow(window);
-			}
-			if (g.ActiveId == source_id) // Allow the underlying widget to display/return hovered during the mouse release frame, else we would get a flicker.
-				g.ActiveIdAllowOverlap = is_hovered;
-		}
-		if (g.ActiveId != source_id)
-			return false;
-		source_parent_id = window->IDStack.back();
-		source_drag_active = ImGui::IsMouseDragging(_mouse_button);
-
-		// Disable navigation and key inputs while dragging + cancel existing request if any
-		ImGui::SetActiveIdUsingAllKeyboardKeys();
-	}
-	else
-	{
-		// When ImGuiDragDropFlags_SourceExtern is set:
-		window = NULL;
-		source_id = ImHashStr("#SourceExtern");
-		source_drag_active = true;
-		_mouse_button = g.IO.MouseDown[0] ? 0 : -1;
-		ImGui::KeepAliveID(source_id);
-		ImGui::SetActiveID(source_id, NULL);
-	}
-
-	IM_ASSERT(g.DragDropWithinTarget == false); // Can't nest BeginDragDropSource() and BeginDragDropTarget()
-	if (!source_drag_active)
-		return false;
-
-	// Activate drag and drop
-	if (!g.DragDropActive)
-	{
-		IM_ASSERT(source_id != 0);
-		ImGui::ClearDragDrop();
-		IMGUI_DEBUG_LOG_ACTIVEID("[dragdrop] BeginDragDropSource() DragDropActive = true, source_id = 0x%08X%s\n",
-			source_id, (flags & ImGuiDragDropFlags_SourceExtern) ? " (EXTERN)" : "");
-		ImGuiPayload& payload = g.DragDropPayload;
-		payload.SourceId = source_id;
-		payload.SourceParentId = source_parent_id;
-		g.DragDropActive = true;
-		g.DragDropSourceFlags = flags;
-		g.DragDropMouseButton = _mouse_button;
-		if (payload.SourceId == g.ActiveId)
-			g.ActiveIdNoClearOnFocusLoss = true;
-	}
-	g.DragDropSourceFrameCount = g.FrameCount;
-	g.DragDropWithinSource = true;
-
-	if (!(flags & ImGuiDragDropFlags_SourceNoPreviewTooltip))
-	{
-		// Target can request the Source to not display its tooltip (we use a dedicated flag to make this request explicit)
-		// We unfortunately can't just modify the source flags and skip the call to BeginTooltip, as caller may be emitting contents.
-		bool ret;
-		if (g.DragDropAcceptIdPrev && (g.DragDropAcceptFlags & ImGuiDragDropFlags_AcceptNoPreviewTooltip))
-			ret = ImGui::BeginTooltipHidden();
-		else
-			ret = ImGui::BeginTooltip();
-		IM_ASSERT(ret); // FIXME-NEWBEGIN: If this ever becomes false, we need to Begin("##Hidden", NULL, ImGuiWindowFlags_NoSavedSettings) + SetWindowHiddendAndSkipItemsForCurrentFrame().
-		IM_UNUSED(ret);
-	}
-
-	if (!(flags & ImGuiDragDropFlags_SourceNoDisableHover) && !(flags & ImGuiDragDropFlags_SourceExtern))
-		g.LastItemData.StatusFlags &= ~ImGuiItemStatusFlags_HoveredRect;
-
-	return true;
 }
 
 template<class T>

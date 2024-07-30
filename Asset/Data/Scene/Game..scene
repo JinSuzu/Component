@@ -1,0 +1,138 @@
+[
+    {
+        "Childs": [],
+        "_Data": {
+            "Component": [
+                {
+                    "Follow": true,
+                    "matTag": "SRT",
+                    "parentMatTag": "SRT",
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "IDName": "ModelData",
+                    "drawType": 1,
+                    "path": "Asset\\Data\\Model\\road_sideExitBarrier\\road_sideExitBarrier.gltf"
+                }
+            ],
+            "name": "GameObject",
+            "tag": 0
+        }
+    },
+    {
+        "Childs": [
+            {
+                "Childs": [],
+                "_Data": {
+                    "Component": [
+                        {
+                            "Follow": true,
+                            "matTag": "SRT",
+                            "parentMatTag": "SRT",
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "IDName": "Camera",
+                            "Priority": 1
+                        }
+                    ],
+                    "name": "camera",
+                    "tag": 0
+                }
+            }
+        ],
+        "_Data": {
+            "Component": [
+                {
+                    "Follow": true,
+                    "matTag": "SRT",
+                    "parentMatTag": "SRT",
+                    "position": {
+                        "x": -0.046247005462646484,
+                        "y": 0.37784624099731445,
+                        "z": 0.2144913673400879
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": -0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "IDName": "ModelData",
+                    "drawType": 1,
+                    "path": "Asset\\Data\\Model\\Character\\Player\\Player.gltf"
+                }
+            ],
+            "name": "Player",
+            "tag": 0
+        }
+    },
+    {
+        "Childs": [],
+        "_Data": {
+            "Component": [
+                {
+                    "Follow": true,
+                    "matTag": "SRT",
+                    "parentMatTag": "SRT",
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "IDName": "ModelData",
+                    "drawType": 1,
+                    "path": "Asset\\Data\\Model\\Terrain\\Terrain.gltf"
+                }
+            ],
+            "name": "GameObject",
+            "tag": 0
+        }
+    }
+]

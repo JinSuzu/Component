@@ -104,18 +104,21 @@ void Application::Execute()
 		// アプリケーション更新処理
 		//
 		//=========================================
-		static bool flg = m_buildFlg || m_debugFlg;
-		if (flg != m_buildFlg || m_debugFlg)
+		static bool flg = m_buildFlg;
+		if (flg != m_buildFlg)
 		{
 			ShowCursor(flg);
 			flg = !flg;
 		}
 		KdBeginUpdate();
 		{
-			Timer::Instance().PreUpdate();
-			GameObjectManager::Instance().PreUpdate();
-			GameObjectManager::Instance().Update();
-			GameObjectManager::Instance().PostUpdate();
+			if (!m_buildFlg)
+			{
+				Timer::Instance().PreUpdate();
+				GameObjectManager::Instance().PreUpdate();
+				GameObjectManager::Instance().Update();
+				GameObjectManager::Instance().PostUpdate();
+			}
 
 			m_editor->ImGuiUpdate();
 		}

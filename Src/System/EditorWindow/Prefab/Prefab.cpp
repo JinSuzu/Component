@@ -52,7 +52,6 @@ void Prefab::UpdateContents()
 	m_bOpenFileEditor = false;
 }
 
-
 void Prefab::DirectoryTree(const std::filesystem::path& dir)
 {
 	//自分が持っているディレクトリを洗い出す
@@ -144,7 +143,6 @@ void Prefab::DirectoryContents()
 	ImGui::Columns();
 }
 
-#include "FileEditor/FileEditor.h"
 bool Prefab::EditFile(const std::filesystem::path& _path)
 {
 	bool edited = false;
@@ -189,6 +187,7 @@ void Prefab::ConfigSaveContents(nlohmann::json& _json)
 }
 
 #include "../SetUpScene/SetUpScene.h"
+#include "FileEditor/FileEditor.h"
 void Prefab::Init()
 {
 	m_fileSource[".prefab"] = [&](const std::filesystem::path& _path) {return MyDragDrop::SourceGameObjectDataPath(_path.string()); };

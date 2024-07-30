@@ -2,13 +2,24 @@
 
 void EditorWindowBase::Update()
 {
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2());
 	ImGui::Begin(m_name.c_str());
+	ImGui::PopStyleVar(1);
 	{
-		BeginChildOption();
+		if(m_beginChildOption.before)m_beginChildOption.before();	//子ウィンドウに対しての生成前処理
+		ImGui::BeginChild
+		(
+			std::to_string((int)this).c_str(),
+			ImGui::GetContentRegionAvail(),						//表示上限サイズで子ウィンドウを生成
+			ImGuiChildFlags_Border
+		);	
+		if(m_beginChildOption.after)m_beginChildOption.after();	//子ウィンドウに対しての生成後処理
 		{
 			UpdateContents();
 		}
-		EndChildOption();
+		if(m_endChildOption.before)m_endChildOption.before();	//子ウィンドウに対しての終了前処理
+		ImGui::EndChild();
+		if(m_endChildOption.after)m_endChildOption.after();	//子ウィンドウに対しての終了後処理
 	}
 	ImGui::End();
 }
@@ -21,7 +32,6 @@ void EditorWindowBase::ConfigLoad()
 		ConfigLoadContents(config);
 	}
 }
-
 void EditorWindowBase::ConfigSave()
 {
 	ConfigManger config;
@@ -37,14 +47,4 @@ void EditorWindowBase::Init()
 void EditorWindowBase::Release()
 {
 
-}
-
-void EditorWindowBase::BeginChildOption()
-{
-	ImGui::BeginChild(std::to_string((int)this).c_str(),ImVec2());
-}
-
-void EditorWindowBase::EndChildOption()
-{
-	ImGui::EndChild();
 }

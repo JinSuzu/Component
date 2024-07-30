@@ -48,6 +48,7 @@ void Editor::ImGuiUpdate()
 	ImGui::PopStyleVar(1);
 
 	MenuBar();
+	PlayButton();
 
 	ImGuiIO& io = ImGui::GetIO();
 	if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
@@ -91,6 +92,21 @@ void Editor::MenuBar()
 		}
 		ImGui::EndMenuBar();
 	}
+}
+void Editor::PlayButton()
+{
+	ImVec2 defaultSpacing = ImGui::GetStyle().ItemSpacing;
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(defaultSpacing.x, 1.0f)); // 垂直方向の間隔を2.0fに設定
+
+	bool buildChange = Utility::ImGuiHelper::ButtonWindowCenter(Application::Instance().GetBuildFlg() ? "StartRun" : "StartBuild");
+	buildChange |= GetAsyncKeyState(Application::Instance().GetBuildFlg() ? VK_F5 : VK_ESCAPE) & 0x8000;
+	if (buildChange)
+	{
+		//SceneManager::Instance().ReLoad();
+		Application::Instance().TurnBuildFlg();
+	}
+
+	ImGui::PopStyleVar(); 
 }
 void Editor::OverwriteWindow()
 {
@@ -208,7 +224,6 @@ void Editor::ReleaseWindows()
 		it = m_windowList.erase(it);
 	}
 }
-
 void Editor::Release()
 {
 	ReleaseWindows();
