@@ -3,25 +3,6 @@
 class AssetManager
 {
 public:
-	template<typename T>
-	void TransformAsset(T& _asset, std::string _path)
-	{
-		std::function<void()>Fn;
-		switch (std::hash<std::type_index>()(typeid(T)))
-		{
-		case TexHash:
-			Fn = [&]() {_asset = GetKdTexture(_path); };
-			break;
-		case ModelDataHash:
-			Fn = [&]() { _asset = GetModelData(_path); };
-			break;
-		case SquarePolygonHash:
-			Fn = [&]() {_asset = GetSquarePolygon(_path); };
-			break;
-		}
-
-		if (Fn)m_tasks.push_back(Fn);
-	}
 
 	void Loading()
 	{
@@ -34,33 +15,37 @@ public:
 		}
 	}
 
-	std::shared_ptr<KdTexture> GetKdTexture(std::string _assetPath);
+	std::shared_ptr<KdTexture> GetTexture(std::string _assetPath);
+	bool GetTexture(std::string _assetPath, std::shared_ptr<KdTexture>& _tex);
+
 	std::shared_ptr<KdSquarePolygon> GetSquarePolygon(std::string _assetPath);
+	bool GetSquarePolygon(std::string _assetPath, std::shared_ptr<KdSquarePolygon>& _poly);
+
 	std::shared_ptr<KdModelData> GetModelData(std::string _assetPath);
+	bool GetModelData(std::string _assetPath, std::shared_ptr<KdModelData>& _model);
+
 	std::shared_ptr<KdModelWork> GetModelWork(std::string _assetPath);
+	bool GetModelWork(std::string _assetPath, std::shared_ptr<KdModelWork>& _work);
 
 	bool SelectTexture(std::shared_ptr<KdTexture>& _tex, std::string& _path);
 	bool SelectSquarePolygon(std::shared_ptr<KdSquarePolygon>& _poly, std::string& _path);
 	bool SelectModelData(std::shared_ptr<KdModelData>& _modelData, std::string& _path);
 	bool SelectModelWork(std::shared_ptr<KdModelWork>& _modelData, std::string& _path);
 
+	void Init();
+	void Release();
+
 private:
 	std::map<std::string, std::shared_ptr<KdTexture>>			m_texList;
-	std::map<std::string, std::shared_ptr<KdSquarePolygon>>		m_squarePolygonList;
 	std::map<std::string, std::shared_ptr<KdModelData>>			m_modelDataList;
-	std::map<std::string, std::shared_ptr<KdModelWork>>			m_modelWorkList;
 
 
 	std::thread m_thread;
 	std::list<std::function<void()>> m_tasks;
-
-	const size_t TexHash = std::hash<std::type_index>()(typeid(KdTexture));
-	const size_t ModelDataHash = std::hash<std::type_index>()(typeid(KdModelData));
-	const size_t SquarePolygonHash = std::hash<std::type_index>()(typeid(SquarePolygonHash));
 public:
 
 	AssetManager() {}
-	~AssetManager() {}
+	~AssetManager(){}
 	static AssetManager& Instance()
 	{
 		static AssetManager instance;

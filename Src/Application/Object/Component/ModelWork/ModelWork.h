@@ -5,31 +5,40 @@ class Cp_ModelWork
 	:public Component
 {
 public:
-	void Draw3D(UINT _type);
-
 	void Start()override;
 	void PreUpdateContents()override;
+	void PostUpdateContents()override;
 
 	void ImGuiUpdate()override;
 	void LoadJson(nlohmann::json _json)override;
 	nlohmann::json GetJson()override;
 
-	std::weak_ptr<KdModelWork> GetModelWork() { return m_modelWork; }
-	void SetModelWork(std::shared_ptr<KdModelWork> _data) { m_modelWork = _data; }
+	std::weak_ptr<KdModelWork> GetModelWork() { return m_modelWorkPack->modelWork; }
+	void SetModelWork(std::shared_ptr<KdModelWork> _data) { m_modelWorkPack->modelWork = _data; }
 
-	void SetColor(Math::Color _color) { m_color = _color; }
-	Math::Color GetColor() const { return m_color; }
+	void SetColor(Math::Color _color) { m_modelWorkPack->color = _color; }
+	Math::Color GetColor() const { return m_modelWorkPack->color; }
 
 private:
-	UINT								m_drawType;
-
 	std::string							m_path;
-	std::shared_ptr<KdModelWork>		m_modelWork;
 	std::shared_ptr<KdAnimator>			m_modelAnimator;
-
-	Math::Color							m_color = kWhiteColor;
-
-	std::shared_ptr<std::function<void(UINT)>> m_draw3D;
-
 	std::string m_animeName;
+
+	struct ModelWorkPack
+		:RenderManager::Asset3DPackBase
+	{
+		void Draw(UINT _type)override
+		{
+			if (drawType & _type)
+			{
+				KdShaderManager::Instance().m_StandardShader.DrawModel(*modelWork, mat);
+			}
+		}
+
+		std::shared_ptr<KdModelWork>		modelWork;
+		Math::Matrix						mat;
+		Math::Color							color = kWhiteColor;
+	};
+
+	std::shared_ptr<ModelWorkPack> m_modelWorkPack;
 };

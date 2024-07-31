@@ -1,54 +1,44 @@
 ﻿#include "Texture.h"
 #include "../../Game/GameObject.h"
-#include "../../../AssetManager/AssetManager.h"
 #include "../Transform/Transform.h"
 #include "../../../Utility/Timer.h"
 #include "../../../Utility/Animation2D/Animation2D.h"
-#include "../../../RenderManger/RenderManger.h"
 #include "Texture.h"
-
-void Cp_Texture::DrawSprite()
-{
-	if (m_owner.lock()->GetHideFlg())return;
-	KdShaderManager::Instance().m_spriteShader.SetMatrix(m_trans.lock()->GetMatrix());
-
-	KdShaderManager::Instance().m_spriteShader.DrawTex(m_tex, 0, 0, m_rect.width, m_rect.height, &m_rect);
-
-	KdShaderManager::Instance().m_spriteShader.SetMatrix(Math::Matrix::Identity);
-}
 
 void Cp_Texture::Start()
 {
-	m_tex = AssetManager::Instance().GetKdTexture("Asset/Textures/chara/block.png");
-	m_rect = { 0,0,64,64 };
+	m_texPack = std::make_shared<TexturePack>();
+
+	m_texPack->tex  = AssetManager::Instance().GetTexture("Asset/Textures/chara/block.png");
+	m_texPack->rect = { 0,0,64,64 };
 	m_trans = m_owner.lock()->GetTransform();
 	m_animation = std::make_shared<Animation2D>();
-
-	m_draw2D = std::make_shared<std::function<void()>>([&]() {DrawSprite(); });
-	RenderManager::Instance().AddDraw2D(m_draw2D);
 }
 
 void Cp_Texture::PreUpdateContents()
 {
-	m_animation->PreUpdate(m_rect);
+	m_animation->PreUpdate(m_texPack->rect);
+}
+
+void Cp_Texture::PostUpdateContents()
+{
+	m_texPack->mat = m_trans.lock()->GetMatrix();
+	if(!m_owner.lock()->GetHideFlg())RenderManager::Instance().AddDraw2D(m_texPack);
 }
 
 void Cp_Texture::ImGuiUpdate()
 {
-	if (AssetManager::Instance().SelectTexture(m_tex, m_path))m_rect = { 0,0,(LONG)m_tex->GetInfo().Width,(LONG)m_tex->GetInfo().Height };
+	if (AssetManager::Instance().SelectTexture(m_texPack->tex, m_path))m_texPack->rect = { 0,0,(LONG)m_texPack->tex->GetInfo().Width,(LONG)m_texPack->tex->GetInfo().Height};
 
-	float value[4] = { (float)m_rect.x,(float)m_rect.y ,(float)m_rect.width ,(float)m_rect.height };
-	ImGui::DragFloat4("Rect", value);
-	m_rect = Math::Rectangle((long)value[0], (long)value[1], (long)value[2], (long)value[3]);
-
+	ImGui::DragFloat4("Rect", (float*) & m_texPack->rect.x);
 	m_animation->ImGuiUpdate();
 }
 
 void Cp_Texture::LoadJson(nlohmann::json _json)
 {
 	m_path = _json["path"];
-	m_rect = Utility::JsonHelper::InputRect(_json["rect"]);
-	m_tex = AssetManager::Instance().GetKdTexture(m_path);
+	m_texPack->rect = Utility::JsonHelper::InputRect(_json["rect"]);
+	m_texPack->tex = AssetManager::Instance().GetTexture(m_path);
 
 	m_animation->SetJson(_json["animation"]);
 }
@@ -57,7 +47,7 @@ nlohmann::json Cp_Texture::GetJson()
 {
 	nlohmann::json json;
 	json["path"] = m_path;
-	json["rect"] = Utility::JsonHelper::OutPutRect(m_rect);
+	json["rect"] = Utility::JsonHelper::OutPutRect(m_texPack->rect);
 
 	json["animation"] = m_animation->GetJson();
 	return json;

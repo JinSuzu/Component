@@ -214,7 +214,6 @@
     <ClInclude Include="..\Library\tinygltf\stb_image.h" />
     <ClInclude Include="..\Library\tinygltf\stb_image_write.h" />
     <ClInclude Include="..\Library\tinygltf\tiny_gltf.h" />
-    <ClInclude Include="Src\Application\AssetManager\AssetManager.h" />
     <ClInclude Include="Src\Application\main.h" />
     <ClInclude Include="Src\Application\Object\Component\AddRotation\AddRotaion.h" />
     <ClInclude Include="Src\Application\Object\Component\AllComponentIncluder.h" />
@@ -253,7 +252,6 @@
     <ClInclude Include="Src\Application\Object\Component\Transform\Transform.h" />
     <ClInclude Include="Src\Application\Object\Game\GameObject.h" />
     <ClInclude Include="Src\Application\Object\Game\Manager\GameObjectManager.h" />
-    <ClInclude Include="Src\Application\RenderManger\RenderManger.h" />
     <ClInclude Include="Src\Application\Score\Score.h" />
     <ClInclude Include="Src\Application\Utility\Animation2D\Animation2D.h" />
     <ClInclude Include="Src\Application\Utility\CreateObject\CreateObject.h" />
@@ -301,8 +299,11 @@
     <ClInclude Include="Src\System\EditorWindow\Prefab\FileEditor\FileEditor.h" />
     <ClInclude Include="Src\System\EditorWindow\Prefab\Prefab.h" />
     <ClInclude Include="Src\System\EditorWindow\SetUpScene\SetUpScene.h" />
+    <ClInclude Include="Src\System\Manager\AssetManager\AssetManager.h" />
+    <ClInclude Include="Src\System\Manager\CameraManager\CameraManager.h" />
     <ClInclude Include="Src\System\Manager\ConfigManager\ConfigManager.h" />
     <ClInclude Include="Src\System\Manager\EditorWindowManager\EditorWindowManager.h" />
+    <ClInclude Include="Src\System\Manager\RenderManager\RenderManager.h" />
     <ClInclude Include="Src\System\Manager\SceneMnager\SceneManager.h" />
     <ClInclude Include="Src\System\Object\Object.h" />
     <ClInclude Include="Src\System\SystemPch.h" />
@@ -324,7 +325,6 @@
     <ClCompile Include="..\Library\imgui\imgui_stdlib.cpp" />
     <ClCompile Include="..\Library\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\Library\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Src\Application\AssetManager\AssetManager.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
     <ClCompile Include="Src\Application\Object\Component\AddRotation\AddRotaion.cpp" />
     <ClCompile Include="Src\Application\Object\Component\BoxCollision\BoxCollision.cpp" />
@@ -362,7 +362,6 @@
     <ClCompile Include="Src\Application\Object\Component\Transform\Transform.cpp" />
     <ClCompile Include="Src\Application\Object\Game\GameObject.cpp" />
     <ClCompile Include="Src\Application\Object\Game\Manager\GameObjectManager.cpp" />
-    <ClCompile Include="Src\Application\RenderManger\RenderManger.cpp" />
     <ClCompile Include="Src\Application\Score\Score.cpp" />
     <ClCompile Include="Src\Application\Utility\Animation2D\Animation2D.cpp" />
     <ClCompile Include="Src\Application\Utility\CreateObject\CreateObject.cpp" />
@@ -412,8 +411,11 @@
     <ClCompile Include="Src\System\EditorWindow\Inspector\Inspector.cpp" />
     <ClCompile Include="Src\System\EditorWindow\Prefab\Prefab.cpp" />
     <ClCompile Include="Src\System\EditorWindow\SetUpScene\SetUpScene.cpp" />
+    <ClCompile Include="Src\System\Manager\AssetManager\AssetManager.cpp" />
+    <ClCompile Include="Src\System\Manager\CameraManager\CameraManager.cpp" />
     <ClCompile Include="Src\System\Manager\ConfigManager\ConfigManager.cpp" />
     <ClCompile Include="Src\System\Manager\EditorWindowManager\EditorWindowManager.cpp" />
+    <ClCompile Include="Src\System\Manager\RenderManager\RenderManager.cpp" />
     <ClCompile Include="Src\System\Manager\SceneMnager\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>

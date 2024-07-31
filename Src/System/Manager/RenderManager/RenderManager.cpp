@@ -1,8 +1,8 @@
-﻿#include "RenderManger.h"
-#include "../Object/Component/Texture/Texture.h"
-#include "../Object/Component/Camera/Camera.h"
-#include "../Object/Game/GameObject.h"
-#include "../main.h"
+﻿#include "RenderManager.h"
+#include "../../../Application/Object/Component/Texture/Texture.h"
+#include "../../../Application/Object/Component/Camera/Camera.h"
+#include "../../../Application/Object/Game/GameObject.h"
+#include "../../../Application/main.h"
 
 void RenderManager::BeginDraw()
 {
@@ -17,28 +17,20 @@ void RenderManager::BeginDraw()
 }
 void RenderManager::PreDraw()
 {
-	std::map<int, std::list<std::weak_ptr<Cp_Camera>>>::iterator camera = m_cameraMap.begin();
-	while (camera != m_cameraMap.end())
+	std::list<std::weak_ptr<std::function<void()>>>::iterator preDraw = m_preDrawList.begin();
+	while (preDraw != m_preDrawList.end())
 	{
-		std::list <std::weak_ptr<Cp_Camera>>::iterator it = camera->second.begin();
-		while (it != camera->second.end())
+		if (preDraw->expired())
 		{
-			if (it->lock())
-			{
-				if (it->lock()->GetActive() && it->lock()->GetOwner().lock()->GetActive())
-				{
-					it->lock()->PreDraw();
-					return;
-				}
-				it++;
-			}
-			else
-			{
-				it = camera->second.erase(it);
-			}
+			preDraw = m_preDrawList.erase(preDraw);
+			continue;
 		}
-		camera++;
+
+		(*preDraw->lock())();
+		preDraw++;
 	}
+	
+	CameraManager::Instance().CameraToShader();
 }
 void RenderManager::Draw()
 {
@@ -46,18 +38,7 @@ void RenderManager::Draw()
 	// 光を遮るオブジェクト(不透明な物体や2Dキャラ)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_StandardShader.BeginGenerateDepthMapFromLight();
 	{
-		std::list<std::weak_ptr<std::function<void(UINT)>>>::iterator draw3D = m_draw3DList.begin();
-		while (draw3D != m_draw3DList.end())
-		{
-			if (draw3D->expired())
-			{
-				draw3D = m_draw3DList.erase(draw3D);
-				continue;
-			}
-
-			(*draw3D->lock())((UINT)DrawType::DepthOfShadow);
-			draw3D++;
-		}
+		for (auto& draw3D : m_draw3DList)draw3D.lock()->Draw((UINT)DrawType::DepthOfShadow);
 	}
 	KdShaderManager::Instance().m_StandardShader.EndGenerateDepthMapFromLight();
 
@@ -65,7 +46,7 @@ void RenderManager::Draw()
 	// 陰影のあるオブジェクト(不透明な物体や2Dキャラ)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_StandardShader.BeginLit();
 	{
-		for (auto& draw3D : m_draw3DList)(*draw3D.lock())((UINT)DrawType::Lit);
+		for (auto& draw3D : m_draw3DList)draw3D.lock()->Draw((UINT)DrawType::Lit);
 	}
 	KdShaderManager::Instance().m_StandardShader.EndLit();
 
@@ -73,7 +54,7 @@ void RenderManager::Draw()
 	// 陰影のないオブジェクト(透明な部分を含む物体やエフェクト)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
 	{
-		for (auto& draw3D : m_draw3DList)(*draw3D.lock())((UINT)DrawType::UnLit);
+		for (auto& draw3D : m_draw3DList)draw3D.lock()->Draw((UINT)DrawType::UnLit);
 	}
 	KdShaderManager::Instance().m_StandardShader.EndUnLit();
 
@@ -81,7 +62,7 @@ void RenderManager::Draw()
 	// 光源オブジェクト(自ら光るオブジェクトやエフェクト)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_postProcessShader.BeginBright();
 	{
-		for (auto& draw3D : m_draw3DList)(*draw3D.lock())((UINT)DrawType::Bright);
+		for (auto& draw3D : m_draw3DList)draw3D.lock()->Draw((UINT)DrawType::Bright);
 	}
 	KdShaderManager::Instance().m_postProcessShader.EndBright();
 }
@@ -94,45 +75,9 @@ void RenderManager::PostDraw()
 }
 void RenderManager::EndDraw()
 {
+	m_draw2DList.clear();
+	m_draw3DList.clear();
 	KdDirect3D::Instance().WorkSwapChain()->Present(0, 0);
-}
-
-void RenderManager::AddCamera(int _priority, std::weak_ptr<Cp_Camera> _camera)
-{
-	std::map<int, std::list<std::weak_ptr<Cp_Camera>>>::iterator map = m_cameraMap.find(_priority);
-	if (map == m_cameraMap.end())
-	{
-		m_cameraMap[_priority] = std::list<std::weak_ptr<Cp_Camera>>();
-	}
-	m_cameraMap[_priority].push_back(_camera);
-}
-
-std::weak_ptr<Cp_Camera> RenderManager::GetCamera()
-{
-	std::map<int, std::list<std::weak_ptr<class Cp_Camera>>>::iterator camera = m_cameraMap.begin();
-	while (camera != m_cameraMap.end())
-	{
-		std::list <std::weak_ptr<class Cp_Camera>>::iterator it = camera->second.begin();
-		while (it != camera->second.end())
-		{
-			if (it->lock())
-			{
-				if (it->lock()->GetActive() && it->lock()->GetOwner().lock()->GetActive())
-				{
-					return *it;
-				}
-				it++;
-			}
-			else
-			{
-				it = camera->second.erase(it);
-			}
-		}
-		camera++;
-	}
-
-	return std::weak_ptr<class Cp_Camera>();
-
 }
 
 void RenderManager::Init(int w, int h)
@@ -148,18 +93,7 @@ void RenderManager::DrawSprite()
 {
 	KdShaderManager::Instance().m_spriteShader.Begin();
 	{
-		std::list<std::weak_ptr<std::function<void()>>>::iterator draw2D = m_draw2DList.begin();
-		while (draw2D != m_draw2DList.end())
-		{
-			if (draw2D->expired())
-			{
-				draw2D = m_draw2DList.erase(draw2D);
-				continue;
-			}
-
-			(*draw2D->lock())();
-			draw2D++;
-		}
+		for (auto& draw2D : m_draw2DList)draw2D.lock()->Draw();
 	}
 	KdShaderManager::Instance().m_spriteShader.End();
 }

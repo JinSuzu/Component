@@ -6,8 +6,6 @@
 #include "../ModelData/ModelData.h"
 #include "../SquarePolygon/SquarePolygon.h"
 
-#include "../../../RenderManger/RenderManger.h"
-
 void Cp_Collider::Start()
 {
 	GameObjectManager::Instance().AddColliderList(WeakThisPtr(this));

@@ -74,7 +74,6 @@ public:
 		if (tag == nullptr) return std::weak_ptr<T>();//ケツまで回ってたらナシ
 		return std::weak_ptr<T>(std::dynamic_pointer_cast<T>(tag));
 	}
-
 	template<class T>
 	std::list<std::weak_ptr<T>> GetComponents()
 	{

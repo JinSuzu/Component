@@ -7,7 +7,6 @@
 #include "../../../Application/Object/Component/BuildCamera/BuildCamera.h"
 #include "../../../Application/Object/Component/Transform/Transform.h"
 
-#include "../../../Application/RenderManger/RenderManger.h"
 #include "../../../Application/main.h"
 
 #include "../../Manager/EditorWindowManager/EditorWindowManager.h"
@@ -90,12 +89,15 @@ void GameScreen::UpdateContents()
 				m_cameraController.lock()->HoverMove();
 			}
 		}
+
+		m_buildCamera->PreUpdate();
+		m_buildCamera->Update();
+		m_buildCamera->PostUpdate();
 	}
 
-	//以降はカメラが存在してる時の処理
-	std::weak_ptr<Cp_Camera> camera = RenderManager::Instance().GetCamera();
-	if (camera.expired())return;
-
+	//============================================
+	// ギズモ処理
+	//============================================
 	std::weak_ptr<GameObject> editObject = Application::Instance().GetEditor().lock()->GetEditObject();
 	if (editObject.expired())return;
 
@@ -105,8 +107,8 @@ void GameScreen::UpdateContents()
 	//ギズモ更新処理
 	bool edited = Utility::ImGuizmoHelper::Update
 	(
-		camera.lock()->GetCamera().lock()->GetCameraMatrix().Invert(),
-		camera.lock()->GetCamera().lock()->GetProjMatrix(),
+		CameraManager::Instance().GetCamera().lock()->GetCameraMatrix().Invert(),
+		CameraManager::Instance().GetCamera().lock()->GetProjMatrix(),
 		trans.lock()->GetMatrix(),
 		(parentTrans.expired() ? Math::Matrix::Identity : parentTrans.lock()->GetMatrix(trans.lock()->GetParentMatTag())),
 		m_zmoPreation,
@@ -119,8 +121,6 @@ void GameScreen::UpdateContents()
 		trans.lock()->SetRotation(resultPack.rotation);
 		trans.lock()->SetScale(resultPack.scale);
 	}
-
-
 
 	//ギズモの編集対象の変更
 	ImGui::Begin("OprerationChanger");

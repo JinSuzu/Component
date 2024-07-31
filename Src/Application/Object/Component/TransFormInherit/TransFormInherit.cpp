@@ -2,7 +2,6 @@
 #include "../../Game/GameObject.h"
 
 #include "../Camera/Camera.h"
-#include "../../../RenderManger/RenderManger.h"
 #include "../Transform/Transform.h"
 
 void Cp_TransFormInherit::Start()
@@ -84,7 +83,7 @@ void Cp_TransFormInherit::LoadJson(nlohmann::json _json)
 		};
 
 	if (m_formInheritPos)mTrans.lock()->SetPosition(AddCheck(m_activePos, pos));
-	if (m_formInheritRota)mTrans.lock()->SetRotation(m_cameraFormInherit ? RenderManager::Instance().GetCamera().lock()->GetOwner().lock()->GetTransform().lock()->GetRotation() : AddCheck(m_activeRota, rota));
+	if (m_formInheritRota)mTrans.lock()->SetRotation(m_cameraFormInherit ? CameraManager::Instance().GetCamera().lock()->GetCameraMatrix().ToEuler() : AddCheck(m_activeRota, rota));
 	if (m_formInheritScale)mTrans.lock()->SetScale(AddCheck(m_activeScale, scale));
 
 	mTrans.lock()->UnFollow();

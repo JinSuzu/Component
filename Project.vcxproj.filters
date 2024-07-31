@@ -160,12 +160,6 @@
     <Filter Include="Src\Application\Score">
       <UniqueIdentifier>{f63cdaa2-98d6-466b-b8ab-d9df11a6e090}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\RenderManger">
-      <UniqueIdentifier>{86b82746-2ef5-47f5-a8ac-44aed9ef7939}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\AssetManager">
-      <UniqueIdentifier>{38e06f33-f118-43ae-bc20-1d4156582f26}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Src\Application\Object\Component\HitResult\HitResultBlock">
       <UniqueIdentifier>{d81e5514-82f4-4129-9dea-a293ba9e9a3d}</UniqueIdentifier>
     </Filter>
@@ -246,6 +240,15 @@
     </Filter>
     <Filter Include="Library\imgui\ImGuizmo-master">
       <UniqueIdentifier>{ecc6080f-15b0-405c-9589-b3d92ccd248e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\System\Manager\CameraManager">
+      <UniqueIdentifier>{1eac45b4-4824-4a03-bdf4-a74a42647d38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\System\Manager\RenderManager">
+      <UniqueIdentifier>{f68d36da-0820-45bc-be09-35ce8fda0431}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\System\Manager\AssetManager">
+      <UniqueIdentifier>{60ff546d-96ba-45a6-b861-ea9e822d5fde}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -672,12 +675,6 @@
     <ClInclude Include="Src\Application\Score\Score.h">
       <Filter>Src\Application\Score</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\RenderManger\RenderManger.h">
-      <Filter>Src\Application\RenderManger</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\AssetManager\AssetManager.h">
-      <Filter>Src\Application\AssetManager</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\Object\Component\AddRotation\AddRotaion.h">
       <Filter>Src\Application\Object\Component\AddRotation</Filter>
     </ClInclude>
@@ -755,6 +752,15 @@
     </ClInclude>
     <ClInclude Include="..\Library\imgui\ImGuizmo-master\ImZoomSlider.h">
       <Filter>Library\imgui\ImGuizmo-master</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Manager\CameraManager\CameraManager.h">
+      <Filter>Src\System\Manager\CameraManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Manager\RenderManager\RenderManager.h">
+      <Filter>Src\System\Manager\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Manager\AssetManager\AssetManager.h">
+      <Filter>Src\System\Manager\AssetManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -992,12 +998,6 @@
     <ClCompile Include="Src\Application\Score\Score.cpp">
       <Filter>Src\Application\Score</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\RenderManger\RenderManger.cpp">
-      <Filter>Src\Application\RenderManger</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\AssetManager\AssetManager.cpp">
-      <Filter>Src\Application\AssetManager</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\AddRotation\AddRotaion.cpp">
       <Filter>Src\Application\Object\Component\AddRotation</Filter>
     </ClCompile>
@@ -1048,6 +1048,15 @@
     </ClCompile>
     <ClCompile Include="..\Library\imgui\ImGuizmo-master\ImSequencer.cpp">
       <Filter>Library\imgui\ImGuizmo-master</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Manager\CameraManager\CameraManager.cpp">
+      <Filter>Src\System\Manager\CameraManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Manager\RenderManager\RenderManager.cpp">
+      <Filter>Src\System\Manager\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Manager\AssetManager\AssetManager.cpp">
+      <Filter>Src\System\Manager\AssetManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

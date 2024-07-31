@@ -3,8 +3,6 @@
 #include "../../Game/Manager/GameObjectManager.h"
 #include "../Transform/Transform.h"
 
-#include "../../../RenderManger/RenderManger.h"
-
 void Cp_Rigidbody::Start()
 {
 	m_trans = m_owner.lock()->GetTransform();

@@ -5,26 +5,37 @@ class Cp_ModelData
 	:public Component
 {
 public:
-	void Draw3D(UINT _type);
 	void Start()override;
+	void PostUpdateContents()override;
 	void ImGuiUpdate()override;
+
+
 	void LoadJson(nlohmann::json _json)override;
 	nlohmann::json GetJson()override;
 
-	std::weak_ptr<KdModelData> GetModelData() { return m_modelData; }
-	void SetModelData(std::shared_ptr<KdModelData> _data) { m_modelData = _data; }
+	std::weak_ptr<KdModelData> GetModelData() { return m_modelDataPack->modelData; }
+	void SetModelData(std::shared_ptr<KdModelData> _data) { m_modelDataPack->modelData = _data; }
 
-	void SetColor(Math::Color _color) { m_color = _color; }
-	Math::Color GetColor() const { return m_color; }
+	void SetColor(Math::Color _color) { m_modelDataPack->color = _color; }
+	Math::Color GetColor() const { return m_modelDataPack->color; }
 
 private:
-	UINT								m_drawType;
+	struct ModelDataPack
+		:RenderManager::Asset3DPackBase 
+	{
+		void Draw(UINT _type)override 
+		{
+			if (drawType & _type)
+			{
+				KdShaderManager::Instance().m_StandardShader.DrawModel(*modelData, mat);
+			}
+		}
 
-	std::string							m_path;
-	std::shared_ptr<KdModelData>		m_modelData;
+		std::shared_ptr<KdModelData>		modelData;
+		Math::Matrix						mat;
+		Math::Color							color = kWhiteColor;
+	};
 
-	Math::Color							m_color = kWhiteColor;
-
-	std::weak_ptr<class Cp_Transform>	m_trans;
-	std::shared_ptr<std::function<void(UINT)>> m_draw3D;
+	std::shared_ptr<ModelDataPack>	m_modelDataPack;
+	std::string						m_path;
 };

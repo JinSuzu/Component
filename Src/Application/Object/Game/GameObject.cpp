@@ -210,8 +210,14 @@ nlohmann::json GameObject::OutPutFamilyJson()
 
 std::shared_ptr<Component> GameObject::SearchTag(std::string _tag)
 {
+	_tag = PickName(_tag, '_');
+	if (m_trans->CheckIDName(_tag))
+	{
+		return m_trans;
+	}
+
 	auto&& it = m_cpList.begin();
-	while (it != m_cpList.end() && !(*it)->CheckIDName(PickName(_tag, '_'))) { it++; }
+	while (it != m_cpList.end() && !(*it)->CheckIDName(_tag)) { it++; }
 
 	if (it == m_cpList.end())
 	{

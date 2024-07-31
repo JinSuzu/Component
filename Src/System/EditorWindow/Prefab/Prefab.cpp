@@ -1,5 +1,4 @@
-﻿#include "../../../Application/AssetManager/AssetManager.h"
-#include "../../../Application/main.h"
+﻿#include "../../../Application/main.h"
 #include "../../../Application/Object/Game/GameObject.h"
 #include "../../../Application/Object/Game/Manager/GameObjectManager.h"
 #include "Prefab.h"
@@ -94,8 +93,8 @@ void Prefab::DirectoryTree(const std::filesystem::path& dir)
 }
 void Prefab::DirectoryContents()
 {
-	static std::shared_ptr<KdTexture> IconDocumentIcon = AssetManager::Instance().GetKdTexture("Asset/Textures/UI/DocumentIcon.png");
-	static std::shared_ptr<KdTexture> CloseFolderIcon = AssetManager::Instance().GetKdTexture("Asset/Textures/UI/CloseFolderIcon.png");
+	static std::shared_ptr<KdTexture> IconDocumentIcon = AssetManager::Instance().GetTexture("Asset/Textures/UI/DocumentIcon.png");
+	static std::shared_ptr<KdTexture> CloseFolderIcon = AssetManager::Instance().GetTexture("Asset/Textures/UI/CloseFolderIcon.png");
 	//static std::shared_ptr<KdTexture> OpenFolderIcon = AssetManager::Instance().GetKdTexture("Asset/Textures/UI/ OpenFolderIcon.png");
 
 	static float thumbnailSize = 64.0f;

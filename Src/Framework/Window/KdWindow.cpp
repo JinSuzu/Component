@@ -99,7 +99,6 @@ bool KdWindow::ProcessMessage()
 	return true;
 }
 
-#include "../../Application/RenderManger/RenderManger.h"
 // ウィンドウ関数(Static関数)
 LRESULT CALLBACK KdWindow::callWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -129,7 +128,6 @@ LRESULT CALLBACK KdWindow::callWindowProc(HWND hWnd, UINT message, WPARAM wParam
 	return pThis->WindowProc(hWnd, message, wParam, lParam);
 }
 
-#include "../../System/EditorWindow/Prefab/Prefab.h"
 // ウィンドウ関数
 LRESULT KdWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {

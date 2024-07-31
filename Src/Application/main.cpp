@@ -1,7 +1,6 @@
 ﻿#include "main.h"
 #include "Object/Game/Manager/GameObjectManager.h"
 #include "Object/Game/GameObject.h"
-#include "RenderManger/RenderManger.h"
 #include "Utility/Timer.h"
 
 #include "../System/EditorWindow/DebugLog/DebugLog.h"
@@ -112,7 +111,7 @@ void Application::Execute()
 		}
 		KdBeginUpdate();
 		{
-			if (!m_buildFlg)
+			//if (!m_buildFlg)
 			{
 				Timer::Instance().PreUpdate();
 				GameObjectManager::Instance().PreUpdate();
@@ -237,15 +236,16 @@ bool Application::Init(int w, int h)
 		}
 	}
 
-	RenderManager::Instance().Init(w, h);
+	CameraManager::Instance().Init();
 	m_editor = std::make_shared<Editor>();
 	m_editor->Init();
+	RenderManager::Instance().Init(w, h);
+	SceneManager::Instance().Init();
 
 	//===================================================================
 	// オーディオ初期化
 	//===================================================================
 	KdAudioManager::Instance().Init();
-	SceneManager::Instance().Init();
 
 	return true;
 };

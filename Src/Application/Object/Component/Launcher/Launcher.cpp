@@ -2,7 +2,6 @@
 #include "../../Game/GameObject.h"
 #include "../ModelData/ModelData.h"
 #include "../Transform/Transform.h"
-#include "../../../AssetManager/AssetManager.h"
 
 #include "../../../Utility/CreateObject/CreateObject.h"
 
