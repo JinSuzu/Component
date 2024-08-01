@@ -299,6 +299,7 @@
     <ClInclude Include="Src\System\EditorWindow\Prefab\FileEditor\FileEditor.h" />
     <ClInclude Include="Src\System\EditorWindow\Prefab\Prefab.h" />
     <ClInclude Include="Src\System\EditorWindow\SetUpScene\SetUpScene.h" />
+    <ClInclude Include="Src\System\Engine\Engine.h" />
     <ClInclude Include="Src\System\Manager\AssetManager\AssetManager.h" />
     <ClInclude Include="Src\System\Manager\CameraManager\CameraManager.h" />
     <ClInclude Include="Src\System\Manager\ConfigManager\ConfigManager.h" />
@@ -411,6 +412,7 @@
     <ClCompile Include="Src\System\EditorWindow\Inspector\Inspector.cpp" />
     <ClCompile Include="Src\System\EditorWindow\Prefab\Prefab.cpp" />
     <ClCompile Include="Src\System\EditorWindow\SetUpScene\SetUpScene.cpp" />
+    <ClCompile Include="Src\System\Engine\Engine.cpp" />
     <ClCompile Include="Src\System\Manager\AssetManager\AssetManager.cpp" />
     <ClCompile Include="Src\System\Manager\CameraManager\CameraManager.cpp" />
     <ClCompile Include="Src\System\Manager\ConfigManager\ConfigManager.cpp" />

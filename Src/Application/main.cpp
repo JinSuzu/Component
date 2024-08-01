@@ -1,9 +1,4 @@
 ﻿#include "main.h"
-#include "Object/Game/Manager/GameObjectManager.h"
-#include "Object/Game/GameObject.h"
-#include "Utility/Timer.h"
-
-#include "../System/EditorWindow/DebugLog/DebugLog.h"
 
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_  HINSTANCE, _In_ LPSTR, _In_ int)
 {
@@ -69,11 +64,6 @@ void Application::Execute()
 		std::string titlebar = "Rocket Burst Breaker	fps : " + std::to_string(m_fpsController.m_nowfps);
 		SetWindowTextA(GetWindowHandle(), titlebar.c_str());
 
-		//=========================================
-		//
-		// アプリケーション描画処理
-		//
-		//=========================================
 		m_mouseDelta = GetMouse() - postMousePos;
 		postMousePos = GetMouse();
 
@@ -84,9 +74,7 @@ void Application::Execute()
 		}
 
 		//=========================================
-		//
 		// ウィンドウ関係の処理
-		//
 		//=========================================
 
 		// ウィンドウのメッセージを処理する
@@ -99,52 +87,17 @@ void Application::Execute()
 		}
 
 		//=========================================
-		//
 		// アプリケーション更新処理
-		//
 		//=========================================
-		static bool flg = m_buildFlg;
-		if (flg != m_buildFlg)
-		{
-			ShowCursor(flg);
-			flg = !flg;
-		}
-		KdBeginUpdate();
-		{
-			//if (!m_buildFlg)
-			{
-				Timer::Instance().PreUpdate();
-				GameObjectManager::Instance().PreUpdate();
-				GameObjectManager::Instance().Update();
-				GameObjectManager::Instance().PostUpdate();
-			}
-
-			m_editor->ImGuiUpdate();
-		}
-		KdPostUpdate();
+		KernelEngine::Update();
 
 		//=========================================
-		//
 		// アプリケーション描画処理
-		//
 		//=========================================
-		RenderManager::Instance().BeginDraw();
-		{
-			RenderManager::Instance().Draw();
-			RenderManager::Instance().PostDraw();
-			RenderManager::Instance().PreDraw();
-			m_editor->ImGuiDraw();
-		}
-		RenderManager::Instance().EndDraw();
-		//---------------------
-
-		SceneManager::Instance().PushScene();
-
+		KernelEngine::Draw();
 
 		//=========================================
-		//
 		// フレームレート制御
-		//
 		//=========================================
 
 		m_fpsController.Update();
@@ -169,25 +122,6 @@ Math::Vector2 Application::GetMouse()
 	mouse.y -= (long)(*(++size) / 2.0f);
 
 	return { (float)mouse.x,-(float)mouse.y };
-}
-
-void Application::KdBeginUpdate()
-{
-	// 入力状況の更新
-	KdInputManager::Instance().Update();
-
-	// 空間環境の更新
-	KdShaderManager::Instance().WorkAmbientController().Update();
-}
-void Application::KdPostUpdate()
-{
-	// 3DSoundListnerの行列を更新
-	KdAudioManager::Instance().SetListnerMatrix(KdShaderManager::Instance().GetCameraCB().mView.Invert());
-}
-
-void Application::AddLog(const char* fmt, ...)
-{
-	m_editor->GetDebugLog().lock()->AddLog(fmt);
 }
 
 bool Application::Init(int w, int h)
@@ -236,11 +170,10 @@ bool Application::Init(int w, int h)
 		}
 	}
 
-	CameraManager::Instance().Init();
-	m_editor = std::make_shared<Editor>();
-	m_editor->Init();
 	RenderManager::Instance().Init(w, h);
-	SceneManager::Instance().Init();
+	
+	KernelEngine::Init();
+
 
 	//===================================================================
 	// オーディオ初期化
@@ -264,7 +197,7 @@ void Application::Release()
 
 	KdDirect3D::Instance().Release();
 
-	SceneManager::Instance().Release();
+	KernelEngine::Release();
 	// ウィンドウ削除
 	m_window.Release();
 }

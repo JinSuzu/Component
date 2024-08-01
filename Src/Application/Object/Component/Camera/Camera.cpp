@@ -4,11 +4,8 @@
 
 void Cp_Camera::Start()
 {
-	m_cameraPack = std::make_shared<CameraManager::CameraPack>();
+	m_cameraPack = CameraManager::Instance().CreateCameraPack();
 	m_trans = m_owner.lock()->GetTransform();
-	//m_preDraw = std::make_shared<std::function<void()>>([&]() {PreDraw(); });
-	//RenderManager::Instance().AddPreDraw(m_preDraw);
-	//m_owner.lock()->SetCamera(WeakThisPtr(this));
 }
 
 void Cp_Camera::ImGuiUpdate()

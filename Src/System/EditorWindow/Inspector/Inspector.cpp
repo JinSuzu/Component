@@ -3,10 +3,8 @@
 #include "../../../Application/Object/Game/Manager/GameObjectManager.h"
 #include "../../../Application/main.h"
 
-#include "../../Manager/EditorWindowManager/EditorWindowManager.h"
-
 void Inspector::UpdateContents()
 {
-	std::weak_ptr<GameObject> object = Application::Instance().GetEditor().lock()->GetEditObject();
+	std::weak_ptr<GameObject> object = Editor::Instance().GetEditObject();
 	if(object.lock())GameObjectManager::ImGuiGameObject(object);
 }

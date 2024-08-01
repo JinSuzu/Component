@@ -9,26 +9,32 @@
 
 void Hierarchy::UpdateContents()
 {
+	m_openedOption = false;
 	for (auto& obj : GameObjectManager::Instance().GetObjectList())if (obj->GetParent().expired())ImGuiGameObject(obj);
+}
 
-	if (ImGui::IsItemClicked(1))ImGui::OpenPopup("CreateObject");
-	if (ImGui::BeginPopup("CreateObject"))
+void Hierarchy::GameObjectOption(std::weak_ptr<GameObject> _parent)
+{
+	if (m_openedOption)return;
+	std::string ID = "GameObjectOption" + std::to_string((int)_parent.lock().get());
+	if (ImGui::IsItemClicked(ImGuiMouseButton_Right))ImGui::OpenPopup(ID.c_str());
+	if (ImGui::BeginPopup(ID.c_str()))
 	{
-		std::weak_ptr<GameObject>obj = m_owner->GetEditObject();
-		if (obj.lock())
+		m_openedOption = true;
+		if (_parent.lock())
 		{
 			static std::string path;
 			ImGui::InputText("##Path", &path);
 			if (ImGui::SameLine(); ImGui::Button("Save"))
 			{
 				nlohmann::json json = nlohmann::json::array();
-				json.push_back(obj.lock()->OutPutFamilyJson());
+				json.push_back(_parent.lock()->OutPutFamilyJson());
 				Utility::JsonHelper::OutputJson(json, path);
 				ImGui::CloseCurrentPopup();
 			}
-			if (ImGui::MenuItem("Remove"))obj.lock()->Destroy();
+			if (ImGui::MenuItem("Remove"))_parent.lock()->Destroy();
 		}
-		if (ImGui::Button("Create"))GameObjectManager::CreateObject(std::string(), obj);
+		if (ImGui::Button("Create"))GameObjectManager::CreateObject(std::string(), _parent);
 		ImGui::EndPopup();
 	}
 }
@@ -46,6 +52,7 @@ void Hierarchy::Init()
 		{
 			std::weak_ptr<GameObject> emplyObj;
 			m_dragDrop->CallTarget(emplyObj);
+			GameObjectOption();
 		};
 }
 
@@ -56,7 +63,8 @@ void Hierarchy::ImGuiGameObject(std::weak_ptr<GameObject> _obj, bool _colledSour
 	if (childs.empty())treeFlg = ImGuiTreeNodeFlags_Leaf;
 
 	bool flg = ImGui::TreeNodeEx((_obj.lock()->GetName() + "##" + std::to_string(_obj.lock()->GetInstanceID())).c_str(), treeFlg);
-	if ((ImGui::IsItemClicked(0) || ImGui::IsItemClicked(1)))Application::Instance().GetEditor().lock()->SetEditObject(_obj);
+	if ((ImGui::IsItemClicked(0) || ImGui::IsItemClicked(1))) Editor::Instance().SetEditObject(_obj);
+	GameObjectOption(_obj);
 	_colledSource |= m_dragDrop->CallSource(_obj);
 	if (!_colledSource)m_dragDrop->CallTarget(_obj);
 

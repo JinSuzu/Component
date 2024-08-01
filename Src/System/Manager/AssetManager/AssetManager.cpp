@@ -10,7 +10,7 @@ std::shared_ptr<KdTexture> AssetManager::GetTexture(std::string _assetPath)
 		if (tex->Load(_assetPath))m_texList[_assetPath] = tex;
 		else
 		{
-			Application::Instance().AddLog("Texture Load Missing!!\n");
+			KernelEngine::AddLog("Texture Load Missing!!\n");
 			return nullptr;
 		}
 
@@ -53,7 +53,7 @@ std::shared_ptr<KdModelData> AssetManager::GetModelData(std::string _assetPath)
 		if (modelData->Load(_assetPath))m_modelDataList[_assetPath] = modelData;
 		else
 		{
-			Application::Instance().AddLog("Model Load Missing!!\n");
+			KernelEngine::AddLog("Model Load Missing!!\n");
 			return nullptr;
 		}
 

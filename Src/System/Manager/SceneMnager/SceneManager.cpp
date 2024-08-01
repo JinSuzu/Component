@@ -10,12 +10,12 @@ void SceneManager::LoadScene(std::string _name)
 	std::map<std::string, std::string>::iterator it = m_sceneList.find(_name);
 	if (it == m_sceneList.end())
 	{
-		Application:: Instance().AddLog("No Found Scene!!\n");
+		KernelEngine::AddLog("No Found Scene!!\n");
 		return;
 	}
 	if (!std::filesystem::exists((*it).second))
 	{
-		Application::Instance().AddLog("Scene FilePath Broken!!\n");
+		KernelEngine::AddLog("Scene FilePath Broken!!\n");
 		return;
 	}
 	m_callLoad = true;
@@ -34,7 +34,7 @@ void SceneManager::PushScene()
 
 void SceneManager::Loading()
 {
-	Application::Instance().AddLog("Start Scene Loading Thread\n");
+	KernelEngine::AddLog("Start Scene Loading Thread\n");
 	while (Application::Instance().GetWindow().IsCreated())
 	{
 		if (m_callLoad)
@@ -65,7 +65,7 @@ void SceneManager::SaveAsScene()
 {
 	std::string path;
 	if (!Application::Instance().GetWindow().SaveFileDialog(path, "ファイルを保存", "*.scene", ".scene"))return;
-	GameObjectManager::Instance().Release(path,Application::Instance().GetBuildFlg());
+	GameObjectManager::Instance().Release(path, KernelEngine::is_Building());
 
 	m_nowScene = std::filesystem::path(path).filename().string();
 	m_sceneList[m_nowScene] = path;
@@ -74,7 +74,7 @@ void SceneManager::SaveAsScene()
 }
 void SceneManager::SaveScene()
 {
-	GameObjectManager::Instance().Release(m_sceneList[m_nowScene], Application::Instance().GetBuildFlg());
+	GameObjectManager::Instance().Release(m_sceneList[m_nowScene], KernelEngine::is_Building());
 	LoadScene(m_nowScene);
 }
 

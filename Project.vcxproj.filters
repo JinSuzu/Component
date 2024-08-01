@@ -250,6 +250,9 @@
     <Filter Include="Src\System\Manager\AssetManager">
       <UniqueIdentifier>{60ff546d-96ba-45a6-b861-ea9e822d5fde}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\System\Engine">
+      <UniqueIdentifier>{6a9cae6d-11f9-4b31-958a-c3da242f8d72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Library\tinygltf\stb_image.h">
@@ -762,6 +765,9 @@
     <ClInclude Include="Src\System\Manager\AssetManager\AssetManager.h">
       <Filter>Src\System\Manager\AssetManager</Filter>
     </ClInclude>
+    <ClInclude Include="Src\System\Engine\Engine.h">
+      <Filter>Src\System\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -1057,6 +1063,9 @@
     </ClCompile>
     <ClCompile Include="Src\System\Manager\AssetManager\AssetManager.cpp">
       <Filter>Src\System\Manager\AssetManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Engine\Engine.cpp">
+      <Filter>Src\System\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

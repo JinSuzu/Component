@@ -6,7 +6,7 @@
 
 void RenderManager::BeginDraw()
 {
-	if (Application::Instance().GetDebugFlg())
+	if (KernelEngine::is_Debugging())
 	{
 		m_rtp.ClearTexture();
 		m_rtc.ChangeRenderTarget(m_rtp);
@@ -99,7 +99,7 @@ void RenderManager::DrawSprite()
 }
 void RenderManager::DrawDebug()
 {
-	if (!Application::Instance().GetDebugFlg())return;
+	if (!KernelEngine::is_Debugging())return;
 	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
 	{
 		std::list<std::weak_ptr<std::function<void()>>>::iterator drawDebug = m_drawDebugList.begin();

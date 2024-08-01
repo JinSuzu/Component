@@ -71,7 +71,7 @@ inline void ImageWindowCenter(ID3D11ShaderResourceView* _tex, ImVec2 _size, ImVe
  * @brief Itemを親ウィンドウの中心に描画する
  * @param (_size) これから表示するItemのサイズ
  */
-inline void SetCenterCursorPos(ImVec2 _size, ImVec2* _resultPos = nullptr)
+inline void SetCenterCursorPos(ImVec2 _size = ImVec2(), ImVec2* _resultPos = nullptr)
 {
 	// 画面中央に固定するためのオフセット計算
 	ImVec2 imagePos = ((ImGui::GetContentRegionAvail() - _size) * 0.5f);
@@ -79,7 +79,15 @@ inline void SetCenterCursorPos(ImVec2 _size, ImVec2* _resultPos = nullptr)
 	// 位置を設定
 	ImGui::SetCursorPos(imagePos);
 
-	if(_resultPos)*_resultPos = imagePos;
+	if (_resultPos)*_resultPos = imagePos;
+}
+
+inline void SetCenterCursorWidth(float _size = 0.0f)
+{
+	// 画面中央に固定するためのオフセット計算
+	float imageX = ((ImGui::GetContentRegionAvail().x - _size) * 0.5f);
+	// 位置を設定
+	ImGui::SetCursorPosX(imageX);
 }
 
 inline bool CheckBoxBit(std::string _name, UINT& _ID, UINT _checkID)

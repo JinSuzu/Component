@@ -64,13 +64,13 @@ void GameScreen::UpdateContents()
 	}
 
 	*/
-	if (!m_buildCamera && Application::Instance().GetBuildFlg())
+	if (!m_buildCamera && KernelEngine::is_Building())
 	{
 		m_buildCamera = GameObjectManager::CreateObject(std::string("BuildCamera"), std::weak_ptr<GameObject>(), false);
 		m_buildCamera->AddComponent("Camera");
 		m_cameraController = std::static_pointer_cast<Cp_BuildCamera>(m_buildCamera->AddComponent("BuildCamera"));
 	}
-	else if (!Application::Instance().GetBuildFlg())m_buildCamera = nullptr;
+	else if (!KernelEngine::is_Building())m_buildCamera = nullptr;
 
 	//ゲームビュー表示
 	Utility::ImGuiHelper::ImageWindowCenter(RenderManager::Instance().GetDebugView().m_RTTexture->WorkSRView(), m_imageSize);
@@ -98,7 +98,7 @@ void GameScreen::UpdateContents()
 	//============================================
 	// ギズモ処理
 	//============================================
-	std::weak_ptr<GameObject> editObject = Application::Instance().GetEditor().lock()->GetEditObject();
+	std::weak_ptr<GameObject> editObject = Editor::Instance().GetEditObject();
 	if (editObject.expired())return;
 
 	std::weak_ptr<Cp_Transform> trans = editObject.lock()->GetTransform();
@@ -110,13 +110,13 @@ void GameScreen::UpdateContents()
 		CameraManager::Instance().GetCamera().lock()->GetCameraMatrix().Invert(),
 		CameraManager::Instance().GetCamera().lock()->GetProjMatrix(),
 		trans.lock()->GetMatrix(),
-		(parentTrans.expired() ? Math::Matrix::Identity : parentTrans.lock()->GetMatrix(trans.lock()->GetParentMatTag())),
+		(parentTrans.expired() ? Math::Matrix::Identity : parentTrans.lock()->GetMatrix()),
 		m_zmoPreation,
 		resultPack
 	);
 	if (edited)
 	{
-		std::weak_ptr<Cp_Transform> trans = Application::Instance().GetEditor().lock()->GetEditObject().lock()->GetTransform();
+		std::weak_ptr<Cp_Transform> trans = Editor::Instance().GetEditObject().lock()->GetTransform();
 		trans.lock()->SetPosition(resultPack.position);
 		trans.lock()->SetRotation(resultPack.rotation);
 		trans.lock()->SetScale(resultPack.scale);

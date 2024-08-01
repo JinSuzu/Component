@@ -13,6 +13,7 @@ void Cp_Texture::Start()
 	m_texPack->rect = { 0,0,64,64 };
 	m_trans = m_owner.lock()->GetTransform();
 	m_animation = std::make_shared<Animation2D>();
+	KernelEngine::SetStopComponent(WeakThisPtr(this));
 }
 
 void Cp_Texture::PreUpdateContents()

@@ -154,7 +154,7 @@ bool KdDirect3D::Init(HWND hWnd, int w, int h, bool deviceDebug, std::string& er
 	factory->Release();
 
 	// スワップチェインからバックバッファ取得
-	ID3D11Texture2D* pBackBuffer;
+	ID3D11Texture2D* pBackBuffer = nullptr;
 	if (FAILED(m_pGISwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBackBuffer))) {
 		errMsg = "バックバッファ取得失敗";
 
@@ -232,7 +232,7 @@ bool KdDirect3D::Init(HWND hWnd, int w, int h, bool deviceDebug, std::string& er
 	//=========================================================
 	{
 		// ビューポートの設定
-		D3D11_VIEWPORT vp;
+		D3D11_VIEWPORT vp{};
 		vp.Width = (float)w;
 		vp.Height = (float)h;
 		vp.MinDepth = 0.0f;
@@ -632,15 +632,14 @@ void KdDirect3D::WindowResize(int w, int h)
 	// バックバッファ、Zバッファを描画ターゲットとしてデバイスコンテキストへセットする
 	//=========================================================
 	{
-		ID3D11RenderTargetView* rtvs[] = { m_backBuffer->WorkRTView() };
-		m_pDeviceContext->OMSetRenderTargets(1, rtvs, m_zBuffer->WorkDSView());
+		m_pDeviceContext->OMSetRenderTargets(1, m_backBuffer->WorkRTViewAddress(), m_zBuffer->WorkDSView());
 	}
 
 	//表示領域指定
 	D3D11_VIEWPORT Viewports;
 	m_pDeviceContext->RSGetViewports(&num, &Viewports);
-	Viewports.Width = w;
-	Viewports.Height = h;
+	Viewports.Width		= (float)w;
+	Viewports.Height	= (float)h;
 	m_pDeviceContext->RSSetViewports(1, &Viewports);
 
 	m_windowWidth = w;

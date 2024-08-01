@@ -137,7 +137,7 @@ void GameObjectManager::LoadJson(std::string _path, bool _bOrigin)
 {
 	nlohmann::json json = Utility::JsonHelper::InputJson(_path);
 	auto name = json.begin();
-	if (name == json.end())Application::Instance().AddLog("not found json by GameObjectManager");
+	if (name == json.end())KernelEngine::AddLog("not found json by GameObjectManager");
 	while (name != json.end())
 	{
 		std::shared_ptr<GameObject>object = CreateObject(*name);

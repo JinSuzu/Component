@@ -27,7 +27,7 @@ void Cp_SceneActive::Start()
 void Cp_SceneActive::PreUpdateContents()
 {
 	bool nowFlg = m_sceneName == SceneManager::Instance().GetNowSceneName();
-	if (Application::Instance().GetBuildFlg())nowFlg = false;
+	if (KernelEngine::is_Building())nowFlg = false;
 
 	if (m_flg)
 	{

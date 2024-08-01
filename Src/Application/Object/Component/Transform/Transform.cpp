@@ -20,7 +20,6 @@ void Cp_Transform::ImGuiUpdate()
 
 
 	ImGui::InputText("myMatTag", &m_myMatTag);
-	if (m_parent.lock())ImGui::InputText("parentMatTag", &m_parentMatTag);
 
 	if (!ImGui::TreeNode("Property"))return;
 	{
@@ -30,18 +29,17 @@ void Cp_Transform::ImGuiUpdate()
 		ImGui::Checkbox("Follow", &m_bFollow);
 	}
 	ImGui::TreePop();
-	
+
 }
 
 void Cp_Transform::LoadJson(nlohmann::json _json)
 {
-	m_myMatTag		= _json["matTag"];
-	m_parentMatTag	= _json["parentMatTag"];
-	m_bFollow		= _json["Follow"];
+	m_myMatTag = _json["matTag"];
+	m_bFollow = _json["Follow"];
 
 	m_position = Utility::JsonHelper::InPutVec3(_json["position"]);
 	m_rotation = Utility::JsonHelper::InPutVec3(_json["rotation"]);
-	m_scale	   = Utility::JsonHelper::InPutVec3(_json["scale"]);
+	m_scale = Utility::JsonHelper::InPutVec3(_json["scale"]);
 }
 
 nlohmann::json Cp_Transform::GetJson()
@@ -49,12 +47,11 @@ nlohmann::json Cp_Transform::GetJson()
 	nlohmann::json json;
 	json["position"] = Utility::JsonHelper::OutPutVec3(m_position);
 	json["rotation"] = Utility::JsonHelper::OutPutVec3(m_rotation);
-	json["scale"]    = Utility::JsonHelper::OutPutVec3(m_scale);
+	json["scale"] = Utility::JsonHelper::OutPutVec3(m_scale);
 
-	json["matTag"]		 = m_myMatTag;
-	json["parentMatTag"] = m_parentMatTag;
+	json["matTag"] = m_myMatTag;
 
-	json["Follow"]		 = m_bFollow;
+	json["Follow"] = m_bFollow;
 	return json;
 }
 
@@ -83,60 +80,6 @@ Math::Vector3 Cp_Transform::GetScale(bool _PushFollow) const
 	return m_scale;
 }
 
-Math::Matrix Cp_Transform::GetMatrix(std::string _matTag, bool _PushFollow
-	,const Math::Matrix& _offsetT, const Math::Matrix& _offsetR, const Math::Matrix& _offsetS)
-{
-	std::string::iterator it = (_matTag.empty() ? m_myMatTag : _matTag).begin();
-	std::string::iterator end = (_matTag.empty() ? m_myMatTag : _matTag).end();
-
-	auto ReturnMat = [&]()
-		{
-			m_mWorld = GetSMat() * _offsetS * GetRMat() * _offsetR * GetTMat() * _offsetT;
-			if (m_parent.lock() && (m_bFollow || _PushFollow))return m_mWorld * m_parent.lock()->GetMatrix(m_parentMatTag);
-			return m_mWorld;
-		};
-
-	if (it == end) return ReturnMat();
-	
-	std::unordered_map<char, std::function<Math::Matrix()>>::iterator matrix = m_getMatrix.find(*it);
-	if (matrix != m_getMatrix.end())
-	{
-		m_mWorld = matrix->second();
-	}
-	else 
-	{
-		return ReturnMat();
-	}
-
-	it++;
-	while (it != end)
-	{
-		matrix = m_getMatrix.find(*it);
-		if (matrix != m_getMatrix.end())
-		{
-			m_mWorld *= matrix->second();
-		}
-		else
-		{
-			return ReturnMat();
-		}
-		it++;
-	}
-
-	if (m_parent.lock() && (m_bFollow || _PushFollow))return m_mWorld * m_parent.lock()->GetMatrix(m_parentMatTag);
-	return m_mWorld;
-}
-
-Math::Matrix Cp_Transform::GetMatrix(bool _PushFollow)
-{
-	return GetMatrix(std::string(), _PushFollow);
-}
-
-Math::Matrix Cp_Transform::GetMatrix(const Math::Matrix& _offsetT, const Math::Matrix& _offsetR, const Math::Matrix& _offsetS)
-{
-	return GetMatrix(std::string(), false, _offsetT, _offsetR, _offsetS);
-}
-
 Math::Matrix Cp_Transform::GetRMat(UINT _shafts)
 {
 	if (_shafts == 0)
@@ -150,4 +93,52 @@ Math::Matrix Cp_Transform::GetRMat(UINT _shafts)
 	if (_shafts & (UINT)Shaft::Y)rMat *= Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_rotation.y));
 	if (_shafts & (UINT)Shaft::Z)rMat *= Math::Matrix::CreateRotationZ(DirectX::XMConvertToRadians(m_rotation.z));
 	return rMat;
+}
+
+void Cp_Transform::MatrixUpdata(std::string _matTag, bool _PushFollow, const Math::Matrix& _offsetT, const Math::Matrix& _offsetR, const Math::Matrix& _offsetS)
+{
+	std::string::iterator it = (_matTag.empty() ? m_myMatTag : _matTag).begin();
+	std::string::iterator end = (_matTag.empty() ? m_myMatTag : _matTag).end();
+
+	auto ReturnMat = [&]()
+		{
+			m_mWorld = GetSMat() * _offsetS * GetRMat() * _offsetR * GetTMat() * _offsetT;
+			if (m_parent.lock() && (m_bFollow || _PushFollow))return m_mWorld * m_parent.lock()->GetMatrix();
+			return m_mWorld;
+		};
+
+	if (it == end)
+	{
+		ReturnMat();
+		return;
+	}
+
+	std::unordered_map<char, std::function<Math::Matrix()>>::iterator matrix = m_getMatrix.find(*it);
+	if (matrix != m_getMatrix.end())
+	{
+		m_mWorld = matrix->second();
+	}
+	else
+	{
+		ReturnMat();
+		return;
+	}
+
+	it++;
+	while (it != end)
+	{
+		matrix = m_getMatrix.find(*it);
+		if (matrix != m_getMatrix.end())
+		{
+			m_mWorld *= matrix->second();
+		}
+		else
+		{
+			ReturnMat();
+			return;
+		}
+		it++;
+	}
+
+	if (m_parent.lock() && (m_bFollow || _PushFollow))m_mWorld* m_parent.lock()->GetMatrix();
 }

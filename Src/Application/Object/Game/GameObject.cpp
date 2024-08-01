@@ -38,6 +38,7 @@ void GameObject::PostUpdate()
 {
 	if (!m_bActive)return;
 	if (m_bDestroy)return;
+	m_trans->MatrixUpdata();
 	ITERATOR(m_cpList)PostUpdate();
 }
 

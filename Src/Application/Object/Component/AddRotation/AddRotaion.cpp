@@ -24,11 +24,11 @@ void Cp_AddRotation::UpdateContents()
 	
 		POINT test{ 640,360 };
 		ClientToScreen(Application::Instance().GetWindowHandle(), &test);
-		if (!Application::Instance().GetDebugFlg())SetCursorPos(test.x, test.y);
+		if (!KernelEngine::is_Debugging())SetCursorPos(test.x, test.y);
 		m_mouseMove = Application::Instance().GetMouse();
 
 
-		if (Application::Instance().GetDebugFlg() && !(GetAsyncKeyState(VK_RBUTTON) & 0x8000))return;
+		if (KernelEngine::is_Debugging() && !(GetAsyncKeyState(VK_RBUTTON) & 0x8000))return;
 		nowMouseMove = nowMouseMove * m_addPow;
 		rota += {-nowMouseMove.y, nowMouseMove.x, 0};
 	}
@@ -67,7 +67,7 @@ void Cp_AddRotation::SetActive(bool _flg)
 	bool nowFlg = m_bActive;
 	Component::SetActive(_flg);
 	if (nowFlg == _flg)return;
-	if (_flg && !Application::Instance().GetBuildFlg() && m_addType == AddType::FollowMouse)
+	if (_flg && !KernelEngine::is_Debugging() && m_addType == AddType::FollowMouse)
 	{
 		POINT test{ 640,360 };
 		ClientToScreen(Application::Instance().GetWindowHandle(), &test);

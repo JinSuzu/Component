@@ -8,6 +8,7 @@ void Cp_ModelData::Start()
 	m_modelDataPack->modelData = AssetManager::Instance().GetModelData("Asset/Data/Model/earth/earth.gltf");
 
 	m_trans = m_owner.lock()->GetTransform();
+	KernelEngine::SetStopComponent(WeakThisPtr(this));
 }
 
 void Cp_ModelData::PostUpdateContents()

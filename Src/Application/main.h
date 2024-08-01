@@ -27,17 +27,6 @@ public:
 
 	Math::Vector2 GetMouse();
 	const Math::Vector2 GetMouseDelta() const { return m_mouseDelta; };
-
-	void KdBeginUpdate();
-	void KdPostUpdate();
-
-	bool GetBuildFlg()	const { return m_buildFlg; };
-	void TurnBuildFlg() { m_buildFlg = !m_buildFlg; };
-	bool GetDebugFlg()	const { return m_debugFlg; };
-	void SetDebugFlg(bool _flg) { m_debugFlg = _flg; };
-
-	void AddLog(const char* fmt, ...);
-	std::weak_ptr<Editor> GetEditor() { return m_editor; }
 private:
 	// アプリケーション初期化
 	bool Init(int w, int h);
@@ -54,13 +43,9 @@ private:
 	// ゲーム終了フラグ trueで終了する
 	bool		m_endFlag = false;
 
-	bool m_buildFlg = true;
-	bool m_debugFlg = true;
 
 	Math::Vector2 m_mouseDelta;
 	int           m_windowSize[2] = { 0,0 };
-
-	std::shared_ptr<Editor> m_editor;
 	//=====================================================
 	// シングルトンパターン
 	//=====================================================

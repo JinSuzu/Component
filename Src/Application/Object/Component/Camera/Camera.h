@@ -13,6 +13,5 @@ public:
 	void LoadJson(nlohmann::json _json)override;
 	nlohmann::json GetJson()override;
 private:
-	std::shared_ptr<std::function<void()>>		m_preDraw;
-	std::shared_ptr<CameraManager::CameraPack>	m_cameraPack;
+	std::shared_ptr<CameraManager::CameraPack> m_cameraPack;
 };

@@ -19,18 +19,18 @@ public:
 	void Init();
 	void Release();
 private:
-	void Loading();
 	std::map <std::string, std::string> m_sceneList;
+	std::string m_nowScene;
 
 	bool										  m_callLoad = false;
 	std::thread									  m_thread;
 
 	std::list<std::shared_ptr<class GameObject>>  m_loadedGameObjectList;
 
+	void Loading();
 	SceneManager() :m_thread([&]() {Loading(); }) {}
 	~SceneManager() { m_thread.join(); }
 public:
-	std::string m_nowScene;
 	static SceneManager& Instance()
 	{
 		static SceneManager inst;

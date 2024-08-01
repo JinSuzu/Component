@@ -13,6 +13,7 @@ void Cp_SquarePolygon::Start()
 	m_animation = std::make_shared<Animation2D>();
 
 	m_squarePolygonPack->drawType = (UINT)DrawType::Lit;
+	KernelEngine::SetStopComponent(WeakThisPtr(this));
 }
 
 void Cp_SquarePolygon::PreUpdateContents()

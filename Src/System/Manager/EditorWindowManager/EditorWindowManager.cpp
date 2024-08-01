@@ -7,7 +7,7 @@
 
 void Editor::ImGuiDraw()
 {
-	if (!Application::Instance().GetDebugFlg())return;
+	if (!KernelEngine::is_Debugging())return;
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -21,9 +21,9 @@ void Editor::ImGuiDraw()
 }
 void Editor::ImGuiUpdate()
 {
-	if (GetAsyncKeyState(VK_UP) & 0x8000)Application::Instance().SetDebugFlg(true);
-	else if (GetAsyncKeyState(VK_DOWN) & 0x8000)Application::Instance().SetDebugFlg(false);
-	if (!Application::Instance().GetDebugFlg())return;
+	if (GetAsyncKeyState(VK_UP) & 0x8000)KernelEngine::SetDebugging(true);
+	else if (GetAsyncKeyState(VK_DOWN) & 0x8000)KernelEngine::SetDebugging(false);
+	if (!KernelEngine::is_Debugging())return;
 
 	// ImGui開始
 	ImGui_ImplDX11_NewFrame();
@@ -98,19 +98,20 @@ void Editor::PlayButton()
 	ImVec2 defaultSpacing = ImGui::GetStyle().ItemSpacing;
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(defaultSpacing.x, 1.0f)); // 垂直方向の間隔を2.0fに設定
 
-	bool buildChange = Utility::ImGuiHelper::ButtonWindowCenter(Application::Instance().GetBuildFlg() ? "StartRun" : "StartBuild");
-	buildChange |= GetAsyncKeyState(Application::Instance().GetBuildFlg() ? VK_F5 : VK_ESCAPE) & 0x8000;
-	if (buildChange)
+	ImGui::BeginGroup();
 	{
-		//SceneManager::Instance().ReLoad();
-		Application::Instance().TurnBuildFlg();
+		Utility::ImGuiHelper::SetCenterCursorWidth();
+		KernelEngine::StartButton();
+		ImGui::SameLine();
+		KernelEngine::StopButton();
 	}
+	ImGui::EndGroup();
 
-	ImGui::PopStyleVar(); 
+	ImGui::PopStyleVar();
 }
 void Editor::OverwriteWindow()
 {
-	if(!m_editorActive.empty())ReleaseWindows();
+	if (!m_editorActive.empty())ReleaseWindows();
 	for (auto& map : m_editorActive)
 	{
 		if (map.second)
@@ -167,12 +168,12 @@ void Editor::Init()
 	//===================================================================
 	{
 		auto Register
-			= [&](std::string _name, std::function<std::shared_ptr<EditorWindowBase>()> _editor, bool _config = false)
+			= [&](std::string _name, std::function<std::shared_ptr<EditorWindowBase>()> _editor)
 			{
 				m_editorActive[_name] = false;
 				m_editorWindows[_name] = _editor;
 			};
-#define EDITORREGISTER(Tag,Bool)											\
+#define EDITORREGISTER(Tag)													\
 	Register(#Tag , [&]()													\
 	{																		\
 		std::shared_ptr<EditorWindowBase>temp = std::make_shared<Tag>();	\

@@ -8,6 +8,7 @@ void Cp_ModelWork::Start()
 	m_modelWorkPack->modelWork = AssetManager::Instance().GetModelWork("Asset/Data/Model/earth/earth.gltf");
 	if (m_modelWorkPack->modelWork)m_modelAnimator = std::make_shared<KdAnimator>();
 	m_trans = m_owner.lock()->GetTransform();
+	KernelEngine::SetStopComponent(WeakThisPtr(this));
 }
 
 void Cp_ModelWork::PreUpdateContents()

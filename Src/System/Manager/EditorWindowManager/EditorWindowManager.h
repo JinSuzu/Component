@@ -16,6 +16,7 @@ public:
 	std::weak_ptr<DebugLog> GetDebugLog()				{ return m_debugLog; }
 
 	void Init();
+	void Release();
 private:
 	void MenuBar();
 	void PlayButton();
@@ -29,8 +30,14 @@ private:
 	std::shared_ptr<DebugLog>														m_debugLog;
 
 	void ReleaseWindows();
-	void Release();
+
+	Editor()	{}
+	~Editor()	{}
 public:
-	~Editor() { Release(); };
+	static Editor& Instance() 
+	{
+		static Editor inst;
+		return inst;
+	}
 };
 
