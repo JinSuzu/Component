@@ -7,7 +7,8 @@ class Cp_ModelWork
 public:
 	void Start()override;
 	void PreUpdateContents()override;
-	void PostUpdateContents()override;
+
+	void UpdateRenderContents()override;
 
 	void ImGuiUpdate()override;
 	void LoadJson(nlohmann::json _json)override;
@@ -24,21 +25,5 @@ private:
 	std::shared_ptr<KdAnimator>			m_modelAnimator;
 	std::string m_animeName;
 
-	struct ModelWorkPack
-		:RenderManager::Asset3DPackBase
-	{
-		void Draw(UINT _type)override
-		{
-			if (drawType & _type)
-			{
-				KdShaderManager::Instance().m_StandardShader.DrawModel(*modelWork, mat);
-			}
-		}
-
-		std::shared_ptr<KdModelWork>		modelWork;
-		Math::Matrix						mat;
-		Math::Color							color = kWhiteColor;
-	};
-
-	std::shared_ptr<ModelWorkPack> m_modelWorkPack;
+	std::shared_ptr<RenderManager::ModelWorkPack> m_modelWorkPack;
 };

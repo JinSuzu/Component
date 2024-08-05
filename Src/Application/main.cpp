@@ -61,7 +61,7 @@ void Application::Execute()
 		// 処理開始時間Get
 		m_fpsController.UpdateStartTime();
 
-		std::string titlebar = "Rocket Burst Breaker	fps : " + std::to_string(m_fpsController.m_nowfps);
+		std::string titlebar = "Kernel Engine	fps : " + std::to_string(m_fpsController.m_nowfps);
 		SetWindowTextA(GetWindowHandle(), titlebar.c_str());
 
 		m_mouseDelta = GetMouse() - postMousePos;
@@ -129,7 +129,7 @@ bool Application::Init(int w, int h)
 	//===================================================================
 	// ウィンドウ作成
 	//===================================================================
-	if (!m_window.IsCreated() && m_window.Create(w, h, "Rocket Burst Breaker", "Window") == false) {
+	if (!m_window.IsCreated() && m_window.Create(w, h, "Kernel Engine", "Window") == false) {
 		MessageBoxA(nullptr, "ウィンドウ作成に失敗", "エラー", MB_OK);
 		return false;
 	}

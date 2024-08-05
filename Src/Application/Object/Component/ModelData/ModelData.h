@@ -6,7 +6,9 @@ class Cp_ModelData
 {
 public:
 	void Start()override;
-	void PostUpdateContents()override;
+
+	void UpdateRenderContents()override;
+
 	void ImGuiUpdate()override;
 
 
@@ -20,22 +22,8 @@ public:
 	Math::Color GetColor() const { return m_modelDataPack->color; }
 
 private:
-	struct ModelDataPack
-		:RenderManager::Asset3DPackBase 
-	{
-		void Draw(UINT _type)override 
-		{
-			if (drawType & _type)
-			{
-				KdShaderManager::Instance().m_StandardShader.DrawModel(*modelData, mat);
-			}
-		}
+	
 
-		std::shared_ptr<KdModelData>		modelData;
-		Math::Matrix						mat;
-		Math::Color							color = kWhiteColor;
-	};
-
-	std::shared_ptr<ModelDataPack>	m_modelDataPack;
-	std::string						m_path;
+	std::shared_ptr<RenderManager::ModelDataPack>	m_modelDataPack;
+	std::string										m_path;
 };

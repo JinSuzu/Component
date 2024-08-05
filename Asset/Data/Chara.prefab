@@ -5,7 +5,6 @@
             {
                 "Follow": true,
                 "matTag": "SRT",
-                "parentMatTag": "SRT",
                 "position": {
                     "x": 0.0,
                     "y": 0.0,
@@ -23,14 +22,21 @@
                 }
             },
             {
-                "IDName": "Camera",
-                "Priority": 0
+                "ID": 2859981052,
+                "drawType": 1,
+                "path": "Asset\\Data\\Model\\Character\\Player\\Player.gltf"
             },
             {
-                "IDName": "BuildCamera"
+                "ID": 1142990736,
+                "addPow": {
+                    "x": 0.0,
+                    "y": 2.0,
+                    "z": 0.0
+                },
+                "addType": 1
             }
         ],
-        "name": "camera",
+        "name": "Chara",
         "tag": 0
     }
 }

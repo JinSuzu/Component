@@ -133,19 +133,6 @@
 
 Math::Vector3 TrigToVec2D(float _angle);
 
-static std::string PickName(std::string str, const char separator = ' ')
-{
-	std::vector<std::string> out;
-	std::stringstream ss(str);
-	std::string buf;
-	while (std::getline(ss, buf, separator))
-	{
-		out.push_back(buf);
-	}
-
-	return out[1];
-}
-
 inline const char* JpText(const char8_t* _text) { return (const char*)_text; }
 
 template <typename T>

@@ -14,6 +14,8 @@ public:
 
 	void Start()override;
 
+	void UpdateRenderContents();
+
 	void ImGuiUpdate()override;
 	void LoadJson(nlohmann::json _json)override;
 	nlohmann::json GetJson()override;
@@ -23,8 +25,6 @@ public:
 	bool Intersects(const KdCollider::SphereInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults);
 	bool Intersects(const KdCollider::BoxInfo& targetBox, std::list<KdCollider::CollisionResult>* pResults);
 	bool Intersects(const KdCollider::RayInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults);
-
-	void DrawDebug();
 private:
 	void RegisterCollider(bool _forcePush = false);
 
@@ -37,5 +37,4 @@ private:
 	float m_radius			= 0.0f;
 
 	Math::Vector3 m_offsetPos;
-	std::shared_ptr<std::function<void()>>m_drawDebug;
 };

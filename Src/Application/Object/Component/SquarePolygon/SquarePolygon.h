@@ -27,21 +27,5 @@ private:
 	int							m_split[2] = { 1,1 };
 	std::shared_ptr<class Animation2D>	m_animation;
 
-	struct SquarePolygon
-		:RenderManager::Asset3DPackBase
-	{
-		void Draw(UINT _type)override
-		{
-			if (drawType & _type)
-			{
-				KdShaderManager::Instance().m_StandardShader.DrawPolygon(*squarePolygon, mat,color);
-			}
-		}
-
-		Math::Matrix						mat = Math::Matrix::Identity;
-		Math::Color							color = kWhiteColor;
-		std::shared_ptr<KdSquarePolygon>	squarePolygon;
-	};
-
-	std::shared_ptr<SquarePolygon>			m_squarePolygonPack;
+	std::shared_ptr<RenderManager::SquarePolygon>			m_squarePolygonPack;
 };

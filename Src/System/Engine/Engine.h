@@ -22,6 +22,4 @@ namespace KernelEngine
 	void StartButton();
 	void StopButton();
 	void SetDebugging(const bool& _debugging);
-
-	void SetStopComponent(std::weak_ptr<Component> _cmp);
 }

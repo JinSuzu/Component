@@ -1,4 +1,5 @@
 ﻿#include "Engine.h"
+#include "../../Application/Object/Component/AllComponentIncluder.h"
 #include "../../Application/Object/Component/Component.h"
 #include "../../Application/Object/Game/GameObject.h"
 #include "../../Application/Object/Component/Transform/Transform.h"
@@ -19,7 +20,6 @@ namespace KernelEngine
 
 	static int							flowState = FlowState::Building;
 	bool								Debugging = true;
-	std::list<std::weak_ptr<Component>> StopComponents;
 
 	void Draw()
 	{
@@ -57,46 +57,25 @@ namespace KernelEngine
 			}
 			else
 			{
-				//オブジェクトのマトリックス更新
+				//ゲーム停止時の座標更新
+				std::list<std::shared_ptr<GameObject>>::iterator gIt = GameObjectManager::Instance().WorkObjectList().begin();
+				std::list<std::shared_ptr<GameObject>>::iterator gEnd = GameObjectManager::Instance().WorkObjectList().end();
+				while (gIt != gEnd)
 				{
-					std::list<std::shared_ptr<GameObject>>::iterator gIt = GameObjectManager::Instance().WorkObjectList().begin();
-					std::list<std::shared_ptr<GameObject>>::iterator gEnd = GameObjectManager::Instance().WorkObjectList().end();
-					while (gIt != gEnd)
+					if ((*gIt)->GetDestroy())
 					{
-						if ((*gIt)->GetDestroy())
-						{
-							gIt = GameObjectManager::Instance().WorkObjectList().erase(gIt);
-							continue;
-						}
-						(*gIt)->GetTransform().lock()->MatrixUpdata();
-						gIt++;
+						gIt = GameObjectManager::Instance().WorkObjectList().erase(gIt);
+						continue;
 					}
+					(*gIt)->GetTransform().lock()->MatrixUpdata();
+					gIt++;
 				}
 
-				//コンポーネント更新
-				{
-					std::list<std::weak_ptr<Component>>::iterator cIt = StopComponents.begin();
-					std::list<std::weak_ptr<Component>>::iterator cEnd = StopComponents.end();
-
-					while (cIt != cEnd)
-					{
-						if (cIt->expired() && cIt->lock()->GetDestroy())
-						{
-							cIt = StopComponents.erase(cIt);
-							continue;
-						}
-						(*cIt).lock()->PreUpdate();
-						(*cIt).lock()->Update();
-						(*cIt).lock()->PostUpdate();
-						cIt++;
-					}
-				}
-
-				CameraManager::Instance().StopUpdate();
 			}
 
-
 			Editor::Instance().ImGuiUpdate();
+
+			GameObjectManager::Instance().UpdateRender();
 		}
 
 		//End
@@ -111,6 +90,8 @@ namespace KernelEngine
 		Editor::Instance().Init();
 		CameraManager::Instance().Init();
 		SceneManager::Instance().Init();
+
+		RegisterComponentInit();
 	}
 	void Release()
 	{
@@ -193,10 +174,5 @@ namespace KernelEngine
 	void SetDebugging(const bool& _debugging)
 	{
 		Debugging = _debugging;
-	}
-
-	void SetStopComponent(std::weak_ptr<Component> _cmp)
-	{
-		StopComponents.push_back(_cmp);
 	}
 }

@@ -253,6 +253,9 @@
     <Filter Include="Src\System\Engine">
       <UniqueIdentifier>{6a9cae6d-11f9-4b31-958a-c3da242f8d72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\System\ComponentFactory">
+      <UniqueIdentifier>{efbe94e2-9e09-4539-9b4c-5c3f995a2cf1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Library\tinygltf\stb_image.h">
@@ -767,6 +770,9 @@
     </ClInclude>
     <ClInclude Include="Src\System\Engine\Engine.h">
       <Filter>Src\System\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\ComponentFactory\ComponentFactory.h">
+      <Filter>Src\System\ComponentFactory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

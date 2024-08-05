@@ -17,19 +17,6 @@ void RenderManager::BeginDraw()
 }
 void RenderManager::PreDraw()
 {
-	std::list<std::weak_ptr<std::function<void()>>>::iterator preDraw = m_preDrawList.begin();
-	while (preDraw != m_preDrawList.end())
-	{
-		if (preDraw->expired())
-		{
-			preDraw = m_preDrawList.erase(preDraw);
-			continue;
-		}
-
-		(*preDraw->lock())();
-		preDraw++;
-	}
-	
 	CameraManager::Instance().CameraToShader();
 }
 void RenderManager::Draw()
@@ -102,18 +89,7 @@ void RenderManager::DrawDebug()
 	if (!KernelEngine::is_Debugging())return;
 	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
 	{
-		std::list<std::weak_ptr<std::function<void()>>>::iterator drawDebug = m_drawDebugList.begin();
-		while (drawDebug != m_drawDebugList.end())
-		{
-			if (drawDebug->expired())
-			{
-				drawDebug = m_drawDebugList.erase(drawDebug);
-				continue;
-			}
-
-			(*drawDebug->lock())();
-			drawDebug++;
-		}
+		m_debugWireFrame.Draw();
 	}
 	KdShaderManager::Instance().m_StandardShader.EndUnLit();
 }

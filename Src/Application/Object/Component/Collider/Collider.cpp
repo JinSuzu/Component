@@ -10,9 +10,14 @@ void Cp_Collider::Start()
 {
 	GameObjectManager::Instance().AddColliderList(WeakThisPtr(this));
 	m_trans = m_owner.lock()->GetTransform();
+}
 
-	m_drawDebug = std::make_shared<std::function<void()>>([this]() {DrawDebug(); });
-	RenderManager::Instance().AddDrawDebug(m_drawDebug);
+void Cp_Collider::UpdateRenderContents()
+{
+	if (m_colliderShape & ColliderShape::Sphere) 
+	{
+		RenderManager::Instance().WorkDebugWireFrame().AddDebugSphere(m_trans.lock()->GetMatrix().Translation() + m_offsetPos, m_radius, m_trans.lock()->GetScale());
+	}
 }
 
 void Cp_Collider::ImGuiUpdate()
@@ -92,14 +97,6 @@ bool Cp_Collider::Intersects(const KdCollider::RayInfo& targetShape, std::list<K
 {
 	if (!m_collider || !m_bActive)return false;
 	return m_collider->Intersects(targetShape, m_owner.lock()->GetTransform().lock()->GetMatrix(), pResults);
-}
-
-void Cp_Collider::DrawDebug()
-{
-	if (!m_bActive)return;
-	KdDebugWireFrame debugWireFrame;
-	if (m_colliderShape & ColliderShape::Sphere)debugWireFrame.AddDebugSphere(m_trans.lock()->GetMatrix().Translation() + m_offsetPos, m_radius, m_trans.lock()->GetScale());
-	debugWireFrame.Draw();
 }
 
 void Cp_Collider::RegisterCollider(bool _forcePush)

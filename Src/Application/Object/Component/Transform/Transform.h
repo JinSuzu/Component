@@ -31,6 +31,7 @@ public:
 	void SetScale(Math::Vector3 _scale) { m_scale = _scale; }
 
 	const Math::Matrix& GetMatrix() { return m_mWorld; };
+	Math::Matrix& WorkMatrix() { return m_mWorld; };
 
 	Math::Matrix GetTMat() const { return Math::Matrix::CreateTranslation(m_position); };
 	Math::Matrix GetSMat() const { return Math::Matrix::CreateScale(m_scale); }
@@ -50,9 +51,9 @@ public:
 private:
 	Math::Matrix	m_mWorld = Math::Matrix::Identity;
 
-	Math::Vector3	m_position = { 0,0,0 };
-	Math::Vector3	m_rotation = { 0,0,0 };
-	Math::Vector3	m_scale = { 1,1,1 };
+	Math::Vector3	m_position = Math::Vector3::Zero;
+	Math::Vector3	m_rotation = Math::Vector3::Zero;
+	Math::Vector3	m_scale    = Math::Vector3::One;
 
 	std::string		m_myMatTag = "SRT";
 	std::weak_ptr<Cp_Transform>	m_parent;

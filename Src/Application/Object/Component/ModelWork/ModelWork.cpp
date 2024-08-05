@@ -4,11 +4,13 @@
 
 void Cp_ModelWork::Start()
 {
-	m_modelWorkPack = std::make_shared<ModelWorkPack>();
-	m_modelWorkPack->modelWork = AssetManager::Instance().GetModelWork("Asset/Data/Model/earth/earth.gltf");
-	if (m_modelWorkPack->modelWork)m_modelAnimator = std::make_shared<KdAnimator>();
 	m_trans = m_owner.lock()->GetTransform();
-	KernelEngine::SetStopComponent(WeakThisPtr(this));
+
+	m_modelWorkPack =std::make_shared<RenderManager::ModelWorkPack>();
+	m_modelWorkPack->modelWork = AssetManager::Instance().GetModelWork("Asset/Data/Model/earth/earth.gltf");
+	m_modelWorkPack->mat = &m_trans.lock()->WorkMatrix();
+
+	if (m_modelWorkPack->modelWork)m_modelAnimator = std::make_shared<KdAnimator>();
 }
 
 void Cp_ModelWork::PreUpdateContents()
@@ -24,14 +26,12 @@ void Cp_ModelWork::PreUpdateContents()
 	m_modelWorkPack->modelWork->GetAnimation(1);
 	m_modelAnimator->AdvanceTime(m_modelWorkPack->modelWork->WorkNodes());
 	m_modelWorkPack->modelWork->CalcNodeMatrices();
-
 }
 
-void Cp_ModelWork::PostUpdateContents()
+void Cp_ModelWork::UpdateRenderContents()
 {
 	if (!m_owner.lock()->GetHideFlg()) 
 	{
-		m_modelWorkPack->mat = m_trans.lock()->GetMatrix();
 		RenderManager::Instance().AddDraw3D(m_modelWorkPack);
 	}
 }
@@ -43,7 +43,7 @@ void Cp_ModelWork::ImGuiUpdate()
 	if (ImGui::Button("DrawType"))ImGui::OpenPopup("Types");
 	if (ImGui::BeginPopup("Types"))
 	{
-		Utility::ImGuiHelper::CheckBoxAllBit<DrawType>(m_modelWorkPack->drawType);
+		Utility::ImGuiHelper::CheckBoxAllBit<RenderManager::DrawType>(m_modelWorkPack->drawType);
 
 		ImGui::EndPopup();
 	}

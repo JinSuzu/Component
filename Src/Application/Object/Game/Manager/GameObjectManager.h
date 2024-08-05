@@ -13,6 +13,8 @@ public:
 	void Update();
 	void PostUpdate();
 
+	void UpdateRender();
+
 	static void ImGuiGameObject(std::weak_ptr<GameObject> _object);
 
 	void Load(std::string _path);

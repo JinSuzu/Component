@@ -4,7 +4,10 @@
 
 #include "../../../main.h"
 
-void GameObjectManager::PreUpdate()
+void GameObjectManager::PreUpdate() { for (auto& object : m_objectList)object->PreUpdate(); }
+void GameObjectManager::Update() { for (auto& object : m_objectList)object->Update(); }
+void GameObjectManager::PostUpdate() { for (auto& object : m_objectList)object->PostUpdate(); }
+void GameObjectManager::UpdateRender()
 {
 	for (auto it = m_objectList.begin(); it != m_objectList.end();)
 	{
@@ -15,12 +18,10 @@ void GameObjectManager::PreUpdate()
 			continue;
 		}
 
-		object->PreUpdate();
+		object->UpdateRender();
 		it++;
 	}
 }
-void GameObjectManager::Update() { for (auto& object : m_objectList)object->Update(); }
-void GameObjectManager::PostUpdate() { for (auto& object : m_objectList)object->PostUpdate(); }
 
 void GameObjectManager::Load(std::string _path)
 {
@@ -149,5 +150,24 @@ void GameObjectManager::ImGuiGameObject(std::weak_ptr<GameObject> _object)
 {
 	ImGui::InputText("Name", _object.lock()->WorkName());
 	_object.lock()->ImGuiComponents();
-	if (std::shared_ptr<Component> compo = RegisterComponent::Instance().ImGuiAddComponent())_object.lock()->AddComponent(compo);
+
+	{
+		if (Utility::ImGuiHelper::SmallButtonWindowCenter("AddComponent"))ImGui::OpenPopup("Components");
+		if (ImGui::BeginPopup("Components"))
+		{
+			ImGui::SeparatorText("Component");
+
+			auto it = ComponentFactory::Instance().GetRegistry().begin();
+			while (it != ComponentFactory::Instance().GetRegistry().end())
+			{
+				if (ImGui::MenuItem(it->second.name.data()))
+				{
+					_object.lock()->AddComponent(it->first);
+					break;
+				}
+				++it;
+			}
+			ImGui::EndPopup();
+		}
+	}
 }

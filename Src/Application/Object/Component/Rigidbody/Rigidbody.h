@@ -29,6 +29,8 @@ public:
 	void UpdateContents()override;
 	void PostUpdateContents()override;
 
+	void UpdateRenderContents()override;
+
 	void ImGuiUpdate()override;
 
 	void LoadJson(nlohmann::json _json)override;
@@ -54,13 +56,11 @@ public:
 		return m_shapeDate.pResults;
 	}
 	Math::Vector3 GetOffsetPos() const { return m_shapeDate.offsetPos; }
-
-	void DrawDebug();
 private:
 	float Gravity();
 	void MakeResults();
 
-	Math::Vector3 m_move = { 0,0,0 };
+	Math::Vector3 m_move = Math::Vector3::Zero;
 
 	bool  m_bActiveGravity = true;
 	float m_gravity = 0.0f;
@@ -74,8 +74,6 @@ private:
 
 	bool m_collisionBody = false;
 	Shape m_shape = Shape::Sphere;
-	ShapeDate m_shapeDate;
 
-	std::shared_ptr<std::function<void()>>m_debugDraw;
-	std::weak_ptr<class Cp_Transform> m_trans;
+	ShapeDate m_shapeDate;
 };

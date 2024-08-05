@@ -1,7 +1,6 @@
 ﻿#include "GameObject.h"
 #include "Manager/GameObjectManager.h"
 
-#include "../Component/AllComponentIncluder.h"
 #include "../Component/Transform/Transform.h"
 #include "../Component/Component.h"
 
@@ -9,7 +8,7 @@
 
 #include "../../../System/EditorWindow/Prefab/Prefab.h"
 
-#define ITERATOR(x) for (auto&& it : m_cpList)if(it.get() != nullptr)it->
+#define ITERATOR(x) for (auto&& it : m_cpList)it->
 
 
 void GameObject::PreUpdate()
@@ -42,11 +41,15 @@ void GameObject::PostUpdate()
 	ITERATOR(m_cpList)PostUpdate();
 }
 
+void GameObject::UpdateRender()
+{
+	ITERATOR(m_cpList)UpdateRender();
+}
+
 void GameObject::Init(nlohmann::json _json)
 {
 	m_trans = std::make_shared<Cp_Transform>();
 	m_trans->SetOwner(WeakThisPtr(this));
-	m_trans->SetIDName("Transform");
 	if (m_parent.lock())m_trans->SetParent(m_parent.lock()->GetTransform());
 	m_trans->Start();
 
@@ -57,10 +60,24 @@ void GameObject::Init(nlohmann::json _json)
 
 	m_tag = myData["tag"];
 	m_name = myData["name"];
-	AddComponents(myData);
+
+	for (auto& json : myData["Component"])
+	{
+		auto Key = json.begin();
+		while (Key != json.end())
+		{
+			if (Key.key() == "ID")
+			{
+				std::shared_ptr<Component> addCp = AddComponent(json["ID"].get<int>(), json);
+				break;
+			}
+			Key++;
+		}
+	}
 }
 
 #pragma region ComponentFns
+/*
 std::shared_ptr<Component> GameObject::AddComponent(std::string _name, nlohmann::json _json)
 {
 	auto addCp = RegisterComponent::Instance().CreateComponent(_name);
@@ -79,54 +96,7 @@ std::shared_ptr<Component> GameObject::AddComponent(std::shared_ptr<Component> _
 	ComponentInit(_add, nlohmann::json());
 	return _add;
 }
-
-std::list<std::shared_ptr<Component>> GameObject::AddComponents(unsigned int _id)
-{
-	std::list<std::shared_ptr<Component>>list;
-
-	int Max = RegisterComponent::Instance().GetCompoNum();
-	for (int i = 0; i < Max; i++)
-	{
-		unsigned int search = 1 << i;
-		if (!(_id & search))continue;
-
-		auto addCp = AddComponent(search);
-		list.push_back(addCp);
-	}
-
-	return list;
-}
-std::list<std::shared_ptr<Component>> GameObject::AddComponents(nlohmann::json& _json)
-{
-	std::list<std::shared_ptr<Component>>list;
-
-	if (_json.is_null())return list;
-	for (auto& json : _json["Component"])
-	{
-		auto Key = json.begin();
-		while (Key != json.end())
-		{
-			if (Key.key() == "IDName")
-			{
-				std::shared_ptr<Component> addCp = AddComponent(json["IDName"].get<std::string>(), json);
-				list.push_back(addCp);
-				break;
-			}
-			Key++;
-		}
-	}
-
-	return list;
-}
-
-void GameObject::ComponentInit(std::shared_ptr<Component>& _addCp, nlohmann::json _json)
-{
-	m_cpList.push_back(_addCp);
-	_addCp->SetOwner(WeakThisPtr(this));
-	_addCp->Start();
-	if (_json.is_null())return;
-	_addCp->LoadJson(_json);
-}
+*/
 
 #pragma endregion
 void GameObject::SetUpParent(std::weak_ptr<GameObject> _parent, bool _push)
@@ -184,7 +154,7 @@ nlohmann::json GameObject::GetJson()
 	for (auto&& it : m_cpList)
 	{
 		nlohmann::json json = it->GetJson();
-		json["IDName"] = it->GetIDName();
+		json["ID"] = it->GetID();
 		component.push_back(json);
 	}
 	nlohmann::json object;
@@ -209,51 +179,33 @@ nlohmann::json GameObject::OutPutFamilyJson()
 	return json;
 }
 
-std::shared_ptr<Component> GameObject::SearchTag(std::string _tag)
+std::shared_ptr<Component> GameObject::AddComponent(size_t _id, nlohmann::json _json)
 {
-	_tag = PickName(_tag, '_');
-	if (m_trans->CheckIDName(_tag))
+	std::shared_ptr<Component> addCp = ComponentFactory::Instance().CreateComponent(_id);
+	m_cpList.push_back(addCp);
+	addCp->SetOwner(WeakThisPtr(this));
+	addCp->Start();
+	if (!_json.is_null())
 	{
-		return m_trans;
+		addCp->LoadJson(_json);
 	}
-
-	auto&& it = m_cpList.begin();
-	while (it != m_cpList.end() && !(*it)->CheckIDName(_tag)) { it++; }
-
-	if (it == m_cpList.end())
-	{
-		assert(false && "GetComponent失敗！");
-		return std::shared_ptr<Component>();
-	}
-	return  *it;
-}
-std::list<std::shared_ptr<Component>> GameObject::SearchTags(std::string _tag)
-{
-	auto&& it = m_cpList.begin();
-	std::list<std::shared_ptr<Component>> list;
-	while (it != m_cpList.end())
-	{
-		if ((*it)->CheckIDName(PickName(_tag, '_')))list.push_back(*it);
-		it++;
-	}
-
-	return list;
+	return addCp;
 }
 
 void GameObject::ImGuiComponents()
 {
 	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-	if (ImGui::TreeNode(m_trans->GetIDName().c_str()))
+	if (ImGui::TreeNode("Transform"))
 	{
 		m_trans->ImGuiUpdate();
 		ImGui::TreePop();
 	}
 
 	int num = 0; bool deleteFlg = false;
-	for (auto&& it : m_cpList)
+	for (auto& it : m_cpList)
 	{
 		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-		std::string ImGui = std::to_string(num++) + " : " + it->GetIDName();
+		std::string ImGui = std::to_string(num++) + " : " + ComponentFactory::Instance().GetRegistry().at(it->GetID()).name;
 		bool flg = ImGui::TreeNode(ImGui.c_str());
 		if (ImGui::SameLine(); ImGui::SmallButton(("Remove##" + ImGui).c_str()))
 		{

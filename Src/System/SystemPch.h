@@ -9,6 +9,8 @@
 //ゲームシステム
 #include "Object/Object.h"
 
+#include "ComponentFactory/ComponentFactory.h"
+
 //システム
 #include "Manager/ConfigManager/ConfigManager.h"
 #include "Manager/CameraManager/CameraManager.h"

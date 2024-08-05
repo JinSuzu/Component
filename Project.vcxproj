@@ -291,6 +291,7 @@
     <ClInclude Include="src\Framework\Utility\KdUtility.h" />
     <ClInclude Include="src\Framework\Window\KdWindow.h" />
     <ClInclude Include="Src\Pch.h" />
+    <ClInclude Include="Src\System\ComponentFactory\ComponentFactory.h" />
     <ClInclude Include="Src\System\EditorWindow\Base\EditorWindowBase.h" />
     <ClInclude Include="Src\System\EditorWindow\DebugLog\DebugLog.h" />
     <ClInclude Include="Src\System\EditorWindow\GameScreen\GameScreen.h" />

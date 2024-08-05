@@ -4,7 +4,7 @@
 
 void Cp_Camera::Start()
 {
-	m_cameraPack = CameraManager::Instance().CreateCameraPack();
+	m_cameraPack = std::make_shared<CameraManager::CameraPack>();
 	m_trans = m_owner.lock()->GetTransform();
 }
 

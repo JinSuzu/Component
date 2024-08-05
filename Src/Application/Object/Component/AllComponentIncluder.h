@@ -43,89 +43,52 @@
 	return std::shared_ptr<Tag>(new Tag);							\
 }
 
-class RegisterComponent
+inline void RegisterComponentInit()
 {
-	std::map<std::string, std::function<std::shared_ptr<Component>()>> m_createMap;
-	std::map<UINT, std::string> m_bitNameMap;
+	ComponentFactory::Instance().RegisterComponent<Cp_Camera>();
+	ComponentFactory::Instance().RegisterComponent <Cp_BuildCamera>();
+	ComponentFactory::Instance().RegisterComponent <Cp_Collider>();
+	ComponentFactory::Instance().RegisterComponent <Cp_BoxCollision>();
 
-	RegisterComponent()
-	{
-		auto Register = [&](std::function<std::shared_ptr<Component>()> _fn)
-			{
-				UINT bit = 1 << m_createMap.size();
-				m_createMap[PickName(typeid(*_fn().get()).name(), '_')] = _fn;
-				m_bitNameMap[bit] = PickName(typeid(*_fn().get()).name(), '_');
-			};
+	//Regidbody
+	ComponentFactory::Instance().RegisterComponent <Cp_Rigidbody>();
+	ComponentFactory::Instance().RegisterComponent <Cp_Bullet>();
+	ComponentFactory::Instance().RegisterComponent <Cp_Controller>();
+	ComponentFactory::Instance().RegisterComponent <Cp_Player>();
+	ComponentFactory::Instance().RegisterComponent <Cp_MoveLocus>();
+	ComponentFactory::Instance().RegisterComponent <Cp_MoveLimit>();
 
-		Register(FNCOMPONENT(Cp_Camera));
-		Register(FNCOMPONENT(Cp_BuildCamera));
-		Register(FNCOMPONENT(Cp_Collider));
-		Register(FNCOMPONENT(Cp_BoxCollision));
+	//HitResult
+	ComponentFactory::Instance().RegisterComponent <Cp_HitResultBlock>();
+	ComponentFactory::Instance().RegisterComponent <Cp_HitResultReflect>();
+	ComponentFactory::Instance().RegisterComponent <Cp_HitResultScene>();
+	ComponentFactory::Instance().RegisterComponent <Cp_HitResultDestroy>();
 
-		Register(FNCOMPONENT(Cp_Rigidbody));
-		{
-			Register(FNCOMPONENT(Cp_Bullet));
-			Register(FNCOMPONENT(Cp_Controller));
-			Register(FNCOMPONENT(Cp_Player));
-
-			//HitResult
-			{
-				Register(FNCOMPONENT(Cp_HitResultBlock));
-				Register(FNCOMPONENT(Cp_HitResultReflect));
-				Register(FNCOMPONENT(Cp_HitResultScene));
-				Register(FNCOMPONENT(Cp_HitResultDestroy));
-				Register(FNCOMPONENT(Cp_MoveLocus));
-				Register(FNCOMPONENT(Cp_MoveLimit));
-			}
-		}
-
-		Register(FNCOMPONENT(Cp_Texture));
-		Register(FNCOMPONENT(Cp_SquarePolygon)); 
-		{
-			Register(FNCOMPONENT(Cp_SinCurveAlpha));
-			Register(FNCOMPONENT(Cp_TimerDisplay));
-			Register(FNCOMPONENT(Cp_Counter));
-		
-		}
-		Register(FNCOMPONENT(Cp_ModelData));
-		Register(FNCOMPONENT(Cp_ModelWork));
-
-		Register(FNCOMPONENT(Cp_AddRotation));
-		Register(FNCOMPONENT(Cp_Launcher));
-		Register(FNCOMPONENT(Cp_Particle));
-		Register(FNCOMPONENT(Cp_TransformLimit));
-		Register(FNCOMPONENT(Cp_TransFormInherit));
-
-		Register(FNCOMPONENT(Cp_SceneActive));
-		Register(FNCOMPONENT(Cp_EnterToScene));
-		Register(FNCOMPONENT(Cp_SceneChanger));
-
-		//かなりゴミ
-		Register(FNCOMPONENT(Cp_ChildCnt));
-		Register(FNCOMPONENT(Cp_ScoreCounter));
-	};
-public:
-	int GetCompoNum() { return m_createMap.size(); }
-
-	std::shared_ptr<Component>CreateComponent(std::string _name)
-	{
-		auto temp = m_createMap.find(_name);
-		assert(temp != m_createMap.end() && "Mapに入ってないよ");
-
-		std::shared_ptr<Component> cmp = temp->second();
-		cmp->SetIDName(temp->first);
-		return cmp;
-	}
-	std::shared_ptr<Component>CreateComponent(UINT _name)
-	{
-		auto temp = m_bitNameMap.find(_name);
-		assert(temp != m_bitNameMap.end() && "Mapに入ってないよ");
-
-		std::shared_ptr<Component> cmp = m_createMap[temp->second]();
-		cmp->SetIDName(temp->second);
-		return cmp;
+	//Render
+	ComponentFactory::Instance().RegisterComponent <Cp_Texture>();
+	ComponentFactory::Instance().RegisterComponent <Cp_SquarePolygon>();
+	ComponentFactory::Instance().RegisterComponent <Cp_ModelData>();
+	ComponentFactory::Instance().RegisterComponent <Cp_ModelWork>();
+	{	
+		//Render依存
+		ComponentFactory::Instance().RegisterComponent <Cp_TimerDisplay>();
+		ComponentFactory::Instance().RegisterComponent <Cp_Counter>();
 	}
 
+	ComponentFactory::Instance().RegisterComponent <Cp_SinCurveAlpha>();
+	ComponentFactory::Instance().RegisterComponent <Cp_AddRotation>();
+	ComponentFactory::Instance().RegisterComponent <Cp_Launcher>();
+	ComponentFactory::Instance().RegisterComponent <Cp_TransformLimit>();
+	ComponentFactory::Instance().RegisterComponent <Cp_TransFormInherit>();
+	ComponentFactory::Instance().RegisterComponent <Cp_SceneActive>();
+	ComponentFactory::Instance().RegisterComponent <Cp_EnterToScene>();
+	ComponentFactory::Instance().RegisterComponent <Cp_SceneChanger>();
+
+	//かなりゴミ
+	ComponentFactory::Instance().RegisterComponent <Cp_ChildCnt>();
+	ComponentFactory::Instance().RegisterComponent <Cp_ScoreCounter>();
+}
+/*
 	unsigned int ImGuiComponentSet()
 	{
 		ImGui::SeparatorText("ComponentSet");
@@ -149,36 +112,7 @@ public:
 		ImGui::EndChild();
 		return state;
 	}
-	std::shared_ptr<Component> ImGuiAddComponent()
-	{
-		if (ImGui::SmallButton("AddComponent"))ImGui::OpenPopup("Components");
-		std::shared_ptr<Component> cmp;
-		if (!ImGui::BeginPopup("Components"))return cmp;
-
-		ImGui::SeparatorText("Component");
-		auto it = m_createMap.begin();
-
-		while (it != m_createMap.end())
-		{
-			if (ImGui::MenuItem(it->first.c_str()))
-			{
-				cmp = CreateComponent(it->first);
-				break;
-			}
-			++it;
-		}
-		ImGui::EndPopup();
-		return cmp;
-	}
-
-
-	static RegisterComponent& Instance()
-	{
-		static RegisterComponent inst;
-		return inst;
-	}
-
-};
+*/
 //static std::size_t ComponentHash(const Component* comp)
 //{
 //	return std::hash<std::type_index>()(std::type_index(typeid(*comp)));

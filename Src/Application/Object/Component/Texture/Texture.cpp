@@ -7,13 +7,13 @@
 
 void Cp_Texture::Start()
 {
-	m_texPack = std::make_shared<TexturePack>();
-
-	m_texPack->tex  = AssetManager::Instance().GetTexture("Asset/Textures/chara/block.png");
-	m_texPack->rect = { 0,0,64,64 };
 	m_trans = m_owner.lock()->GetTransform();
+
+	m_texPack = std::make_shared<RenderManager::TexturePack>();
+	m_texPack->mat = &m_trans.lock()->WorkMatrix();
+	m_texPack->rect = { 0,0,64,64 };
+
 	m_animation = std::make_shared<Animation2D>();
-	KernelEngine::SetStopComponent(WeakThisPtr(this));
 }
 
 void Cp_Texture::PreUpdateContents()
@@ -23,15 +23,21 @@ void Cp_Texture::PreUpdateContents()
 
 void Cp_Texture::PostUpdateContents()
 {
-	m_texPack->mat = m_trans.lock()->GetMatrix();
-	if(!m_owner.lock()->GetHideFlg())RenderManager::Instance().AddDraw2D(m_texPack);
+}
+
+void Cp_Texture::UpdateRenderContents()
+{
+	if (m_owner.lock()->GetHideFlg())
+	{
+		RenderManager::Instance().AddDraw2D(m_texPack);
+	}
 }
 
 void Cp_Texture::ImGuiUpdate()
 {
-	if (AssetManager::Instance().SelectTexture(m_texPack->tex, m_path))m_texPack->rect = { 0,0,(LONG)m_texPack->tex->GetInfo().Width,(LONG)m_texPack->tex->GetInfo().Height};
+	if (AssetManager::Instance().SelectTexture(m_texPack->tex, m_path))m_texPack->rect = { 0,0,(LONG)m_texPack->tex->GetInfo().Width,(LONG)m_texPack->tex->GetInfo().Height };
 
-	ImGui::DragFloat4("Rect", (float*) & m_texPack->rect.x);
+	ImGui::DragFloat4("Rect", (float*)&m_texPack->rect.x);
 	m_animation->ImGuiUpdate();
 }
 

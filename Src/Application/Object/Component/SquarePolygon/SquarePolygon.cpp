@@ -8,12 +8,13 @@
 
 void Cp_SquarePolygon::Start()
 {
-	m_squarePolygonPack->squarePolygon = AssetManager::Instance().GetSquarePolygon(m_path = "Asset/Textures/chara/block.png");
 	m_trans = m_owner.lock()->GetTransform();
-	m_animation = std::make_shared<Animation2D>();
 
-	m_squarePolygonPack->drawType = (UINT)DrawType::Lit;
-	KernelEngine::SetStopComponent(WeakThisPtr(this));
+	m_squarePolygonPack = std::make_shared<RenderManager::SquarePolygon>();
+	m_squarePolygonPack->mat = &m_owner.lock()->GetTransform().lock()->WorkMatrix();
+	m_squarePolygonPack->squarePolygon = AssetManager::Instance().GetSquarePolygon(m_path = "Asset/Textures/chara/block.png");
+
+	m_animation = std::make_shared<Animation2D>();
 }
 
 void Cp_SquarePolygon::PreUpdateContents()
@@ -32,7 +33,6 @@ void Cp_SquarePolygon::PostUpdateContents()
 	Animation2D::AnimeFrame frame = m_animation->GetAnimeFrame();
 	m_squarePolygonPack->squarePolygon->SetUVRect(frame.w, frame.h);
 
-	m_squarePolygonPack->mat = m_owner.lock()->GetTransform().lock()->GetMatrix();
 
 	if (!m_owner.lock()->GetHideFlg())RenderManager::Instance().AddDraw3D(m_squarePolygonPack);
 }
@@ -44,7 +44,7 @@ void Cp_SquarePolygon::ImGuiUpdate()
 	if (ImGui::Button("DrawType"))ImGui::OpenPopup("Types");
 	if (ImGui::BeginPopup("Types"))
 	{
-		Utility::ImGuiHelper::CheckBoxAllBit<DrawType>(m_squarePolygonPack->drawType);
+		Utility::ImGuiHelper::CheckBoxAllBit<RenderManager::DrawType>(m_squarePolygonPack->drawType);
 		ImGui::EndPopup();
 	}
 

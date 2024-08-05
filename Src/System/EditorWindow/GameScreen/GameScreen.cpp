@@ -67,8 +67,8 @@ void GameScreen::UpdateContents()
 	if (!m_buildCamera && KernelEngine::is_Building())
 	{
 		m_buildCamera = GameObjectManager::CreateObject(std::string("BuildCamera"), std::weak_ptr<GameObject>(), false);
-		m_buildCamera->AddComponent("Camera");
-		m_cameraController = std::static_pointer_cast<Cp_BuildCamera>(m_buildCamera->AddComponent("BuildCamera"));
+		m_buildCamera->AddComponent<Cp_Camera>();
+		m_cameraController = std::static_pointer_cast<Cp_BuildCamera>(m_buildCamera->AddComponent<Cp_BuildCamera>());
 	}
 	else if (!KernelEngine::is_Building())m_buildCamera = nullptr;
 
