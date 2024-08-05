@@ -1,9 +1,6 @@
 ﻿#include "GameObject.h"
 #include "Manager/GameObjectManager.h"
 
-#include "../Component/Transform/Transform.h"
-#include "../Component/Component.h"
-
 #include "../../main.h"
 
 #include "../../../System/EditorWindow/Prefab/Prefab.h"
@@ -48,8 +45,8 @@ void GameObject::UpdateRender()
 
 void GameObject::Init(nlohmann::json _json)
 {
-	m_trans = std::make_shared<Cp_Transform>();
-	m_trans->SetOwner(WeakThisPtr(this));
+	m_trans = std::make_shared<TransformComponent>();
+	((std::shared_ptr<Component>)m_trans)->m_owner = WeakThisPtr(this);
 	if (m_parent.lock())m_trans->SetParent(m_parent.lock()->GetTransform());
 	m_trans->Start();
 
@@ -120,7 +117,7 @@ void GameObject::SetUpParent(std::weak_ptr<GameObject> _parent, bool _push)
 	if (_parent.lock())_parent.lock()->AddChilds(me);
 
 	m_parent = _parent;
-	m_trans->SetParent(m_parent.lock() ? m_parent.lock()->GetTransform() : std::weak_ptr<Cp_Transform>());
+	m_trans->SetParent(m_parent.lock() ? m_parent.lock()->GetTransform() : std::weak_ptr<TransformComponent>());
 }
 
 void GameObject::AddChilds(std::weak_ptr<GameObject> _child)
@@ -162,7 +159,7 @@ nlohmann::json GameObject::GetJson()
 	object["Component"] = component;
 	object["name"] = m_name;
 	nlohmann::json json;
-	json["_Data"]  = object;
+	json["_Data"] = object;
 	json["Childs"] = nlohmann::json::array();
 	return json;
 }
@@ -183,7 +180,7 @@ std::shared_ptr<Component> GameObject::AddComponent(size_t _id, nlohmann::json _
 {
 	std::shared_ptr<Component> addCp = ComponentFactory::Instance().CreateComponent(_id);
 	m_cpList.push_back(addCp);
-	addCp->SetOwner(WeakThisPtr(this));
+	addCp->m_owner = WeakThisPtr(this);
 	addCp->Start();
 	if (!_json.is_null())
 	{

@@ -1,6 +1,4 @@
 ﻿#include "RenderManager.h"
-#include "../../../Application/Object/Component/Texture/Texture.h"
-#include "../../../Application/Object/Component/Camera/Camera.h"
 #include "../../../Application/Object/Game/GameObject.h"
 #include "../../../Application/main.h"
 

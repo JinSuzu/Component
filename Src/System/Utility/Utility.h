@@ -53,13 +53,7 @@ namespace Utility
 			}
 		};
 
-		// 型情報を取得する関数テンプレート（値バージョン）
-		template<typename T>
-		inline const std::type_info& Create(T _value) {
-			return TypeInfoHolder<T>::getTypeInfo();
-		}
-
-		// 型情報を取得する関数テンプレート（型バージョン）
+		// 型情報を取得する関数テンプレート
 		template<typename T>
 		inline const std::type_info& Create() {
 			return TypeInfoHolder<T>::getTypeInfo();

@@ -2,7 +2,7 @@
 
 class GameObject;
 class Component;
-class Cp_Collider;
+class ColliderComponent;
 
 
 class GameObjectManager
@@ -22,7 +22,7 @@ public:
 
 	void Release(std::string _path, bool _enableSave);
 
-	void AddColliderList(std::weak_ptr<Cp_Collider> _add) { m_colliderList.push_back(_add); }
+	void AddColliderList(std::weak_ptr<ColliderComponent> _add) { m_colliderList.push_back(_add); }
 	bool RayHit(const KdCollider::SphereInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults);
 	bool RayHit(const KdCollider::BoxInfo& targetBox, std::list<KdCollider::CollisionResult>* pResults);
 	bool RayHit(const KdCollider::RayInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults);
@@ -35,7 +35,7 @@ public:
 	void AddObject(std::shared_ptr<GameObject> _add)					{ m_objectList.push_back(_add); }
 private:
 	std::list<std::shared_ptr<GameObject>>	m_objectList;
-	std::list<std::weak_ptr<Cp_Collider>>	m_colliderList;
+	std::list<std::weak_ptr<ColliderComponent>>	m_colliderList;
 
 	void LoadJson(std::string _path, bool _bOrigin = true);
 

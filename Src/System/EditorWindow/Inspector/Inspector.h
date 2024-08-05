@@ -6,4 +6,7 @@ class Inspector
 {
 public:
 	void UpdateContents() override;
-};
+
+private:
+	std::string m_keyword;
+};	

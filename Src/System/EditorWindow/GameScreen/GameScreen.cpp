@@ -1,12 +1,7 @@
 ﻿#include "GameScreen.h"
-
-#include "../../../Application/Object/Component/Camera/Camera.h"
-
 #include "../../../Application/Object/Game/Manager/GameObjectManager.h"
 #include "../../../Application/Object/Game/GameObject.h"
-#include "../../../Application/Object/Component/BuildCamera/BuildCamera.h"
-#include "../../../Application/Object/Component/Transform/Transform.h"
-
+#include "../../../Application/Object/Component/Camera/BuildCameraComponent/BuildCameraComponent.h"
 #include "../../../Application/main.h"
 
 #include "../../Manager/EditorWindowManager/EditorWindowManager.h"
@@ -67,8 +62,8 @@ void GameScreen::UpdateContents()
 	if (!m_buildCamera && KernelEngine::is_Building())
 	{
 		m_buildCamera = GameObjectManager::CreateObject(std::string("BuildCamera"), std::weak_ptr<GameObject>(), false);
-		m_buildCamera->AddComponent<Cp_Camera>();
-		m_cameraController = std::static_pointer_cast<Cp_BuildCamera>(m_buildCamera->AddComponent<Cp_BuildCamera>());
+		m_buildCamera->AddComponent<CameraComponent>();
+		m_cameraController = std::static_pointer_cast<BuildCameraComponent>(m_buildCamera->AddComponent<BuildCameraComponent>());
 	}
 	else if (!KernelEngine::is_Building())m_buildCamera = nullptr;
 
@@ -101,8 +96,8 @@ void GameScreen::UpdateContents()
 	std::weak_ptr<GameObject> editObject = Editor::Instance().GetEditObject();
 	if (editObject.expired())return;
 
-	std::weak_ptr<Cp_Transform> trans = editObject.lock()->GetTransform();
-	std::weak_ptr<Cp_Transform> parentTrans = trans.lock()->GetParent();
+	std::weak_ptr<TransformComponent> trans = editObject.lock()->GetTransform();
+	std::weak_ptr<TransformComponent> parentTrans = trans.lock()->GetParent();
 	Utility::ImGuizmoHelper::TransformPack resultPack;
 	//ギズモ更新処理
 	bool edited = Utility::ImGuizmoHelper::Update
@@ -112,20 +107,22 @@ void GameScreen::UpdateContents()
 		trans.lock()->GetMatrix(),
 		(parentTrans.expired() ? Math::Matrix::Identity : parentTrans.lock()->GetMatrix()),
 		m_zmoPreation,
+		m_zmoMode,
 		resultPack
 	);
 	if (edited)
 	{
-		std::weak_ptr<Cp_Transform> trans = Editor::Instance().GetEditObject().lock()->GetTransform();
+		std::weak_ptr<TransformComponent> trans = Editor::Instance().GetEditObject().lock()->GetTransform();
 		trans.lock()->SetPosition(resultPack.position);
 		trans.lock()->SetRotation(resultPack.rotation);
 		trans.lock()->SetScale(resultPack.scale);
 	}
 
 	//ギズモの編集対象の変更
-	ImGui::Begin("OprerationChanger");
+	ImGui::Begin("zmoOption");
 	{
 		Utility::ImGuizmoHelper::OprerationChanger(m_zmoPreation);
+		Utility::ImGuizmoHelper::ModeChanger(m_zmoMode);
 	}
 	ImGui::End();
 }

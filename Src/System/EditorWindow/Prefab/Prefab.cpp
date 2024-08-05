@@ -1,7 +1,8 @@
-﻿#include "../../../Application/main.h"
+﻿#include "Prefab.h"
+
+#include "../../../Application/main.h"
 #include "../../../Application/Object/Game/GameObject.h"
 #include "../../../Application/Object/Game/Manager/GameObjectManager.h"
-#include "Prefab.h"
 
 void Prefab::UpdateContents()
 {
@@ -186,7 +187,7 @@ void Prefab::ConfigSaveContents(nlohmann::json& _json)
 }
 
 #include "../SetUpScene/SetUpScene.h"
-#include "FileEditor/FileEditor.h"
+#include "FileEditor.h"
 void Prefab::Init()
 {
 	m_fileSource[".prefab"] = [&](const std::filesystem::path& _path) {return MyDragDrop::SourceGameObjectDataPath(_path.string()); };

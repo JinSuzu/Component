@@ -1,7 +1,7 @@
 ﻿#pragma once
-class Cp_Texture;
-class Cp_ModelData;
-class Cp_SquarePolygon;
+class TextureComponent;
+class ModelDataComponent;
+class SquarePolygonComponent;
 
 
 class RenderManager
@@ -48,7 +48,7 @@ public:
 		std::shared_ptr<KdTexture>	tex;
 	};
 
-	struct SquarePolygon : Asset3DPackBase
+	struct SquarePolygonComponent : Asset3DPackBase
 	{
 		void Draw(UINT _type)override
 		{

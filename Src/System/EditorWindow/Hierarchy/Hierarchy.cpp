@@ -5,8 +5,6 @@
 #include "../../../Application/object/Game/Manager/GameObjectManager.h"
 #include "../../../Application/main.h"
 
-#include "../Prefab/Prefab.h"
-
 void Hierarchy::UpdateContents()
 {
 	m_openedOption = false;

@@ -64,10 +64,11 @@ void SceneManager::OpenScene()
 void SceneManager::SaveAsScene()
 {
 	std::string path;
-	if (!Application::Instance().GetWindow().SaveFileDialog(path, "ファイルを保存", "*.scene", ".scene"))return;
+	if (!Application::Instance().GetWindow().SaveFileDialog(path, "ファイルを保存", "*scene", "scene"))return;
 	GameObjectManager::Instance().Release(path, KernelEngine::is_Building());
 
 	m_nowScene = std::filesystem::path(path).filename().string();
+	Utility::StringHelper::DeleteWord(m_nowScene, std::filesystem::path(path).filename().extension().string());
 	m_sceneList[m_nowScene] = path;
 
 	LoadScene(m_nowScene);

@@ -1,8 +1,6 @@
 ﻿#include "Engine.h"
 #include "../../Application/Object/Component/AllComponentIncluder.h"
-#include "../../Application/Object/Component/Component.h"
 #include "../../Application/Object/Game/GameObject.h"
-#include "../../Application/Object/Component/Transform/Transform.h"
 #include "../../Application/Object/Game/Manager/GameObjectManager.h"
 #include "../../Application/Utility/Timer.h"
 
@@ -101,7 +99,7 @@ namespace KernelEngine
 
 	void Start()
 	{
-		SceneManager::Instance().LoadScene(SceneManager::Instance().GetNowSceneName());
+		if (flowState == FlowState::Building)SceneManager::Instance().LoadScene(SceneManager::Instance().GetNowSceneName());
 		flowState = FlowState::Playing;
 		ShowCursor(flowState == FlowState::Playing);
 	}

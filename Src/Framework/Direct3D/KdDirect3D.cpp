@@ -29,7 +29,7 @@ void KdDirect3D::ClientToWorld(const POINT& screenPos, float porjZ, Math::Vector
 	// 2D→3D変換用行列合成
 	Math::Matrix convertMat = invViewport * invPrj * invView;
 
-	Math::Vector3::Transform({ (float)screenPos.x, (float)screenPos.y, porjZ }, convertMat, dst);
+	Math::Vector3::TransformComponent({ (float)screenPos.x, (float)screenPos.y, porjZ }, convertMat, dst);
 }
 
 void KdDirect3D::WorldToClient(const Math::Vector3& srcWorld, POINT& dst, const Math::Matrix& mCam, const Math::Matrix& mProj)
@@ -42,7 +42,7 @@ void KdDirect3D::WorldToClient(const Math::Vector3& srcWorld, POINT& dst, const 
 
 	Math::Matrix convertMat = mCam.Invert() * mProj * mVP;
 
-	Math::Vector3 screenPos = Math::Vector3::Transform(srcWorld, convertMat);
+	Math::Vector3 screenPos = Math::Vector3::TransformComponent(srcWorld, convertMat);
 
 	dst.x = static_cast<int>(screenPos.x);
 	dst.y = static_cast<int>(screenPos.y);

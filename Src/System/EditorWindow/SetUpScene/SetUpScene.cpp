@@ -92,7 +92,10 @@ namespace MyDragDrop
 		{
 			std::filesystem::path path(_path);
 			std::map <std::string, std::string>& list = SceneManager::Instance().WorkSceneList();
-			list[path.filename().string()] = path.string();
+
+			std::string str = path.filename().string();
+			Utility::StringHelper::DeleteWord(str, path.filename().extension().string());
+			list[str] = path.string();
 		}
 	}
 }

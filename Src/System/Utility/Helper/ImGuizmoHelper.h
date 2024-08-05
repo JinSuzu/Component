@@ -15,7 +15,7 @@ struct TransformPack
 	Math::Vector3 scale;
 };
 
-inline bool Update(Math::Matrix _cameraMat, Math::Matrix _projectMat, Math::Matrix _targetMat, Math::Matrix _parentMat, ImGuizmo::OPERATION& _opreration, TransformPack& _resultPack, ImRect _windowRect = { ImGui::GetWindowPos(),ImGui::GetWindowSize() })
+inline bool Update(Math::Matrix _cameraMat, Math::Matrix _projectMat, Math::Matrix _targetMat, Math::Matrix _parentMat, ImGuizmo::OPERATION& _opreration, ImGuizmo::MODE& _mode, TransformPack& _resultPack, ImRect _windowRect = { ImGui::GetWindowPos(),ImGui::GetWindowSize() })
 {
 	// Manipulate関数に渡す行列データのポインタ
 	//float* matrixPtr = reinterpret_cast<float*>(&_cameraMat);
@@ -32,7 +32,7 @@ inline bool Update(Math::Matrix _cameraMat, Math::Matrix _projectMat, Math::Matr
 		matrixPtr,					// カメラのビュー行列
 		proMatrixPtr,				// カメ=ラのプロジェクション行列
 		_opreration,				// 操作モード
-		ImGuizmo::MODE::LOCAL,      // 変換モード
+		_mode,						// 変換モード
 		TargetMatrixPtr				// オブジェクトの変換行列
 	);
 
@@ -42,10 +42,7 @@ inline bool Update(Math::Matrix _cameraMat, Math::Matrix _projectMat, Math::Matr
 		_targetMat *= _parentMat.Invert();
 
 		// 結果をMatrixに変換
-		float position[3] = { 0.0f,0.0f,0.0f }, rotation[3] = { 0.0f,0.0f,0.0f }, scale[3] = { 0.0f,0.0f,0.0f };
-		ImGuizmo::DecomposeMatrixToComponents(TargetMatrixPtr, position, rotation, scale);
-		TransformPack result(position, rotation, scale);
-		_resultPack = result;
+		ImGuizmo::DecomposeMatrixToComponents(TargetMatrixPtr, &_resultPack.position.x, &_resultPack.rotation.x, &_resultPack.scale.x);
 		return true;
 	}
 	return false;
@@ -54,19 +51,38 @@ inline bool Update(Math::Matrix _cameraMat, Math::Matrix _projectMat, Math::Matr
 inline void OprerationChanger(ImGuizmo::OPERATION& _opreration)
 {
 	// ギズモの操作切り替えボタン
-	if (ImGui::RadioButton("Transform", _opreration == ImGuizmo::TRANSLATE))
+	std::string str = magic_enum::enum_name(_opreration).data();
+	if (ImGui::BeginCombo("OPERATION",str.c_str()))
 	{
-		_opreration = ImGuizmo::TRANSLATE;
+		auto list = magic_enum::enum_names<ImGuizmo::OPERATION>();
+		for (auto& it : list) 
+		{
+			if (ImGui::Selectable(it.data())) 
+			{
+				_opreration = magic_enum::enum_cast<ImGuizmo::OPERATION>(it).value();
+				break;
+			}
+		}
+		ImGui::EndCombo();
 	}
-	ImGui::SameLine();
-	if (ImGui::RadioButton("Rotation", _opreration == ImGuizmo::ROTATE))
+}
+
+inline void ModeChanger(ImGuizmo::MODE& _mode)
+{
+	// ギズモの操作切り替えボタン
+	std::string str = magic_enum::enum_name(_mode).data();
+	if (ImGui::BeginCombo("MODE",str.c_str()))
 	{
-		_opreration = ImGuizmo::ROTATE;
-	}
-	ImGui::SameLine();
-	if (ImGui::RadioButton("Scale", _opreration == ImGuizmo::SCALE))
-	{
-		_opreration = ImGuizmo::SCALE;
+		auto list = magic_enum::enum_names<ImGuizmo::MODE>();
+		for (auto& it : list) 
+		{
+			if (ImGui::Selectable(it.data())) 
+			{
+				_mode = magic_enum::enum_cast<ImGuizmo::MODE>(it).value();
+				break;
+			}
+		}
+		ImGui::EndCombo();
 	}
 }
 #endif

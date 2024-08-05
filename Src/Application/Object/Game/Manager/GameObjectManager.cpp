@@ -148,7 +148,7 @@ void GameObjectManager::LoadJson(std::string _path, bool _bOrigin)
 
 void GameObjectManager::ImGuiGameObject(std::weak_ptr<GameObject> _object)
 {
-	ImGui::InputText("Name", _object.lock()->WorkName());
+	ImGui::InputText("Name", &_object.lock()->WorkName());
 	_object.lock()->ImGuiComponents();
 
 	{
