@@ -12,7 +12,7 @@ void ColliderComponent::UpdateRenderContents()
 {
 	if (m_colliderShape & ColliderShape::Sphere) 
 	{
-		RenderManager::Instance().WorkDebugWireFrame().AddDebugSphere(m_trans.lock()->GetMatrix().Translation() + m_offsetPos, m_radius, m_trans.lock()->GetScale());
+		RenderManager::Instance().WorkDebugWireFrame().AddDebugSphere(m_trans.lock()->GetWorldPosition() + m_offsetPos, m_radius, m_trans.lock()->GetWorldScale());
 	}
 }
 

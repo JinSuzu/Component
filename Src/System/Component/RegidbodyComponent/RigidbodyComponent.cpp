@@ -20,7 +20,7 @@ void RigidbodyComponent::UpdateContents()
 
 void RigidbodyComponent::PostUpdateContents()
 {
-	m_trans.lock()->SetPosition(m_trans.lock()->GetPosition() + m_move);
+	m_trans.lock()->SetPosition(m_trans.lock()->GetLocalPosition() + m_move);
 	m_move *= m_deceleration;
 }
 
@@ -63,7 +63,7 @@ void RigidbodyComponent::UpdateRenderContents()
 
 	if (m_gravity)
 	{
-		Math::Vector3 pos = m_owner.lock()->GetTransform().lock()->GetPosition();
+		Math::Vector3 pos = m_owner.lock()->GetTransform().lock()->GetLocalPosition();
 		pos.y -= m_height;
 		pos.y += m_offsetHeight;
 		KdCollider::RayInfo rayInfo(
@@ -165,7 +165,7 @@ float RigidbodyComponent::Gravity()
 {
 	if (m_gravity == 0.f)return m_gravity + m_move.y;
 
-	Math::Vector3 pos = m_owner.lock()->GetTransform().lock()->GetPosition();
+	Math::Vector3 pos = m_owner.lock()->GetTransform().lock()->GetLocalPosition();
 	pos.y -= m_height;
 	pos.y += m_offsetHeight;
 	KdCollider::RayInfo rayInfo(
@@ -184,7 +184,7 @@ float RigidbodyComponent::Gravity()
 	GameObjectManager::Instance().RayHit(rayInfo, &results);
 	for (auto& result : results)
 	{
-		float targetRange = Math::Vector3::Distance(result.m_hitPos, m_trans.lock()->GetPosition());
+		float targetRange = Math::Vector3::Distance(result.m_hitPos, m_trans.lock()->GetLocalPosition());
 		if (hitRange > targetRange || !m_bLanding)
 		{
 			hitRange = targetRange;

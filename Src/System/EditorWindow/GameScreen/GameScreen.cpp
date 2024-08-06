@@ -8,7 +8,7 @@
 
 void GameScreen::Init()
 {
-		//ゲームビューの枠組み子ウィンドウのbegin処理
+	//ゲームビューの枠組み子ウィンドウのbegin処理
 	m_beginChildOption.before
 		= []()
 		{
@@ -50,15 +50,6 @@ void GameScreen::Init()
 
 void GameScreen::UpdateContents()
 {
-	/*
-	if (ImGui::SameLine(); ImGui::Button("cameraSetUp"))ImGui::OpenPopup("camera");
-	if (ImGui::BeginPopup("camera"))
-	{
-		if (m_buildCamera)GameObjectManager::Instance().ImGuiGameObject(m_buildCamera);
-		ImGui::EndPopup();
-	}
-
-	*/
 	if (!m_buildCamera && KernelEngine::is_Building())
 	{
 		m_buildCamera = GameObjectManager::CreateObject(std::string("BuildCamera"), std::weak_ptr<GameObject>(), false);
@@ -95,27 +86,32 @@ void GameScreen::UpdateContents()
 	//============================================
 	std::weak_ptr<GameObject> editObject = Editor::Instance().GetEditObject();
 	if (editObject.expired())return;
-
 	std::weak_ptr<TransformComponent> trans = editObject.lock()->GetTransform();
-	std::weak_ptr<TransformComponent> parentTrans = trans.lock()->GetParent();
-	Utility::ImGuizmoHelper::TransformPack resultPack;
+	Math::Matrix transform = trans.lock()->GetMatrix();
 	//ギズモ更新処理
 	bool edited = Utility::ImGuizmoHelper::Update
 	(
 		CameraManager::Instance().GetCamera().lock()->GetCameraMatrix().Invert(),
 		CameraManager::Instance().GetCamera().lock()->GetProjMatrix(),
-		trans.lock()->GetMatrix(),
-		(parentTrans.expired() ? Math::Matrix::Identity : parentTrans.lock()->GetMatrix()),
+		transform,
 		m_zmoPreation,
-		m_zmoMode,
-		resultPack
+		m_zmoMode
 	);
 	if (edited)
 	{
-		std::weak_ptr<TransformComponent> trans = Editor::Instance().GetEditObject().lock()->GetTransform();
-		trans.lock()->SetPosition(resultPack.position);
-		trans.lock()->SetRotation(resultPack.rotation);
-		trans.lock()->SetScale(resultPack.scale);
+		std::weak_ptr<TransformComponent> parentTrans = trans.lock()->GetParent();
+		if (!parentTrans.expired())transform *= parentTrans.lock()->GetMatrix().Invert();
+
+		Math::Vector3 pos, rotation, scale;
+		Math::Quaternion quaternion;
+		//ImGuizmo::DecomposeMatrixToComponents();
+		transform.Decompose(scale, quaternion, pos);
+
+		rotation = Utility::MathHelper::ToDegrees(quaternion);
+
+		trans.lock()->SetPosition(pos);
+		trans.lock()->SetRotation(rotation);
+		trans.lock()->SetScale(scale);
 	}
 
 	//ギズモの編集対象の変更

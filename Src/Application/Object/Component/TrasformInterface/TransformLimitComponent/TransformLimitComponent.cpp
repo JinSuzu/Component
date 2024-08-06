@@ -5,15 +5,15 @@ void TransformLimitComponent::PostUpdateContents()
 {
 	auto trans = m_owner.lock()->GetTransform().lock();
 
-	Math::Vector3 pos = trans->GetPosition();
+	Math::Vector3 pos = trans->GetLocalPosition();
 	Clamp(pos,m_posLimit);
 	trans->SetPosition(pos);
 	
-	Math::Vector3 rota = trans->GetRotation();
+	Math::Vector3 rota = trans->GetLocalRotation();
 	Clamp(rota,m_rotaLimit);
 	trans->SetRotation(rota);
 	
-	Math::Vector3 scale = trans->GetScale();
+	Math::Vector3 scale = trans->GetLocalScale();
 	Clamp(scale,m_scaleLimit);
 	trans->SetScale(scale);
 }

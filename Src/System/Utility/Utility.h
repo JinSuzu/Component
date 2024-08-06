@@ -43,20 +43,42 @@ namespace Utility
 
 	namespace TypeIDHelper 
 	{
-		// 型情報を一元管理
-		template<typename T>
-		class TypeInfoHolder {
-		public:
-			static const std::type_info& getTypeInfo() {
-				static const std::type_info& info = typeid(T);
-				return info;
-			}
-		};
-
 		// 型情報を取得する関数テンプレート
 		template<typename T>
 		inline const std::type_info& Create() {
-			return TypeInfoHolder<T>::getTypeInfo();
+			static const std::type_info& info = typeid(T);
+			return info;
+		}
+	}
+
+	namespace MathHelper
+	{
+		inline float ToRadians(float _deg)
+		{
+			return DirectX::XMConvertToRadians(_deg);
+		}
+
+		inline float ToDegrees(float _rad)
+		{
+			return DirectX::XMConvertToDegrees(_rad);
+		}
+
+		inline DirectX::SimpleMath::Vector3 ToDegrees(const DirectX::SimpleMath::Quaternion& _Quaternion)
+		{
+			DirectX::SimpleMath::Vector3 result;
+			DirectX::SimpleMath::Vector3 radians = _Quaternion.ToEuler();
+			result.x = ToDegrees(radians.y);
+			result.y = ToDegrees(radians.x);
+			result.z = ToDegrees(radians.z);
+			return result;
+		}
+		
+		inline void ToDegrees(const DirectX::SimpleMath::Quaternion& _Quaternion,DirectX::SimpleMath::Vector3& _result)
+		{
+			DirectX::SimpleMath::Vector3 radians = _Quaternion.ToEuler();
+			_result.x = ToDegrees(radians.y);
+			_result.y = ToDegrees(radians.x);
+			_result.z = ToDegrees(radians.z);
 		}
 	}
 }	

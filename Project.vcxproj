@@ -220,6 +220,7 @@
     <ClInclude Include="Src\Application\Object\Component\BoxCollisionComponent\BoxCollisionComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\BulletComponent\BulletComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\Camera\BuildCameraComponent\BuildCameraComponent.h" />
+    <ClInclude Include="Src\Application\Object\Component\Camera\CameraControllerComponent\CameraControllerComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\Counter\ChildCntComponent\ChildCntComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\Counter\CounterComponent\CounterComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\Counter\ScoreCounterComponent\ScoreCounterComponent.h" />
@@ -346,6 +347,7 @@
     <ClCompile Include="Src\Application\Object\Component\BoxCollisionComponent\BoxCollisionComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\BulletComponent\BulletComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Camera\BuildCameraComponent\BuildCameraComponent.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\Camera\CameraControllerComponent\CameraControllerComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Counter\ChildCntComponent\ChildCntComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Counter\CounterComponent\CounterComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Counter\ScoreCounterComponent\ScoreCounterComponent.cpp" />

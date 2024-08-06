@@ -21,9 +21,113 @@
                         "y": 1.0,
                         "z": 1.0
                     }
+                },
+                {
+                    "ID": 200285725,
+                    "drawType": 1,
+                    "path": "Asset\\Data\\Model\\Terrain\\Terrain.gltf"
                 }
             ],
-            "name": "GameObject",
+            "name": "Terrain",
+            "tag": 0
+        }
+    },
+    {
+        "Childs": [
+            {
+                "Childs": [
+                    {
+                        "Childs": [],
+                        "_Data": {
+                            "Component": [
+                                {
+                                    "Follow": true,
+                                    "matTag": "SRT",
+                                    "position": {
+                                        "x": 0.0,
+                                        "y": 0.0,
+                                        "z": -1.2912640571594238
+                                    },
+                                    "rotation": {
+                                        "x": 0.0,
+                                        "y": -0.0,
+                                        "z": -0.0
+                                    },
+                                    "scale": {
+                                        "x": 1.0,
+                                        "y": 1.0,
+                                        "z": 1.0
+                                    }
+                                },
+                                {
+                                    "ID": 1033221089,
+                                    "Priority": 2
+                                }
+                            ],
+                            "name": "Camera",
+                            "tag": 0
+                        }
+                    }
+                ],
+                "_Data": {
+                    "Component": [
+                        {
+                            "Follow": true,
+                            "matTag": "SRT",
+                            "position": {
+                                "x": 0.0,
+                                "y": 1.238762617111206,
+                                "z": 0.0
+                            },
+                            "rotation": {
+                                "x": 0.0,
+                                "y": -0.0,
+                                "z": -0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            }
+                        },
+                        {
+                            "EffectShaft": 3,
+                            "ID": 1230080297
+                        }
+                    ],
+                    "name": "CameraFocusPoint",
+                    "tag": 0
+                }
+            }
+        ],
+        "_Data": {
+            "Component": [
+                {
+                    "Follow": true,
+                    "matTag": "SRT",
+                    "position": {
+                        "x": 0.0,
+                        "y": 0.5790925025939941,
+                        "z": 0.0
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": -0.0,
+                        "z": 0.0
+                    },
+                    "scale": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0
+                    }
+                },
+                {
+                    "ID": 200285725,
+                    "drawType": 1,
+                    "path": "Asset\\Data\\Model\\Character\\Player\\Player.gltf"
+                }
+            ],
+            "name": "Chara",
             "tag": 0
         }
     }

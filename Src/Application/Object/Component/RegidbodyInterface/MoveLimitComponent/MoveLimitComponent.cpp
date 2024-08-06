@@ -19,7 +19,7 @@ void MoveLimitComponent::PreUpdateContents()
 void MoveLimitComponent::ImGuiUpdate()
 {
 	ImGui::DragFloat("ShotRange", &m_shotRange);
-	float movingDistance = (m_trans.lock()->GetPosition(), m_startPoint).Length();
+	float movingDistance = (m_trans.lock()->GetLocalPosition(), m_startPoint).Length();
 	ImGui::DragFloat("Range", &movingDistance);
 }
 

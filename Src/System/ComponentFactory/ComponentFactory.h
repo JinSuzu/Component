@@ -34,6 +34,7 @@ public:
 				return temp;
 			};
 		value.name = Utility::StringHelper::PickName(ID.name());
+		Utility::StringHelper::DeleteWord(value.name, "Component");
 
 		m_registry[ID.hash_code()] = value;
 	}

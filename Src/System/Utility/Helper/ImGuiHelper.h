@@ -98,24 +98,6 @@ inline bool CheckBoxBit(std::string _name, UINT& _ID, UINT _checkID)
 	else _ID &= (~_checkID);
 	return change;
 }
-template<class Enum> inline bool CheckBoxAllBit(UINT& _ID)
-{
-	bool change = false;
-	for (UINT num = 0; num < magic_enum::enum_count<Enum>(); num++)
-	{
-		UINT checkID = 1 << num;
-		bool flg = _ID & checkID;
-		Enum type = static_cast<Enum>(checkID);
-		bool edit = ImGui::Checkbox(magic_enum::enum_name(type).data(), &flg);
-		change = change || edit;
-		if (edit)
-		{
-			if (flg) _ID |= checkID;
-			else _ID &= (~checkID);
-		}
-	}
-	return change;
-}
 
 inline bool InputText(std::string _tag, std::string& _editStr, ImGuiInputTextFlags _flg = ImGuiInputTextFlags_EnterReturnsTrue)
 {
@@ -224,3 +206,48 @@ template<class T> struct DragDrop
 		return flg;
 	}
 };
+
+#ifdef NEARGYE_MAGIC_ENUM_HPP
+//enumしか受け付けないテンプレート
+template<typename T>concept Enum = std::is_enum_v<T>;
+
+template<Enum T>
+inline bool CheckBoxAllBit(UINT& _ID)
+{
+	bool change = false;
+	for (auto it : magic_enum::enum_names<T>())
+	{
+		UINT checkID = (UINT)magic_enum::enum_cast<T>(it).value();
+
+		bool bitFlg = _ID & checkID;
+		if (ImGui::Checkbox(it.data(), &bitFlg))
+		{
+			if (bitFlg) _ID |= checkID;
+			else _ID &= (~checkID);
+
+			change = true;
+		}
+	}
+
+
+	return change;
+}
+
+template<Enum T>
+inline void ComboEnum(std::string_view _name, T& _enum)
+{
+	if (ImGui::BeginCombo(_name.data(), magic_enum::enum_name(_enum).data()))
+	{
+		for (auto it : magic_enum::enum_names<T>())
+		{
+			if (ImGui::Selectable(it.data()))
+			{
+				_enum = magic_enum::enum_cast<T>(it).value();
+				break;
+			}
+		}
+		ImGui::EndCombo();
+	}
+}
+
+#endif

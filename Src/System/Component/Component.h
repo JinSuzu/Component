@@ -50,5 +50,5 @@ void PreUpdateContents()override;					\
 void UpdateContents()override;						\
 void PostUpdateContents()override;					\
 void ImGuiUpdate()override;							\
-void InitJson()override;							\
+void GetJson()override;								\
 nlohmann::json GetJson()override;

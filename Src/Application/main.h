@@ -26,7 +26,7 @@ public:
 	const int* GetGameWindowSize() { return m_windowSize; }
 
 	Math::Vector2 GetMouse();
-	const Math::Vector2 GetMouseDelta() const { return m_mouseDelta; };
+	const Math::Vector2& GetMouseDelta() const { return m_mouseDelta; };
 private:
 	// アプリケーション初期化
 	bool Init(int w, int h);

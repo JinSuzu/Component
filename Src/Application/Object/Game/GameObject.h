@@ -34,6 +34,8 @@ public:
 	ObjectTag GetTag() const { return m_tag; };
 	void SetTag(ObjectTag _tag) { m_tag = _tag; };
 
+	std::weak_ptr<TransformComponent>GetTransform() { return m_trans; }
+
 	std::weak_ptr<GameObject> GetParent() { return m_parent; }
 	void SetParent(std::weak_ptr<GameObject> _parent) { m_parent = _parent; };
 	void SetUpParent(std::weak_ptr<GameObject> _parent, bool _push = true);
@@ -56,7 +58,6 @@ public:
 #pragma endregion
 
 #pragma region ComponentFns
-	std::weak_ptr<TransformComponent>GetTransform() { return m_trans; }
 
 	template<FromComponent T>
 	std::shared_ptr<Component> AddComponent(nlohmann::json _json = nlohmann::json())
@@ -68,6 +69,7 @@ public:
 			);
 		m_cpList.push_back(addCp);
 		addCp->m_owner = WeakThisPtr(this);
+		addCp->m_trans = m_trans;
 		addCp->Start();
 		if (!_json.is_null())
 		{
@@ -117,7 +119,6 @@ public:
 
 	void SetActive(bool _flg)override;
 	bool GetActive()override;
-public:
 #pragma endregion
 
 private:

@@ -11,7 +11,7 @@ void BoxCollisionComponent::Start()
 
 void BoxCollisionComponent::PreUpdateContents()
 {
-	m_postPos = m_wpTransform.lock()->GetPosition();
+	m_postPos = m_wpTransform.lock()->GetLocalPosition();
 	m_colliList.clear();
 }
 
@@ -60,14 +60,14 @@ nlohmann::json BoxCollisionComponent::GetJson()
 
 bool BoxCollisionComponent::WithPoint(std::weak_ptr<BoxCollisionComponent> _pos)
 {
-	bool flg =  WithPoint(_pos.lock()->m_wpTransform.lock()->GetPosition());
+	bool flg =  WithPoint(_pos.lock()->m_wpTransform.lock()->GetLocalPosition());
 	m_bHit |= flg;
 	return flg;
 }
 bool BoxCollisionComponent::WithPoint(Math::Vector3 _pos)
 {
-	Math::Vector3 max(m_wpTransform.lock()->GetPosition() + m_rad);
-	Math::Vector3 min(m_wpTransform.lock()->GetPosition() - m_rad);
+	Math::Vector3 max(m_wpTransform.lock()->GetLocalPosition() + m_rad);
+	Math::Vector3 min(m_wpTransform.lock()->GetLocalPosition() - m_rad);
 
 	auto Bigger = [](Math::Vector3 a, Math::Vector3 b) {return a.x >= b.x && a.y >= b.y && a.z >= b.z; };
 	return Bigger(max, _pos) && Bigger(_pos, min);
@@ -80,8 +80,8 @@ bool BoxCollisionComponent::WithSquare(std::weak_ptr<BoxCollisionComponent> _col
 	bool flg = false;
 	auto area = [](Math::Vector3 _rad) {return _rad.x * _rad.y * _rad.z; };
 	
-	if (area(m_wpTransform.lock()->GetPosition()) 
-		>= area(_coliSet.lock()->m_wpTransform.lock()->GetPosition()))
+	if (area(m_wpTransform.lock()->GetLocalPosition()) 
+		>= area(_coliSet.lock()->m_wpTransform.lock()->GetLocalPosition()))
 	{
 		for(auto&& it:_coliSet.lock()->GetVertex())flg |= WithPoint(it);
 		return flg;
@@ -100,10 +100,10 @@ void BoxCollisionComponent::TurnPostPos(std::weak_ptr<BoxCollisionComponent> _ot
 {
 	if (m_bTrigger)return;
 	int count = 5;
-	Math::Vector3 pos = _other.lock()->GetOwner().lock()->GetTransform().lock()->GetPosition();
+	Math::Vector3 pos = _other.lock()->GetOwner().lock()->GetTransform().lock()->GetLocalPosition();
 	while (WithPoint(_other) && count > 0)
 	{
-		if (m_owner.lock()->GetTransform().lock()->GetPosition() == pos)break;
+		if (m_owner.lock()->GetTransform().lock()->GetLocalPosition() == pos)break;
 		m_wpTransform.lock()->SetPosition(pos + (m_postPos * (float)count));
 		count--;
 	}
@@ -111,7 +111,7 @@ void BoxCollisionComponent::TurnPostPos(std::weak_ptr<BoxCollisionComponent> _ot
 
 std::vector<Math::Vector3> BoxCollisionComponent::GetVertex()
 {
-	Math::Vector3 pos = m_wpTransform.lock()->GetPosition();
+	Math::Vector3 pos = m_wpTransform.lock()->GetLocalPosition();
 	return std::vector<Math::Vector3>(
 		{
 			pos + m_rad,

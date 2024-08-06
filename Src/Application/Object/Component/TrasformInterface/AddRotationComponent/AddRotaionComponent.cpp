@@ -12,7 +12,7 @@ void AddRotationComponent::Start()
 void AddRotationComponent::UpdateContents()
 {
 	auto trans = m_owner.lock()->GetTransform();
-	Math::Vector3 rota = trans.lock()->GetRotation();
+	Math::Vector3 rota = trans.lock()->GetLocalRotation();
 
 	if (m_addType == AddType::Normal)rota += m_addPow;
 
@@ -32,9 +32,6 @@ void AddRotationComponent::UpdateContents()
 		rota += {-nowMouseMove.y, nowMouseMove.x, 0};
 	}
 
-	if (abs(rota.x) > 360)rota.x = rota.x + (rota.x < 0 ? 360 : -360);
-	if (abs(rota.y) > 360)rota.y = rota.y + (rota.y < 0 ? 360 : -360);
-	if (abs(rota.z) > 360)rota.z = rota.z + (rota.z < 0 ? 360 : -360);
 	trans.lock()->SetRotation(rota);
 }
 

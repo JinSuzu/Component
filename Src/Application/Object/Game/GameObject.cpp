@@ -73,29 +73,6 @@ void GameObject::Init(nlohmann::json _json)
 	}
 }
 
-#pragma region ComponentFns
-/*
-std::shared_ptr<Component> GameObject::AddComponent(std::string _name, nlohmann::json _json)
-{
-	auto addCp = RegisterComponent::Instance().CreateComponent(_name);
-	ComponentInit(addCp, _json);
-	return addCp;
-}
-std::shared_ptr<Component> GameObject::AddComponent(UINT _id, nlohmann::json _json)
-{
-	auto addCp = RegisterComponent::Instance().CreateComponent(_id);
-	ComponentInit(addCp, _json);
-	return addCp;
-}
-std::shared_ptr<Component> GameObject::AddComponent(std::shared_ptr<Component> _add)
-{
-	_add->CheckIDName(PickName(typeid(*_add.get()).name(), '_'));
-	ComponentInit(_add, nlohmann::json());
-	return _add;
-}
-*/
-
-#pragma endregion
 void GameObject::SetUpParent(std::weak_ptr<GameObject> _parent, bool _push)
 {
 	std::weak_ptr<GameObject> me = WeakThisPtr(this);
@@ -181,6 +158,7 @@ std::shared_ptr<Component> GameObject::AddComponent(size_t _id, nlohmann::json _
 	std::shared_ptr<Component> addCp = ComponentFactory::Instance().CreateComponent(_id);
 	m_cpList.push_back(addCp);
 	addCp->m_owner = WeakThisPtr(this);
+	addCp->m_trans = m_trans;
 	addCp->Start();
 	if (!_json.is_null())
 	{

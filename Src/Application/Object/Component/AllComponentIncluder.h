@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Camera/BuildCameraComponent/BuildCameraComponent.h"
+#include "Camera/CameraControllerComponent/CameraControllerComponent.h"
 
 #include "TrasformInterface/AddRotationComponent/AddRotaionComponent.h"
 #include "TrasformInterface/TransFormInheritComponent/TransFormInheritComponent.h"
@@ -41,7 +42,11 @@
 inline void RegisterComponentInit()
 {
 	ComponentFactory::Instance().RegisterComponent <CameraComponent>();
-	ComponentFactory::Instance().RegisterComponent <BuildCameraComponent>();
+	{
+		ComponentFactory::Instance().RegisterComponent <BuildCameraComponent>();
+		ComponentFactory::Instance().RegisterComponent <CameraControllerComponent>();
+	}
+
 	ComponentFactory::Instance().RegisterComponent <ColliderComponent>();
 	ComponentFactory::Instance().RegisterComponent <BoxCollisionComponent>();
 
@@ -64,7 +69,7 @@ inline void RegisterComponentInit()
 	ComponentFactory::Instance().RegisterComponent <SquarePolygonComponent>();
 	ComponentFactory::Instance().RegisterComponent <ModelDataComponent>();
 	ComponentFactory::Instance().RegisterComponent <ModelWorkComponent>();
-	{	
+	{
 		//Render依存
 		ComponentFactory::Instance().RegisterComponent <TimerDisplayComponent>();
 		ComponentFactory::Instance().RegisterComponent <CounterComponent>();

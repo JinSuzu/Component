@@ -23,8 +23,8 @@ void BulletComponent::PreUpdateContents()
 	if (m_accelerationTime != m_accelerationTimeCnt)m_accelerationTimeCnt++;
 	m_rigid.lock()->AddMove((move * (m_speedPow * m_accelerationTimeCnt / (float)m_accelerationTime)));
 
-	if (m_startPoint == Math::Vector3::Zero)m_startPoint = m_trans.lock()->GetPosition();
-	float movingDistance = Math::Vector3::Distance(m_trans.lock()->GetPosition(), m_startPoint);
+	if (m_startPoint == Math::Vector3::Zero)m_startPoint = m_trans.lock()->GetLocalPosition();
+	float movingDistance = Math::Vector3::Distance(m_trans.lock()->GetLocalPosition(), m_startPoint);
 	if (movingDistance > m_shotRange)m_owner.lock()->Destroy();
 }
 

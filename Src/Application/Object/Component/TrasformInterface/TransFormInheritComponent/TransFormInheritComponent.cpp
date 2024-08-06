@@ -59,17 +59,9 @@ void TransFormInheritComponent::LoadJson(nlohmann::json _json)
 
 
 	std::weak_ptr<TransformComponent>mTrans = m_owner.lock()->GetTransform();
-	std::weak_ptr<TransformComponent>pTrans = mTrans.lock()->GetParent();
-	Math::Vector3 pos = m_startPos;
-	Math::Vector3 rota = m_startRota;
-	Math::Vector3 scale = m_startScale;
-
-	if (pTrans.lock())
-	{
-		pos = (Math::Matrix::CreateTranslation(m_startPos) * pTrans.lock()->GetMatrix()).Translation();
-		rota += pTrans.lock()->GetRotation();
-		scale = m_startScale * pTrans.lock()->GetScale();
-	}
+	Math::Vector3 pos	= m_startPos + mTrans.lock()->GetWorldPosition();
+	Math::Vector3 rota	= m_startRota + mTrans.lock()->GetWorldRotation();
+	Math::Vector3 scale = m_startScale * mTrans.lock()->GetWorldScale();
 
 	auto AddCheck = [](UINT add, Math::Vector3 pos)
 		{

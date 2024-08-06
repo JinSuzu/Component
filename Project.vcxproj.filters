@@ -517,6 +517,9 @@
     <ClInclude Include="Src\Application\Object\Component\HitResult\HitResultComponent.h">
       <Filter>src\Application\Object\Component\HitResult</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\Camera\CameraControllerComponent\CameraControllerComponent.h">
+      <Filter>src\Application\Object\Component\Camera\CameraControllerComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Library\imgui\imgui.cpp">
@@ -815,6 +818,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\HitResult\HitResultComponent.cpp">
       <Filter>src\Application\Object\Component\HitResult</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\Camera\CameraControllerComponent\CameraControllerComponent.cpp">
+      <Filter>src\Application\Object\Component\Camera\CameraControllerComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1172,6 +1178,9 @@
     </Filter>
     <Filter Include="src\Application\Object\Component\RegidbodyInterface\ControllerComponent">
       <UniqueIdentifier>{c2fa56d9-0646-459d-99ed-7562daef77fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Application\Object\Component\Camera\CameraControllerComponent">
+      <UniqueIdentifier>{eb06d8c7-b927-4313-b10c-139abab374bc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

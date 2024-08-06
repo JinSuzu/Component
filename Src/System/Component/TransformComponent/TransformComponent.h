@@ -15,37 +15,67 @@ public:
 	~TransformComponent()override {}
 
 	void Start()override;
+	void MatrixUpdata();
 
 	void ImGuiUpdate()override;
 	void LoadJson(nlohmann::json _json)override;
 	nlohmann::json GetJson();
 
-	Math::Vector3 GetPosition() const { return m_position; };
-	Math::Vector3& RefPosition() { return m_position; }
-	Math::Vector3 GetRotation(bool _PushFollow = false) const;
-	Math::Vector3 GetScale(bool _PushFollow = false)	const;
+	//座標
+	const Math::Vector3 GetWorldPosition()	const	{ return m_mWorld.Translation(); };
+	const Math::Vector3& GetLocalPosition()	const	{ return m_position; };
+	Math::Vector3& WorkLocalPosition()				{ return m_position; }
+	void SetPosition(Math::Vector3 _pos)			{ m_position = _pos; }
 
-	void SetPosition(Math::Vector3 _pos) { m_position = _pos; }
-	void SetRotation(Math::Vector3 _rota) { m_rotation = _rota; }
+	//回転
+	const Math::Vector3 GetWorldRotation()	const	{ return m_rotation + (m_bFollow ? m_parent.lock()->GetWorldPosition() : Math::Vector3::Zero); }
+	const Math::Vector3 GetLocalRotation()	const	{ return m_rotation; };
+	Math::Vector3& WorkLocalRotation()				{ return m_rotation; };
+	void SetRotation(Math::Vector3 _rota)
+	{
+		if (abs(_rota.x) > 360)_rota.x = _rota.x + (_rota.x < 0 ? 360 : -360);
+		if (abs(_rota.y) > 360)_rota.y = _rota.y + (_rota.y < 0 ? 360 : -360);
+		if (abs(_rota.z) > 360)_rota.z = _rota.z + (_rota.z < 0 ? 360 : -360);
+		m_rotation = _rota;
+	}
+
+	//拡縮
+	const Math::Vector3 GetWorldScale()		const	{ return m_scale * (m_bFollow ? m_parent.lock()->GetWorldScale() : Math::Vector3::One); };
+	const Math::Vector3& GetLocalScale()	const	{ return m_scale; }
+	Math::Vector3& WorkLocalScale()					{ return m_scale; }
 	void SetScale(Math::Vector3 _scale) { m_scale = _scale; }
 
+	//座標行列
 	const Math::Matrix& GetMatrix() { return m_mWorld; };
-	Math::Matrix& WorkMatrix() { return m_mWorld; };
+	Math::Matrix& WorkMatrix()		{ return m_mWorld; };
 
-	Math::Matrix GetTMat() const { return Math::Matrix::CreateTranslation(m_position); };
-	Math::Matrix GetSMat() const { return Math::Matrix::CreateScale(m_scale); }
-	Math::Matrix GetRMat(UINT _shafts = 0);
+
+	const Math::Matrix GetTMat() const { return Math::Matrix::CreateTranslation(m_position); };
+	const Math::Matrix GetSMat() const { return Math::Matrix::CreateScale(m_scale); }
+	const Math::Matrix GetRMat() const
+	{
+		Math::Matrix rMat;
+		rMat *= Math::Matrix::CreateRotationX(DirectX::XMConvertToRadians(m_rotation.x));
+		rMat *= Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_rotation.y));
+		rMat *= Math::Matrix::CreateRotationZ(DirectX::XMConvertToRadians(m_rotation.z));
+		return rMat;
+	}
+	Math::Matrix GetRMat(UINT _shafts)
+	{
+		Math::Matrix rMat;
+		if (_shafts & (UINT)Shaft::X)rMat *= Math::Matrix::CreateRotationX(DirectX::XMConvertToRadians(m_rotation.x));
+		if (_shafts & (UINT)Shaft::Y)rMat *= Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_rotation.y));
+		if (_shafts & (UINT)Shaft::Z)rMat *= Math::Matrix::CreateRotationZ(DirectX::XMConvertToRadians(m_rotation.z));
+		return rMat;
+	}
 
 	//_matTag : "S""T""R"で行列計算を入れ替えられる
-	//_PushFollow : followフラグを無視する
-	void MatrixUpdata(std::string _matTag = std::string(), bool _PushFollow = false
-		, const Math::Matrix& _offsetT = Math::Matrix::Identity, const Math::Matrix& _offsetR = Math::Matrix::Identity, const Math::Matrix& _offsetS = Math::Matrix::Identity);
 
-	std::weak_ptr<TransformComponent> GetParent() { return m_parent; }
+	std::weak_ptr<TransformComponent> GetParent()				{ return m_parent; }
+	void SetParent(std::weak_ptr<TransformComponent> _parent)	{ m_parent = _parent; }
 
 	const std::string& GetMatTag() { return m_myMatTag; }
 
-	void SetParent(std::weak_ptr<TransformComponent> _parent) { m_parent = _parent; }
 	void UnFollow() { m_bFollow = false; };
 private:
 	Math::Matrix	m_mWorld = Math::Matrix::Identity;
