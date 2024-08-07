@@ -26,7 +26,7 @@ void Hierarchy::GameObjectOption(std::weak_ptr<GameObject> _parent)
 			if (ImGui::SameLine(); ImGui::Button("Save"))
 			{
 				nlohmann::json json = nlohmann::json::array();
-				json.push_back(_parent.lock()->OutPutFamilyJson());
+				json.push_back(_parent.lock()->SerializeFamily());
 				Utility::JsonHelper::OutputJson(json, path);
 				ImGui::CloseCurrentPopup();
 			}

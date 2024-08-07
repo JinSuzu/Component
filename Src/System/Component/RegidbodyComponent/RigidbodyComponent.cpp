@@ -20,7 +20,7 @@ void RigidbodyComponent::UpdateContents()
 
 void RigidbodyComponent::PostUpdateContents()
 {
-	m_trans.lock()->SetPosition(m_trans.lock()->GetLocalPosition() + m_move);
+	m_trans.lock()->SetLoaclPosition(m_trans.lock()->GetLocalPosition() + m_move);
 	m_move *= m_deceleration;
 }
 
@@ -141,7 +141,7 @@ void RigidbodyComponent::LoadJson(nlohmann::json _json)
 	m_shapeDate.offsetPos = Utility::JsonHelper::InPutVec3(_json["OffsetPos"]);
 	m_shapeDate.tag = _json["Tag"];
 }
-nlohmann::json RigidbodyComponent::GetJson()
+nlohmann::json RigidbodyComponent::Serialize()
 {
 	nlohmann::json json;
 	json["move"] = Utility::JsonHelper::OutPutVec3(m_move);

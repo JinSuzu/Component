@@ -19,19 +19,19 @@ public:
 
 	void ImGuiUpdate()override;
 	void LoadJson(nlohmann::json _json)override;
-	nlohmann::json GetJson();
+	nlohmann::json Serialize();
 
 	//座標
 	const Math::Vector3 GetWorldPosition()	const	{ return m_mWorld.Translation(); };
 	const Math::Vector3& GetLocalPosition()	const	{ return m_position; };
 	Math::Vector3& WorkLocalPosition()				{ return m_position; }
-	void SetPosition(Math::Vector3 _pos)			{ m_position = _pos; }
+	void SetLoaclPosition(Math::Vector3 _pos)		{ m_position = _pos; }
 
 	//回転
 	const Math::Vector3 GetWorldRotation()	const	{ return m_rotation + (m_bFollow ? m_parent.lock()->GetWorldPosition() : Math::Vector3::Zero); }
 	const Math::Vector3 GetLocalRotation()	const	{ return m_rotation; };
 	Math::Vector3& WorkLocalRotation()				{ return m_rotation; };
-	void SetRotation(Math::Vector3 _rota)
+	void SetLocalRotation(Math::Vector3 _rota)
 	{
 		if (abs(_rota.x) > 360)_rota.x = _rota.x + (_rota.x < 0 ? 360 : -360);
 		if (abs(_rota.y) > 360)_rota.y = _rota.y + (_rota.y < 0 ? 360 : -360);
@@ -43,7 +43,7 @@ public:
 	const Math::Vector3 GetWorldScale()		const	{ return m_scale * (m_bFollow ? m_parent.lock()->GetWorldScale() : Math::Vector3::One); };
 	const Math::Vector3& GetLocalScale()	const	{ return m_scale; }
 	Math::Vector3& WorkLocalScale()					{ return m_scale; }
-	void SetScale(Math::Vector3 _scale) { m_scale = _scale; }
+	void SetLocalScale(Math::Vector3 _scale) { m_scale = _scale; }
 
 	//座標行列
 	const Math::Matrix& GetMatrix() { return m_mWorld; };

@@ -35,7 +35,7 @@ void SinCurveAlphaComponent::LoadJson(nlohmann::json _json)
 	m_addPow   = _json["addPow"];
 }
 
-nlohmann::json SinCurveAlphaComponent::GetJson()
+nlohmann::json SinCurveAlphaComponent::Serialize()
 {
 	nlohmann::json json;
 	json["addAngle"] = m_addAngle;

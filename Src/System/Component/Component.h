@@ -12,6 +12,7 @@ public:
 	Component() {}
 	virtual	~Component() {}
 
+	virtual void Awake() {}
 	virtual void Start() {}
 
 	virtual void PreUpdate()	final { if (m_bActive && !m_bDestroy)PreUpdateContents(); }
@@ -28,7 +29,7 @@ public:
 	virtual void SetID(size_t _id) { m_id = _id; };
 
 	//Json係
-	virtual nlohmann::json GetJson() { return nlohmann::json(); }
+	virtual nlohmann::json Serialize() { return nlohmann::json(); }
 	virtual void LoadJson(nlohmann::json _json) {}
 
 protected:
@@ -50,5 +51,5 @@ void PreUpdateContents()override;					\
 void UpdateContents()override;						\
 void PostUpdateContents()override;					\
 void ImGuiUpdate()override;							\
-void GetJson()override;								\
-nlohmann::json GetJson()override;
+void Serialize()override;								\
+nlohmann::json Serialize()override;

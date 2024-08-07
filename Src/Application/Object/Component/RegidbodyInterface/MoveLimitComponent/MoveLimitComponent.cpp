@@ -28,7 +28,7 @@ void MoveLimitComponent::LoadJson(nlohmann::json _json)
 	if(_json["ShotRange"].is_number())m_shotRange = _json["ShotRange"];
 }
 
-nlohmann::json MoveLimitComponent::GetJson()
+nlohmann::json MoveLimitComponent::Serialize()
 {
 	nlohmann::json json;
 	json["ShotRange"] = m_shotRange;

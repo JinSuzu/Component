@@ -32,7 +32,7 @@ void AddRotationComponent::UpdateContents()
 		rota += {-nowMouseMove.y, nowMouseMove.x, 0};
 	}
 
-	trans.lock()->SetRotation(rota);
+	trans.lock()->SetLocalRotation(rota);
 }
 
 void AddRotationComponent::ImGuiUpdate()
@@ -50,7 +50,7 @@ void AddRotationComponent::LoadJson(nlohmann::json _json)
 	m_addPow = Utility::JsonHelper::InPutVec3(_json["addPow"]);
 	m_addType = _json["addType"];
 }
-nlohmann::json AddRotationComponent::GetJson()
+nlohmann::json AddRotationComponent::Serialize()
 {
 	nlohmann::json json;
 	json["addPow"] = Utility::JsonHelper::OutPutVec3(m_addPow);

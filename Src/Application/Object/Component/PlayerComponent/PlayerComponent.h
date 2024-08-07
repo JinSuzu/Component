@@ -13,7 +13,7 @@ public:
 
 	void ImGuiUpdate()override;
 	void LoadJson(nlohmann::json _json)override;
-	nlohmann::json GetJson()override;
+	nlohmann::json Serialize()override;
 private:
 	std::weak_ptr<class TransformComponent>m_trans;
 	std::weak_ptr<class RigidbodyComponent>m_rigid;

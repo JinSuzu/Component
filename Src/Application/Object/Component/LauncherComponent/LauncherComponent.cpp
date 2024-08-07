@@ -95,7 +95,7 @@ void LauncherComponent::LoadJson(nlohmann::json _json)
 	m_reloadTime   = _json["reloadTime"];
 }
 
-nlohmann::json LauncherComponent::GetJson()
+nlohmann::json LauncherComponent::Serialize()
 {
 	nlohmann::json json;
 	json["loadedModelPath"] = m_loadedModelPath;

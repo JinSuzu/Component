@@ -55,7 +55,7 @@ void KdAudioManager::Update()
 void KdAudioManager::SetListnerMatrix(const Math::Matrix& mWorld)
 {
 	// 座標
-	m_listener.SetPosition(mWorld.Translation());
+	m_listener.SetLoaclPosition(mWorld.Translation());
 
 	// 正面方向
 	m_listener.OrientFront = mWorld.Backward();
@@ -369,7 +369,7 @@ void KdSoundInstance3D::SetPos(const Math::Vector3& rPos)
 {
 	if (!m_instance) { return; }
 
-	m_emitter.SetPosition(rPos);
+	m_emitter.SetLoaclPosition(rPos);
 
 	m_instance->Apply3D(m_ownerListener, m_emitter, false);
 }

@@ -19,7 +19,7 @@ public:
 
 	void ImGuiUpdate()override;
 
-	nlohmann::json GetJson()override;
+	nlohmann::json Serialize()override;
 
 	bool WithPoint(std::weak_ptr<BoxCollisionComponent> _pos);
 	bool WithPoint(Math::Vector3 _pos);

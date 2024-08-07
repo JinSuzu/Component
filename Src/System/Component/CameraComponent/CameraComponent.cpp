@@ -2,10 +2,13 @@
 #include "../../../Application/Object/Game/GameObject.h"
 #include "../TransformComponent/TransformComponent.h"
 
-void CameraComponent::Start()
+void CameraComponent::Awake()
 {
 	m_cameraPack = std::make_shared<CameraManager::CameraPack>();
-	m_trans = m_owner.lock()->GetTransform();
+}
+
+void CameraComponent::Start()
+{
 }
 
 void CameraComponent::ImGuiUpdate()
@@ -24,7 +27,7 @@ void CameraComponent::LoadJson(nlohmann::json _json)
 	m_cameraPack->priority = _json["Priority"];
 }
 
-nlohmann::json CameraComponent::GetJson()
+nlohmann::json CameraComponent::Serialize()
 {
 	nlohmann::json _json;
 	_json["Priority"] = m_cameraPack->priority;

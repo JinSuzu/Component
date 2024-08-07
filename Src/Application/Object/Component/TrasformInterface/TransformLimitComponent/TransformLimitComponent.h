@@ -7,7 +7,7 @@ public:
 	void PostUpdateContents()override;
 	void ImGuiUpdate()override;
 	void LoadJson(nlohmann::json _json)override;
-	nlohmann::json GetJson()override;
+	nlohmann::json Serialize()override;
 private:
 	enum Shaft
 	{
@@ -32,7 +32,7 @@ private:
 
 		void ImGuiUpdate(std::string _name);
 		void InitJson(nlohmann::json _json);
-		nlohmann::json GetJson();
+		nlohmann::json Serialize();
 	};
 
 	LimitSet m_posLimit;

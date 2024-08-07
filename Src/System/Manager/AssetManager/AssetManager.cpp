@@ -93,7 +93,7 @@ bool AssetManager::SelectTexture(std::shared_ptr<KdTexture>& _tex, std::string& 
 	if (_path.empty())_path = "No Texture File";
 	if (ImGui::Button(_path.c_str())) 
 	{
-		if (Application::Instance().GetWindow().OpenFileDialog(_path, "画像ファイルを開く", "画像ファイル\0*.png\0"))
+		if (Application::Instance().GetWindow().OpenFileDialog(_path, "画像ファイルを開く", "画像ファイル\0*.png*\0"))
 		{
 			_tex = AssetManager::Instance().GetTexture(_path);
 			ret = true;
@@ -119,7 +119,7 @@ bool AssetManager::SelectSquarePolygon(std::shared_ptr<KdSquarePolygon>& _poly, 
 	ImGui::PushID(_poly.get());
 
 	if (_path.empty())_path = "No Texture File";
-	if (ImGui::Button(_path.c_str()))Application::Instance().GetWindow().OpenFileDialog(_path, "画像ファイルを開く", "画像ファイル\0*.png\0");
+	if (ImGui::Button(_path.c_str()))Application::Instance().GetWindow().OpenFileDialog(_path, "画像ファイルを開く", "画像ファイル\0*.png*\0");
 
 	ret |= MyDragDrop::TargetPicture(_path);
 
@@ -145,7 +145,7 @@ bool AssetManager::SelectModelData(std::shared_ptr<KdModelData>& _modelData, std
 	if (_path.empty())_path = "No Texture File";
 	if (ImGui::Button(_path.c_str())) 
 	{
-		if (Application::Instance().GetWindow().OpenFileDialog(_path, "モデルファイルを開く", "gltfファイル\0*.gltf\0"))
+		if (Application::Instance().GetWindow().OpenFileDialog(_path, "モデルファイルを開く", "gltfファイル\0*.gltf*\0"))
 		{
 			_modelData = AssetManager::Instance().GetModelData(_path);
 			ret = true;
@@ -173,7 +173,7 @@ bool AssetManager::SelectModelWork(std::shared_ptr<KdModelWork>& _modelWork, std
 	if (_path.empty())_path = "No Texture File";
 	if (ImGui::Button(_path.c_str()))
 	{
-		if (Application::Instance().GetWindow().OpenFileDialog(_path, "モデルファイルを開く", "gltfファイル\0*.gltf\0"))
+		if (Application::Instance().GetWindow().OpenFileDialog(_path, "モデルファイルを開く", "gltfファイル\0*.gltf*\0"))
 		{
 			_modelWork = AssetManager::Instance().GetModelWork(_path);
 			ret = true;
@@ -205,7 +205,6 @@ void AssetManager::Init()
 		{
 			GetTexture(it);
 		}
-		
 	}
 }
 void AssetManager::Release()

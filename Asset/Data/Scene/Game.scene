@@ -61,7 +61,7 @@
                                 },
                                 {
                                     "ID": 1033221089,
-                                    "Priority": 2
+                                    "Priority": 5
                                 }
                             ],
                             "name": "Camera",
@@ -93,6 +93,22 @@
                         {
                             "EffectShaft": 3,
                             "ID": 1230080297
+                        },
+                        {
+                            "EnableMax": true,
+                            "EnableMin": true,
+                            "EnableShaft": 1,
+                            "ID": 2687650309,
+                            "MaxBorder": {
+                                "x": 45.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "MinBorder": {
+                                "x": -45.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
                         }
                     ],
                     "name": "CameraFocusPoint",
@@ -125,6 +141,37 @@
                     "ID": 200285725,
                     "drawType": 1,
                     "path": "Asset\\Data\\Model\\Character\\Player\\Player.gltf"
+                },
+                {
+                    "CollisionBody": false,
+                    "ID": 1298434931,
+                    "OffsetHeight": 0.0,
+                    "OffsetPos": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Radius": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    },
+                    "Shape": 0,
+                    "Tag": 1,
+                    "activeGravityFlag": false,
+                    "deceleration": 0.9800000190734863,
+                    "gravity": 1.0,
+                    "height": 0.0,
+                    "move": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                },
+                {
+                    "AccelerationTime": 60,
+                    "ID": 1094748467,
+                    "jumpFlg": 1.0
                 }
             ],
             "name": "Chara",

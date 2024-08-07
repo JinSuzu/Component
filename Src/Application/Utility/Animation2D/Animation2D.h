@@ -13,7 +13,7 @@ public:
 			w = _json["w"];
 			h = _json["h"];
 		}
-		nlohmann::json GetJson()
+		nlohmann::json Serialize()
 		{
 			nlohmann::json json;
 			json["w"] = w;
@@ -44,14 +44,14 @@ public:
 				frames.push_back(temp);
 			}
 		}
-		nlohmann::json GetJson()
+		nlohmann::json Serialize()
 		{
 			nlohmann::json json;
 			json["name"] = name;
 			json["interval"] = interval;
 			for (auto& frame : frames)
 			{
-				json["frames"].push_back(frame.GetJson());
+				json["frames"].push_back(frame.Serialize());
 			}
 			return json;
 		}
@@ -66,7 +66,7 @@ public:
 	AnimeFrame GetAnimeFrame() const { return m_nowFrame; };
 
 
-	nlohmann::json GetJson();
+	nlohmann::json Serialize();
 	void SetJson(nlohmann::json _json);
 private:
 

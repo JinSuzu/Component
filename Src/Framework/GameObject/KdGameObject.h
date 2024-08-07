@@ -41,8 +41,8 @@ public:
 	virtual Math::Vector3 GetPos() const { return m_mWorld.Translation(); }
 
 	// 拡大率を変更する関数
-	void SetScale(float scalar);
-	virtual void SetScale(const Math::Vector3& scale);
+	void SetLocalScale(float scalar);
+	virtual void SetLocalScale(const Math::Vector3& scale);
 	virtual Math::Vector3 GetScale() const;
 
 	const Math::Matrix& GetMatrix() const { return m_mWorld; }

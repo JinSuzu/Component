@@ -22,7 +22,7 @@ void HitResultSceneComponent::LoadJson(nlohmann::json _json)
 	m_nextScene = _json["NextScene"];
 }
 
-nlohmann::json HitResultSceneComponent::GetJson()
+nlohmann::json HitResultSceneComponent::Serialize()
 {
 	nlohmann::json json;
 	json["NextScene"] = m_nextScene;

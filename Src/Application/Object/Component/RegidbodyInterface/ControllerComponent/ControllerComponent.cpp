@@ -44,7 +44,7 @@ void ControllerComponent::LoadJson(nlohmann::json _json)
 	m_movePow = _json["movePow"];
 }
 
-nlohmann::json ControllerComponent::GetJson()
+nlohmann::json ControllerComponent::Serialize()
 {
 	nlohmann::json json;
 	json["shaft"] = m_shaft;

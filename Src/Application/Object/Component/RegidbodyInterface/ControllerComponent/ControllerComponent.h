@@ -9,7 +9,7 @@ public:
 	void PreUpdateContents()override;
 	void ImGuiUpdate()override;
 	void LoadJson(nlohmann::json _json)override;
-	nlohmann::json GetJson()override;
+	nlohmann::json Serialize()override;
 private:
 	std::weak_ptr<RigidbodyComponent> m_rigitbody;
 

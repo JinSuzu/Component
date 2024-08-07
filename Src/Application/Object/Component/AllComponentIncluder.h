@@ -1,11 +1,19 @@
 ﻿#pragma once
 
+
 #include "Camera/BuildCameraComponent/BuildCameraComponent.h"
 #include "Camera/CameraControllerComponent/CameraControllerComponent.h"
+
+#include "CreateObjectComponent/CreateObjectComponent.h"
 
 #include "TrasformInterface/AddRotationComponent/AddRotaionComponent.h"
 #include "TrasformInterface/TransFormInheritComponent/TransFormInheritComponent.h"
 #include "TrasformInterface/TransformLimitComponent/TransformLimitComponent.h"
+#include "TrasformInterface/PositionLimitComponent/PositionLimitComponent.h"
+#include "TrasformInterface/RotationLimitComponent/RotationLimitComponent.h"
+#include "TrasformInterface/ScaleLimitComponent/ScaleLimitComponent.h"
+
+#include "ChildsInterface/FindChildComponent/FindChildComponent.h"
 
 #include "SceneInterface/EnterToSceneComponent/EnterToSceneComponent.h"
 #include "SceneInterface/SceneActiveComponent/SceneActiveComponent.h"
@@ -33,12 +41,6 @@
 #include "BulletComponent/BulletComponent.h"
 #include "LauncherComponent/LauncherComponent.h"
 
-#define FNCOMPONENT(Tag)											\
-[]()																\
-{																	\
-	return std::shared_ptr<Tag>(new Tag);							\
-}
-
 inline void RegisterComponentInit()
 {
 	ComponentFactory::Instance().RegisterComponent <CameraComponent>();
@@ -47,16 +49,38 @@ inline void RegisterComponentInit()
 		ComponentFactory::Instance().RegisterComponent <CameraControllerComponent>();
 	}
 
+	ComponentFactory::Instance().RegisterComponent <CreateObjectComponent>();
+
 	ComponentFactory::Instance().RegisterComponent <ColliderComponent>();
 	ComponentFactory::Instance().RegisterComponent <BoxCollisionComponent>();
 
-	//Regidbody
+	//トランスフォームいじるやつら
+	{
+		ComponentFactory::Instance().RegisterComponent <AddRotationComponent>();
+		ComponentFactory::Instance().RegisterComponent <TransformLimitComponent>();
+		ComponentFactory::Instance().RegisterComponent <PositionLimitComponent>();
+		ComponentFactory::Instance().RegisterComponent <RotationLimitComponent>();
+		ComponentFactory::Instance().RegisterComponent <ScaleLimitComponent>();
+	}
+
+	//Childsいじるやつら
+	{
+		ComponentFactory::Instance().RegisterComponent <ChildCntComponent>();
+	}
+
+	//Regidbodyいじるやつら
 	ComponentFactory::Instance().RegisterComponent <RigidbodyComponent>();
 	ComponentFactory::Instance().RegisterComponent <BulletComponent>();
 	ComponentFactory::Instance().RegisterComponent <ControllerComponent>();
-	ComponentFactory::Instance().RegisterComponent <PlayerComponent>();
 	ComponentFactory::Instance().RegisterComponent <MoveLocusComponent>();
 	ComponentFactory::Instance().RegisterComponent <MoveLimitComponent>();
+
+	//Scene管理
+	{
+		ComponentFactory::Instance().RegisterComponent <SceneActiveComponent>();
+		ComponentFactory::Instance().RegisterComponent <EnterToSceneComponent>();
+		ComponentFactory::Instance().RegisterComponent <SceneChangerComponent>();
+	}
 
 	//HitResult
 	ComponentFactory::Instance().RegisterComponent <HitResultBlockComponent>();
@@ -73,16 +97,20 @@ inline void RegisterComponentInit()
 		//Render依存
 		ComponentFactory::Instance().RegisterComponent <TimerDisplayComponent>();
 		ComponentFactory::Instance().RegisterComponent <CounterComponent>();
+		ComponentFactory::Instance().RegisterComponent <SinCurveAlphaComponent>();//微妙
 	}
 
-	ComponentFactory::Instance().RegisterComponent <SinCurveAlphaComponent>();
-	ComponentFactory::Instance().RegisterComponent <AddRotationComponent>();
-	ComponentFactory::Instance().RegisterComponent <LauncherComponent>();
-	ComponentFactory::Instance().RegisterComponent <TransformLimitComponent>();
-	ComponentFactory::Instance().RegisterComponent <TransFormInheritComponent>();
-	ComponentFactory::Instance().RegisterComponent <SceneActiveComponent>();
-	ComponentFactory::Instance().RegisterComponent <EnterToSceneComponent>();
-	ComponentFactory::Instance().RegisterComponent <SceneChangerComponent>();
+
+	//Player
+	{
+		ComponentFactory::Instance().RegisterComponent <PlayerComponent>();
+
+	}
+
+	//その他
+	{
+		ComponentFactory::Instance().RegisterComponent <LauncherComponent>();
+	}
 
 	//かなりゴミ
 	ComponentFactory::Instance().RegisterComponent <ChildCntComponent>();

@@ -3,13 +3,12 @@
 
 void SceneChangerComponent::PreUpdateContents()
 {
-	std::list<std::weak_ptr<GameObject>>* list = m_owner.lock()->WorkChilds();
-	std::list<std::weak_ptr<GameObject>>::iterator it = m_owner.lock()->GetChilds().begin();
+	std::list<std::weak_ptr<GameObject>>::iterator it = m_owner.lock()->WorkChilds().begin();
 	while(it != m_owner.lock()->GetChilds().end())
 	{
 		if (it->expired()) 
 		{
-			it = m_owner.lock()->WorkChilds()->erase(it);
+			it = m_owner.lock()->WorkChilds().erase(it);
 			continue;
 		}
 		it++;
@@ -34,7 +33,7 @@ void SceneChangerComponent::LoadJson(nlohmann::json _json)
 	if (_json["SEPath"].is_string())m_sePath = _json["SEPath"];
 }
 
-nlohmann::json SceneChangerComponent::GetJson()
+nlohmann::json SceneChangerComponent::Serialize()
 {
 	nlohmann::json json;
 	json["NextSceneName"] = m_nextSceneName;

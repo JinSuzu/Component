@@ -109,9 +109,9 @@ void GameScreen::UpdateContents()
 
 		rotation = Utility::MathHelper::ToDegrees(quaternion);
 
-		trans.lock()->SetPosition(pos);
-		trans.lock()->SetRotation(rotation);
-		trans.lock()->SetScale(scale);
+		trans.lock()->SetLoaclPosition(pos);
+		trans.lock()->SetLocalRotation(rotation);
+		trans.lock()->SetLocalScale(scale);
 	}
 
 	//ギズモの編集対象の変更

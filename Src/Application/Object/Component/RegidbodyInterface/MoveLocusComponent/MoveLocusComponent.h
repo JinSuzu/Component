@@ -10,7 +10,7 @@ public:
 
 	void ImGuiUpdate()override;
 	void LoadJson(nlohmann::json _json)override;
-	nlohmann::json GetJson()override;
+	nlohmann::json Serialize()override;
 private:
 	int m_interval = 5;
 	std::shared_ptr<class CreateObject> m_locus;

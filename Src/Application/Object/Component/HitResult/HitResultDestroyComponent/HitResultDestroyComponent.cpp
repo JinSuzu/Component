@@ -21,9 +21,9 @@ void HitResultDestroyComponent::LoadJson(nlohmann::json _json)
 	m_sePath = _json["SEPath"];
 }
 
-nlohmann::json HitResultDestroyComponent::GetJson()
+nlohmann::json HitResultDestroyComponent::Serialize()
 {
-	nlohmann::json json = Cp_HitResult::GetJson();
+	nlohmann::json json = Cp_HitResult::Serialize();
 	json["SEPath"]		= m_sePath;
 	return json;
 }

@@ -23,7 +23,7 @@ void Cp_HitResult::LoadJson(nlohmann::json _json)
 	if (_json["ColType"].is_number())m_colType = _json["ColType"];
 }
 
-nlohmann::json Cp_HitResult::GetJson()
+nlohmann::json Cp_HitResult::Serialize()
 {
 	nlohmann::json json;
 	json["ColType"] = m_colType;

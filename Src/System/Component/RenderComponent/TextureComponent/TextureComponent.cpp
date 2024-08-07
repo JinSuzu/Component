@@ -3,15 +3,16 @@
 #include "../../../../Application/Utility/Animation2D/Animation2D.h"
 #include "../../../../Application/Utility/Timer.h"
 
+void TextureComponent::Awake()
+{
+	m_texPack = std::make_shared<RenderManager::TexturePack>();
+	m_animation = std::make_shared<Animation2D>();
+	m_texPack->rect = { 0,0,64,64 };
+}
+
 void TextureComponent::Start()
 {
-	m_trans = m_owner.lock()->GetTransform();
-
-	m_texPack = std::make_shared<RenderManager::TexturePack>();
 	m_texPack->mat = &m_trans.lock()->WorkMatrix();
-	m_texPack->rect = { 0,0,64,64 };
-
-	m_animation = std::make_shared<Animation2D>();
 }
 
 void TextureComponent::PreUpdateContents()
@@ -49,12 +50,12 @@ void TextureComponent::LoadJson(nlohmann::json _json)
 	m_animation->SetJson(_json["animation"]);
 }
 
-nlohmann::json TextureComponent::GetJson()
+nlohmann::json TextureComponent::Serialize()
 {
 	nlohmann::json json;
 	json["path"] = m_path;
 	json["rect"] = Utility::JsonHelper::OutPutRect(m_texPack->rect);
 
-	json["animation"] = m_animation->GetJson();
+	json["animation"] = m_animation->Serialize();
 	return json;
 }

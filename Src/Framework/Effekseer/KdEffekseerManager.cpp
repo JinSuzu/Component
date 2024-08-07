@@ -122,11 +122,11 @@ void KdEffekseerManager::SetPos(const int handle, const Math::Vector3& pos)
 	m_efkManager->SetLocation(handle, efkPos);
 }
 
-void KdEffekseerManager::SetRotation(const int handle, const Math::Vector3& axis, const float angle)
+void KdEffekseerManager::SetLocalRotation(const int handle, const Math::Vector3& axis, const float angle)
 {
 	Effekseer::Vector3D efkAxis = GetEfkVec3D(axis);
 
-	m_efkManager->SetRotation(handle, efkAxis, angle);
+	m_efkManager->SetLocalRotation(handle, efkAxis, angle);
 }
 
 void KdEffekseerManager::SetWorldMatrix(const int handle, const Math::Matrix& mWorld)
@@ -144,18 +144,18 @@ void KdEffekseerManager::SetWorldMatrix(const int handle, const Math::Matrix& mW
 	m_efkManager->SetMatrix(handle, mEfk);
 }
 
-void KdEffekseerManager::SetScale(const int handle, const Math::Vector3& scale)
+void KdEffekseerManager::SetLocalScale(const int handle, const Math::Vector3& scale)
 {
 	float scaleX = scale.x;
 	float scaleY = scale.y;
 	float scaleZ = scale.z;
 
-	m_efkManager->SetScale(handle, scaleX, scaleY, scaleZ);
+	m_efkManager->SetLocalScale(handle, scaleX, scaleY, scaleZ);
 }
 
-void KdEffekseerManager::SetScale(const int handle, const float scale)
+void KdEffekseerManager::SetLocalScale(const int handle, const float scale)
 {
-	m_efkManager->SetScale(handle, scale, scale, scale);
+	m_efkManager->SetLocalScale(handle, scale, scale, scale);
 }
 
 void KdEffekseerManager::SetSpeed(const int handle, const float speed)
@@ -211,10 +211,10 @@ std::weak_ptr<KdEffekseerObject> KdEffekseerManager::Play(const PlayEfkInfo& inf
 		m_effectMap[info.FileName] = spEfkObject;
 	}
 
-	m_efkManager->SetScale(handle, info.Size.x, info.Size.y, info.Size.z);
+	m_efkManager->SetLocalScale(handle, info.Size.x, info.Size.y, info.Size.z);
 	m_efkManager->SetSpeed(handle, info.Speed);
 	Math::Vector3 rotate = ConvertToRadian(info.Rotate);
-	m_efkManager->SetRotation(handle, rotate.x, rotate.y, rotate.z);
+	m_efkManager->SetLocalRotation(handle, rotate.x, rotate.y, rotate.z);
 	spEfkObject->SetParentManager(m_efkManager);
 	spEfkObject->SetHandle(handle);
 	spEfkObject->SetPlayEfkInfo(info);
@@ -319,18 +319,18 @@ void KdEffekseerObject::SetPos(const Math::Vector3& pos)
 	KdEffekseerManager::GetInstance().SetPos(m_handle, pos);
 }
 
-void KdEffekseerObject::SetScale(const Math::Vector3 scale)
+void KdEffekseerObject::SetLocalScale(const Math::Vector3 scale)
 {
 	m_info.Size = scale;
 
-	KdEffekseerManager::GetInstance().SetScale(m_handle, scale);
+	KdEffekseerManager::GetInstance().SetLocalScale(m_handle, scale);
 }
 
-void KdEffekseerObject::SetScale(const float scale)
+void KdEffekseerObject::SetLocalScale(const float scale)
 {
 	m_info.Size = Math::Vector3(scale);
 
-	KdEffekseerManager::GetInstance().SetScale(m_handle, scale);
+	KdEffekseerManager::GetInstance().SetLocalScale(m_handle, scale);
 }
 
 void KdEffekseerObject::SetSpeed(const float speed)

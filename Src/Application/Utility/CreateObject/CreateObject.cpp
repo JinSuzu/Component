@@ -1,6 +1,7 @@
 ﻿#include "CreateObject.h"
 #include "../../Object/Game/Manager/GameObjectManager.h"
 #include "../../Object/Game/GameObject.h"
+#include "../../../System/EditorWindow/Inspector/Inspector.h"
 
 std::shared_ptr<GameObject> CreateObject::Create()
 {
@@ -26,7 +27,8 @@ void CreateObject::ImGuiUpdate()
 	{
 		m_edit = true;
 		DoneEdit = false;
-		GameObjectManager::ImGuiGameObject(m_createSet.object);
+		
+		Inspector::ImGuiGameObject(m_createSet.object);
 		ImGui::EndPopup();
 	}
 }

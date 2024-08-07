@@ -18,7 +18,7 @@ void BuildCameraComponent::HoverMove()
 	if (wheelValue < 0)vec = m_trans.lock()->GetRMat().Forward();
 	else if (wheelValue > 0)vec = m_trans.lock()->GetRMat().Backward();
 	
-	m_trans.lock()->SetPosition(m_trans.lock()->GetLocalPosition() + (vec * 0.5));
+	m_trans.lock()->SetLoaclPosition(m_trans.lock()->GetLocalPosition() + (vec * 0.5));
 }
 
 void BuildCameraComponent::AngleShift()
@@ -27,5 +27,5 @@ void BuildCameraComponent::AngleShift()
 	Math::Vector3 angle = m_trans.lock()->GetLocalRotation();
 	angle.y += delta.x;
 	angle.x -= delta.y;
-	m_trans.lock()->SetRotation(angle);
+	m_trans.lock()->SetLocalRotation(angle);
 }

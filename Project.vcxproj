@@ -221,9 +221,11 @@
     <ClInclude Include="Src\Application\Object\Component\BulletComponent\BulletComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\Camera\BuildCameraComponent\BuildCameraComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\Camera\CameraControllerComponent\CameraControllerComponent.h" />
+    <ClInclude Include="Src\Application\Object\Component\ChildsInterface\FindChildComponent\FindChildComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\Counter\ChildCntComponent\ChildCntComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\Counter\CounterComponent\CounterComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\Counter\ScoreCounterComponent\ScoreCounterComponent.h" />
+    <ClInclude Include="Src\Application\Object\Component\CreateObjectComponent\CreateObjectComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\HitResult\HitResultBlockComponent\HitResultBlockComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\HitResult\HitResultComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\HitResult\HitResultDestroyComponent\HitResultDestroyComponent.h" />
@@ -241,6 +243,9 @@
     <ClInclude Include="Src\Application\Object\Component\SceneInterface\SceneActiveComponent\SceneActiveComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\SceneInterface\SceneChangerComponent\SceneChangerComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\TrasformInterface\AddRotationComponent\AddRotaionComponent.h" />
+    <ClInclude Include="Src\Application\Object\Component\TrasformInterface\PositionLimitComponent\PositionLimitComponent.h" />
+    <ClInclude Include="Src\Application\Object\Component\TrasformInterface\RotationLimitComponent\RotationLimitComponent.h" />
+    <ClInclude Include="Src\Application\Object\Component\TrasformInterface\ScaleLimitComponent\ScaleLimitComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\TrasformInterface\TransFormInheritComponent\TransFormInheritComponent.h" />
     <ClInclude Include="Src\Application\Object\Component\TrasformInterface\TransformLimitComponent\TransformLimitComponent.h" />
     <ClInclude Include="Src\Application\Object\Game\GameObject.h" />
@@ -289,6 +294,7 @@
       <DeploymentContent>false</DeploymentContent>
     </ClInclude>
     <ClInclude Include="Src\System\Component\ColliderComponent\ColliderComponent.h" />
+    <ClInclude Include="Src\System\Component\Component.h" />
     <ClInclude Include="Src\System\Component\RegidbodyComponent\RigidbodyComponent.h">
       <DeploymentContent>false</DeploymentContent>
     </ClInclude>
@@ -348,9 +354,11 @@
     <ClCompile Include="Src\Application\Object\Component\BulletComponent\BulletComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Camera\BuildCameraComponent\BuildCameraComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Camera\CameraControllerComponent\CameraControllerComponent.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\ChildsInterface\FindChildComponent\FindChildComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Counter\ChildCntComponent\ChildCntComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Counter\CounterComponent\CounterComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\Counter\ScoreCounterComponent\ScoreCounterComponent.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\CreateObjectComponent\CreateObjectComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\HitResult\HitResultBlockComponent\HitResultBlockComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\HitResult\HitResultComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\HitResult\HitResultDestroyComponent\HitResultDestroyComponent.cpp" />
@@ -368,6 +376,9 @@
     <ClCompile Include="Src\Application\Object\Component\SceneInterface\SceneActiveComponent\SceneActiveComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\SceneInterface\SceneChangerComponent\SceneChangerComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\TrasformInterface\AddRotationComponent\AddRotaionComponent.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\TrasformInterface\PositionLimitComponent\PositionLimitComponent.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\TrasformInterface\RotationLimitComponent\RotationLimitComponent.cpp" />
+    <ClCompile Include="Src\Application\Object\Component\TrasformInterface\ScaleLimitComponent\ScaleLimitComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\TrasformInterface\TransFormInheritComponent\TransFormInheritComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Component\TrasformInterface\TransformLimitComponent\TransformLimitComponent.cpp" />
     <ClCompile Include="Src\Application\Object\Game\GameObject.cpp" />
@@ -418,6 +429,7 @@
       <DeploymentContent>false</DeploymentContent>
     </ClCompile>
     <ClCompile Include="Src\System\Component\ColliderComponent\ColliderComponent.cpp" />
+    <ClCompile Include="Src\System\Component\Component.cpp" />
     <ClCompile Include="Src\System\Component\RegidbodyComponent\RigidbodyComponent.cpp">
       <DeploymentContent>false</DeploymentContent>
     </ClCompile>

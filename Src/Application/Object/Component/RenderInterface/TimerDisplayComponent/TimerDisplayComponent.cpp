@@ -36,7 +36,7 @@ void TimerDisplayComponent::LoadJson(nlohmann::json _json)
 	if (_json["sceneTag"].is_string())m_sceneTag = _json["sceneTag"];
 }
 
-nlohmann::json TimerDisplayComponent::GetJson()
+nlohmann::json TimerDisplayComponent::Serialize()
 {
 	nlohmann::json json;
 	json["sceneTag"] = m_sceneTag;

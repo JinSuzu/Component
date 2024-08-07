@@ -1,14 +1,15 @@
 ﻿#include "ModelWorkComponent.h"
 #include "../../../../Application/Object/Game/GameObject.h"
 
-void ModelWorkComponent::Start()
+void ModelWorkComponent::Awake()
 {
-	m_trans = m_owner.lock()->GetTransform();
-
 	m_modelWorkPack =std::make_shared<RenderManager::ModelWorkPack>();
 	m_modelWorkPack->modelWork = AssetManager::Instance().GetModelWork("Asset/Data/Model/earth/earth.gltf");
-	m_modelWorkPack->mat = &m_trans.lock()->WorkMatrix();
+}
 
+void ModelWorkComponent::Start()
+{
+	m_modelWorkPack->mat = &m_trans.lock()->WorkMatrix();
 	if (m_modelWorkPack->modelWork)m_modelAnimator = std::make_shared<KdAnimator>();
 }
 
@@ -55,7 +56,7 @@ void ModelWorkComponent::LoadJson(nlohmann::json _json)
 	m_modelWorkPack->modelWork = AssetManager::Instance().GetModelWork(m_path);
 }
 
-nlohmann::json ModelWorkComponent::GetJson()
+nlohmann::json ModelWorkComponent::Serialize()
 {
 	nlohmann::json json;
 	json["path"] = m_path;

@@ -8,7 +8,7 @@ public:
 	void Start()override;
 	void ImGuiUpdate()override;
 	void LoadJson(nlohmann::json _json)override;
-	nlohmann::json GetJson()override;
+	nlohmann::json Serialize()override;
 
 private:
 	bool m_formInheritPos = false;

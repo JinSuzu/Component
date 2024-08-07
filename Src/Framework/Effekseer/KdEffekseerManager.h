@@ -36,11 +36,11 @@ public:
 	void Reset();
 
 	void SetPos(const int handle, const Math::Vector3& pos);
-	void SetRotation(const int handle, const Math::Vector3& axis, const float angle);
+	void SetLocalRotation(const int handle, const Math::Vector3& axis, const float angle);
 	void SetWorldMatrix(const int handle, const Math::Matrix& mWorld);
 
-	void SetScale(const int handle, const Math::Vector3& scale);
-	void SetScale(const int handle, const float scale);
+	void SetLocalScale(const int handle, const Math::Vector3& scale);
+	void SetLocalScale(const int handle, const float scale);
 
 	void SetSpeed(const int handle, const float speed = 1.0f);
 
@@ -122,8 +122,8 @@ public:
 	void SetPos(const Math::Vector3& pos);
 
 	// サイズ設定
-	void SetScale(const Math::Vector3 scale = { 1.0f, 1.0f, 1.0f });
-	void SetScale(const float scale = 1.0f);
+	void SetLocalScale(const Math::Vector3 scale = { 1.0f, 1.0f, 1.0f });
+	void SetLocalScale(const float scale = 1.0f);
 
 	// 速度設定
 	void SetSpeed(const float speed = 1.0f);

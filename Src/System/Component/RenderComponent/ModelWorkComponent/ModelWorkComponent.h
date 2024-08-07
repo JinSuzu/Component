@@ -4,6 +4,7 @@ class ModelWorkComponent
 	:public Component
 {
 public:
+	void Awake()override;
 	void Start()override;
 	void PreUpdateContents()override;
 
@@ -11,7 +12,7 @@ public:
 
 	void ImGuiUpdate()override;
 	void LoadJson(nlohmann::json _json)override;
-	nlohmann::json GetJson()override;
+	nlohmann::json Serialize()override;
 
 	std::weak_ptr<KdModelWork> GetModelWork() { return m_modelWorkPack->modelWork; }
 	void SetModelWork(std::shared_ptr<KdModelWork> _data) { m_modelWorkPack->modelWork = _data; }

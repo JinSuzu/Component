@@ -24,14 +24,16 @@ public:
 
 	void UpdateRender();
 
-	void Init(nlohmann::json _json);
+	void Init();
 
-#pragma region Get/SetFunction
+	//名前
 	const std::string& GetName() { return m_name; };
 	std::string& WorkName() { return m_name; };
 	void SetName(std::string _name) { m_name = _name; };
 
-	ObjectTag GetTag() const { return m_tag; };
+	//タグ
+	const ObjectTag& GetTag() const { return m_tag; };
+	ObjectTag& WorkTag() { return m_tag; };
 	void SetTag(ObjectTag _tag) { m_tag = _tag; };
 
 	std::weak_ptr<TransformComponent>GetTransform() { return m_trans; }
@@ -40,9 +42,14 @@ public:
 	void SetParent(std::weak_ptr<GameObject> _parent) { m_parent = _parent; };
 	void SetUpParent(std::weak_ptr<GameObject> _parent, bool _push = true);
 
-	std::list<std::weak_ptr<GameObject>>& GetChilds() { return m_childs; }
-	std::list<std::weak_ptr<GameObject>>* WorkChilds() { return &m_childs; }
-	void AddChilds(std::weak_ptr<GameObject> _child);
+	const std::list<std::weak_ptr<GameObject>>& GetChilds() { return m_childs; }
+	std::list<std::weak_ptr<GameObject>>& WorkChilds() { return m_childs; }
+	void AddChilds(std::weak_ptr<GameObject> _child) 
+	{
+		m_addFamily = true;
+		_child.lock()->SetParent(WeakThisPtr(this));
+		m_childs.push_back(_child);
+	}
 
 	bool GetHideFlg() { return m_bHide; };
 	void SetHideFlg(bool _flg) { m_bHide = _flg; };
@@ -53,50 +60,49 @@ public:
 	bool GetAbleSave() const { return m_bSave; }
 	void DotSave() { m_bSave = false; }
 	void EnableSave() { m_bSave = true; }
-	nlohmann::json GetJson();
-	nlohmann::json OutPutFamilyJson();
-#pragma endregion
 
-#pragma region ComponentFns
+	nlohmann::json Serialize();
+	nlohmann::json SerializeFamily();
+	void Deserialize(nlohmann::json _json);
 
-	template<FromComponent T>
-	std::shared_ptr<Component> AddComponent(nlohmann::json _json = nlohmann::json())
+	std::shared_ptr<Component> AddComponent(size_t _id, nlohmann::json _json = nlohmann::json())
 	{
-		std::shared_ptr<Component> addCp
-			= ComponentFactory::Instance().CreateComponent
-			(
-				Utility::TypeIDHelper::Create<T>().hash_code()
-			);
+		std::shared_ptr<Component> addCp = ComponentFactory::Instance().CreateComponent(_id);
 		m_cpList.push_back(addCp);
 		addCp->m_owner = WeakThisPtr(this);
 		addCp->m_trans = m_trans;
-		addCp->Start();
-		if (!_json.is_null())
+
+		addCp->Awake();
+		if (_json.is_null())
+		{
+			addCp->Start();
+		}
+		else
 		{
 			addCp->LoadJson(_json);
 		}
 		return addCp;
 	}
-	std::shared_ptr<Component> AddComponent(size_t _id, nlohmann::json _json = nlohmann::json());
-
-	template<FromComponent T>
-	std::weak_ptr<T> GetComponent()
+	template<FromComponent T>std::shared_ptr<Component> AddComponent(nlohmann::json _json = nlohmann::json())
+	{
+		return AddComponent
+		(
+			Utility::TypeIDHelper::Create<T>().hash_code()
+		);
+	}
+	template<FromComponent T>std::weak_ptr<T> GetComponent()
 	{
 		const size_t& myID = Utility::TypeIDHelper::Create<T>().hash_code();
-		auto it = std::find_if(
-			m_cpList.begin(),
-			m_cpList.end(),
-			[&](const std::shared_ptr<Component>& component) {
-				const size_t& targetID = component->GetID();
-				return myID == targetID;
+		for (auto& it : m_cpList) 
+		{
+			if (myID == it->GetID())
+			{
+				return std::weak_ptr<T>(std::dynamic_pointer_cast<T>(it));
 			}
-		);
-
-		if (it == m_cpList.end()) return std::weak_ptr<T>();//ケツまで回ってたらナシ
-		return std::weak_ptr<T>(std::dynamic_pointer_cast<T>(*it));
+		}
+		return std::weak_ptr<T>();//ケツまで回ってたらナシ
 	}
-	template<FromComponent T>
-	std::list<std::weak_ptr<T>> GetComponents()
+	template<FromComponent T>std::list<std::weak_ptr<T>> GetComponents()
 	{
 		const size_t& myID = Utility::TypeIDHelper::Create<T>().hash_code();
 
@@ -110,16 +116,13 @@ public:
 			}
 		}
 
-		if (list.empty()) return std::list<std::weak_ptr<T>>();//ケツまで回ってたらナシ
-
 		return list;
 	}
-
-	void ImGuiComponents();
+	const std::list<std::shared_ptr<Component>>& GetComponentList() {return m_cpList; }
+	std::list<std::shared_ptr<Component>>& WorkComponentList() {return m_cpList;}
 
 	void SetActive(bool _flg)override;
 	bool GetActive()override;
-#pragma endregion
 
 private:
 	std::string									m_name = "GameObject";

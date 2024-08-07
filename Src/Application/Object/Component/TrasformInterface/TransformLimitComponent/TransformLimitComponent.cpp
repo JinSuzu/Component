@@ -3,19 +3,17 @@
 
 void TransformLimitComponent::PostUpdateContents()
 {
-	auto trans = m_owner.lock()->GetTransform().lock();
-
-	Math::Vector3 pos = trans->GetLocalPosition();
+	Math::Vector3 pos = m_trans.lock()->GetLocalPosition();
 	Clamp(pos,m_posLimit);
-	trans->SetPosition(pos);
+	m_trans.lock()->SetLoaclPosition(pos);
 	
-	Math::Vector3 rota = trans->GetLocalRotation();
+	Math::Vector3 rota = m_trans.lock()->GetLocalRotation();
 	Clamp(rota,m_rotaLimit);
-	trans->SetRotation(rota);
+	m_trans.lock()->SetLocalRotation(rota);
 	
-	Math::Vector3 scale = trans->GetLocalScale();
+	Math::Vector3 scale = m_trans.lock()->GetLocalScale();
 	Clamp(scale,m_scaleLimit);
-	trans->SetScale(scale);
+	m_trans.lock()->SetLocalScale(scale);
 }
 
 void TransformLimitComponent::ImGuiUpdate()
@@ -33,12 +31,12 @@ void TransformLimitComponent::LoadJson(nlohmann::json _json)
 	m_scaleLimit.InitJson(_json["scaleLimit"]);
 }
 
-nlohmann::json TransformLimitComponent::GetJson()
+nlohmann::json TransformLimitComponent::Serialize()
 {
 	nlohmann::json json;
-	json["posLimit"]		= m_posLimit.GetJson();
-	json["rotationLimit"] = m_rotaLimit.GetJson();
-	json["scaleLimit"]	= m_scaleLimit.GetJson();
+	json["posLimit"]		= m_posLimit.Serialize();
+	json["rotationLimit"] = m_rotaLimit.Serialize();
+	json["scaleLimit"]	= m_scaleLimit.Serialize();
 	return json;
 }
 
@@ -140,7 +138,7 @@ void TransformLimitComponent::LimitSet::InitJson(nlohmann::json _json)
 	Offset	= Utility::JsonHelper::InPutVec3(_json["Offset"]);
 }
 
-nlohmann::json TransformLimitComponent::LimitSet::GetJson()
+nlohmann::json TransformLimitComponent::LimitSet::Serialize()
 {
 	nlohmann::json json;
 	json["ActiveFlg"]	= bActive;

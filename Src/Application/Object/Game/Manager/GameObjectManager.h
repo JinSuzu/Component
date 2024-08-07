@@ -15,8 +15,6 @@ public:
 
 	void UpdateRender();
 
-	static void ImGuiGameObject(std::weak_ptr<GameObject> _object);
-
 	void Load(std::string _path);
 	void Load(std::list<std::shared_ptr<GameObject>>& _list);
 

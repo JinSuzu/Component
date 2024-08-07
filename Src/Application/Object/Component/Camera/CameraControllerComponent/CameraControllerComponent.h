@@ -6,7 +6,7 @@ public:
 	void PreUpdateContents()override;
 
 	void ImGuiUpdate()override;
-	nlohmann::json GetJson()override;
+	nlohmann::json Serialize()override;
 	void LoadJson(nlohmann::json _json)override;
 
 private:

@@ -10,7 +10,7 @@ public:
 	void ImGuiUpdate()override;
 
 	void LoadJson(nlohmann::json _json)override;
-	nlohmann::json GetJson()override;
+	nlohmann::json Serialize()override;
 
 	void SetActive(bool _flg);
 private:

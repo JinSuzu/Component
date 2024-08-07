@@ -38,9 +38,9 @@ void HitResultReflectComponent::LoadJson(nlohmann::json _json)
 	if (_json["ReflectPow"].is_number_float())m_reflectPow = _json["ReflectPow"];
 }
 
-nlohmann::json HitResultReflectComponent::GetJson()
+nlohmann::json HitResultReflectComponent::Serialize()
 {
-	nlohmann::json json = Cp_HitResult::GetJson();
+	nlohmann::json json = Cp_HitResult::Serialize();
 	json["ReflectPow"] = m_reflectPow;
 	return json;
 }

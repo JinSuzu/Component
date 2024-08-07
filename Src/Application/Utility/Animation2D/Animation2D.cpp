@@ -73,13 +73,13 @@ void Animation2D::ChangeAnime(std::string _nowAnime)
 	}
 }
 
-nlohmann::json Animation2D::GetJson()
+nlohmann::json Animation2D::Serialize()
 {
 	nlohmann::json json;
 
 	json["nowAnime"] = m_nowAnime;
 	json["animeList"] = nlohmann::json::array();
-	for (auto& anime : m_animeList) json["animeList"].push_back(anime.GetJson());
+	for (auto& anime : m_animeList) json["animeList"].push_back(anime.Serialize());
 	return json;
 }
 

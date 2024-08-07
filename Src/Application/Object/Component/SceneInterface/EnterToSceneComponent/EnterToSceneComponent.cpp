@@ -28,7 +28,7 @@ void EnterToSceneComponent::LoadJson(nlohmann::json _json)
 	m_nextScene = _json["NextScene"];
 }
 
-nlohmann::json EnterToSceneComponent::GetJson()
+nlohmann::json EnterToSceneComponent::Serialize()
 {
 	nlohmann::json json;
 	json["NextScene"] = m_nextScene;

@@ -37,7 +37,7 @@ void BulletComponent::UpdateContents()
 		if (range > result.m_overlapDistance || !flg)
 		{
 			range = result.m_overlapDistance;
-			m_trans.lock()->SetPosition(result.m_hitPos);
+			m_trans.lock()->SetLoaclPosition(result.m_hitPos);
 			flg = true;
 		}
 	}
@@ -62,7 +62,7 @@ void BulletComponent::LoadJson(nlohmann::json _json)
 	m_landingObject->SetJson(_json);
 }
 
-nlohmann::json BulletComponent::GetJson()
+nlohmann::json BulletComponent::Serialize()
 {
 	nlohmann::json json;
 	json["AccelerationTime"] = m_accelerationTime;
@@ -79,5 +79,5 @@ void BulletComponent::Destroy()
 	KdAudioManager::Instance().Play("Asset/Sounds/Explosion.wav");
 	//爆風発生処理
 	m_landingObject->Create();
-	m_owner.lock()->GetChilds().clear();
+	m_owner.lock()->WorkChilds().clear();
 }

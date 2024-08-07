@@ -71,14 +71,14 @@ void TransFormInheritComponent::LoadJson(nlohmann::json _json)
 			return pos;
 		};
 
-	if (m_formInheritPos)mTrans.lock()->SetPosition(AddCheck(m_activePos, pos));
-	if (m_formInheritRota)mTrans.lock()->SetRotation(m_cameraFormInherit ? CameraManager::Instance().GetCamera().lock()->GetCameraMatrix().ToEuler() : AddCheck(m_activeRota, rota));
-	if (m_formInheritScale)mTrans.lock()->SetScale(AddCheck(m_activeScale, scale));
+	if (m_formInheritPos)mTrans.lock()->SetLoaclPosition(AddCheck(m_activePos, pos));
+	if (m_formInheritRota)mTrans.lock()->SetLocalRotation(m_cameraFormInherit ? CameraManager::Instance().GetCamera().lock()->GetCameraMatrix().ToEuler() : AddCheck(m_activeRota, rota));
+	if (m_formInheritScale)mTrans.lock()->SetLocalScale(AddCheck(m_activeScale, scale));
 
 	mTrans.lock()->UnFollow();
 }
 
-nlohmann::json TransFormInheritComponent::GetJson()
+nlohmann::json TransFormInheritComponent::Serialize()
 {
 	nlohmann::json json;
 	json["FormInheritPos"] = m_formInheritPos;

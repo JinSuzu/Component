@@ -12,14 +12,14 @@ void KdSquarePolygon::SetPivot(PivotType pivot)
 	scale.x = m_vertices[3].pos.x - m_vertices[0].pos.x;
 	scale.y = m_vertices[3].pos.y - m_vertices[0].pos.y;
 
-	SetScale(scale);
+	SetLocalScale(scale);
 }
 
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 // 描画の幅と高さの設定
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
-void KdSquarePolygon::SetScale(const Math::Vector2& scale)
+void KdSquarePolygon::SetLocalScale(const Math::Vector2& scale)
 {
 	float halfX = scale.x * 0.5f;
 	float halfY = scale.y * 0.5f;
@@ -34,7 +34,7 @@ void KdSquarePolygon::SetScale(const Math::Vector2& scale)
 	m_vertices[3].pos = { halfX + pivotX,  halfY + pivotY, 0.0f };	// 右下
 }
 
-void KdSquarePolygon::SetScale(float scalar)
+void KdSquarePolygon::SetLocalScale(float scalar)
 {
 	Math::Vector2 scale;
 
@@ -59,7 +59,7 @@ void KdSquarePolygon::SetScale(float scalar)
 
 	scale *= scalar;
 
-	SetScale(scale);
+	SetLocalScale(scale);
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////

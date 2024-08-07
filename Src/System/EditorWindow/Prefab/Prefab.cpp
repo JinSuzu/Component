@@ -212,12 +212,12 @@ namespace MyDragDrop
 {
 	bool SourceGameObjectDataPath(std::string _path)
 	{
-		return Utility::ImGuiHelper::DragDropSource("GameObjectDataPath", _path);
+		return Utility::ImGuiHelper::DragDropSource(GAMEOBJECT_PATH_ID, _path);
 	}
 	bool TargetGameObjectDataPath(std::weak_ptr<GameObject> _obj)
 	{
 		bool flg = false;
-		if (std::string path; Utility::ImGuiHelper::DragDropTarget("GameObjectDataPath", path))
+		if (std::string path; Utility::ImGuiHelper::DragDropTarget(GAMEOBJECT_PATH_ID, path))
 		{
 			GameObjectManager::CreateObject(path, _obj);
 			flg = true;
@@ -254,7 +254,7 @@ namespace MyDragDrop
 	{
 		if (std::weak_ptr<GameObject> obj; Utility::ImGuiHelper::DragDropTarget("GameObject", obj))
 		{
-			Utility::JsonHelper::OutputJson(obj.lock()->OutPutFamilyJson(), (_path.empty() ? "" : _path + "/") + obj.lock()->GetName() + ".prefab");
+			Utility::JsonHelper::OutputJson(obj.lock()->SerializeFamily(), (_path.empty() ? "" : _path + "/") + obj.lock()->GetName() + ".prefab");
 		}
 	}
 	/*

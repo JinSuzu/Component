@@ -42,7 +42,7 @@ void TransformComponent::LoadJson(nlohmann::json _json)
 	m_scale = Utility::JsonHelper::InPutVec3(_json["scale"]);
 }
 
-nlohmann::json TransformComponent::GetJson()
+nlohmann::json TransformComponent::Serialize()
 {
 	nlohmann::json json;
 	json["position"] = Utility::JsonHelper::OutPutVec3(m_position);

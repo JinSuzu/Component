@@ -7,7 +7,7 @@ public:
 	void Start()override;
 	void ImGuiUpdate()override;
 	void LoadJson(nlohmann::json _json)override;
-	nlohmann::json GetJson()override;
+	nlohmann::json Serialize()override;
 
 protected:
 	std::weak_ptr<TransformComponent> m_trans;

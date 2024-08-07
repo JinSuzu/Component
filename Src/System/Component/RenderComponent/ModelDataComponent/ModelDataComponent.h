@@ -4,6 +4,7 @@ class ModelDataComponent
 	:public Component
 {
 public:
+	void Awake()override;
 	void Start()override;
 
 	void UpdateRenderContents()override;
@@ -12,7 +13,7 @@ public:
 
 
 	void LoadJson(nlohmann::json _json)override;
-	nlohmann::json GetJson()override;
+	nlohmann::json Serialize()override;
 
 	std::weak_ptr<KdModelData> GetModelData() { return m_modelDataPack->modelData; }
 	void SetModelData(std::shared_ptr<KdModelData> _data) { m_modelDataPack->modelData = _data; }

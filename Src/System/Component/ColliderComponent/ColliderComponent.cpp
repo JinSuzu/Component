@@ -62,7 +62,7 @@ void ColliderComponent::LoadJson(nlohmann::json _json)
 	RegisterCollider(true);
 }
 
-nlohmann::json ColliderComponent::GetJson()
+nlohmann::json ColliderComponent::Serialize()
 {
 	nlohmann::json json;
 	json["ColliderShape"] = m_colliderShape;

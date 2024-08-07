@@ -23,16 +23,16 @@ public:
 	};
 
 	KdSquarePolygon() { InitVertices(); }
-	KdSquarePolygon(const std::shared_ptr<KdTexture>& spBaseColTex) : KdPolygon(spBaseColTex) { InitVertices(); SetScale(1.0f); }
-	KdSquarePolygon(const std::string& baseColTexName) : KdPolygon(baseColTexName) { InitVertices(); SetScale(1.0f); }
+	KdSquarePolygon(const std::shared_ptr<KdTexture>& spBaseColTex) : KdPolygon(spBaseColTex) { InitVertices(); SetLocalScale(1.0f); }
+	KdSquarePolygon(const std::string& baseColTexName) : KdPolygon(baseColTexName) { InitVertices(); SetLocalScale(1.0f); }
 
 	~KdSquarePolygon() override {}
 
 	void SetPivot(PivotType pivot);
 
 	// 描画の幅と高さの設定
-	void SetScale(const Math::Vector2& scale);
-	void SetScale(float _scalar);
+	void SetLocalScale(const Math::Vector2& scale);
+	void SetLocalScale(float _scalar);
 
 	// 頂点の描画色の設定、それぞれの頂点色を指定
 	void SetVertexColor(const std::vector<Math::Color>& _vertCols);

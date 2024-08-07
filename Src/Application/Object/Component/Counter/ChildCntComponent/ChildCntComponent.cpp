@@ -8,13 +8,12 @@ void ChildCntComponent::PreUpdateContents()
 		m_postNum = m_owner.lock()->GetChilds().size();
 	}
 
-	std::list<std::weak_ptr<GameObject>>* list = m_owner.lock()->WorkChilds();
-	std::list<std::weak_ptr<GameObject>>::iterator it = m_owner.lock()->GetChilds().begin();
+	std::list<std::weak_ptr<GameObject>>::iterator it = m_owner.lock()->WorkChilds().begin();
 	while (it != m_owner.lock()->GetChilds().end())
 	{
 		if (it->expired())
 		{
-			it = m_owner.lock()->WorkChilds()->erase(it);
+			it = m_owner.lock()->WorkChilds().erase(it);
 			continue;
 		}
 		it++;

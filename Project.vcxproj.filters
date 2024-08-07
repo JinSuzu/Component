@@ -520,6 +520,24 @@
     <ClInclude Include="Src\Application\Object\Component\Camera\CameraControllerComponent\CameraControllerComponent.h">
       <Filter>src\Application\Object\Component\Camera\CameraControllerComponent</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\TrasformInterface\ScaleLimitComponent\ScaleLimitComponent.h">
+      <Filter>src\Application\Object\Component\TrasformInterface\ScaleLimitComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\TrasformInterface\RotationLimitComponent\RotationLimitComponent.h">
+      <Filter>src\Application\Object\Component\TrasformInterface\RotationLimitComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\TrasformInterface\PositionLimitComponent\PositionLimitComponent.h">
+      <Filter>src\Application\Object\Component\TrasformInterface\PositionLimitComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\CreateObjectComponent\CreateObjectComponent.h">
+      <Filter>src\Application\Object\Component\CreateObjectComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Component\Component.h">
+      <Filter>src\System\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Object\Component\ChildsInterface\FindChildComponent\FindChildComponent.h">
+      <Filter>src\Application\Object\Component\ChildsInterface\FindChildComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Library\imgui\imgui.cpp">
@@ -821,6 +839,24 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Component\Camera\CameraControllerComponent\CameraControllerComponent.cpp">
       <Filter>src\Application\Object\Component\Camera\CameraControllerComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\TrasformInterface\ScaleLimitComponent\ScaleLimitComponent.cpp">
+      <Filter>src\Application\Object\Component\TrasformInterface\ScaleLimitComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\TrasformInterface\RotationLimitComponent\RotationLimitComponent.cpp">
+      <Filter>src\Application\Object\Component\TrasformInterface\RotationLimitComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\TrasformInterface\PositionLimitComponent\PositionLimitComponent.cpp">
+      <Filter>src\Application\Object\Component\TrasformInterface\PositionLimitComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\CreateObjectComponent\CreateObjectComponent.cpp">
+      <Filter>src\Application\Object\Component\CreateObjectComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Component\Component.cpp">
+      <Filter>src\System\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Object\Component\ChildsInterface\FindChildComponent\FindChildComponent.cpp">
+      <Filter>src\Application\Object\Component\ChildsInterface\FindChildComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1181,6 +1217,24 @@
     </Filter>
     <Filter Include="src\Application\Object\Component\Camera\CameraControllerComponent">
       <UniqueIdentifier>{eb06d8c7-b927-4313-b10c-139abab374bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Application\Object\Component\TrasformInterface\ScaleLimitComponent">
+      <UniqueIdentifier>{e7f15e85-7698-43e5-b8bd-f7d914d16199}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Application\Object\Component\TrasformInterface\RotationLimitComponent">
+      <UniqueIdentifier>{11f798d7-ff9a-47ba-a65e-de030cb1d6bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Application\Object\Component\TrasformInterface\PositionLimitComponent">
+      <UniqueIdentifier>{a703df1e-822b-4a3a-acc1-2704c51b8a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Application\Object\Component\CreateObjectComponent">
+      <UniqueIdentifier>{2343b97a-a58d-4fca-9d81-cda0b9ea2253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Application\Object\Component\ChildsInterface">
+      <UniqueIdentifier>{711cd9ac-b033-4c25-929e-8418199a48ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Application\Object\Component\ChildsInterface\FindChildComponent">
+      <UniqueIdentifier>{65b62eca-c6df-4497-8adf-4be36f0bf9ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

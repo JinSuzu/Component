@@ -4,7 +4,7 @@ void EditorWindowBase::Update()
 {
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2());
 	ImGui::Begin(m_name.c_str());
-	ImGui::PopStyleVar(1);
+	ImGui::PopStyleVar();
 	{
 		if(m_beginChildOption.before)m_beginChildOption.before();	//子ウィンドウに対しての生成前処理
 		ImGui::BeginChild

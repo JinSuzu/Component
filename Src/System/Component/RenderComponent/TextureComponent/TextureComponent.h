@@ -4,6 +4,7 @@ class TextureComponent
 	:public Component
 {
 public:
+	void Awake()override;
 	void Start()override;
 
 	void PreUpdateContents()override;
@@ -13,7 +14,7 @@ public:
 
 	void ImGuiUpdate()override;
 	void LoadJson(nlohmann::json _json)override;
-	nlohmann::json GetJson()override;
+	nlohmann::json Serialize()override;
 
 	std::weak_ptr<KdTexture>GetTexture() { return m_texPack->tex; };
 private:

@@ -49,7 +49,7 @@ void BoxCollisionComponent::LoadJson(nlohmann::json _json)
 		m_bTrigger = _json["bTrigger"];
 }
 
-nlohmann::json BoxCollisionComponent::GetJson()
+nlohmann::json BoxCollisionComponent::Serialize()
 {
 	nlohmann::json json;
 	json["rad"]		 = Utility::JsonHelper::OutPutVec3(m_rad);
@@ -104,7 +104,7 @@ void BoxCollisionComponent::TurnPostPos(std::weak_ptr<BoxCollisionComponent> _ot
 	while (WithPoint(_other) && count > 0)
 	{
 		if (m_owner.lock()->GetTransform().lock()->GetLocalPosition() == pos)break;
-		m_wpTransform.lock()->SetPosition(pos + (m_postPos * (float)count));
+		m_wpTransform.lock()->SetLoaclPosition(pos + (m_postPos * (float)count));
 		count--;
 	}
 }

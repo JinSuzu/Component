@@ -44,7 +44,7 @@ void GameObjectManager::Release(std::string _path, bool _enableSave)
 			if (!object->GetAbleSave())continue;
 			if (object->GetParent().expired())
 			{
-				if (object->GetAbleSave())json.push_back(object->OutPutFamilyJson());
+				if (object->GetAbleSave())json.push_back(object->SerializeFamily());
 			}
 		}
 		Utility::JsonHelper::OutputJson(json, _path);
@@ -124,7 +124,8 @@ std::shared_ptr<GameObject> GameObjectManager::CreateObject(nlohmann::json _json
 		_parent.lock()->AddChilds(object);
 	}
 
-	object->Init(_json);
+	object->Init();
+	object->Deserialize(_json);
 
 	if (_result)_result->push_back(object);
 	if (bPush)GameObjectManager::Instance().m_objectList.push_back(object);
@@ -143,31 +144,5 @@ void GameObjectManager::LoadJson(std::string _path, bool _bOrigin)
 	{
 		std::shared_ptr<GameObject>object = CreateObject(*name);
 		name++;
-	}
-}
-
-void GameObjectManager::ImGuiGameObject(std::weak_ptr<GameObject> _object)
-{
-	ImGui::InputText("Name", &_object.lock()->WorkName());
-	_object.lock()->ImGuiComponents();
-
-	{
-		if (Utility::ImGuiHelper::SmallButtonWindowCenter("AddComponent"))ImGui::OpenPopup("Components");
-		if (ImGui::BeginPopup("Components"))
-		{
-			ImGui::SeparatorText("Component");
-
-			auto it = ComponentFactory::Instance().GetRegistry().begin();
-			while (it != ComponentFactory::Instance().GetRegistry().end())
-			{
-				if (ImGui::MenuItem(it->second.name.data()))
-				{
-					_object.lock()->AddComponent(it->first);
-					break;
-				}
-				++it;
-			}
-			ImGui::EndPopup();
-		}
 	}
 }

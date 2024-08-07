@@ -44,7 +44,7 @@ void PlayerComponent::PostUpdateContents()
 	for (auto& result : m_rigid.lock()->GetHitResult())
 	{
 		if (!(result.m_type & (UINT)KdCollider::Type::TypeBlock)) continue;
-		m_trans.lock()->SetPosition(result.m_hitPos);
+		m_trans.lock()->SetLoaclPosition(result.m_hitPos);
 	}
 }
 
@@ -60,7 +60,7 @@ void PlayerComponent::LoadJson(nlohmann::json _json)
 	m_accelerationTime = _json["AccelerationTime"];
 }
 
-nlohmann::json PlayerComponent::GetJson()
+nlohmann::json PlayerComponent::Serialize()
 {
 	nlohmann::json json;
 	json["jumpFlg"] = m_jumpPow;

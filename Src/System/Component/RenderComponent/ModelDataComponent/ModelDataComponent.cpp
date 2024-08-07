@@ -1,16 +1,16 @@
 ﻿#include "ModelDataComponent.h"
 #include "../../../../Application/Object/Game/GameObject.h"
 
-void ModelDataComponent::Start()
+void ModelDataComponent::Awake()
 {
-	m_trans = m_owner.lock()->GetTransform();
-
 	m_modelDataPack = std::make_shared<RenderManager::ModelDataPack>();
 	m_modelDataPack->modelData = AssetManager::Instance().GetModelData("Asset/Data/Model/earth/earth.gltf");
-	m_modelDataPack->mat = &m_trans.lock()->WorkMatrix();
 }
 
-
+void ModelDataComponent::Start()
+{
+	m_modelDataPack->mat = &m_trans.lock()->WorkMatrix();
+}
 
 void ModelDataComponent::UpdateRenderContents()
 {
@@ -40,7 +40,7 @@ void ModelDataComponent::LoadJson(nlohmann::json _json)
 	m_modelDataPack->modelData	= AssetManager::Instance().GetModelData(m_path);
 }
 
-nlohmann::json ModelDataComponent::GetJson()
+nlohmann::json ModelDataComponent::Serialize()
 {
 	nlohmann::json json;
 	json["path"]     = m_path;

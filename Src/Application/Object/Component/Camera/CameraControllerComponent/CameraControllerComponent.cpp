@@ -20,7 +20,7 @@ void CameraControllerComponent::PreUpdateContents()
 		rota.x -= EffectShaft.y;
 	}
 
-	m_trans.lock()->SetRotation(rota);
+	m_trans.lock()->SetLocalRotation(rota);
 }
 
 void CameraControllerComponent::ImGuiUpdate()
@@ -33,7 +33,7 @@ void CameraControllerComponent::ImGuiUpdate()
 	}
 }
 
-nlohmann::json CameraControllerComponent::GetJson()
+nlohmann::json CameraControllerComponent::Serialize()
 {
 	nlohmann::json json;
 	json["EffectShaft"] = m_effectShaft;

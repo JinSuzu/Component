@@ -66,7 +66,7 @@ void SceneActiveComponent::LoadJson(nlohmann::json _json)
 	if (_json["SceneBGM"].is_string())m_sceneBGMPath = _json["SceneBGM"];
 }
 
-nlohmann::json SceneActiveComponent::GetJson()
+nlohmann::json SceneActiveComponent::Serialize()
 {
 	nlohmann::json json;
 	json["SceneName"] = m_sceneName;

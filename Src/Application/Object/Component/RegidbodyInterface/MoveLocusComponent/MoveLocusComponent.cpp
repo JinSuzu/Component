@@ -28,7 +28,7 @@ void MoveLocusComponent::LoadJson(nlohmann::json _json)
 	m_locus->SetJson(_json);
 }
 
-nlohmann::json  MoveLocusComponent::GetJson()
+nlohmann::json  MoveLocusComponent::Serialize()
 {
 	nlohmann::json json;
 	m_locus->OutJson(json);

@@ -27,7 +27,7 @@ void Cp_Particle::LoadJson(nlohmann::json _json)
 	if (_json["DeleteTime"].is_number())m_deleteTime = _json["DeleteTime"];
 }
 
-nlohmann::json Cp_Particle::GetJson()
+nlohmann::json Cp_Particle::Serialize()
 {
 	nlohmann::json json;
 	json["DeleteTime"] = m_deleteTime;

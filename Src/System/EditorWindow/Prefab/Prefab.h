@@ -37,8 +37,10 @@ public:
 
 namespace MyDragDrop
 {
+constexpr const char* GAMEOBJECT_PATH_ID = "GAMEOBJECT_PATH_ID";
 	bool SourceGameObjectDataPath(std::string _path);
 	bool TargetGameObjectDataPath(std::weak_ptr<GameObject> _obj);
+	bool TargetGameObjectDataPath(std::string& _obj);
 
 	bool SourceGameObjectData(std::weak_ptr<GameObject> _obj);
 	bool TargetGameObjectData(std::weak_ptr<GameObject> _parent);

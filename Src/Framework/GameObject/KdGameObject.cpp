@@ -8,14 +8,14 @@ void KdGameObject::DrawDebug()
 	m_pDebugWire->Draw();
 }
 
-void KdGameObject::SetScale(float scalar)
+void KdGameObject::SetLocalScale(float scalar)
 {
 	Math::Vector3 scale(scalar);
 
-	SetScale(scale);
+	SetLocalScale(scale);
 }
 
-void KdGameObject::SetScale(const Math::Vector3& scale)
+void KdGameObject::SetLocalScale(const Math::Vector3& scale)
 {
 	Math::Vector3 vecX = m_mWorld.Right();
 	Math::Vector3 vecY = m_mWorld.Up();

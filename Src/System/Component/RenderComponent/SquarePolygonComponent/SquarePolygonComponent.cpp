@@ -4,15 +4,16 @@
 #include "../../../../Application/Utility/Animation2D/Animation2D.h"
 #include "../../../../Application/main.h"
 
+void SquarePolygonComponent::Awake()
+{
+	m_squarePolygonPack = std::make_shared<RenderManager::SquarePolygonComponent>();
+	m_animation = std::make_shared<Animation2D>();
+	m_squarePolygonPack->squarePolygon = AssetManager::Instance().GetSquarePolygon(m_path = "Asset/Textures/chara/block.png");
+}
+
 void SquarePolygonComponent::Start()
 {
-	m_trans = m_owner.lock()->GetTransform();
-
-	m_squarePolygonPack = std::make_shared<RenderManager::SquarePolygonComponent>();
 	m_squarePolygonPack->mat = &m_owner.lock()->GetTransform().lock()->WorkMatrix();
-	m_squarePolygonPack->squarePolygon = AssetManager::Instance().GetSquarePolygon(m_path = "Asset/Textures/chara/block.png");
-
-	m_animation = std::make_shared<Animation2D>();
 }
 
 void SquarePolygonComponent::PreUpdateContents()
@@ -25,7 +26,7 @@ void SquarePolygonComponent::PostUpdateContents()
 {
 	if (m_cameraFocus)
 	{
-		m_trans.lock()->SetRotation(CameraManager::Instance().GetCamera().lock()->GetCameraMatrix().ToEuler());
+		m_trans.lock()->SetLocalRotation(CameraManager::Instance().GetCamera().lock()->GetCameraMatrix().ToEuler());
 	}
 
 	Animation2D::AnimeFrame frame = m_animation->GetAnimeFrame();
@@ -70,7 +71,7 @@ void SquarePolygonComponent::LoadJson(nlohmann::json _json)
 	if (_json["CameraFocus"].is_boolean())m_cameraFocus = _json["CameraFocus"];
 }
 
-nlohmann::json SquarePolygonComponent::GetJson()
+nlohmann::json SquarePolygonComponent::Serialize()
 {
 	nlohmann::json json;
 	json["path"] = m_path;
@@ -79,7 +80,7 @@ nlohmann::json SquarePolygonComponent::GetJson()
 	json["splitW"] = m_split[0];
 	json["splitH"] = m_split[1];
 
-	json["Animation"] = m_animation->GetJson();
+	json["Animation"] = m_animation->Serialize();
 
 	json["OffsetPos"] = Utility::JsonHelper::OutPutVec3(m_offsetPos);
 	json["CameraFocus"] = m_cameraFocus;

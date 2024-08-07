@@ -4,13 +4,14 @@ class SquarePolygonComponent
 	:public Component
 {
 public:
+	void Awake()override;
 	void Start()override;
 	void PreUpdateContents()override;
 	void PostUpdateContents()override;
 	void ImGuiUpdate()override;
 
 	void LoadJson(nlohmann::json _json)override;
-	nlohmann::json GetJson()override;
+	nlohmann::json Serialize()override;
 
 	std::weak_ptr<KdSquarePolygon>GetSquarePolygon() { return m_squarePolygonPack->squarePolygon; };
 	void SetColor(Math::Color _color) { m_squarePolygonPack->color = _color; }

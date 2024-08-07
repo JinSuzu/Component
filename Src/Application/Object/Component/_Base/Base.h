@@ -4,6 +4,7 @@ class _Base
 	:public Component
 {
 public:
+	void Awake()override;
 	void Start()override;
 	void PreUpdateContents()override;
 	void UpdateContents()override;

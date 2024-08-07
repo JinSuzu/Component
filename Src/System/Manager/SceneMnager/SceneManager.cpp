@@ -64,7 +64,7 @@ void SceneManager::OpenScene()
 void SceneManager::SaveAsScene()
 {
 	std::string path;
-	if (!Application::Instance().GetWindow().SaveFileDialog(path, "ファイルを保存", "*scene", "scene"))return;
+	if (!Application::Instance().GetWindow().SaveFileDialog(path, "ファイルを保存", "Sceneファイル\0*.scene\0"))return;
 	GameObjectManager::Instance().Release(path, KernelEngine::is_Building());
 
 	m_nowScene = std::filesystem::path(path).filename().string();
