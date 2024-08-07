@@ -10,19 +10,9 @@
 
 void GameObject::PreUpdate()
 {
-	if (!GetActive())return;
-
-	auto cmp = m_cpList.begin();
-	while (cmp != m_cpList.end())
-	{
-		if ((*cmp)->GetDestroy())
-		{
-			cmp = m_cpList.erase(cmp);
-			continue;
-		}
-		(*cmp)->PreUpdate();
-		cmp++;
-	}
+	if (!m_bActive)return;
+	if (m_bDestroy)return;
+	ITERATOR(m_cpList)PreUpdate();
 }
 void GameObject::Update()
 {
@@ -40,7 +30,17 @@ void GameObject::PostUpdate()
 
 void GameObject::UpdateRender()
 {
-	ITERATOR(m_cpList)UpdateRender();
+	auto cmp = m_cpList.begin();
+	while (cmp != m_cpList.end())
+	{
+		if ((*cmp)->GetDestroy())
+		{
+			cmp = m_cpList.erase(cmp);
+			continue;
+		}
+		(*cmp)->UpdateRender();
+		cmp++;
+	}
 }
 
 void GameObject::Init()
@@ -51,7 +51,7 @@ void GameObject::Init()
 	m_trans->Start();
 }
 
-void GameObject::SetUpParent(std::weak_ptr<GameObject> _parent, bool _push)
+void GameObject::ChangeParent(std::weak_ptr<GameObject> _parent, bool _push)
 {
 	std::weak_ptr<GameObject> me = WeakThisPtr(this);
 	if (m_parent.lock())

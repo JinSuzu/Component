@@ -14,6 +14,7 @@ void GameObjectManager::UpdateRender()
 		std::shared_ptr<GameObject>object = *it;
 		if (object->GetDestroy())
 		{
+			(*it)->ChangeParent(std::weak_ptr<GameObject>());
 			it = m_objectList.erase(it);
 			continue;
 		}

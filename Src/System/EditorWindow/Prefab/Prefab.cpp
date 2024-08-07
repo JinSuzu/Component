@@ -238,7 +238,7 @@ namespace MyDragDrop
 				{
 					if (_obj.expired())
 					{
-						obj.lock()->SetUpParent(_parent);
+						obj.lock()->ChangeParent(_parent);
 						return;
 					}
 					if (obj.lock() == _obj.lock())return;

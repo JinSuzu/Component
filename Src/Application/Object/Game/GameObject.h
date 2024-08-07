@@ -40,7 +40,7 @@ public:
 
 	std::weak_ptr<GameObject> GetParent() { return m_parent; }
 	void SetParent(std::weak_ptr<GameObject> _parent) { m_parent = _parent; };
-	void SetUpParent(std::weak_ptr<GameObject> _parent, bool _push = true);
+	void ChangeParent(std::weak_ptr<GameObject> _parent, bool _push = true);
 
 	const std::list<std::weak_ptr<GameObject>>& GetChilds() { return m_childs; }
 	std::list<std::weak_ptr<GameObject>>& WorkChilds() { return m_childs; }
